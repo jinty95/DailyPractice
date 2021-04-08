@@ -321,6 +321,14 @@ public class Test2 {
         System.out.println(fun2.clumsy(10));
     }
 
+    @Test
+    public void testFindMin(){
+        int[] arr1 = new int[]{4,5,6,7,0,1,2,3};
+        System.out.println(fun2.findMin(arr1));
+        int[] arr2 = new int[]{50,60,70,80,90,99,5,6,7,8,9,10,20,30,40};
+        System.out.println(fun2.findMin(arr2));
+    }
+
 }
 
 

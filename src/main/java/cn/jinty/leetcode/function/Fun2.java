@@ -1642,5 +1642,35 @@ public class Fun2 {
         return len;
     }
 
+    /**
+     * 153. 寻找旋转排序数组中的最小值
+     * @param nums 旋转排序数组
+     * @return 最小值
+     */
+    public int findMin(int[] nums) {
+
+        /*//O(N) : 直接遍历
+        int min = nums[0];
+        for(int num : nums){
+            min = Math.min(min,num);
+        }
+        return min;*/
+
+        //O(logN) : 二分查找
+        int left = 0, right = nums.length-1;
+        while(left<right){
+            int mid = left + (right-left)/2;
+            if(nums[mid]<nums[right]){
+                //中间值小于右端值，说明最小值在左区间，并且这个中间值可能是最小值
+                right = mid;
+            }else if(nums[mid]>nums[right]){
+                //中间值大于右端值，说明最小值在右区间，并且这个中间值不可能是最小值
+                left = mid + 1;
+            }
+        }
+        return nums[left];
+
+    }
+
 }
 
