@@ -3,16 +3,18 @@ package cn.jinty.utils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 /**
- * @description 对称加密工具类
+ * 加密工具类
+ *
  * @author jinty
  * @date 2019/12/5.
  */
@@ -121,6 +123,90 @@ public class EncryptionUtil {
             textByte[i] ^= key;
         }
         return new String(textByte);
+    }
+
+    /**
+     * 根据输入字符串生成MD5加密字节数组
+     *
+     * @param s 输入字符串
+     * @return MD5加密字节数组
+     */
+    public final static byte[] md5(String s) {
+        try {
+            // 获得MD5摘要算法对象
+            MessageDigest mdInst = MessageDigest.getInstance("MD5");
+            // 使用指定的字节更新摘要
+            mdInst.update(s.getBytes());
+            // 获得密文
+            return mdInst.digest();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据输入字符串生成MD5加密字符串
+     *
+     * @param s 输入字符串
+     * @return MD5加密串
+     */
+    public final static String md5Str(String s) {
+        try {
+            // 获得MD5摘要算法对象
+            MessageDigest mdInst = MessageDigest.getInstance("MD5");
+            // 使用指定的字节更新摘要
+            mdInst.update(s.getBytes());
+            // 获得密文
+            byte[] md = mdInst.digest();
+            // 把密文转换成十六进制的字符串形式
+            return StringUtil.byteToHexString(md);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据输入字符串生成SHA1加密字节数组
+     *
+     * @param s 输入字符串
+     * @return SHA1加密字节数组
+     */
+    public static byte[] sha1(String s){
+        try{
+            // 获得SHA1摘要算法对象
+            MessageDigest mdInst = MessageDigest.getInstance("SHA1");
+            // 使用指定的字节更新摘要
+            mdInst.update(s.getBytes());
+            // 获得密文
+            return mdInst.digest();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 根据输入字符串生成SHA1加密字符串
+     *
+     * @param s 输入字符串
+     * @return SHA1加密串
+     */
+    public static String sha1Str(String s){
+        try{
+            // 获得SHA1摘要算法对象
+            MessageDigest mdInst = MessageDigest.getInstance("SHA1");
+            // 使用指定的字节更新摘要
+            mdInst.update(s.getBytes());
+            // 获得密文
+            byte[] md = mdInst.digest();
+            // 把密文转换成十六进制的字符串形式
+            return StringUtil.byteToHexString(md);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
