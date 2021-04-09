@@ -1,4 +1,4 @@
-package cn.jinty.leetcode.test;
+package leetcode.test;
 
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun3;

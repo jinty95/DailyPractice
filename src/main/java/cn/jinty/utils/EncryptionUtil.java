@@ -2,12 +2,14 @@ package cn.jinty.utils;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
+
 import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * @description 对称加密工具类
@@ -15,6 +17,28 @@ import javax.crypto.spec.SecretKeySpec;
  * @date 2019/12/5.
  */
 public class EncryptionUtil {
+
+    /**
+     * 随机生成AES秘钥
+     *
+     * @return 秘钥字符串
+     */
+    public static byte[] generateAesKey(){
+        try{
+            //1.构造密钥生成器，指定为AES算法,不区分大小写
+            KeyGenerator keygen=KeyGenerator.getInstance("AES");
+            //2.指定密钥为128比特
+            keygen.init(128);
+            //3.随机生成密钥
+            SecretKey original_key=keygen.generateKey();
+            //4.获得密钥的字节数组
+            byte [] raw=original_key.getEncoded();
+            return raw;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     //注意：这里加密跟网站加密得到了不同的结果，可能由于处理过程不同
     //不同点：这里输入是加密规则，根据它生成秘钥，然后用秘钥加密；网站是直接输入秘钥，然后直接用秘钥加密
