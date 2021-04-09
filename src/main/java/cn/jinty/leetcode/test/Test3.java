@@ -36,4 +36,10 @@ public class Test3 {
         System.out.println(fun3.pairSums(arr,10));
     }
 
+    @Test
+    public void testNumSubarrayBoundedMax(){
+        int[] arr = new int[]{2,1,4,3};
+        System.out.println(fun3.numSubarrayBoundedMax(arr,2,3));
+    }
+
 }

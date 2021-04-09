@@ -111,4 +111,55 @@ public class Fun3 {
         return lists;
     }
 
+    /**
+     * 795. 区间子数组个数
+     * 给定一个元素都是正整数的数组A ，正整数 L 以及 R (L <= R)。
+     * 求连续、非空且其中“最大元素”满足大于等于L小于等于R的子数组个数。
+     *
+     * @param A 数组
+     * @param L 较小值
+     * @param R 较大值
+     * @return 子数组个数
+     */
+    public int numSubarrayBoundedMax(int[] A, int L, int R) {
+
+        /*//时间复杂度：O(N^2)
+        //两层遍历：获取所有子数组，统计满足条件的子数组
+        int count = 0;
+        for(int i=0;i<A.length;i++){
+            int max = -1;
+            for(int j=i;j<A.length;j++){
+                max = Math.max(max,A[j]);
+                if(max<=R && max>=L){
+                    count+=1;
+                }else if(max>R){
+                    break;
+                }
+            }
+        }
+        return count;*/
+
+        //时间复杂度：O(N)
+        //最大值在[L,R]区间内，可以理解为所有值都必须小于等于R，并且至少有一个值大于等于L
+        //用f(x)表示所有元素都小于等于x的子数组数量，则本题答案为f(R)-f(L-1)
+        return countSubArray(A,R) - countSubArray(A,L-1);
+
+    }
+    //统计所有元素都小于等于target的子数组数量
+    private int countSubArray(int[] arr, int target){
+        int count = 0;
+        //满足条件的子数组长度
+        int len = 1;
+        for (int j : arr) {
+            if (j <= target) {
+                //如果有一个新的元素满足条件，那么可以新增len个子数组
+                count += len++;
+            } else {
+                //如果有一个新的元素不满足条件，那么重置len
+                len = 1;
+            }
+        }
+        return count;
+    }
+
 }
