@@ -30,4 +30,10 @@ public class Test3 {
         System.out.println(fun3.findMin(arr));
     }
 
+    @Test
+    public void testPairSums(){
+        int[] arr = new int[]{4,5,6,7,1,2,3,7,9,8,2};
+        System.out.println(fun3.pairSums(arr,10));
+    }
+
 }

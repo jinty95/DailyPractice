@@ -3,6 +3,7 @@ package cn.jinty.leetcode.function;
 import cn.jinty.leetcode.TreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -74,6 +75,40 @@ public class Fun3 {
             }
         }
         return nums[left];
+    }
+
+    /**
+     * 16.24. 数对和
+     * 设计一个算法，找出数组中两数之和为指定值的所有整数对。一个数只能属于一个数对。
+     *
+     * @param nums 数组
+     * @param target 目标值
+     * @return 和为目标值的数对
+     */
+    public List<List<Integer>> pairSums(int[] nums, int target) {
+        List<List<Integer>> lists = new ArrayList<>();
+        //排序
+        Arrays.sort(nums);
+        //双指针
+        int left = 0, right = nums.length-1;
+        while(left<right){
+            int sum = nums[left]+nums[right];
+            if(sum == target){
+                //收集数对
+                List<Integer> list = new ArrayList<>();
+                list.add(nums[left]);
+                list.add(nums[right]);
+                lists.add(list);
+                //指针往中间靠拢
+                left++;
+                right--;
+            }else if(sum > target){
+                right--;
+            }else{
+                left++;
+            }
+        }
+        return lists;
     }
 
 }
