@@ -50,4 +50,30 @@ public class Fun3 {
         return false;
     }
 
+    /**
+     * 154. 寻找旋转排序数组中的最小值 II
+     * @param nums 旋转排序数组(存在重复值)
+     * @return 最小值
+     */
+    public int findMin(int[] nums) {
+        if(nums == null || nums.length==0) return -1;
+        //定义双指针
+        int left = 0, right = nums.length-1;
+        while(left < right){
+            int mid = left + (right-left)/2;
+            if(nums[mid]>nums[right]){
+                //中间值大于右边值，说明最小值在右区间，且不可能是当前中间值
+                left = mid+1;
+            }else if(nums[mid]<nums[right]){
+                //中间值小于右边值，说明最小值在左区间，且可能为当前中间值
+                right = mid;
+            }else{
+                //中间值等于右边值，说明可以把右边值去除，不会影响最小值判断
+                //在数组仅有一个值的情况下，导致时间复杂度从O(logN)退化为O(N)
+                right--;
+            }
+        }
+        return nums[left];
+    }
+
 }

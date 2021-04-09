@@ -24,4 +24,10 @@ public class Test3 {
         System.out.println(fun3.lowestCommonAncestor(root,left,right).val);
     }
 
+    @Test
+    public void testFindMin(){
+        int[] arr = new int[]{4,4,5,5,6,6,0,1,2,3,3,3,3};
+        System.out.println(fun3.findMin(arr));
+    }
+
 }
