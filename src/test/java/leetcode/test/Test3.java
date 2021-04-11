@@ -42,4 +42,10 @@ public class Test3 {
         System.out.println(fun3.numSubarrayBoundedMax(arr,2,3));
     }
 
+    @Test
+    public void testUglyNumber(){
+        System.out.println(fun3.isUglyNumber(10));
+        System.out.println(fun3.nthUglyNumber(10));
+    }
+
 }

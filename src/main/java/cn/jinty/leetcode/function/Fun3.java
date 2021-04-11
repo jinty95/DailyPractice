@@ -2,9 +2,7 @@ package cn.jinty.leetcode.function;
 
 import cn.jinty.leetcode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * LeetCode算法题
@@ -160,6 +158,68 @@ public class Fun3 {
             }
         }
         return count;
+    }
+
+    /**
+     * 263. 丑数
+     * 判断n是否为丑数，丑数就是只包含质因数2、3、5的正整数。
+     *
+     * @param n 整数
+     * @return boolean
+     */
+    public boolean isUglyNumber(int n){
+        if(n<=0) return false;
+        int f = 2;
+        while(n>1){
+            if(n%f==0){
+                n=n/f;
+            }else{
+                f++;
+                if(f>5) return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 264. 丑数 II
+     * 给定一个整数 n ，找出第 n 个丑数。
+     *
+     * @param n 整数
+     * @return 第n个丑数
+     */
+    public int nthUglyNumber(int n) {
+        /*int i=1;
+        while(n>0){
+            if(isUglyNumber(i++)){
+                n--;
+            }
+        }
+        return i-1;*/
+
+        //丑数去重
+        Set<Long> set = new HashSet<>();
+        //小根堆保存丑数
+        PriorityQueue<Long> queue = new PriorityQueue<>();
+        //存入第一个丑数
+        queue.add(1L);
+        set.add(1L);
+        //求第n个丑数
+        int ans = 1;
+        while(n>0){
+            //由于int值溢出，故使用long
+            long ugly = queue.poll();
+            ans = (int)ugly;
+            n--;
+            long ugly2 = ugly * 2;
+            long ugly3 = ugly * 3;
+            long ugly5 = ugly * 5;
+            if(set.add(ugly2)) queue.offer(ugly2);
+            if(set.add(ugly3)) queue.offer(ugly3);
+            if(set.add(ugly5)) queue.offer(ugly5);
+        }
+        return ans;
+
     }
 
 }
