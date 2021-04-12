@@ -222,4 +222,32 @@ public class Fun3 {
 
     }
 
+    /**
+     * 179. 最大数
+     * 给定一组非负整数 nums，重新排列每个数的顺序（每个数不可拆分）使之组成一个最大的整数。
+     * 注意：输出结果可能非常大，所以需要返回一个字符串而不是整数。
+     *
+     * @param nums 非负整数数组 例如:[3,30,34]
+     * @return 字符串 结果:"34330"
+     */
+    public String largestNumber(int[] nums) {
+        //特殊情况
+        if(nums==null || nums.length==0) return "";
+        if(nums.length==1) return String.valueOf(nums[0]);
+        //数字转为字符串
+        String[] strs = new String[nums.length];
+        for(int i=0;i<nums.length;i++){
+            strs[i] = String.valueOf(nums[i]);
+        }
+        //排序 A+B > B+A
+        Arrays.sort(strs,(o1,o2)->(o2+o1).compareTo(o1+o2));
+        //构建结果，注意去除前导0
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<nums.length;i++){
+            if(sb.length()==0 && strs[i].equals("0")) return "0";
+            sb.append(strs[i]);
+        }
+        return sb.toString();
+    }
+
 }

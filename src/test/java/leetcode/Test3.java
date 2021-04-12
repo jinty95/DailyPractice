@@ -1,4 +1,4 @@
-package leetcode.test;
+package leetcode;
 
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun3;
@@ -46,6 +46,16 @@ public class Test3 {
     public void testUglyNumber(){
         System.out.println(fun3.isUglyNumber(10));
         System.out.println(fun3.nthUglyNumber(10));
+    }
+
+    @Test
+    public void testLargestNumber(){
+        int[] nums1 = {30,33,4,1,9,566};
+        System.out.println(fun3.largestNumber(nums1));
+        int[] nums2 = {0,0,0,0,0};
+        System.out.println(fun3.largestNumber(nums2));
+        int[] nums3 = {1,0,2,0,0};
+        System.out.println(fun3.largestNumber(nums3));
     }
 
 }
