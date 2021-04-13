@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author jinty
  * @date 2019/12/5.
  */
-public class EncryptionUtil {
+public class EncryptUtil {
 
     /**
      * 随机生成AES秘钥

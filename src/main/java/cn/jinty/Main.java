@@ -1,6 +1,6 @@
 package cn.jinty;
 
-import cn.jinty.utils.EncryptionUtil;
+import cn.jinty.utils.EncryptUtil;
 import sun.misc.BASE64Encoder;
 
 import java.util.Arrays;
@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args){
 
-        byte[] bytes = Arrays.copyOf(EncryptionUtil.sha1("X3ewzLzYBKzM9vwn"),16);
+        byte[] bytes = Arrays.copyOf(EncryptUtil.sha1("X3ewzLzYBKzM9vwn"),16);
         System.out.println(new BASE64Encoder().encode(bytes));
         System.out.println(new String(bytes));
 
