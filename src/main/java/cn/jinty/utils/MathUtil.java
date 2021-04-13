@@ -1,5 +1,6 @@
 package cn.jinty.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class MathUtil {
 
     /**
      * 判断数字是否为素数
+     *
      * @param num 数字
      * @return 布尔
      */
@@ -27,6 +29,7 @@ public class MathUtil {
 
     /**
      * 分解质因数
+     *
      * @param num 数字
      * @return 质因数
      */
@@ -47,12 +50,65 @@ public class MathUtil {
 
     /**
      * 用一个long存储两个int
+     *
      * @param h 高位
      * @param l 低位
      * @return long
      */
     public static long combineInt2Long(int h, int l){
         return (long)h << 32 | (long)l & 0xFFFFFFFFL;
+    }
+
+    /**
+     * 浮点型的加法运算
+     *
+     * @param d1 浮点数1
+     * @param d2 浮点数2
+     * @return 结果
+     */
+    public static Double doubleAdd(Double d1, Double d2){
+        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
+        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
+        return b1.add(b2).doubleValue();
+    }
+
+    /**
+     * 浮点型的减法运算
+     *
+     * @param d1 浮点数1
+     * @param d2 浮点数2
+     * @return 结果
+     */
+    public static Double doubleSubtract(Double d1, Double d2){
+        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
+        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
+        return b1.subtract(b2).doubleValue();
+    }
+
+    /**
+     * 浮点型的乘法运算
+     *
+     * @param d1 浮点数1
+     * @param d2 浮点数2
+     * @return 结果
+     */
+    public static Double doubleMultiply(Double d1, Double d2){
+        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
+        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
+        return b1.multiply(b2).doubleValue();
+    }
+
+    /**
+     * 浮点型的除法运算
+     *
+     * @param d1 浮点数1
+     * @param d2 浮点数2
+     * @return 结果
+     */
+    public static Double doubleDivide(Double d1, Double d2){
+        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
+        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
+        return b1.divide(b2).doubleValue();
     }
 
 }
