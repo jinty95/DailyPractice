@@ -24,13 +24,36 @@ public class TreeNode<T> {
         this.right = right;
     }
 
-    public static <T> void preOrder(List<T> list, TreeNode<T> root){
+    //前序遍历：收集节点列表
+    public static <T> void preOrder(TreeNode<T> root, List<T> list, boolean containNull){
         if(root==null){
-            list.add(null);
+            if(containNull) list.add(null);
         }else{
             list.add(root.val);
-            preOrder(list,root.left);
-            preOrder(list,root.right);
+            preOrder(root.left,list,containNull);
+            preOrder(root.right,list,containNull);
+        }
+    }
+
+    //中序遍历：收集节点列表
+    public static <T> void inOrder(TreeNode<T> root, List<T> list, boolean containNull){
+        if(root==null){
+            if(containNull) list.add(null);
+        }else{
+            inOrder(root.left,list,containNull);
+            list.add(root.val);
+            inOrder(root.right,list,containNull);
+        }
+    }
+
+    //后序遍历：收集节点列表
+    public static <T> void postOrder(TreeNode<T> root, List<T> list, boolean containNull){
+        if(root==null){
+            if(containNull) list.add(null);
+        }else{
+            postOrder(root.left,list,containNull);
+            postOrder(root.right,list,containNull);
+            list.add(root.val);
         }
     }
 

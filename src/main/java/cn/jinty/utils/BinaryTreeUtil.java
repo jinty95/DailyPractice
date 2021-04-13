@@ -15,6 +15,12 @@ import java.util.Queue;
  **/
 public class BinaryTreeUtil {
 
+    /**
+     * 层次遍历打印二叉树
+     *
+     * @param root 二叉树
+     * @param <T> 节点数据类型
+     */
     public static final <T> void bfsPrint(TreeNode<T> root){
         if(root==null){
             return;

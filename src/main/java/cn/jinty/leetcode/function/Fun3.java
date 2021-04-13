@@ -250,4 +250,30 @@ public class Fun3 {
         return sb.toString();
     }
 
+    /**
+     * 783. 二叉搜索树节点最小距离
+     *
+     * @param root 二叉搜索树(有序)
+     * @return 最小距离
+     */
+    public int minDiffInBST(TreeNode root) {
+        return inOrder(root);
+    }
+    private TreeNode pre = null;
+    private int inOrder(TreeNode root){
+        int min = Integer.MAX_VALUE;
+        if(root!=null){
+            //递归左子树
+            min = Math.min(min,inOrder(root.left));
+            //逻辑处理
+            if(pre!=null){
+                min = Math.min(min,(Integer) root.val- (Integer) pre.val);
+            }
+            pre = root;
+            //递归右子树
+            min = Math.min(min,inOrder(root.right));
+        }
+        return min;
+    }
+
 }

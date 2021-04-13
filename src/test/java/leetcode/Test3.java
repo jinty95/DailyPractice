@@ -58,4 +58,12 @@ public class Test3 {
         System.out.println(fun3.largestNumber(nums3));
     }
 
+    @Test
+    public void testMinDiffInBST(){
+        TreeNode root = new TreeNode(50);
+        root.left = new TreeNode(40);
+        root.right = new TreeNode(57);
+        System.out.println(fun3.minDiffInBST(root));
+    }
+
 }
