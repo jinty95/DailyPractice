@@ -1,6 +1,7 @@
 package leetcode;
 
 import cn.jinty.leetcode.TreeNode;
+import cn.jinty.leetcode.Trie;
 import cn.jinty.leetcode.function.Fun3;
 import org.junit.Test;
 
@@ -64,6 +65,15 @@ public class Test3 {
         root.left = new TreeNode(40);
         root.right = new TreeNode(57);
         System.out.println(fun3.minDiffInBST(root));
+    }
+
+    @Test
+    public void testTrie(){
+        Trie trie = new Trie();
+        trie.insert("apple");
+        System.out.println(trie.search("apple"));
+        System.out.println(trie.startsWith("app"));
+        System.out.println(trie.search("app"));
     }
 
 }
