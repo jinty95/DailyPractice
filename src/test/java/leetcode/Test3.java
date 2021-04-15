@@ -76,4 +76,10 @@ public class Test3 {
         System.out.println(trie.search("app"));
     }
 
+    @Test
+    public void testRob(){
+        int[] nums = new int[]{1,9,2,8,100};
+        System.out.println(fun3.rob(nums));
+    }
+
 }
