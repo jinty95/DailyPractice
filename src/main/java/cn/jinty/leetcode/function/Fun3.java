@@ -306,4 +306,41 @@ public class Fun3 {
         return max;
     }
 
+    /**
+     * 106. 从中序与后序遍历序列构造二叉树
+     *
+     * @param inorder 中序遍历
+     * @param postorder 后序遍历
+     * @return 二叉树
+     */
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return buildTree(inorder,0,inorder.length-1,
+                postorder,0,postorder.length-1);
+    }
+    private TreeNode buildTree(int[] inorder, int inLeft, int inRight,
+                               int[] postorder, int postLeft, int postRight){
+        if(postLeft>postRight){
+            return null;
+        }
+        //后序遍历的特点：最后一个元素为根节点
+        TreeNode root = new TreeNode(postorder[postRight]);
+        //中序遍历的特点：中间元素为根节点
+        //用len记录根节点的左子树元素个数
+        int len = 0;
+        for(int i=inLeft;i<=inRight;i++){
+            if(inorder[i]==postorder[postRight]) break;
+            len++;
+        }
+        //构造根节点的左右子树
+        root.left = buildTree(
+                inorder, inLeft, inLeft+len-1,
+                postorder, postLeft, postLeft+len-1
+        );
+        root.right = buildTree(
+                inorder, inLeft+len+1, inRight,
+                postorder, postLeft+len, postRight-1
+        );
+        return root;
+    }
+
 }

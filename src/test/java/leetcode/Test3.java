@@ -3,6 +3,7 @@ package leetcode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.Trie;
 import cn.jinty.leetcode.function.Fun3;
+import cn.jinty.utils.BinaryTreeUtil;
 import org.junit.Test;
 
 /**
@@ -80,6 +81,13 @@ public class Test3 {
     public void testRob(){
         int[] nums = new int[]{1,9,2,8,100};
         System.out.println(fun3.rob(nums));
+    }
+
+    @Test
+    public void testBuildTree(){
+        int[] inorder = {9,3,15,20,7};
+        int[] postorder = {9,15,7,20,3};
+        BinaryTreeUtil.bfsPrint(fun3.buildTree(inorder,postorder));
     }
 
 }
