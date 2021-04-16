@@ -90,4 +90,12 @@ public class Test3 {
         BinaryTreeUtil.bfsPrint(fun3.buildTree(inorder,postorder));
     }
 
+    @Test
+    public void testIsScramble(){
+        System.out.println(fun3.isScramble("abcde","caeff"));
+        System.out.println(fun3.isScramble("great","rgtea"));
+        System.out.println(fun3.isScramble("abcdefghijklmnopq","efghijklmnopqcadb"));
+        System.out.println(fun3.isScramble("eebaacbcbcadaaedceaaacadccd","eadcaacabaddaceacbceaabeccd"));
+    }
+
 }

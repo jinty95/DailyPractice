@@ -343,4 +343,112 @@ public class Fun3 {
         return root;
     }
 
+    /**
+     * 87. 扰乱字符串
+     * 使用下面描述的算法可以扰乱字符串 s 得到字符串 t ：
+     * 如果字符串的长度为 1 ，算法停止
+     * 如果字符串的长度 > 1 ，执行下述步骤：
+     * 在一个随机下标处将字符串分割成两个非空的子字符串。即，如果已知字符串 s ，则可以将其分成两个子字符串 x 和 y ，且满足 s = x + y 。
+     * 随机决定是要「交换两个子字符串」还是要「保持这两个子字符串的顺序不变」。即，在执行这一步骤之后，s 可能是 s = x + y 或者 s = y + x 。
+     * 在 x 和 y 这两个子字符串上继续从步骤 1 开始递归执行此算法。
+     *
+     * @param s1 字符串1(小写)
+     * @param s2 字符串2(小写)
+     * @return 是否互为扰乱字符串
+     */
+    public boolean isScramble(String s1, String s2) {
+
+        /*//长度不同
+        if(s1.length()!=s2.length()) return false;
+        //值相同
+        if(s1.equals(s2)) return true;
+
+        //字符种类数量是否一致
+        int[] map = new int[26];
+        for(int i=0;i<s1.length();i++){
+            map[s1.charAt(i)-'a']++;
+        }
+        for(int i=0;i<s2.length();i++){
+            int idx = s2.charAt(i)-'a';
+            if(map[idx]==0) return false;
+            map[idx]--;
+        }
+
+        //s = x + y 或者 s = y + x
+        //如果s1、s2互扰，那么在s1中一定存在一个点将s1分为s11,s12，在s2中一定存在一个点将s2分为s21,s22
+        //使得s11、s21互扰且s12、s22互扰，或者s11、s22互扰且s12、s21互扰
+        for(int i=1;i<s1.length();i++){
+            String s11 = s1.substring(0,i);
+            String s12 = s1.substring(i);
+            String s21 = s2.substring(0,i);
+            String s22 = s2.substring(i);
+            if(isScramble(s11,s21) && isScramble(s12,s22)) return true;
+            s21 = s2.substring(0,s1.length()-i);
+            s22 = s2.substring(s1.length()-i);
+            if(isScramble(s11,s22) && isScramble(s12,s21)) return true;
+        }
+
+        return false;*/
+
+        //以上递归操作存在重复计算、可以用记忆搜索优化
+        //定义int三维数组dp，dp[i][j][len]记录s1从i开始长度为len的子串与s2从j开始长度为len的子串是否互扰，0为未知，-1为否，1为是
+        if(s1.length()!=s2.length()) return false;
+        int len = s1.length();
+        scrambleS1 = s1;
+        scrambleS2 = s2;
+        dp = new int[len][len][len+1];
+        return isScramble(0,0,len);
+
+    }
+
+    private String scrambleS1;
+    private String scrambleS2;
+    private int[][][] dp;
+
+    private boolean isScramble(int i,int j,int len){
+
+        //命中记忆
+        if(dp[i][j][len]!=0){
+            return dp[i][j][len]==1;
+        }
+
+        //值相同
+        if(scrambleS1.substring(i,i+len).equals(scrambleS2.substring(j,j+len))){
+            dp[i][j][len] = 1;
+            return true;
+        }
+
+        //字符种类数量是否一致
+        int[] map = new int[26];
+        for(int k=i;k<i+len;k++){
+            map[scrambleS1.charAt(k)-'a']++;
+        }
+        for(int k=j;k<j+len;k++){
+            int idx = scrambleS2.charAt(k)-'a';
+            if(map[idx]==0){
+                dp[i][j][len] = -1;
+                return false;
+            }
+            map[idx]--;
+        }
+
+        //枚举分割点
+        for(int k=1;k<len;k++){
+            //不交换
+            if(isScramble(i,j,k) && isScramble(i+k,j+k,len-k)){
+                dp[i][j][len] = 1;
+                return true;
+            }
+            //交换
+            if(isScramble(i,j+len-k,k) && isScramble(i+k,j,len-k)){
+                dp[i][j][len] = 1;
+                return true;
+            }
+        }
+
+        dp[i][j][len] = -1;
+        return false;
+
+    }
+
 }
