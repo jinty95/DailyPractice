@@ -451,4 +451,66 @@ public class Fun3 {
 
     }
 
+    /**
+     * 220. 存在重复元素 III
+     * 给你一个整数数组 nums 和两个整数 k 和 t 。请你判断是否存在两个不同下标 i 和 j，
+     * 使得abs(nums[i] - nums[j]) <= t ，同时又满足 abs(i - j) <= k 。
+     *
+     * @param nums 数组
+     * @param k 整数
+     * @param t 整数
+     * @return 是否存在
+     */
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+
+        /*//暴力穷举，时间复杂度O(kn)，执行超时
+        for(int i=0;i<nums.length;i++){
+            int j = Math.max(i - k, 0);
+            for( ; j<nums.length && j<=i+k; j++){
+                if(j==i) continue;
+                if(Math.abs((long)nums[i]-(long)nums[j])<=t) return true;
+            }
+        }
+        return false;*/
+
+        /*//上述过程存在重复计算，可以用记忆搜索优化，时间复杂度O(kn/2)，执行超时
+        //dp[i][j]表示nums[i]-nums[j]是否<=t，-1为否，0为未知，1为是
+        int[][] dp = new int[nums.length][nums.length];
+        for(int i=0;i<nums.length;i++){
+            int j = Math.max(i - k, 0);
+            for( ; j<nums.length && j<=i+k; j++){
+                if(j==i) continue;
+                if(dp[i][j]==0 && dp[j][i]==0){
+                    if(Math.abs((long)nums[i]-(long)nums[j])<=t){
+                        dp[i][j] = 1;
+                        dp[j][i] = 1;
+                        return true;
+                     }else{
+                        dp[i][j] = -1;
+                        dp[j][i] = -1;
+                    }
+                }
+            }
+        }
+        return false;*/
+
+        //使用滑动窗口+有序集合，时间复杂度O(nlogk)
+        //对于i，需要与左边k个求绝对值，与右边k个求绝对值，但是右边的计算其实是多余的，所以只需要考虑i的左边k个
+        //使用TreeSet有序集合作为滑动窗口，窗口中最多存放k个元素，超出时旧的一个元素去除，新的元素加入
+        //从左向右遍历nums，更新滑动窗口，如果窗口中存在一个值，介于[nums[i]-t,nums[i]+t]之间，那么返回true
+        TreeSet<Long> set = new TreeSet<>();
+        for(int i=0;i<nums.length;i++){
+            Long ceiling = set.floor((long)nums[i]+t);
+            if(ceiling!=null && ceiling>=(long)nums[i]-t){
+                return true;
+            }
+            set.add((long)nums[i]);
+            if(i>=k){
+                set.remove((long)nums[i-k]);
+            }
+        }
+        return false;
+
+    }
+
 }

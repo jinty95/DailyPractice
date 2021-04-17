@@ -98,4 +98,14 @@ public class Test3 {
         System.out.println(fun3.isScramble("eebaacbcbcadaaedceaaacadccd","eadcaacabaddaceacbceaabeccd"));
     }
 
+    @Test
+    public void testContainsNearbyAlmostDuplicate(){
+        System.out.println(fun3.containsNearbyAlmostDuplicate(
+                new int[]{1,5,9,1,5,9},2,3)
+        );
+        System.out.println(fun3.containsNearbyAlmostDuplicate(
+                new int[]{-2147483648,2147483647},1,1)
+        );
+    }
+
 }
