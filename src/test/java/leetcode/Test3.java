@@ -1,5 +1,6 @@
 package leetcode;
 
+import cn.jinty.leetcode.Node;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.Trie;
 import cn.jinty.leetcode.function.Fun3;
@@ -106,6 +107,15 @@ public class Test3 {
         System.out.println(fun3.containsNearbyAlmostDuplicate(
                 new int[]{-2147483648,2147483647},1,1)
         );
+    }
+
+    @Test
+    public void testTreeToDoublyList(){
+        Node root = new Node(5);
+        root.left = new Node(3);
+        root.right = new Node(8);
+        System.out.println(root);
+        System.out.println(fun3.treeToDoublyList(root));
     }
 
 }

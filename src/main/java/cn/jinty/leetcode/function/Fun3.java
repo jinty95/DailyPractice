@@ -1,5 +1,6 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.leetcode.Node;
 import cn.jinty.leetcode.TreeNode;
 
 import java.util.*;
@@ -532,6 +533,37 @@ public class Fun3 {
             fast++;
         }
         return slow;
+    }
+
+    /**
+     * 剑指 Offer 36. 二叉搜索树与双向链表
+     * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。
+     * 要求不能创建任何新的节点，只能调整树中节点指针的指向。
+     *
+     * @param root 二叉搜索树
+     * @return 双向链表
+     */
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return root;
+        //收集节点路径
+        List<Node> list = new ArrayList<>();
+        inOrder(root,list);
+        //根据相邻节点更新每个节点的指针域
+        for(int i=0;i<list.size();i++){
+            Node now = list.get(i);
+            if(i==0) now.left = list.get(list.size()-1);
+            else now.left = list.get(i-1);
+            if(i==list.size()-1) now.right = list.get(0);
+            else now.right = list.get(i+1);
+        }
+        return list.get(0);
+    }
+    //中序遍历，收集节点
+    private void inOrder(Node root,List<Node> list){
+        if(root==null) return;
+        inOrder(root.left,list);
+        list.add(root);
+        inOrder(root.right,list);
     }
 
 }
