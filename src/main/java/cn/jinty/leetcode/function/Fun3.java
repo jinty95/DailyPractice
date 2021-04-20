@@ -685,4 +685,42 @@ public class Fun3 {
 
     }
 
+    /**
+     * 剑指 Offer 35. 复杂链表的复制
+     * 在复杂链表中，每个节点除了有一个 next 指针指向下一个节点，还有一个 random 指针指向链表中的任意节点或者 null。
+     *
+     * @param head 链表
+     * @return 复制链表
+     */
+    public Node copyRandomList(Node head) {
+        if(head==null) return null;
+        //新节点与旧节点的映射
+        Map<Node,Node> newToOld = new HashMap<>();
+        //旧节点与新节点的映射
+        Map<Node,Node> oldToNew = new HashMap<>();
+        //新建节点，保证next一致
+        Node newHead = null;
+        Node tmp = newHead;
+        while(head!=null){
+            if(tmp==null){
+                newHead = new Node(head.val);
+                tmp = newHead;
+            } else {
+                tmp.next = new Node(head.val);
+                tmp = tmp.next;
+            }
+            newToOld.put(tmp,head);
+            oldToNew.put(head,tmp);
+            head = head.next;
+        }
+        //实现random一致
+        tmp = newHead;
+        while(tmp!=null){
+            //根据新节点找到对应旧节点，找到旧节点的random，再找这个random对应的新节点
+            tmp.random = oldToNew.get(newToOld.get(tmp).random);
+            tmp = tmp.next;
+        }
+        return newHead;
+    }
+
 }

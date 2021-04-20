@@ -1,6 +1,7 @@
 package cn.jinty.utils;
 
 import cn.jinty.leetcode.ListNode;
+import cn.jinty.leetcode.Node;
 
 /**
  * 链表工具类
@@ -14,10 +15,10 @@ public class ListNodeUtil {
     public static String printListNode(ListNode node){
         StringBuilder sb = new StringBuilder();
         while(node!=null){
-            sb.append(node.val+",");
+            sb.append(node.val).append(',');
             node = node.next;
         }
-        return sb.toString();
+        return sb.substring(0,sb.length()-1);
     }
 
     //数组构建链表
@@ -33,4 +34,15 @@ public class ListNodeUtil {
         }
         return head.next;
     }
+
+    //链表转换为字符串
+    public static String printNode(Node node){
+        StringBuilder sb = new StringBuilder();
+        while(node!=null){
+            sb.append(node.val).append(',');
+            node = node.next;
+        }
+        return sb.substring(0,sb.length()-1);
+    }
+
 }

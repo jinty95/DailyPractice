@@ -5,6 +5,7 @@ import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.Trie;
 import cn.jinty.leetcode.function.Fun3;
 import cn.jinty.utils.BinaryTreeUtil;
+import cn.jinty.utils.ListNodeUtil;
 import org.junit.Test;
 
 /**
@@ -133,6 +134,20 @@ public class Test3 {
         System.out.println(fun3.strStr(s1,s2));
         System.out.println(fun3.strStr(s1,s3));
         System.out.println(fun3.strStr(s1,s4));
+    }
+
+    @Test
+    public void testCopyRandomList(){
+        Node head = new Node(0);
+        Node n1 = new Node(1);
+        Node n2 = new Node(2);
+        head.next = n1;
+        n1.next = n2;
+        head.random = n2;
+        n1.random = head;
+        n2.random = n1;
+        System.out.println(ListNodeUtil.printNode(head));
+        System.out.println(ListNodeUtil.printNode(fun3.copyRandomList(head)));
     }
 
 }
