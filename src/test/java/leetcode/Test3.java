@@ -124,4 +124,15 @@ public class Test3 {
         System.out.println(fun3.reversePairs(nums));
     }
 
+    @Test
+    public void testStrStr(){
+        String s1 = "hello world";
+        String s2 = "el";
+        String s3 = "hello world !";
+        String s4 = "hello world";
+        System.out.println(fun3.strStr(s1,s2));
+        System.out.println(fun3.strStr(s1,s3));
+        System.out.println(fun3.strStr(s1,s4));
+    }
+
 }

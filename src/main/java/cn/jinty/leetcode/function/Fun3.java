@@ -652,4 +652,37 @@ public class Fun3 {
         }
     }
 
+    /**
+     * 28. 实现 strStr()
+     * 给定两个字符串haystack和needle ，请在haystack字符串中找出needle字符串出现的第一个位置（下标从0开始）。如果不存在，则返回-1。
+     *
+     * @param haystack 主串
+     * @param needle 子串
+     * @return 首次出现的位置
+     */
+    public int strStr(String haystack, String needle) {
+
+        /*//直接调包
+        if(haystack==null) return -1;
+        if(needle==null) return 0;
+        return haystack.indexOf(needle);*/
+
+        //枚举
+        if(haystack==null) return -1;
+        if(needle==null || needle.length()==0) return 0;
+        int max = haystack.length()-needle.length();
+        for(int i=0;i<=max;i++){
+            boolean found = true;
+            for(int j=0;j<needle.length();j++){
+                if(haystack.charAt(i+j)!=needle.charAt(j)){
+                    found = false;
+                    break;
+                }
+            }
+            if(found) return i;
+        }
+        return -1;
+
+    }
+
 }
