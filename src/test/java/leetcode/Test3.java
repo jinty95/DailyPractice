@@ -118,4 +118,10 @@ public class Test3 {
         System.out.println(fun3.treeToDoublyList(root));
     }
 
+    @Test
+    public void testReversePairs(){
+        int[] nums = {9,8,4,6,5,4,1,2,3};
+        System.out.println(fun3.reversePairs(nums));
+    }
+
 }

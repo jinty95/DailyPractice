@@ -566,4 +566,90 @@ public class Fun3 {
         inOrder(root.right,list);
     }
 
+    /**
+     * 剑指 Offer 51. 数组中的逆序对
+     *
+     * @param nums 数组
+     * @return 逆序对的数量
+     */
+    public int reversePairs(int[] nums) {
+
+        /*//暴力枚举 时间复杂度O(N^2)
+        int count = 0;
+        for(int i=0;i<nums.length;i++){
+            for(int j=i+1;j<nums.length;j++){
+                if(nums[i]>nums[j]){
+                    count++;
+                }
+            }
+        }
+        return count;*/
+
+        /*//单调递减栈 时间复杂度：数组递减情况下O(N)，数组递增情况下O(N^2)
+        int count = 0;
+        Deque<Integer> queue = new LinkedList<>();
+        for(int i=0;i<nums.length;i++){
+            if(queue.isEmpty()) queue.push(nums[i]);
+            else{
+                if(nums[i]<queue.peek()){
+                    count += queue.size();
+                    queue.push(nums[i]);
+                }else{
+                    List<Integer> list = new ArrayList<>();
+                    while(!queue.isEmpty() && nums[i]>=queue.peek()){
+                        list.add(queue.pop());
+                    }
+                    count += queue.size();
+                    queue.push(nums[i]);
+                    for(int j=list.size()-1;j>=0;j--){
+                        queue.push(list.get(j));
+                    }
+                }
+            }
+        }
+        return count;*/
+
+        //归并排序 过程中计算逆序对 时间复杂度O(NlogN)
+        if(nums==null || nums.length==0) return 0;
+        mergeSort(nums,0,nums.length-1);
+        return reversePairCount;
+
+    }
+    //成员变量记录逆序对数量
+    private int reversePairCount = 0;
+    //归并排序
+    private void mergeSort(int[] arr,int begin,int end){
+        if(begin<end){
+            //+的优先级比>>>高，所以要加括号
+            int mid = begin + ((end-begin)>>>1);
+            mergeSort(arr,begin,mid);
+            mergeSort(arr,mid+1,end);
+            merge(arr,begin,mid,end);
+        }
+    }
+    //有序表的合并
+    private void merge(int[] arr,int begin,int mid,int end){
+        int[] temp = new int[end-begin+1];
+        int i=0;
+        int leftBgin = begin;
+        int rightBegin = mid+1;
+        while(leftBgin<=mid && rightBegin<=end){
+            if(arr[leftBgin]<=arr[rightBegin]){
+                temp[i++] = arr[leftBgin++];
+            }else{
+                temp[i++] = arr[rightBegin++];
+                reversePairCount += (mid - leftBgin + 1);
+            }
+        }
+        while(leftBgin<=mid){
+            temp[i++] = arr[leftBgin++];
+        }
+        while(rightBegin<=end){
+            temp[i++] = arr[rightBegin++];
+        }
+        for(int j=begin;j<=end;j++){
+            arr[j] = temp[j-begin];
+        }
+    }
+
 }
