@@ -723,4 +723,34 @@ public class Fun3 {
         return newHead;
     }
 
+    /**
+     * 91. 解码方法
+     * 一条包含字母A-Z的消息通过以下映射进行了编码 ：'A' -> 1 'B' -> 2 ... 'Z' -> 26
+     * 要解码已编码的消息，所有数字必须基于上述映射的方法，反向映射回字母（可能有多种方法）。
+     *
+     * @param s 数字字符串
+     * @return 解码种数
+     */
+    public int numDecodings(String s) {
+        //非法情况
+        if(s==null || s.length()==0 || s.charAt(0)=='0') return 0;
+        //动态规划
+        int[] dp = new int[s.length()];
+        dp[0] = 1;
+        for(int i=1;i<s.length();i++){
+            char cur = s.charAt(i);
+            char pre = s.charAt(i-1);
+            if(cur=='0'){
+                //非法情况：0不能与前一个数构成10或20
+                if(pre=='0' || pre>'2') return 0;
+                dp[i] = (i==1) ? 1 : dp[i-2];
+            } else {
+                if(pre=='0') dp[i] = dp[i-1];
+                else if(pre=='1' || (pre=='2'&&cur<'7')) dp[i] = dp[i-1] + ((i==1) ? 1 : dp[i-2]);
+                else dp[i] = dp[i-1];
+            }
+        }
+        return dp[s.length()-1];
+    }
+
 }

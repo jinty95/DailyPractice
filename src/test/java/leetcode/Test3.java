@@ -150,4 +150,13 @@ public class Test3 {
         System.out.println(ListNodeUtil.printNode(fun3.copyRandomList(head)));
     }
 
+    @Test
+    public void testNumDecodings(){
+        System.out.println(fun3.numDecodings("111"));
+        System.out.println(fun3.numDecodings("10101011"));
+        System.out.println(fun3.numDecodings("2612321"));
+        System.out.println(fun3.numDecodings("00000"));
+        System.out.println(fun3.numDecodings("10001"));
+    }
+
 }
