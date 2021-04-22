@@ -199,6 +199,40 @@ public final class ArraySortUtil {
     }
 
     /**
+     * 计数排序
+     * 时间复杂度O(N)
+     *
+     * @param arr 数组
+     */
+    public static void countSort(int[] arr){
+        if(arr==null || arr.length==0) return;
+        int max = arr[0], min = arr[0];
+        for(int num:arr){
+            max = Math.max(max,num);
+            min = Math.min(min,num);
+        }
+        countSort(arr,min,max);
+    }
+    private static void countSort(int[] arr, int min, int max){
+        //计数
+        int[] countArr=new int[max-min+1];
+        for (int i : arr) {
+            countArr[i - min] += 1;
+        }
+        //恢复
+        int index=0;
+        for(int i=0;i<countArr.length;i++) {
+            if(countArr[i]!=0) {
+                int temp=countArr[i];
+                while(temp>0) {
+                    arr[index++]=i+min;
+                    temp--;
+                }
+            }
+        }
+    }
+
+    /**
      * 数组元素交换
      *
      * @param arr 数组
