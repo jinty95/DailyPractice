@@ -1,5 +1,7 @@
 package cn.jinty.utils;
 
+import java.util.Random;
+
 /**
  * 数组排序工具
  *
@@ -286,6 +288,32 @@ public final class ArraySortUtil {
     }
 
     /**
+     * 猴子排序
+     * 打乱数组，直到有序，时间复杂度随缘
+     *
+     * @param arr 数组
+     */
+    public static void monkeySort(int[] arr){
+        if(arr==null) return;
+        Random random = new Random();
+        int count = 0;
+        while(!isOrdered(arr,true)){
+            int len = arr.length;
+            while(len>0){
+                int idx1 = random.nextInt(arr.length);
+                int idx2 = random.nextInt(arr.length);
+                while(idx2==idx1){
+                    idx2 = random.nextInt(arr.length);
+                }
+                swap(arr,idx1,idx2);
+                len--;
+            }
+            count++;
+        }
+        System.out.println("打乱次数="+count);
+    }
+
+    /**
      * 数组元素交换
      *
      * @param arr 数组
@@ -297,6 +325,27 @@ public final class ArraySortUtil {
         arr[a] ^= arr[b];
         arr[b] ^= arr[a];
         arr[a] ^= arr[b];
+    }
+
+    /**
+     * 判断数组是否有序
+     *
+     * @param arr 数组
+     * @param ascend 是否升序，是则判断升序，否则判断降序
+     * @return 是否有序
+     */
+    private static boolean isOrdered(int[] arr, boolean ascend){
+        if(arr==null || arr.length<2) return true;
+        if(ascend){
+            for(int i=1;i<arr.length;i++){
+                if(arr[i-1]>arr[i]) return false;
+            }
+        }else{
+            for(int i=1;i<arr.length;i++){
+                if(arr[i-1]<arr[i]) return false;
+            }
+        }
+        return true;
     }
 
 }
