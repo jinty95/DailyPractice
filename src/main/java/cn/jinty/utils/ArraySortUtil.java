@@ -233,6 +233,59 @@ public final class ArraySortUtil {
     }
 
     /**
+     * 基数排序
+     * 时间复杂度O(DN) 其中D为数组最大值的十进制数位长度
+     *
+     * @param arr 数组
+     */
+    public static void radixSort(int[] arr){
+        if(arr==null || arr.length==0) return;
+        //求最大值
+        int max = arr[0];
+        for(int i : arr) max = Math.max(max,i);
+        //求最大值的十进制数位长度
+        int d = max==0 ? 1:0;
+        while(max>0){
+            max /= 10;
+            d++;
+        }
+        radixSort(arr,d);
+    }
+    private static void radixSort(int[] arr,int d){
+        //n代表每个数位对应的权值
+        int n=1;
+        //m代表当前被排序的数位
+        int m=1;
+        //k作为滑动的指针
+        int k=0;
+        //收集某轮排序的数据
+        int[][] temp=new int[10][arr.length];
+        //标识temp中的有效数据量
+        int[] count=new int[10];
+        while(m<=d) {
+            //这里采用最小位优先
+            for(int i=0;i<arr.length;i++) {
+                int radix=(arr[i]/n)%10;
+                temp[radix][count[radix]++]=arr[i];
+            }
+            //根据每个数出现的次数，去二维数组中取出覆盖原数组，完成一轮排序
+            for(int i=0;i<count.length;i++) {
+                int len=0;
+                while(count[i]!=0) {
+                    arr[k++]=temp[i][len++];
+                    count[i]--;
+                }
+            }
+            //一轮排序过后权值增大
+            n=n*10;
+            //一轮排序过后数位往前移1
+            m++;
+            //滑动指针归零，用于下轮排序使用
+            k=0;
+        }
+    }
+
+    /**
      * 数组元素交换
      *
      * @param arr 数组
