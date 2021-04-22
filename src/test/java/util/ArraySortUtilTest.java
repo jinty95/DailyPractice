@@ -53,4 +53,12 @@ public class ArraySortUtilTest {
         System.out.println(Arrays.toString(arr));
     }
 
+    @Test
+    public void testHeapSort(){
+        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+        System.out.println(Arrays.toString(arr));
+        ArraySortUtil.heapSort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
 }

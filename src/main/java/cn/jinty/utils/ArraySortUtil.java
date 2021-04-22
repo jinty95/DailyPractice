@@ -157,6 +157,48 @@ public final class ArraySortUtil {
     }
 
     /**
+     * 堆排序
+     * 时间复杂度O(NlogN)
+     *
+     * @param arr 数组
+     */
+    public static void heapSort(int[] arr) {
+        //初始化大根堆
+        for(int i=arr.length/2-1;i>=0;i--) {
+            //从最后一个非叶子结点开始，从下往上调用调整函数，构建一个大根堆
+            heapAdjust(arr,i,arr.length);
+        }
+        //调整大根堆
+        for(int j=arr.length-1;j>0;j--) {
+            //将堆顶与堆尾进行互换，堆大小减一
+            swap(arr,0,j);
+            //堆顶以下全都有序，故仅需堆顶调用调整函数
+            heapAdjust(arr, 0, j);
+        }
+    }
+    //大根堆调整函数，i是堆顶，length-1是堆尾
+    private static void heapAdjust(int[] arr,int i,int length) {
+        //此函数建立在堆顶以下有序的情况
+        int temp=arr[i];
+        //若i为根节点，则i*2+1为左子，i*2+2为右子
+        for(int k=i*2+1;k<length;k=k*2+1) {
+            //右子存在且右子大于左子，指向右子
+            if(k+1<length&&arr[k]<arr[k+1]) {
+                k++;
+            }
+            //子节点大于根节点
+            if(arr[k]>temp) {
+                arr[i]=arr[k];
+                i=k;
+            }else {
+                break;
+            }
+        }
+        //找到合适的位置
+        arr[i]=temp;
+    }
+
+    /**
      * 数组元素交换
      *
      * @param arr 数组
