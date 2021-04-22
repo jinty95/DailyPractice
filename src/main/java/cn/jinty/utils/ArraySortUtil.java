@@ -70,6 +70,93 @@ public final class ArraySortUtil {
     }
 
     /**
+     * 快速排序
+     * 时间复杂度O(NlogN)
+     *
+     * @param arr 数组
+     */
+    public static void quickSort(int[] arr){
+        if(arr==null) return;
+        quickSort(arr,0,arr.length-1);
+    }
+    private static void quickSort(int[] arr, int begin, int end){
+        if(begin<end){
+            int mid = oneQucikSort(arr,begin,end);
+            quickSort(arr,begin,mid-1);
+            quickSort(arr,mid+1,end);
+        }
+    }
+    private static int oneQucikSort(int[] arr, int begin, int end){
+        int mid=begin;
+        boolean inLeft = true;
+        while(begin<end) {
+            if(inLeft) {
+                //mid在左，与右端比较
+                if (arr[mid] >= arr[end]) {
+                    swap(arr, mid, end);
+                    mid = end;
+                    begin++;
+                    inLeft = false;
+                } else {
+                    end--;
+                }
+            }else{
+                //mid在右，与左端比较
+                if(arr[mid]<=arr[begin]) {
+                    swap(arr,mid,begin);
+                    mid=begin;
+                    end--;
+                    inLeft = true;
+                } else {
+                    begin++;
+                }
+            }
+        }
+        return mid;
+    }
+
+    /**
+     * 归并排序
+     * 时间复杂度O(NlogN)
+     *
+     * @param arr 数组
+     */
+    public static void mergeSort(int[] arr){
+        if(arr==null) return;
+        mergeSort(arr,0,arr.length-1);
+    }
+    private static void mergeSort(int[] arr,int begin,int end){
+        if(begin<end){
+            int mid = begin+(end-begin)/2;
+            mergeSort(arr,begin,mid);
+            mergeSort(arr,mid+1,end);
+            merge(arr,begin,mid,end);
+        }
+    }
+    private static void merge(int[] arr,int begin,int mid,int end){
+        int[] temp=new int[end-begin+1];
+        int i=begin;
+        int j=mid+1;
+        int k=0;
+        while(i<=mid&&j<=end) {
+            if(arr[i]<=arr[j]) {
+                temp[k++]=arr[i++];
+            }else {
+                temp[k++]=arr[j++];
+            }
+        }
+        while(i<=mid) {
+            temp[k++]=arr[i++];
+        }
+        while(j<=end) {
+            temp[k++]=arr[j++];
+        }
+        for(int m=0;m<temp.length;m++) {
+            arr[m+begin]=temp[m];
+        }
+    }
+
+    /**
      * 数组元素交换
      *
      * @param arr 数组
