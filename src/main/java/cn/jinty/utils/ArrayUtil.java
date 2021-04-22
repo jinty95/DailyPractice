@@ -10,7 +10,7 @@ import java.util.Random;
  * @author wangjintai
  * @date 2020/2/25.
  */
-public class ArrayUtil {
+public final class ArrayUtil {
 
     public static void print2DArray(int[][] arr){
         for(int[] one:arr){
