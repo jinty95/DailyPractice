@@ -753,4 +753,58 @@ public class Fun3 {
         return dp[s.length()-1];
     }
 
+    /**
+     * 363. 矩形区域不超过K的最大数值和
+     * 给你一个 m x n 的矩阵 matrix 和一个整数 k ，找出并返回矩阵内部矩形区域的不超过 k 的最大数值和。
+     * 题目数据保证总会存在一个数值和不超过 k 的矩形区域。
+     *
+     * @param matrix 矩阵
+     * @param k 整数
+     * @return 不超过k的最大数值和
+     */
+    public int maxSumSubmatrix(int[][] matrix, int k) {
+        if(matrix==null || matrix.length==0) return -1;
+        Integer ans = null;
+        int row = matrix.length;
+        int col = matrix[0].length;
+        //sum[i][j]表示matrix[0][0]到matrix[i][j]矩阵区域的数值和
+        int[][] sum = new int[row][col];
+        sum[0][0] = matrix[0][0];
+        //第一行
+        for(int i=1;i<col;i++){
+            sum[0][i] = sum[0][i-1] + matrix[0][i];
+        }
+        //第一列
+        for(int i=1;i<row;i++){
+            sum[i][0] = sum[i-1][0] + matrix[i][0];
+        }
+        //其它
+        for(int i=1;i<row;i++){
+            for(int j=1;j<col;j++){
+                sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + matrix[i][j];
+            }
+        }
+        //需要求任意点与matrix[i][j]组成的矩阵区域的数值和
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                for(int m=i;m<row;m++){
+                    for(int n=j;n<col;n++){
+                        int diff = 0;
+                        if(i==0&&j==0) diff = sum[m][n];
+                        else if(i==0) diff = sum[m][n]-sum[m][j-1];
+                        else if(j==0) diff = sum[m][n]-sum[i-1][n];
+                        else diff = sum[m][n]-sum[m][j-1]-sum[i-1][n]+sum[i-1][j-1];
+                        if(diff<=k){
+                            if(ans==null) ans = diff;
+                            else ans = Math.max(ans,diff);
+                            //最大为k，可以提前剪枝
+                            if(ans==k) return ans;
+                        }
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
 }

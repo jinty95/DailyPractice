@@ -159,4 +159,13 @@ public class Test3 {
         System.out.println(fun3.numDecodings("10001"));
     }
 
+    @Test
+    public void testMaxSumSubmatrix(){
+        int[][] matrix = {
+                {1,0,1},
+                {0,-2,3}
+        };
+        System.out.println(fun3.maxSumSubmatrix(matrix,2));
+    }
+
 }
