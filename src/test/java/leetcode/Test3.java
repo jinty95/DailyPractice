@@ -8,6 +8,8 @@ import cn.jinty.utils.BinaryTreeUtil;
 import cn.jinty.utils.ListNodeUtil;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode算法题测试
  *
@@ -166,6 +168,13 @@ public class Test3 {
                 {0,-2,3}
         };
         System.out.println(fun3.maxSumSubmatrix(matrix,2));
+    }
+
+    @Test
+    public void testLargestDivisibleSubset(){
+        int[] arr = {2,3,4,8};
+        System.out.println(Arrays.toString(arr));
+        System.out.println(fun3.largestDivisibleSubset(arr));
     }
 
 }

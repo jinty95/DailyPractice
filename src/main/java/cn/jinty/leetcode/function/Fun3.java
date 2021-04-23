@@ -807,4 +807,82 @@ public class Fun3 {
         return ans;
     }
 
+    /**
+     * 368. 最大整除子集
+     * 给你一个由 无重复 正整数组成的集合 nums ，请你找出并返回其中最大的整除子集 answer ，
+     * 子集中每一元素对 (answer[i], answer[j]) 都应当满足：
+     * answer[i] % answer[j] == 0 且 answer[j] % answer[i] == 0
+     * 如果存在多个有效解子集，返回其中任何一个均可。
+     *
+     * @param nums 数组
+     * @return 最大整除子集
+     */
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+
+        /*//回溯算法 时间复杂度O(2^N)
+        if(nums==null || nums.length==0) return answer;
+        //升序排序
+        Arrays.sort(nums);
+        List<Integer> list = new ArrayList<>();
+        //从最大值开始遍历，收集一个倒序的整除子集
+        largestDivisibleSubset(nums,nums.length-1,list);
+        return answer;*/
+
+        //动态规划 时间复杂度O(N^2)
+        if(nums==null || nums.length==0) return null;
+        //升序排序
+        Arrays.sort(nums);
+        //构建dp数组，dp[i]表示以nums[i]为最大值的子集大小
+        int[] dp = new int[nums.length];
+        dp[0] = 1;
+        int max = dp[0];
+        for(int i=1;i<nums.length;i++){
+            dp[i] = 1;
+            for(int j=0;j<i;j++){
+                if(nums[i]%nums[j]==0){
+                    dp[i] = Math.max(dp[i],dp[j]+1);
+                }
+            }
+            max = Math.max(max,dp[i]);
+        }
+        //根据dp数组，反推子集
+        List<Integer> list = new ArrayList<>();
+        Integer maxVal = null;
+        for(int i=dp.length-1; i>=0; i--){
+            if(dp[i]==max){
+                if(maxVal==null || maxVal%nums[i]==0){
+                    list.add(nums[i]);
+                    maxVal=nums[i];
+                    max--;
+                }
+            }
+        }
+        return list;
+
+    }
+    private List<Integer> answer = null;
+    private void largestDivisibleSubset(int[] nums, int idx,List<Integer> list){
+        if(idx==-1){
+            //元素收集完毕，判断是否比answer长
+            if(answer==null || answer.size()<list.size()) answer = new ArrayList<>(list);
+        }else{
+            //从最大值开始遍历，收集一个倒序的整除子集
+            for(int i=idx;i>=0;i--){
+                //如果从当前往下收集已经不可能大于answer，提前终止
+                if(answer!=null && list.size()+i+1 <= answer.size()) break;
+                //与整除子集中的最小值比较即可，若能整除，子集中的其它值肯定也能整除
+                if(list.size()==0 || list.get(list.size()-1)%nums[i]==0){
+                    list.add(nums[i]);
+                    //递归
+                    largestDivisibleSubset(nums,i-1,list);
+                    //回溯
+                    list.remove(list.size()-1);
+                }else if(i==0){
+                    //递归：保证idx可以走到-1
+                    largestDivisibleSubset(nums,i-1,list);
+                }
+            }
+        }
+    }
+
 }
