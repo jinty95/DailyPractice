@@ -219,4 +219,11 @@ public class Test3 {
         System.out.println("反序列化: "+TreeNode.deserialize("[5, 3, 7, null, null, 8, 10, null, null, null, null]"));
     }
 
+    @Test
+    public void testIntegerBreak(){
+        System.out.println(fun3.integerBreak(10));
+        System.out.println(fun3.integerBreak(54));
+        System.out.println(fun3.integerBreak(450));
+    }
+
 }

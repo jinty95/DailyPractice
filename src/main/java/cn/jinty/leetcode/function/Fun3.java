@@ -929,4 +929,44 @@ public class Fun3 {
         return negative ? -answer : answer;
     }
 
+    /**
+     * 343. 整数拆分
+     * 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。
+     * 返回你可以获得的最大乘积。
+     *
+     * @param n 整数(>1)
+     * @return 最大乘积
+     */
+    public int integerBreak(int n) {
+        /*//枚举，时间复杂度O(N^N)
+        int max = 0;
+        //整数至少拆成两个，每个数的范围都在[1,n-1]
+        //枚举其中的一个数，讨论另外的数
+        for(int i=1;i<n;i++){
+            //如果其中有一个数为i，那么另一个数为n-i，它可以继续拆，也可以不拆
+            max = Math.max(
+                    Math.max(i*(n-i), i*integerBreak(n-i)),
+                    max
+            );
+        }
+        return max;*/
+
+        //从枚举法中可以看出，f(n)的计算依赖于f(1)~f(n-1)，而且存在重复计算
+        //例如：f(10)的求解需要计算f(1)~f(9)，而f(11)的求解需要计算f(1)~f(10)
+        //那么可以用记忆表记录已经求解过的答案，基于这些答案推出下一步的答案，形成递推过程
+
+        //动态规划，时间复杂度O(N^2)
+        //dp[i]表示i拆分后的最大乘积
+        int[] dp = new int[n+1];
+        dp[1] = 1; dp[2] = 1;
+        for(int i=3;i<=n;i++){
+            for(int j=1;j<i;j++){
+                dp[i] = Math.max(dp[i],j*(i-j));
+                dp[i] = Math.max(dp[i],j*dp[i-j]);
+            }
+        }
+        return dp[n];
+
+    }
+
 }
