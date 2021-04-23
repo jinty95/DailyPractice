@@ -177,4 +177,16 @@ public class Test3 {
         System.out.println(fun3.largestDivisibleSubset(arr));
     }
 
+    @Test
+    public void testStrToInt(){
+        System.out.println(fun3.strToInt("00000000000"));
+        System.out.println(fun3.strToInt("2147483648"));
+        System.out.println(fun3.strToInt("-2147483649"));
+        System.out.println(fun3.strToInt("abc 1234"));
+        System.out.println(fun3.strToInt("9898989 aaa"));
+        System.out.println(fun3.strToInt("555555555555555"));
+        System.out.println(fun3.strToInt("-1818181"));
+        System.out.println(fun3.strToInt("+100"));
+    }
+
 }

@@ -885,4 +885,48 @@ public class Fun3 {
         }
     }
 
+    /**
+     * 剑指 Offer 67. 把字符串转换成整数
+     *
+     * @param str 字符串
+     * @return 整数
+     */
+    public int strToInt(String str) {
+        //空串
+        if(str==null) return 0;
+        str = str.trim();
+        if(str.length()==0) return 0;
+        //收集有效数字
+        StringBuilder sb = new StringBuilder();
+        //是否为负数
+        boolean negative = false;
+        for(int i=0;i<str.length();i++){
+            char c = str.charAt(i);
+            if(i==0 && c=='-') negative=true;
+            else if(i==0 && c=='+') negative = false;
+            else if(c>='0' && c<='9'){
+                //去除无意义的前导0
+                if(sb.length()==0 && c=='0') continue;
+                sb.append(c);
+            }
+            else break;
+        }
+        str = sb.toString();
+        //无法解析
+        if(str.length()==0) return 0;
+        //溢出
+        if(str.length()>10) return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        if(str.length()==10 && negative && str.compareTo("2147483648")>0) return Integer.MIN_VALUE;
+        if(str.length()==10 && !negative && str.compareTo("2147483647")>0) return Integer.MAX_VALUE;
+        //正常情况
+        int answer = 0;
+        int multiple = 1;
+        for(int i=str.length()-1;i>=0;i--){
+            int d = str.charAt(i)-'0';
+            answer += d*multiple;
+            multiple *= 10;
+        }
+        return negative ? -answer : answer;
+    }
+
 }
