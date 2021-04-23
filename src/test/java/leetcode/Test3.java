@@ -8,7 +8,9 @@ import cn.jinty.utils.BinaryTreeUtil;
 import cn.jinty.utils.ListNodeUtil;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * LeetCode算法题测试
@@ -187,6 +189,34 @@ public class Test3 {
         System.out.println(fun3.strToInt("555555555555555"));
         System.out.println(fun3.strToInt("-1818181"));
         System.out.println(fun3.strToInt("+100"));
+    }
+
+    @Test
+    public void testTreeNode(){
+        //构造
+        TreeNode root = new TreeNode(5);
+        TreeNode left = new TreeNode(3);
+        TreeNode right = new TreeNode(7);
+        root.left = left;
+        root.right = right;
+        right.left = new TreeNode(8);
+        right.right = new TreeNode(10);
+        //DFS遍历
+        List<Integer> pre = new ArrayList<>();
+        TreeNode.preOrder(root,pre,true);
+        System.out.println("前序遍历: "+pre);
+        List<Integer> in = new ArrayList<>();
+        TreeNode.inOrder(root,in,true);
+        System.out.println("中序遍历: "+in);
+        List<Integer> post = new ArrayList<>();
+        TreeNode.postOrder(root,post,true);
+        System.out.println("后序遍历: "+post);
+        //BFS遍历
+        System.out.println("层次遍历: "+TreeNode.bfs(root));
+        //序列化
+        System.out.println("序列化: "+TreeNode.serialize(root));
+        //反序列化
+        System.out.println("反序列化: "+TreeNode.deserialize("[5, 3, 7, null, null, 8, 10, null, null, null, null]"));
     }
 
 }

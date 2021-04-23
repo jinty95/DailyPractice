@@ -268,7 +268,7 @@ public class Fun3 {
             min = Math.min(min,inOrder(root.left));
             //逻辑处理
             if(pre!=null){
-                min = Math.min(min,(Integer) root.val- (Integer) pre.val);
+                min = Math.min(min,root.val-pre.val);
             }
             pre = root;
             //递归右子树

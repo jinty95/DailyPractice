@@ -22,7 +22,7 @@ class BSTIterator {
     private void inOrder(TreeNode root,List<Integer> data){
         if(root==null) return;
         inOrder(root.left,data);
-        data.add((Integer) root.val);
+        data.add(root.val);
         inOrder(root.right, data);
     }
 
