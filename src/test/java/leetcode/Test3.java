@@ -226,4 +226,11 @@ public class Test3 {
         System.out.println(fun3.integerBreak(450));
     }
 
+    @Test
+    public void testCombinationSum4(){
+        int[] nums = {1,2,3};
+        int target = 4;
+        System.out.println(fun3.combinationSum4(nums,target));
+    }
+
 }
