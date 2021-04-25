@@ -35,4 +35,11 @@ public class Test4 {
         System.out.println(fun4.coinChange(coins,amount4));
     }
 
+    @Test
+    public void testChange(){
+        int[] coins = {1,2,5,10};
+        int amount1 = 20;
+        System.out.println(fun4.change(amount1,coins));
+    }
+
 }

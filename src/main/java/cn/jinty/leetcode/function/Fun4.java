@@ -98,4 +98,35 @@ public class Fun4 {
 
     }
 
+    /**
+     * 518. 零钱兑换 II
+     * 给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。
+     *
+     * @param amount 目标金额
+     * @param coins 不同面额的硬币
+     * @return 组合数
+     */
+    public int change(int amount, int[] coins) {
+
+        //动态规划：dp[i][j]表示用coins[0..i]换j的组合数
+        int[][] dp = new int[coins.length][amount+1];
+        //第0列：不需要硬币，故为1种
+        for(int i=0;i<coins.length;i++){
+            dp[i][0] = 1;
+        }
+        //第0行：只用coins[0]，合成j只有能或不能
+        for(int i=1;i<=amount;i++){
+            if(i==coins[0]) dp[0][i] = 1;
+            else if(i>coins[0]) dp[0][i] = (dp[0][i-coins[0]]==1 ? 1 : 0);
+        }
+        //其余行列
+        for(int i=1;i<coins.length;i++){
+            for(int j=1;j<=amount;j++){
+                dp[i][j] = dp[i-1][j] + (j-coins[i]>=0 ? dp[i][j-coins[i]] : 0);
+            }
+        }
+        return dp[coins.length-1][amount];
+
+    }
+
 }
