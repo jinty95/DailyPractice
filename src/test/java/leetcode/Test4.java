@@ -12,7 +12,7 @@ import org.junit.Test;
  **/
 public class Test4 {
 
-    private Fun4 fun4 = new Fun4();
+    private final Fun4 fun4 = new Fun4();
 
     @Test
     public void testIncreasingBST(){
@@ -22,6 +22,17 @@ public class Test4 {
         System.out.println(TreeNode.serialize(root));
         TreeNode newHead = fun4.increasingBST(root);
         System.out.println(TreeNode.serialize(newHead));
+    }
+
+    @Test
+    public void testCoinChange(){
+        int[] coins = {186,419,83,408};
+        int amount1 = 6249;
+        int amount3 = 1;
+        int amount4 = 0;
+        System.out.println(fun4.coinChange(coins,amount1));
+        System.out.println(fun4.coinChange(coins,amount3));
+        System.out.println(fun4.coinChange(coins,amount4));
     }
 
 }
