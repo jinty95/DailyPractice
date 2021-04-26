@@ -129,4 +129,139 @@ public class Fun4 {
 
     }
 
+    /**
+     * 1011. 在D天内送达包裹的能力
+     * 传送带上的包裹必须在D天内从一个港口运送到另一个港口。传送带上的第i个包裹的重量为weights[i]。
+     * 每一天，我们都会按给出重量的顺序往传送带上装载包裹。我们装载的重量不会超过船的最大运载重量。
+     * 返回能在D天内将传送带上的所有包裹送达的船的最低运载能力。
+     *
+     * @param weights 包裹重量数组
+     * @param D 天数
+     * @return 最低运载能力
+     */
+    public int shipWithinDays(int[] weights, int D) {
+
+        //问题分析：把weights分成D份，怎么划分可以使得子数组和的最大值最小
+
+        /*//天数比数组长度长，那么数组可以拆分为一个一个的元素，取其中最大的一个
+        if(D>=weights.length){
+            int max = weights[0];
+            for(int weight : weights) max = Math.max(max,weight);
+            return max;
+        }
+        //计算前缀和
+        int[] sum = new int[weights.length];
+        sum[0] = weights[0];
+        for(int i=1;i<weights.length;i++){
+            sum[i] = sum[i-1] + weights[i];
+        }*/
+        /*//1、暴力递归
+        return shipWithinDays(weights,D,0,sum);*/
+
+        //上述递归存在重复计算，时间复杂度较高，计算超时
+        //重复计算：第一天[0]，第二天[1,2]，递归剩余，第一天[0,1]，第二天[2]，递归剩余
+
+        /*//2、记忆搜素
+        int[][] memory = new int[D+1][weights.length];
+        return shipWithinDays(weights,D,0,sum,memory);*/
+
+        //记忆搜索的递归深度太大导致内存溢出
+        //记忆搜索中存在递进过程，可以优化为动态规划，避免函数递归
+
+        /*//3、动态规划 dp[i][j]表示在i天内运送[0...j]的货物的最低运载能力
+        int[][] dp = new int[D][weights.length];
+        //只有1天
+        for(int j=0;j<weights.length;j++){
+            dp[0][j] = sum[j];
+        }
+        //大于1天
+        for(int i=1;i<D;i++){
+            for(int j=0;j<weights.length;j++){
+                dp[i][j] = Integer.MAX_VALUE;
+                for(int k=0;k<j;k++){
+                    //前N天运送[0...k]的货物，当前天运送剩余货物
+                    dp[i][j] = Math.min(dp[i][j], Math.max(dp[i-1][k],sum[j]-sum[k]));
+                }
+            }
+        }
+        return dp[D-1][weights.length-1];*/
+
+        //上述动态规划的时间复杂度为O(DN^2)，仍然超时
+
+        //4、二分查找
+        //首先确定运载能力x的范围[max(weights),sum(weights)]，在这个范围内做二分查找
+        //对于一个运载能力x，遍历weights，基于贪心算法计算这种情况所需要的最小天数
+        //如果大于D，说明在D天内完成需要更大的运力，否则，在D天内完成只需要更小的运力
+        int max = weights[0], sum = 0;
+        for(int weight : weights){
+            max = Math.max(max,weight);
+            sum += weight;
+        }
+        int left = max, right = sum;
+        while(left<right){
+            int mid = left + (right-left)/2;
+            int day = 1;
+            int temp = 0;
+            for (int weight : weights) {
+                temp += weight;
+                if (temp > mid) {
+                    day++;
+                    temp = weight;
+                }
+            }
+            if(day>D){
+                left = mid+1;
+            }else{
+                right = mid;
+            }
+        }
+        return left;
+
+    }
+    //递归函数
+    private int shipWithinDays(int[] weights, int D, int idx, int[] sum){
+        //数组角标越界，返回0
+        if(idx>=weights.length) return 0;
+        //记录最大值
+        int max = Integer.MAX_VALUE;
+        //只剩一天，那么后面的元素只能作为一个子数组
+        if(D==1){
+            return sum[weights.length-1] - (idx==0 ? 0 : sum[idx-1]);
+        }
+        //枚举第一天的包裹数，天数减一，剩余包裹递归求解
+        for(int i=idx;i<weights.length;i++){
+            int curMax = Math.max(
+                    (i==idx ? weights[i] : (idx==0 ? sum[i] : sum[i]-sum[idx-1])),
+                    shipWithinDays(weights,D-1,i+1,sum)
+            );
+            max = Math.min(max,curMax);
+        }
+        return max;
+    }
+    //递归函数+记忆表
+    private int shipWithinDays(int[] weights, int D, int idx, int[] sum, int[][] memory){
+        //数组角标越界，返回0
+        if(idx>=weights.length) return 0;
+        //查找记忆表，命中则直接返回结果
+        if(memory[D][idx]!=0) return memory[D][idx];
+        //记录最大值
+        int max = Integer.MAX_VALUE;
+        //只剩一天，那么后面的元素只能作为一个子数组
+        if(D==1){
+            max = sum[weights.length-1] - (idx==0 ? 0 : sum[idx-1]);
+            memory[D][idx] = max;
+            return max;
+        }
+        //枚举第一天的包裹数，天数减一，剩余包裹递归求解
+        for(int i=idx;i<weights.length;i++){
+            int curMax = Math.max(
+                    (i==idx ? weights[i] : (idx==0 ? sum[i] : sum[i]-sum[idx-1])),
+                    shipWithinDays(weights,D-1,i+1,sum,memory)
+            );
+            max = Math.min(max,curMax);
+        }
+        memory[D][idx] = max;
+        return max;
+    }
+
 }

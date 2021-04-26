@@ -42,4 +42,14 @@ public class Test4 {
         System.out.println(fun4.change(amount1,coins));
     }
 
+    @Test
+    public void testShipWithinDays(){
+        int[] weights = {
+                361,321,186,186,67,283,36,471,304,218,60,78,149,166,282,
+                384,61,242,426,275,236,221,27,261,487,90,468,19,453,241
+        };
+        int D = 15;
+        System.out.println(fun4.shipWithinDays(weights,D));
+    }
+
 }
