@@ -52,4 +52,11 @@ public class Test4 {
         System.out.println(fun4.shipWithinDays(weights,D));
     }
 
+    @Test
+    public void testMinEatingSpeed(){
+        int[] piles = {4,6,8,9,11,5};
+        int h = 12;
+        System.out.println(fun4.minEatingSpeed(piles,h));
+    }
+
 }

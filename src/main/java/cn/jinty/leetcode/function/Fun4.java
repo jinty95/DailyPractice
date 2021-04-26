@@ -264,4 +264,35 @@ public class Fun4 {
         return max;
     }
 
+    /**
+     * 875. 爱吃香蕉的珂珂
+     * 珂珂喜欢吃香蕉。这里有 N 堆香蕉，第 i 堆中有 piles[i] 根香蕉。警卫已经离开了，将在 H 小时后回来。
+     * 珂珂可以决定她吃香蕉的速度 K（单位：根/小时）。每个小时，她将会选择一堆香蕉，从中吃掉 K 根。
+     * 如果这堆香蕉少于 K 根，她将吃掉这堆的所有香蕉，然后这一小时内不会再吃更多的香蕉。
+     * 珂珂喜欢慢慢吃，但仍然想在警卫回来前吃掉所有的香蕉。
+     * 返回她可以在 H 小时内吃掉所有香蕉的最小速度 K（K为整数）。
+     *
+     * @param piles 香蕉数量
+     * @param h 小时
+     * @return 最小速度
+     */
+    public int minEatingSpeed(int[] piles, int h) {
+        //二分查找：先确定速度范围，针对一个速度，计算吃完香蕉的时间，判断时间与h的关系，决定如何缩小速度区间
+        //最小速度为1(时间最长)，最大速度为max(piles)(时间最短)
+        int max = piles[0];
+        for(int pile : piles) max = Math.max(max,pile);
+        int left = 1, right = max;
+        while(left<right){
+            int mid = left + (right-left)/2;
+            int hour = 0;
+            for(int pile : piles) hour += (pile/mid + (pile%mid==0 ? 0 : 1));
+            if(hour>h){
+                left = mid+1;
+            }else{
+                right = mid;
+            }
+        }
+        return left;
+    }
+
 }
