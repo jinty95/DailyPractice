@@ -59,4 +59,13 @@ public class Test4 {
         System.out.println(fun4.minEatingSpeed(piles,h));
     }
 
+    @Test
+    public void testRangeSumBST(){
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(9);
+        System.out.println(fun4.rangeSumBST(root,3,9));
+        System.out.println(fun4.rangeSumBST(root,3,8));
+    }
+
 }

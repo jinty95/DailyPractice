@@ -295,4 +295,22 @@ public class Fun4 {
         return left;
     }
 
+    /**
+     * 938. 二叉搜索树的范围和
+     * 给定二叉搜索树的根结点 root，返回值位于范围 [low, high] 之间的所有结点的值的和。
+     *
+     * @param root 二叉搜索树
+     * @param low 小值
+     * @param high 大值
+     * @return 范围和
+     */
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        int sum = 0;
+        if(root==null) return sum;
+        sum += (root.val>=low) ? rangeSumBST(root.left,low,high) : 0;
+        sum += (root.val>=low && root.val<=high) ? root.val : 0;
+        sum += (root.val<=high) ? rangeSumBST(root.right,low,high) : 0;
+        return sum;
+    }
+
 }
