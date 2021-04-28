@@ -1,4 +1,4 @@
-package leetcode.test;
+package leetcode;
 
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
@@ -29,7 +29,7 @@ public class Test2 {
         TreeNode treeNode = fun2.buildTree(pre,in);
         BinaryTreeUtil.bfsPrint(treeNode);
         List<Integer> list = new ArrayList<>();
-        TreeNode.preOrder(list,treeNode);
+        TreeNode.preOrder(treeNode,list,true);
         System.out.println(list);
     }
 

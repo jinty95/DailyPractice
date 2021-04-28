@@ -699,8 +699,8 @@ public class Fun2 {
         if(list.isEmpty()){
             list.add(root);
         }else{
-            Integer i = (Integer) list.get(list.size()-1).val;
-            if(i >= (Integer) root.val){
+            int i = list.get(list.size()-1).val;
+            if(i >= root.val){
                 return false;
             }else{
                 list.add(root);
@@ -1349,8 +1349,8 @@ public class Fun2 {
                          List<List<Integer>> lists,
                          List<Integer> list){
         if(root==null) return;
-        list.add((Integer)root.val);
-        curSum += (Integer)root.val;
+        list.add(root.val);
+        curSum += root.val;
         if(curSum==targetSum && root.left==null && root.right==null){
             lists.add(new ArrayList<>(list));
             list.remove(list.size()-1);

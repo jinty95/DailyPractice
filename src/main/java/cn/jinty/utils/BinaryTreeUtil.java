@@ -15,16 +15,21 @@ import java.util.Queue;
  **/
 public class BinaryTreeUtil {
 
-    public static final <T> void bfsPrint(TreeNode<T> root){
+    /**
+     * 层次遍历打印二叉树
+     *
+     * @param root 二叉树
+     */
+    public static void bfsPrint(TreeNode root){
         if(root==null){
             return;
         }
-        Queue<TreeNode<T>> queue = new LinkedList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
         while(!queue.isEmpty()){
             int size = queue.size();
             for(int i=0; i<size; i++){
-                TreeNode<T> node = queue.poll();
+                TreeNode node = queue.poll();
                 if(node!=null){
                     System.out.print(node.val + "  ");
                     queue.offer(node.left);
