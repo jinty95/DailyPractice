@@ -77,4 +77,14 @@ public class Test4 {
         System.out.println(fun4.judgeSquareSum(Integer.MAX_VALUE));
     }
 
+    @Test
+    public void testNumIslands(){
+        char[][] grid = {
+                {'1','1','0'},
+                {'0','0','0'},
+                {'1','1','1'}
+        };
+        System.out.println(fun4.numIslands(grid));
+    }
+
 }
