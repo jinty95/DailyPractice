@@ -3,6 +3,7 @@ package leetcode;
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
+import cn.jinty.utils.ArrayUtil;
 import org.junit.Test;
 
 /**
@@ -95,6 +96,14 @@ public class Test4 {
         head.next = next;
         next.next = new ListNode(5);
         System.out.println(fun4.sortedListToBST(head).toString());
+    }
+
+    @Test
+    public void testKClosest(){
+        int[][] points = {
+                {1,3},{2,-2}
+        };
+        ArrayUtil.print2DArray(fun4.kClosest(points,1));
     }
 
 }

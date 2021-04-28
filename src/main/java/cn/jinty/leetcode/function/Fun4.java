@@ -2,9 +2,9 @@ package cn.jinty.leetcode.function;
 
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
-import cn.jinty.utils.MathUtil;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * LeetCode算法题
@@ -428,6 +428,24 @@ public class Fun4 {
             root.left = sortedListToBST(head);
         }
         return root;
+    }
+
+    /**
+     * 973. 最接近原点的 K 个点
+     * 有一个由平面上的点组成的列表 points。需要从中找出 K 个距离原点 (0, 0) 最近的点。
+     *
+     * @param points 二维数组
+     * @param k 正整数
+     * @return k个离原点最近的点
+     */
+    public int[][] kClosest(int[][] points, int k) {
+        if(points==null || points.length==0) return null;
+        int[][] ans = new int[k][2];
+        //排序
+        Arrays.sort(points, Comparator.comparingInt(o -> o[0] * o[0] + o[1] * o[1]));
+        //取前k个
+        if (k >= 0) System.arraycopy(points, 0, ans, 0, k);
+        return ans;
     }
 
 }
