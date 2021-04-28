@@ -108,9 +108,10 @@ public class Test4 {
 
     @Test
     public void testMaxProfit(){
-        int[] prices = {1,9,3,1,9,88,100};
+        int[] prices = {1,9,3,10,9,88,100};
         System.out.println(fun4.maxProfit(prices));
         System.out.println(fun4.maxProfit2(prices));
+        System.out.println(fun4.maxProfit(prices,7));
     }
 
 }
