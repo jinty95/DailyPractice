@@ -106,4 +106,11 @@ public class Test4 {
         ArrayUtil.print2DArray(fun4.kClosest(points,1));
     }
 
+    @Test
+    public void testMaxProfit(){
+        int[] prices = {1,9,3,1,9,88,100};
+        System.out.println(fun4.maxProfit(prices));
+        System.out.println(fun4.maxProfit2(prices));
+    }
+
 }

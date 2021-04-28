@@ -448,4 +448,63 @@ public class Fun4 {
         return ans;
     }
 
+    /**
+     * 121. 买卖股票的最佳时机
+     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     * 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。
+     * 设计一个算法来计算你所能获取的最大利润。返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+     *
+     * @param prices 价格数组
+     * @return 最大收益
+     */
+    public int maxProfit(int[] prices) {
+        //最大收益
+        int maxProfit = 0;
+        if(prices==null || prices.length==0) return maxProfit;
+        //最小价格，滑动更新
+        int minPrice = prices[0];
+        for (int price : prices) {
+            minPrice = Math.min(minPrice, price);
+            maxProfit = Math.max(maxProfit, price - minPrice);
+        }
+        return maxProfit;
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     * 给定一个数组 prices ，其中 prices[i] 是一支给定股票第 i 天的价格。
+     * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+     * 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     *
+     * @param prices 价格数组
+     * @return 最大收益
+     */
+    public int maxProfit2(int[] prices) {
+        //最大收益
+        int maxProfit = 0;
+        if(prices==null || prices.length==0) return maxProfit;
+        //动态更新的最小及最大价格
+        int minPrice = prices[0];
+        int maxPrice = prices[0];
+        for(int i=1;i<prices.length;i++){
+            if(prices[i-1]>prices[i]){
+                //存在获利区间
+                if(maxPrice>minPrice){
+                    maxProfit += maxPrice - minPrice;
+                }
+                //价格下降
+                minPrice = prices[i];
+                maxPrice = prices[i];
+            }else{
+                //价格上升
+                maxPrice = prices[i];
+            }
+        }
+        //存在获利区间
+        if(maxPrice>minPrice){
+            maxProfit += maxPrice - minPrice;
+        }
+        return maxProfit;
+    }
+
 }
