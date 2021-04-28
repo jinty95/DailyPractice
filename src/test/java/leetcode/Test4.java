@@ -1,5 +1,6 @@
 package leetcode;
 
+import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
 import org.junit.Test;
@@ -85,6 +86,15 @@ public class Test4 {
                 {'1','1','1'}
         };
         System.out.println(fun4.numIslands(grid));
+    }
+
+    @Test
+    public void testSortedListToBST(){
+        ListNode head = new ListNode(3);
+        ListNode next = new ListNode(4);
+        head.next = next;
+        next.next = new ListNode(5);
+        System.out.println(fun4.sortedListToBST(head).toString());
     }
 
 }

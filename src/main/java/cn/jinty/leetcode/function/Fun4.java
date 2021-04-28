@@ -1,5 +1,6 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.utils.MathUtil;
 
@@ -396,6 +397,37 @@ public class Fun4 {
         pantIsland(grid,i+1,j);
         pantIsland(grid,i,j-1);
         pantIsland(grid,i,j+1);
+    }
+
+    /**
+     * 109. 有序链表转换二叉搜索树
+     * 给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树。
+     *
+     * @param head 有序链表
+     * @return 二叉搜索树
+     */
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null) return null;
+        if(head.next==null) return new TreeNode(head.val);
+        //快慢指针寻找链表中点
+        ListNode pre = head;
+        ListNode low = head, fast = head;
+        while(fast!=null){
+            fast = fast.next;
+            if(fast!=null){
+                fast = fast.next;
+                pre = low;
+                low = low.next;
+            }
+        }
+        //链表中点作为根节点，前后分别作为根节点的左右子
+        TreeNode root = new TreeNode(low.val);
+        root.right = sortedListToBST(low.next);
+        if(pre!=low){
+            pre.next = null;
+            root.left = sortedListToBST(head);
+        }
+        return root;
     }
 
 }
