@@ -111,4 +111,15 @@ public class MathUtil {
         return b1.divide(b2).doubleValue();
     }
 
+    /**
+     * 对数运算
+     *
+     * @param base 底
+     * @param value 真数
+     * @return 对数
+     */
+    public static Double log(Double base,Double value){
+        return Math.log(value) / Math.log(base);
+    }
+
 }

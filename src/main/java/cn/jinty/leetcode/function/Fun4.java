@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.function;
 
 import cn.jinty.leetcode.TreeNode;
+import cn.jinty.utils.MathUtil;
 
 import java.util.Arrays;
 
@@ -311,6 +312,57 @@ public class Fun4 {
         sum += (root.val>=low && root.val<=high) ? root.val : 0;
         sum += (root.val<=high) ? rangeSumBST(root.right,low,high) : 0;
         return sum;
+    }
+
+    /**
+     * 633. 平方数之和
+     * 给定一个非负整数 c ，你要判断是否存在两个整数 a 和 b，使得 a2 + b2 = c 。
+     *
+     * @param c 非负整数(0 <= c <= 2^31 - 1)
+     * @return 是否
+     */
+    public boolean judgeSquareSum(int c) {
+        /*//枚举a^2的所有整数，直到超出c
+        //在c范围内，b^2=c-a^2，对b^2开方求b，判断是否为整数
+        if(c==0) return true;
+        int i = 1;
+        int a2 = i*i;
+        while(a2<c){
+            int b2 = c - a2;
+            if(Math.sqrt(b2)%1==0){
+                return true;
+            }
+            i++;
+            a2 = i*i;
+        }
+        return a2==c;*/
+
+        //上述方法超时
+
+        //费马平方和定理：一个非负整数能够表示为两个整数的平方和，当且仅当该整数的所有形如4k+3的质因子的出现次数均为偶数次
+        //例如：441=3*3*7*7，3出现2次，7出现2次，它们都出现偶数次，所以441可以表示为平方和，441=21^2+0^2
+        int i=2;
+        //i<=c为什么可以优化为i*i<=c？
+        //因为i*i>c这种情况下，c一定是最后一个质数，如果c还可以继续分解，则i*i<=c一定成立
+        //如果使用i<=c，则剩余最后一个质数，且该质数只有一个时，i需要从上一个质数遍历++到下一个质数，时间比较久
+        while(i*i<=c){
+            if(c%i==0){
+                //能够整除，则统计i质因子的数量
+                int count = 0;
+                while(c%i==0){
+                    count++;
+                    c /= i;
+                }
+                //判断i是否形如4k+3，若是且数量为奇数，返回false
+                if(i%4==3 && count%2!=0){
+                    return false;
+                }
+            }else{
+                i++;
+            }
+        }
+        return c%4!=3;
+
     }
 
 }

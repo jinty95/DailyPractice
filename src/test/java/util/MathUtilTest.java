@@ -43,4 +43,11 @@ public class MathUtilTest {
 
     }
 
+    @Test
+    public void testLog(){
+        System.out.println(MathUtil.log(2.0,1024.0));
+        System.out.println(MathUtil.log(10.0,100000.0));
+        System.out.println(MathUtil.log(3.0,81.0));
+    }
+
 }

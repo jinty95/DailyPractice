@@ -68,4 +68,13 @@ public class Test4 {
         System.out.println(fun4.rangeSumBST(root,3,8));
     }
 
+    @Test
+    public void testJudgeSquareSum(){
+        System.out.println(fun4.judgeSquareSum(1));
+        System.out.println(fun4.judgeSquareSum(4));
+        System.out.println(fun4.judgeSquareSum(85));
+        System.out.println(fun4.judgeSquareSum(12132321));
+        System.out.println(fun4.judgeSquareSum(Integer.MAX_VALUE));
+    }
+
 }
