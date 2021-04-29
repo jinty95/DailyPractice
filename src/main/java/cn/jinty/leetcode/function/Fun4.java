@@ -3,8 +3,7 @@ package cn.jinty.leetcode.function;
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * LeetCode算法题
@@ -562,6 +561,44 @@ public class Fun4 {
             dp[i][2] = Math.max(dp[i-1][2],dp[i-1][0]-prices[i]);
         }
         return Math.max(dp[prices.length-1][0],dp[prices.length-1][1]);
+    }
+
+    /**
+     * 403. 青蛙过河
+     * 一只青蛙想要过河。 假定河流被等分为若干个单元格，并且在每一个单元格内都有可能放有一块石子（也有可能没有）。 青蛙可以跳上石子，但是不可以跳入水中。
+     * 给你石子的位置列表 stones（按单元格序号升序表示），请判定青蛙能否成功过河（即能否在最后一步跳至最后一块石子上）。
+     * 开始时，青蛙默认已站在第一块石子上，并可以假定它第一步只能跳跃一个单位（即只能从单元格 1 跳至单元格 2 ）。
+     * 如果青蛙上一步跳跃了k个单位，那么它接下来的跳跃距离只能选择为 k - 1、k 或 k + 1 个单位。另请注意，青蛙只能向前方（终点的方向）跳跃。
+     *
+     * @param stones 石头位置
+     * @return 能否在最后一步跳至最后一块石子上
+     */
+    public boolean canCross(int[] stones) {
+        if(stones==null || stones.length==0) return false;
+        if(stones.length==1) return true;
+        //动态规划
+        //对于每个石头，可以从之前的任意石头跳过来，上一步的跳跃单位有多种可能，收集所有可能情况，并推测下一步跳跃可选距离。
+        //当前石头stones[i]->上一步跳跃单位[k1,k2,...]->下一步跳跃单位[k1-1,k1,k1+1,...]，可以用列表+集合的结构存储。
+        List<Set<Integer>> dp = new ArrayList<>();
+        //第一个石头，下一步跳跃单位只有1
+        Set<Integer> dp0 = new HashSet<>();
+        dp0.add(1);
+        dp.add(dp0);
+        //其余石头，下一步跳跃单位都由之前历史来推测
+        for(int i=1;i<stones.length;i++){
+            Set<Integer> dpi = new HashSet<>();
+            for(int j=0;j<dp.size();j++){
+                //从j跳到i的距离为dis，判断这个距离是否为j的下一步可选跳跃单位
+                int dis = stones[i]-stones[j];
+                if(dp.get(j).contains(dis)){
+                    dpi.add(dis);
+                    dpi.add(dis-1);
+                    dpi.add(dis+1);
+                }
+            }
+            dp.add(dpi);
+        }
+        return dp.get(dp.size()-1).size() != 0;
     }
 
 }

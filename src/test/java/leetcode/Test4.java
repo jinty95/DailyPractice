@@ -115,4 +115,12 @@ public class Test4 {
         System.out.println(fun4.maxProfitWithFreeze(prices));
     }
 
+    @Test
+    public void testCanCross(){
+        int[] stones1 = {1,9,10,20};
+        int[] stones2 = {1,2,3,5,6,8,12,17};
+        System.out.println(fun4.canCross(stones1));
+        System.out.println(fun4.canCross(stones2));
+    }
+
 }
