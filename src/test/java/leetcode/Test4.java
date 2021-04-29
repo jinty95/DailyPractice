@@ -112,6 +112,7 @@ public class Test4 {
         System.out.println(fun4.maxProfit(prices));
         System.out.println(fun4.maxProfit2(prices));
         System.out.println(fun4.maxProfit(prices,7));
+        System.out.println(fun4.maxProfitWithFreeze(prices));
     }
 
 }
