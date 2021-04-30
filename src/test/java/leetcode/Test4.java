@@ -123,4 +123,10 @@ public class Test4 {
         System.out.println(fun4.canCross(stones2));
     }
 
+    @Test
+    public void testSingleNumber(){
+        int[] nums = {0,9,0,0,8,3,8,8,9,9};
+        System.out.println(fun4.singleNumber(nums));
+    }
+
 }

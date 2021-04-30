@@ -601,4 +601,45 @@ public class Fun4 {
         return dp.get(dp.size()-1).size() != 0;
     }
 
+    /**
+     * 137. 只出现一次的数字 II
+     * 给你一个整数数组 nums ，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次 。请你找出并返回那个只出现了一次的元素。
+     *
+     * @param nums 数组
+     * @return 只出现一次的数字
+     */
+    public int singleNumber(int[] nums) {
+
+        /*//1、哈希表 时间复杂度O(N) 空间复杂度O(N)
+        //统计数字的出现频率
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int num : nums){
+            map.put(num,map.getOrDefault(num,0)+1);
+        }
+        //找到出现一次的数字
+        int ans = 0;
+        for(int key : map.keySet()){
+            if(map.get(key)==1){
+                ans = key;
+                break;
+            }
+        }
+        return ans;*/
+
+        //2、位运算 时间复杂度O(N) 空间复杂度O(1)
+        //答案的第 i 个二进制位就是数组中所有元素的第 i 个二进制位之和除以 3 的余数。
+        int ans = 0;
+        int bit = 0;
+        while(bit<32){
+            int bitCount = 0;
+            for(int num : nums){
+                bitCount += (bit == 0 ? num&1 : (num>>>bit)&1);
+            }
+            ans |= (bit == 0 ? bitCount%3 : (bitCount%3)<<bit);
+            bit++;
+        }
+        return ans;
+
+    }
+
 }
