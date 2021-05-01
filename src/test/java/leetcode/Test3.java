@@ -150,8 +150,8 @@ public class Test3 {
         head.random = n2;
         n1.random = head;
         n2.random = n1;
-        System.out.println(ListNodeUtil.printNode(head));
-        System.out.println(ListNodeUtil.printNode(fun3.copyRandomList(head)));
+        System.out.println(head);
+        System.out.println(fun3.copyRandomList(head));
     }
 
     @Test

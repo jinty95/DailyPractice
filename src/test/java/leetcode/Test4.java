@@ -4,6 +4,7 @@ import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
 import cn.jinty.utils.ArrayUtil;
+import cn.jinty.utils.ListNodeUtil;
 import org.junit.Test;
 
 /**
@@ -127,6 +128,15 @@ public class Test4 {
     public void testSingleNumber(){
         int[] nums = {0,9,0,0,8,3,8,8,9,9};
         System.out.println(fun4.singleNumber(nums));
+    }
+
+    @Test
+    public void testReverseKGroup(){
+        ListNode head = ListNodeUtil.fromArray(
+                new int[]{1,2,3,4,5,6,7,8,9}
+        );
+        System.out.println(head);
+        System.out.println(fun4.reverseKGroup(head,9));
     }
 
 }

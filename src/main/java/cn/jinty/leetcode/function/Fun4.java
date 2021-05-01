@@ -688,6 +688,56 @@ public class Fun4 {
         return importance;
     }
 
+    /**
+     * 25. K 个一组翻转链表
+     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+     *
+     * @param head 链表
+     * @param k 正整数
+     * @return 翻转后的链表
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(k<2) return head;
+        //顺序收集节点
+        List<ListNode> list = new ArrayList<>();
+        ListNode tmp = head;
+        while(tmp!=null){
+            list.add(tmp);
+            tmp = tmp.next;
+        }
+        //k个一组反转
+        ListNode newHead = null;
+        ListNode newTail = null;
+        for(int i=0;i<list.size();i++){
+            //不够k个
+            if(list.size()-i<k){
+                if(newHead==null) return head;
+                newTail.next = list.get(i);
+                return newHead;
+            }
+            //小组内部反转
+            int num = k;
+            while(num>1){
+                list.get(i+1).next = list.get(i);
+                i++;
+                num--;
+            }
+            if(newHead==null){
+                //确定新的头节点
+                newHead = list.get(i);
+                newTail = list.get(0);
+            }else{
+                //相邻小组的头尾连接
+                newTail.next = list.get(i);
+                newTail = list.get(i-(k-num));
+            }
+            //尾节点next置空，否则会产生环
+            newTail.next = null;
+        }
+        return newHead;
+    }
+
 }
 
 //员工类定义

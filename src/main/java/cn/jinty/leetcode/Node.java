@@ -31,7 +31,13 @@ public class Node {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName()+"[val="+this.val+"]";
+        StringBuilder sb = new StringBuilder();
+        Node node = this;
+        while(node!=null){
+            sb.append(node.val).append(',');
+            node = node.next;
+        }
+        return sb.substring(0,sb.length()-1);
     }
 
 }

@@ -57,10 +57,10 @@ public class Test1 {
 
     @Test
     public void test6(){
-        ListNode head = ListNodeUtil.buildListNodeFromArray(new int[]{1,2,3,4,5});
-        System.out.println(ListNodeUtil.printListNode(head));
+        ListNode head = ListNodeUtil.fromArray(new int[]{1,2,3,4,5});
+        System.out.println(head);
         ListNode node = fun.oddEvenList(head);
-        System.out.println(ListNodeUtil.printListNode(node));
+        System.out.println(node);
     }
 
     @Test

@@ -235,13 +235,14 @@ public class Test2 {
 
     @Test
     public void testDeleteDuplicates(){
-        ListNode head = new ListNode(1);
-        head.next = new ListNode(1);
-        head.next.next = new ListNode(3);
-        head.next.next.next = new ListNode(4);
-        head.next.next.next.next = new ListNode(4);
-        //System.out.println(ListNodeUtil.printListNode(fun2.deleteDuplicates(head)));
-        System.out.println(ListNodeUtil.printListNode(fun2.deleteDuplicate(head)));
+        ListNode head1 = ListNodeUtil.fromArray(
+                new int[]{1,2,3,3,3,4,4,4,5,5,5}
+        );
+        System.out.println(fun2.deleteDuplicates(head1));
+        ListNode head2 = ListNodeUtil.fromArray(
+                new int[]{1,2,3,3,3,4,4,4,5,5,5}
+        );
+        System.out.println(fun2.deleteDuplicate(head2));
     }
 
     @Test
