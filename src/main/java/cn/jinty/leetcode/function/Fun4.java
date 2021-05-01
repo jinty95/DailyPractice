@@ -642,4 +642,57 @@ public class Fun4 {
 
     }
 
+    /**
+     * 690. 员工的重要性
+     * 输入一个公司的所有员工信息，以及单个员工 id ，返回这个员工和他所有下属的重要度之和。
+     *
+     * @param employees 员工列表
+     * @param id 员工id
+     * @return 员工和他所有下属的重要度之和
+     */
+    public int getImportance(List<Employee> employees, int id) {
+
+        /*//时间复杂度O(N^2)
+        int importance = 0;
+        for(Employee employee : employees){
+            if(employee.id == id){
+                importance += employee.importance;
+                if(employee.subordinates!=null && employee.subordinates.size()>0){
+                    for(Integer subId : employee.subordinates){
+                        importance += getImportance(employees, subId);
+                    }
+                }
+                break;
+            }
+        }
+        return importance;*/
+
+        //时间复杂度O(N)
+        Map<Integer,Employee> map = new HashMap<>();
+        for(Employee employee : employees){
+            map.put(employee.id,employee);
+        }
+        return getImportance(map,id);
+
+    }
+    //深度优先遍历
+    private int getImportance(Map<Integer,Employee> map, int id){
+        int importance = 0;
+        Employee employee = map.get(id);
+        importance += employee.importance;
+        if(employee.subordinates!=null){
+            for(Integer subId : employee.subordinates){
+                importance += getImportance(map,subId);
+            }
+        }
+        return importance;
+    }
+
+}
+
+//员工类定义
+class Employee {
+    public int id;
+    public int importance;
+    public List<Integer> subordinates;
 }
