@@ -7,6 +7,10 @@ import cn.jinty.utils.ArrayUtil;
 import cn.jinty.utils.ListNodeUtil;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * LeetCode算法题 - 单元测试
  *
@@ -137,6 +141,18 @@ public class Test4 {
         );
         System.out.println(head);
         System.out.println(fun4.reverseKGroup(head,9));
+    }
+
+    @Test
+    public void testLeastBricks(){
+        List<List<Integer>> wall = new ArrayList<>();
+        List<Integer> row1 = Arrays.asList(6);
+        List<Integer> row2 = Arrays.asList(2,3);
+        List<Integer> row3 = Arrays.asList(1,5);
+        wall.add(row1);
+        wall.add(row2);
+        wall.add(row3);
+        System.out.println(fun4.leastBricks(wall));
     }
 
 }

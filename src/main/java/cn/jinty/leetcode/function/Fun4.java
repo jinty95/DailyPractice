@@ -738,6 +738,68 @@ public class Fun4 {
         return newHead;
     }
 
+    /**
+     * 554. 砖墙
+     * 你现在要画一条自顶向下的、穿过最少砖块的垂线。
+     * 如果你画的线只是从砖块的边缘经过，就不算穿过这块砖。
+     * 你不能沿着墙的两个垂直边缘之一画线，这样显然是没有穿过一块砖的。
+     *
+     * @param wall 一堵矩形的、由 n 行砖块组成的砖墙
+     * @return 穿过的砖块数量的最小值
+     */
+    public int leastBricks(List<List<Integer>> wall) {
+        /*//特殊情况
+        if(wall==null || wall.size()==0 || wall.get(0)==null) return 0;
+        //最多时每行都穿过一个砖
+        int min = wall.size();
+        //墙的总长度
+        int len = 0;
+        //所有的前缀和
+        Set<Integer> preSumSet = new HashSet<>();
+        //每行的前缀和
+        List<Set<Integer>> preSumList = new ArrayList<>();
+        for(List<Integer> row : wall){
+            int rowLen = 0;
+            Set<Integer> preSum = new HashSet<>();
+            for(Integer brickLen : row){
+                rowLen += brickLen;
+                preSum.add(rowLen);
+                preSumSet.add(rowLen);
+            }
+            if(len==0) len = rowLen;
+            preSumList.add(preSum);
+        }
+        //在某个位置画下垂线，如果能在前缀和中找到，说明从缝隙经过
+        for(Integer i : preSumSet){
+            if(i==len) continue;
+            int count = 0;
+            for(Set<Integer> preSum : preSumList){
+                if(!preSum.contains(i)) count++;
+            }
+            min = Math.min(min,count);
+        }
+        return min;*/
+
+        //遍历砖墙的每一行，从左到右地扫描每一块砖，将除了最右侧的砖块以外的其他砖块的右边缘到砖墙的左边缘的距离加入到哈希表中。
+        //遍历该哈希表，找到出现次数最多的砖块边缘，垂线从这里经过时穿过的砖块最少。
+        //最少砖块数量 = 砖墙的高度 - 最大砖块边缘数量。
+        int min = wall.size();
+        Map<Integer,Integer> map = new HashMap<>();
+        for(List<Integer> row : wall){
+            int sum = 0;
+            for(int i=0;i<row.size()-1;i++){
+                sum += row.get(i);
+                map.put(sum,map.getOrDefault(sum,0)+1);
+            }
+        }
+        int maxCount = 0;
+        for(Integer key : map.keySet()){
+            maxCount = Math.max(maxCount,map.get(key));
+        }
+        return min-maxCount;
+
+    }
+
 }
 
 //员工类定义
