@@ -155,4 +155,11 @@ public class Test4 {
         System.out.println(fun4.leastBricks(wall));
     }
 
+    @Test
+    public void testReverse(){
+        System.out.println(fun4.reverse(123));
+        System.out.println(fun4.reverse(-123));
+        System.out.println(fun4.reverse(1534236469));
+    }
+
 }

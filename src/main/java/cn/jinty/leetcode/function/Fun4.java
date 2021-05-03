@@ -800,6 +800,49 @@ public class Fun4 {
 
     }
 
+    /**
+     * 7. 整数反转
+     * 给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
+     * 如果反转后整数超过 32 位的有符号整数的范围 [−2^31,  2^31 − 1] ，就返回 0。
+     * 假设环境不允许存储 64 位整数（有符号或无符号）。
+     *
+     * @param x
+     * @return
+     */
+    public int reverse(int x) {
+
+        /*//使用字符串收集反转后的结果，再解析为数字
+        StringBuilder sb = new StringBuilder();
+        if(x<0){
+            x = -x;
+            sb.append('-');
+        }
+        while(x!=0){
+            sb.append(x%10);
+            x /= 10;
+        }
+        try{
+            return Integer.parseInt(sb.toString());
+        }catch(Exception e){
+            return 0;
+        }*/
+
+        //只使用数学方法，不借助字符串
+        //弹出 num = x % 10; x /= 10;
+        //压入 res = res * 10 + num;
+        int res = 0;
+        while (x != 0) {
+            int tmp = res * 10 + x % 10;
+            if (tmp / 10 != res) { // 溢出!!!
+                return 0;
+            }
+            res = tmp;
+            x /= 10;
+        }
+        return res;
+
+    }
+
 }
 
 //员工类定义
