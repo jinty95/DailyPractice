@@ -2,6 +2,8 @@ package cn.jinty.leetcode.function;
 
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
+import cn.jinty.leetcode.entity.Employee;
+import cn.jinty.utils.ArrayUtil;
 
 import java.util.*;
 
@@ -806,8 +808,8 @@ public class Fun4 {
      * 如果反转后整数超过 32 位的有符号整数的范围 [−2^31,  2^31 − 1] ，就返回 0。
      * 假设环境不允许存储 64 位整数（有符号或无符号）。
      *
-     * @param x
-     * @return
+     * @param x 整数
+     * @return 反转结果
      */
     public int reverse(int x) {
 
@@ -843,11 +845,101 @@ public class Fun4 {
 
     }
 
-}
+    /**
+     * 1473. 粉刷房子 III
+     * 在一个小城市里，有 m 个房子排成一排，你需要给每个房子涂上 n 种颜色之一（颜色编号为 1 到 n ）。有的房子去年夏天已经涂过颜色了，所以这些房子不需要被重新涂色。
+     * 我们将连续相同颜色尽可能多的房子称为一个街区。请你返回房子涂色方案的最小总花费，使得每个房子都被涂色后，恰好组成 target 个街区。如果没有可用的涂色方案，请返回 -1 。
+     *
+     * @param houses houses[i]是第 i 个房子的颜色，0 表示这个房子还没有被涂色。
+     * @param cost cost[i][j]是将第 i 个房子涂成颜色 j+1 的花费。
+     * @param m 房子数量
+     * @param n 颜色种类
+     * @param target 目标街区数量
+     * @return 最小花费
+     */
+    public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
+        //动态规划 dp[i][j][k]表示有i+1个房子，第i+1个房子被染成j+1颜色，且有k+1个街区时的最小花费
+        int[][][] dp = new int[m][n][target];
+        //第1个房子
+        if(houses[0]==0){
+            //未染色
+            for(int j=0;j<n;j++){
+                for(int k=0;k<target;k++){
+                    dp[0][j][k] = (k==0 ? cost[0][j] : -1);
+                }
+            }
+        }else{
+            //已染色
+            for(int j=0;j<n;j++){
+                for(int k=0;k<target;k++){
+                    dp[0][j][k] = (j+1==houses[0] && k==0 ? 0 : -1);
+                }
+            }
+        }
+        //第2个房子到第m个房子
+        for(int i=1;i<m;i++){
+            if(houses[i]==0){
+                //未染色
+                for(int j=0;j<n;j++){
+                    for(int k=0;k<target;k++){
+                        dp[i][j][k] = Integer.MAX_VALUE;
+                        for(int color=0;color<n;color++){
+                            if(color==j){
+                                //与上一个房子同色
+                                if(dp[i-1][color][k]!=-1){
+                                    //总花费 = 之前的花费 + 当前房子染j+1颜色的花费
+                                    dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k]+cost[i][j]);
+                                }
+                            } else {
+                                //与上一个房子不同色
+                                if(k>0 && dp[i-1][color][k-1]!=-1){
+                                    //总花费 = 之前的花费 + 当前房子染j+1颜色的花费
+                                    dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k-1]+cost[i][j]);
+                                }
+                            }
+                        }
+                        dp[i][j][k] = dp[i][j][k] == Integer.MAX_VALUE ? -1 : dp[i][j][k];
+                    }
+                }
+            }else{
+                //已染色
+                for(int j=0;j<n;j++){
+                    for(int k=0;k<target;k++){
+                        if(j+1==houses[i]){
+                            dp[i][j][k] = Integer.MAX_VALUE;
+                            //只能染j+1的颜色
+                            for(int color=0;color<n;color++){
+                                if(color==j){
+                                    //与上一个房子同色
+                                    if(dp[i-1][color][k]!=-1){
+                                        //总花费 = 之前的花费
+                                        dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k]);
+                                    }
+                                }else{
+                                    //与上一个房子不同色
+                                    if(k>0 && dp[i-1][color][k-1]!=-1){
+                                        //总花费 = 之前的花费
+                                        dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k-1]);
+                                    }
+                                }
+                            }
+                            dp[i][j][k] = dp[i][j][k] == Integer.MAX_VALUE ? -1 : dp[i][j][k];
+                        }else{
+                            //其余颜色都不能染
+                            dp[i][j][k] = -1;
+                        }
+                    }
+                }
+            }
+        }
+        //dp[m-1][j][target-1]中找最小值
+        int minCost = Integer.MAX_VALUE;
+        for(int j=0;j<n;j++){
+            if(dp[m-1][j][target-1]!=-1){
+                minCost = Math.min(minCost,dp[m-1][j][target-1]);
+            }
+        }
+        return minCost==Integer.MAX_VALUE ? -1 : minCost;
+    }
 
-//员工类定义
-class Employee {
-    public int id;
-    public int importance;
-    public List<Integer> subordinates;
 }

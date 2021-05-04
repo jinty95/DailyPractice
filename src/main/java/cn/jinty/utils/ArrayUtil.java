@@ -25,6 +25,20 @@ public final class ArrayUtil {
     }
 
     /**
+     * 打印三维数组
+     *
+     * @param arr 三维数组
+     */
+    public static void print3DArray(int[][][] arr){
+        for(int[][] two : arr){
+            for(int[] one : two){
+                System.out.print(Arrays.toString(one));
+            }
+            System.out.println();
+        }
+    }
+
+    /**
      * 列表转为数组
      *
      * @param list 列表

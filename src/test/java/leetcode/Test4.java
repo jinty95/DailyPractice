@@ -162,4 +162,13 @@ public class Test4 {
         System.out.println(fun4.reverse(1534236469));
     }
 
+    @Test
+    public void testMinCost(){
+        int[] houses = {0,0,0,0,0};
+        int[][] cost = {
+                {1,10},{10,1},{10,1},{1,10},{5,1}
+        };
+        System.out.println(fun4.minCost(houses,cost,5,2,3));
+    }
+
 }
