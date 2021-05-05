@@ -179,4 +179,10 @@ public class Test4 {
         System.out.println(fun4.deleteAndEarn(nums2));
     }
 
+    @Test
+    public void testMaxIceCream(){
+        int[] costs = {1,2,3,4,1};
+        System.out.println(fun4.maxIceCream(costs,7));
+    }
+
 }
