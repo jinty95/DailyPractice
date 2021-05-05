@@ -171,4 +171,12 @@ public class Test4 {
         System.out.println(fun4.minCost(houses,cost,5,2,3));
     }
 
+    @Test
+    public void testDeleteAndEarn(){
+        int[] nums1 = new int[]{4,10,10,8,1,4,10,9,7,6};
+        int[] nums2 = new int[]{1,1,1,1,1,1};
+        System.out.println(fun4.deleteAndEarn(nums1));
+        System.out.println(fun4.deleteAndEarn(nums2));
+    }
+
 }

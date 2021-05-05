@@ -942,4 +942,61 @@ public class Fun4 {
         return minCost==Integer.MAX_VALUE ? -1 : minCost;
     }
 
+    /**
+     * 740. 删除并获得点数
+     * 每次操作中，选择任意一个 nums[i] ，删除它并获得 nums[i] 的点数。
+     * 之后，你必须删除每个等于 nums[i] - 1 或 nums[i] + 1 的元素。
+     * 开始你拥有 0 个点数。返回你能通过这些操作获得的最大点数。
+     *
+     * @param nums 正整数数组 (1 <= nums[i] <= 10^4)
+     * @return 最大点数
+     */
+    public int deleteAndEarn(int[] nums) {
+        /*//收集数字及其数量，并按照数字排序
+        TreeMap<Integer,Integer> treeMap = new TreeMap<>();
+        for(int num : nums){
+            treeMap.put(num,treeMap.getOrDefault(num,0)+1);
+        }
+        //动态规划 dp[i]表示从0-i的数组中操作时获得的最大点数
+        int[] dp = new int[treeMap.size()];
+        int i = 0;
+        Integer pre = null;
+        for(Integer key : treeMap.keySet()){
+            if(i==0){
+                dp[i] = treeMap.get(key) * key;
+            } else {
+                if(key-pre>1){
+                    dp[i] = dp[i-1] + treeMap.get(key) * key;
+                }else{
+                    if(i==1) dp[i] = Math.max(dp[i-1],treeMap.get(key) * key);
+                    else dp[i] = Math.max(dp[i-1],dp[i-2]+treeMap.get(key) * key);
+                }
+            }
+            pre = key;
+            i++;
+        }
+        return dp[treeMap.size()-1];*/
+
+        //求最大值
+        int maxVal = 0;
+        for(int num : nums){
+            maxVal = Math.max(maxVal,num);
+        }
+        //sum[i]表示数字i对应的总和，没有这个数字时，总和为0
+        int[] sum = new int[maxVal+1];
+        for(int num : nums){
+            sum[num] += num;
+        }
+        if(maxVal==1) return sum[1];
+        //基于sum数组做动态规划解
+        int first = sum[1]; int second = Math.max(sum[1],sum[2]);
+        for(int i=3;i<sum.length;i++){
+            int temp = second;
+            second = Math.max(first+sum[i],second);
+            first = temp;
+        }
+        return second;
+
+    }
+
 }
