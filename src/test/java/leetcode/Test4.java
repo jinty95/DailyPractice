@@ -185,4 +185,10 @@ public class Test4 {
         System.out.println(fun4.maxIceCream(costs,7));
     }
 
+    @Test
+    public void testMaxTurbulenceSize(){
+        int[] arr = {2,4,8,3,5,2,6,1};
+        System.out.println(fun4.maxTurbulenceSize(arr));
+    }
+
 }

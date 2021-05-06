@@ -1051,4 +1051,73 @@ public class Fun4 {
 
     }
 
+    /**
+     * 978. 最长湍流子数组
+     * 当 A 的子数组 A[i], A[i+1], ..., A[j] 满足下列条件时，我们称其为湍流子数组：
+     * 若 i <= k < j，当 k 为奇数时， A[k] > A[k+1]，且当 k 为偶数时，A[k] < A[k+1]；
+     * 或 若 i <= k < j，当 k 为偶数时，A[k] > A[k+1] ，且当 k 为奇数时， A[k] < A[k+1]。
+     * 也就是说，如果比较符号在子数组中的每个相邻元素对之间翻转，则该子数组是湍流子数组。
+     *
+     * 注意：是子数组而不是子序列
+     *
+     * @param arr 数组
+     * @return 最大湍流子数组的长度
+     */
+    public int maxTurbulenceSize(int[] arr) {
+        //最大长度
+        int maxSize = 1;
+        //临时长度
+        int tmpSize = 1;
+        //下一个符号是否应为大于
+        boolean gt = false;
+        //遍历原数组
+        for(int i=1;i<arr.length;i++){
+            if(tmpSize==1){
+                //子数组只有一个元素时，下一个符号可大于或小于，等于则忽略
+                if(arr[i-1]<arr[i]){
+                    tmpSize++;
+                    gt = true;
+                }else if(arr[i-1]>arr[i]){
+                    tmpSize++;
+                    gt = false;
+                }
+            }else{
+                //子数组大于1个元素时，下一个符号由gt指定
+                if(gt){
+                    if(arr[i-1]>arr[i]){
+                        //符合gt，子数组加1，gt反转
+                        tmpSize++;
+                        gt = false;
+                    }else if(arr[i-1]<arr[i]){
+                        //不符合gt，当前子数组作为一个结果计入答案中，并重置子数组
+                        maxSize = Math.max(maxSize,tmpSize);
+                        tmpSize = 2;
+                        gt = true;
+                    }else{
+                        //不符合gt，当前子数组作为一个结果计入答案中，并重置子数组
+                        maxSize = Math.max(maxSize,tmpSize);
+                        tmpSize = 1;
+                    }
+                }else{
+                    if(arr[i-1]<arr[i]){
+                        //符合gt，子数组加1，gt反转
+                        tmpSize++;
+                        gt = true;
+                    }else if(arr[i-1]>arr[i]){
+                        //不符合gt，当前子数组作为一个结果计入答案中，并重置子数组
+                        maxSize = Math.max(maxSize,tmpSize);
+                        tmpSize = 2;
+                        gt = false;
+                    }else{
+                        //不符合gt，当前子数组作为一个结果计入答案中，并重置子数组
+                        maxSize = Math.max(maxSize,tmpSize);
+                        tmpSize = 1;
+                    }
+                }
+            }
+        }
+        maxSize = Math.max(maxSize,tmpSize);
+        return maxSize;
+    }
+
 }
