@@ -20,4 +20,20 @@ public class Test5 {
         System.out.println(fun5.minimumTimeRequired(jobs,k));
     }
 
+    @Test
+    public void testIsNumber(){
+        System.out.println("+" + "=" + fun5.isNumber("+"));
+        System.out.println("." + "=" + fun5.isNumber("."));
+        System.out.println("+." + "=" + fun5.isNumber("+."));
+        System.out.println("  +.5  " + "=" + fun5.isNumber("  +.5  "));
+        System.out.println("4.4.4" + "=" + fun5.isNumber("4.4.4"));
+        System.out.println("1a3.14" + "=" + fun5.isNumber("1a3.14"));
+        System.out.println("5E1.4" + "=" + fun5.isNumber("5E1.4"));
+        System.out.println("12e+" + "=" + fun5.isNumber("12e+"));
+        System.out.println("+e15" + "=" + fun5.isNumber("+e15"));
+        System.out.println("-1E-16" + "=" + fun5.isNumber("-1E-16"));
+        System.out.println("-+5" + "=" + fun5.isNumber("-+5"));
+        System.out.println("-5" + "=" + fun5.isNumber("-5"));
+    }
+
 }

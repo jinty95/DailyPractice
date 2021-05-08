@@ -87,4 +87,59 @@ public class Fun5 {
         return false;
     }
 
+    /**
+     * 剑指 Offer 20. 表示数值的字符串
+     * 实现一个函数用来判断字符串是否表示数值（包括整数和小数）。
+     * 数值（按顺序）可以分成以下几个部分：
+     *     若干空格
+     *     一个 小数 或者 整数
+     *     （可选）一个 'e' 或 'E' ，后面跟着一个 整数
+     *     若干空格
+     * s 仅含英文字母（大写和小写），数字（0-9），加号 '+' ，减号 '-' ，空格 ' ' 或者点 '.' 。
+     *
+     * @param s 字符串
+     * @return 是否表示数值
+     */
+    public boolean isNumber(String s) {
+        if(s==null) return false;
+        s = s.trim();
+        if(s.length()==0) return false;
+        //小数点个数
+        int countPoint = 0;
+        //E(e)个数
+        int countE = 0;
+        //数字个数
+        int countNumBeforeE = 0;
+        int countNumAfterE = 0;
+        //排除非法情况
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            if(c=='+' || c=='-'){
+                //加减号只能在首部或者E(e)后面
+                if(i!=0){
+                    char pre = s.charAt(i-1);
+                    if(pre!='E' && pre!='e'){
+                        return false;
+                    }
+                }
+            }else if(c=='.'){
+                //小数点不能超过1个
+                if(countPoint==1) return false;
+                //E(e)后面不能出现小数点
+                if(countE==1) return false;
+                countPoint++;
+            }else if(c=='E' || c=='e'){
+                //E(e)不能超过1个
+                if(countE==1) return false;
+                countE++;
+            }else if(c>='0' && c<='9'){
+                if(countE==0) countNumBeforeE++;
+                else countNumAfterE++;
+            }else{
+                return false;
+            }
+        }
+        return countE==0 ? countNumBeforeE>0 : countNumBeforeE>0 && countNumAfterE>0;
+    }
+
 }
