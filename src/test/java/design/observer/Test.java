@@ -1,4 +1,9 @@
-package cn.jinty.design.observer;
+package design.observer;
+
+import cn.jinty.design.observer.AObserver;
+import cn.jinty.design.observer.BObserver;
+import cn.jinty.design.observer.Observer;
+import cn.jinty.design.observer.Subject;
 
 /**
  * 测试

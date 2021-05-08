@@ -1,4 +1,6 @@
-package cn.jinty.design.composite;
+package design.composite;
+
+import cn.jinty.design.composite.Employee;
 
 import java.util.ArrayList;
 

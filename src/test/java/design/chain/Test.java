@@ -1,4 +1,8 @@
-package cn.jinty.design.chain;
+package design.chain;
+
+import cn.jinty.design.chain.ConsoleLogger;
+import cn.jinty.design.chain.FileLogger;
+import cn.jinty.design.chain.Logger;
 
 /**
  * 测试
@@ -20,4 +24,5 @@ public class Test {
         consoleLogger.setNextLogger(fileLogger);
         return consoleLogger;
     }
+
 }

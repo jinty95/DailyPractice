@@ -131,7 +131,7 @@ public class EncryptUtil {
      * @param s 输入字符串
      * @return MD5加密字节数组
      */
-    public final static byte[] md5(String s) {
+    public static byte[] md5(String s) {
         try {
             // 获得MD5摘要算法对象
             MessageDigest mdInst = MessageDigest.getInstance("MD5");
@@ -151,7 +151,7 @@ public class EncryptUtil {
      * @param s 输入字符串
      * @return MD5加密串
      */
-    public final static String md5Str(String s) {
+    public static String md5Str(String s) {
         try {
             // 获得MD5摘要算法对象
             MessageDigest mdInst = MessageDigest.getInstance("MD5");

@@ -1,4 +1,8 @@
-package cn.jinty.design.bridge;
+package design.bridge;
+
+import cn.jinty.design.bridge.Circle;
+import cn.jinty.design.bridge.GreenCircle;
+import cn.jinty.design.bridge.RedCircle;
 
 /**
  * 测试

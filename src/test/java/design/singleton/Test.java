@@ -1,4 +1,6 @@
-package cn.jinty.design.singleton;
+package design.singleton;
+
+import cn.jinty.design.singleton.Singleton;
 
 import java.lang.reflect.Constructor;
 
@@ -20,9 +22,8 @@ public class Test {
         System.out.println(s3);
 
         //单例模式漏洞
-        Class singletonClass = Singleton.class;
         try{
-            Constructor c = singletonClass.getDeclaredConstructor(null);
+            Constructor<Singleton> c = Singleton.class.getDeclaredConstructor(null);
             c.setAccessible(true);
             Singleton singleton1 = (Singleton) c.newInstance();
             Singleton singleton2 = (Singleton) c.newInstance();
@@ -31,5 +32,7 @@ public class Test {
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
+
 }

@@ -1,4 +1,10 @@
-package cn.jinty.design.flyweight;
+package design.flyweight;
+
+import cn.jinty.design.flyweight.Color;
+import cn.jinty.design.flyweight.ColorFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 测试
@@ -15,8 +21,12 @@ public class Test {
     }
 
     public static void main(String[] args) {
+        Set<Color> set = new HashSet<>();
         for(int i=0;i<100;i++){
             Color c = ColorFactory.getColor(colors[getRandom(6)]);
+            set.add(c);
         }
+        System.out.println(set.size());
     }
+
 }

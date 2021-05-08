@@ -11,7 +11,7 @@ public class ComputerStarter {
     private Computer cpu;
     private Computer ddr;
 
-    ComputerStarter(){
+    public ComputerStarter(){
         cpu = new Cpu();
         ddr = new Ddr();
     }

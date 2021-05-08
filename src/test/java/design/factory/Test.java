@@ -1,5 +1,7 @@
-package cn.jinty.design.factory;
+package design.factory;
 
+import cn.jinty.design.factory.AbstractFactory;
+import cn.jinty.design.factory.FactoryProducer;
 import cn.jinty.design.factory.product.category.Color;
 import cn.jinty.design.factory.product.category.Shape;
 

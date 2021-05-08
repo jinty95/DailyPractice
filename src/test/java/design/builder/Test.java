@@ -1,4 +1,6 @@
-package cn.jinty.design.builder;
+package design.builder;
+
+import cn.jinty.design.builder.Order;
 
 /**
  * 测试

@@ -8,7 +8,7 @@ package cn.jinty.design.chain;
  */
 public class ConsoleLogger extends Logger{
 
-    ConsoleLogger(int level){
+    public ConsoleLogger(int level){
         this.level = level;
     }
 

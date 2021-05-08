@@ -1,4 +1,9 @@
-package cn.jinty.design.filter;
+package design.filter;
+
+import cn.jinty.design.filter.Criteria;
+import cn.jinty.design.filter.CriteriaMale;
+import cn.jinty.design.filter.CriteriaSingle;
+import cn.jinty.design.filter.Person;
 
 import java.util.ArrayList;
 import java.util.List;

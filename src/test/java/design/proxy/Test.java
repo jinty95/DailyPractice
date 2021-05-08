@@ -1,4 +1,9 @@
-package cn.jinty.design.proxy;
+package design.proxy;
+
+import cn.jinty.design.proxy.DynamicProxyImage;
+import cn.jinty.design.proxy.Image;
+import cn.jinty.design.proxy.ProxyImage;
+import cn.jinty.design.proxy.RealImage;
 
 import java.lang.reflect.Proxy;
 
@@ -25,4 +30,5 @@ public class Test {
         image3.display();
         image3.dye();
     }
+
 }

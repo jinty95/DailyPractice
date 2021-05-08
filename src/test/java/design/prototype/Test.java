@@ -1,4 +1,6 @@
-package cn.jinty.design.prototype;
+package design.prototype;
+
+import cn.jinty.design.prototype.Data;
 
 /**
  * 测试
@@ -17,4 +19,5 @@ public class Test {
         System.out.println(data1);
         System.out.println(data2);
     }
+
 }

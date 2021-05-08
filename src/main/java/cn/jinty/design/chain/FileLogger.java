@@ -8,7 +8,7 @@ package cn.jinty.design.chain;
  */
 public class FileLogger extends Logger{
 
-    FileLogger(int level){
+    public FileLogger(int level){
         super.level = level;
     }
 

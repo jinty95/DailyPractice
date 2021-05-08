@@ -1,4 +1,6 @@
-package cn.jinty.design.adaptor;
+package design.adaptor;
+
+import cn.jinty.design.adaptor.MediaAdaptor;
 
 /**
  * 测试

@@ -1,4 +1,6 @@
-package cn.jinty.design.facade;
+package design.facade;
+
+import cn.jinty.design.facade.ComputerStarter;
 
 /**
  * 测试
