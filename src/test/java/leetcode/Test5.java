@@ -36,4 +36,12 @@ public class Test5 {
         System.out.println("-5" + "=" + fun5.isNumber("-5"));
     }
 
+    @Test
+    public void testMinDays(){
+        int[] bloomDay = {1,2,3,4,5,6};
+        System.out.println(fun5.minDays(bloomDay,3,2));
+        System.out.println(fun5.minDays(bloomDay,3,1));
+        System.out.println(fun5.minDays(bloomDay,2,2));
+    }
+
 }
