@@ -33,4 +33,24 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 字符串空判断
+     *
+     * @param s 字符串
+     * @return 是否为空
+     */
+    public static boolean isEmpty(String s){
+        return s == null || s.length()==0;
+    }
+
+    /**
+     * 字符串空白判断
+     *
+     * @param s 字符串
+     * @return 是否空白
+     */
+    public static boolean isBlank(String s){
+        return s == null || s.length()==0 || s.trim().length()==0;
+    }
+
 }
