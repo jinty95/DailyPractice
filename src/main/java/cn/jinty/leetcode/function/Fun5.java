@@ -1,6 +1,10 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.leetcode.TreeNode;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * LeetCode算法题
@@ -198,6 +202,32 @@ public class Fun5 {
             }
         }
         return false;
+    }
+
+    /**
+     * 872. 叶子相似的树
+     * 一棵二叉树上所有的叶子，这些叶子的值按从左到右的顺序排列形成一个叶值序列。
+     * 如果有两棵二叉树的叶值序列是相同，那么我们就认为它们是 叶相似 的。
+     *
+     * @param root1 二叉树1
+     * @param root2 二叉树2
+     * @return 是否相似
+     */
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> leaf1 = new ArrayList<>();
+        List<Integer> leaf2 = new ArrayList<>();
+        preOrder(root1,leaf1);
+        preOrder(root2,leaf2);
+        return leaf1.equals(leaf2);
+    }
+    private void preOrder(TreeNode root, List<Integer> leaf){
+        if(root==null) return;
+        if(root.left==null && root.right==null){
+            leaf.add(root.val);
+            return;
+        }
+        preOrder(root.left,leaf);
+        preOrder(root.right,leaf);
     }
 
 }

@@ -1,5 +1,6 @@
 package leetcode;
 
+import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun5;
 import org.junit.Test;
 
@@ -42,6 +43,17 @@ public class Test5 {
         System.out.println(fun5.minDays(bloomDay,3,2));
         System.out.println(fun5.minDays(bloomDay,3,1));
         System.out.println(fun5.minDays(bloomDay,2,2));
+    }
+
+    @Test
+    public void testLeafSimilar(){
+        TreeNode tree1 = new TreeNode(4);
+        tree1.left = new TreeNode(3);
+        tree1.right = new TreeNode(5);
+        TreeNode tree2 = new TreeNode(4);
+        tree2.left = new TreeNode(3);
+        tree2.right = new TreeNode(5);
+        System.out.println(fun5.leafSimilar(tree1,tree2));
     }
 
 }
