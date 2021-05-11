@@ -230,4 +230,93 @@ public class Fun5 {
         preOrder(root.right,leaf);
     }
 
+    /**
+     * 10. 正则表达式匹配
+     * 给你一个字符串s和一个字符规律p，请你来实现一个支持 '.'和'*'的正则表达式匹配。
+     * '.' 匹配任意单个字符
+     * '*' 匹配零个或多个前面的那一个元素
+     * 所谓匹配，是要涵盖整个字符串s的，而不是部分字符串。
+     *
+     * @param s 文本串
+     * @param p 模式串
+     * @return 是否匹配
+     */
+    public boolean isMatch(String s, String p) {
+        /*//空串
+        if(s==null || s.length()==0){
+            return p == null || p.length() == 0;
+        }
+        if(p==null || p.length()==0) return false;
+        //非空串
+        int si=0, pi=0;
+        while(si<s.length() && pi<p.length()){
+            char c1 = s.charAt(si);
+            char c2 = p.charAt(pi);
+            if(c2!='.' && c2!='*'){
+                if(c1!=c2){
+                    if(pi<p.length()-1 && p.charAt(pi+1)=='*'){
+                        pi+=2;
+                    }else{
+                        break;
+                    }
+                }
+                else{
+                    si++;
+                    pi++;
+                }
+            }else{
+                if(c2=='.'){
+                    si++;
+                    pi++;
+                }else{
+                    char pre = p.charAt(pi-1);
+                    if(pre=='.'){
+                        si++;
+                        if(si==s.length()){
+                            pi++;
+                        }
+                    }else{
+                        if(c1==pre){
+                            si++;
+                            if(si==s.length()){
+                                pi++;
+                            }
+                        }else{
+                            pi++;
+                        }
+                    }
+                }
+            }
+        }
+        return si>=s.length() && pi>=p.length();*/
+
+        //上述做法无法解决 s与p前段匹配而p仍有剩余 的问题
+
+        //递归算法
+        char[] sArr = s.toCharArray();
+        char[] pArr = p.toCharArray();
+        return isMatch(sArr,pArr,0,0);
+
+    }
+    //判断从si及pi开始的s和p能否匹配
+    private boolean isMatch(char[] s,char[] p,int si,int pi){
+        if(pi==p.length){
+            return si==s.length;
+        }
+        //当pi的后一位不是*
+        if(pi==p.length-1 || p[pi+1]!='*'){
+            return si!=s.length && (s[si]==p[pi] || p[pi]=='.') && isMatch(s,p,si+1,pi+1);
+        }
+        //当pi的后一位是*
+        while(si!=s.length && p[pi+1]=='*' && (s[si]==p[pi] || p[pi]=='.')){
+            //si能匹配pi，枚举匹配零个或多个
+            if(isMatch(s,p,si,pi+2)){
+                return true;
+            }
+            si++;
+        }
+        //si不能匹配pi，直接跳过
+        return isMatch(s,p,si,pi+2);
+    }
+
 }

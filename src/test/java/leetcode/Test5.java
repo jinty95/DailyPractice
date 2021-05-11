@@ -56,4 +56,12 @@ public class Test5 {
         System.out.println(fun5.leafSimilar(tree1,tree2));
     }
 
+    @Test
+    public void testIsMatch(){
+        System.out.println(fun5.isMatch("bbbba","b*a"));
+        System.out.println(fun5.isMatch("abcd",".*"));
+        System.out.println(fun5.isMatch("abb","c*a*b*"));
+        System.out.println(fun5.isMatch("abb","c*a*b*b"));
+    }
+
 }
