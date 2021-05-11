@@ -319,4 +319,62 @@ public class Fun5 {
         return isMatch(s,p,si,pi+2);
     }
 
+    /**
+     * 1734. 解码异或后的排列
+     * 给你一个整数数组 perm ，它是前 n 个 正整数 的排列，且 n 是个 奇数 。
+     * 它被加密成另一个长度为 n - 1 的整数数组 encoded ，满足 encoded[i] = perm[i] XOR perm[i + 1] 。
+     *
+     * @param encoded 密文
+     * @return 原文
+     */
+    public int[] decode(int[] encoded) {
+        /*int[] perm = new int[encoded.length+1];
+        //encoded[i] = perm[0] XOR perm[i + 1]
+        for(int i=1; i<encoded.length; i++){
+            encoded[i] ^= encoded[i-1];
+        }
+        //perm[i]的取值范围为[1,n]，枚举perm[0]
+        int n = perm.length;
+        loop : for(int i=1; i<=n; i++){
+            perm[0] = i;
+            for(int j=1;j<perm.length;j++){
+                perm[j] = encoded[j-1] ^ perm[0];
+                //超出取值范围
+                if(perm[j]<=0 || perm[j]>n){
+                    continue loop;
+                }
+            }
+            break;
+        }
+        return perm;*/
+
+        //上述做法时间复杂度为O(n^2)，执行超时
+        //而且存在BUG，如果perm中出现重复元素，也会被认为是一个解
+
+        //基于条件找规律，求出perm[0]
+        //1. perm是[1,n]的排列，基于此可以得到所有元素的异或结果
+        int[] perm = new int[encoded.length+1];
+        int total = 0;
+        for(int i=1;i<=perm.length;i++){
+            total ^= i;
+        }
+        //2. n为奇数，且 encoded[i] = perm[i] ^ perm[i + 1]
+        //  encoded[0] = perm[0] ^ perm[1]
+        //  encoded[1] = perm[1] ^ perm[2]
+        //  encoded[2] = perm[2] ^ perm[3]
+        //  encoded[3] = perm[3] ^ perm[4]
+        //有上述条件可知，基于encoded[2k+1]可以得到除了perm[0]外所有元素的异或结果
+        int odd = 0;
+        for(int i=1;i<encoded.length;i+=2){
+            odd ^= encoded[i];
+        }
+        //得到perm[0]
+        perm[0] = total ^ odd;
+        //递推得到答案
+        for(int i=1;i<perm.length;i++){
+            perm[i] = perm[i-1] ^ encoded[i-1];
+        }
+        return perm;
+    }
+
 }

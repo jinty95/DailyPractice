@@ -4,6 +4,8 @@ import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun5;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode算法题 - 测试
  *
@@ -62,6 +64,14 @@ public class Test5 {
         System.out.println(fun5.isMatch("abcd",".*"));
         System.out.println(fun5.isMatch("abb","c*a*b*"));
         System.out.println(fun5.isMatch("abb","c*a*b*b"));
+    }
+
+    @Test
+    public void testDecode(){
+        int[] encoded1 = {3,1};
+        System.out.println(Arrays.toString(fun5.decode(encoded1)));
+        int[] encoded2 = {6,5,4,6};
+        System.out.println(Arrays.toString(fun5.decode(encoded2)));
     }
 
 }
