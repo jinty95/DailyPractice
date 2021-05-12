@@ -451,4 +451,52 @@ public class Fun5 {
         return false;
     }
 
+    /**
+     * 剑指 Offer 13. 机器人的运动范围
+     * 地上有一个m行n列的方格，从坐标 [0,0] 到坐标 [m-1,n-1] 。一个机器人从坐标 [0,0] 的格子开始移动，
+     * 它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。
+     * 例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。
+     * 请问该机器人能够到达多少个格子？
+     *
+     * @param m 行
+     * @param n 列
+     * @param k 限制
+     * @return 范围大小(格子数)
+     */
+    public int movingCount(int m, int n, int k) {
+        //计算数位和
+        int len = Math.max(m,n);
+        int[] arr = new int[len];
+        for(int i=0;i<len;i++){
+            int temp = i;
+            while(temp>=10){
+                arr[i] += temp%10;
+                temp /= 10;
+            }
+            arr[i] += temp;
+        }
+        //递归求解
+        Set<Long> set = new HashSet<>();
+        return movingCount(m,n,k,arr,0,0,set);
+    }
+    //递归函数
+    private int movingCount(int m, int n, int k, int[] arr, int i, int j, Set<Long> set){
+        //超出范围
+        if(i<0 || i>=m || j<0 || j>=n) return 0;
+        //不可进入的点
+        if(arr[i]+arr[j]>k) return 0;
+        //用long保存坐标(i,j)
+        Long locate = (long)i << 32 | (long)j & 0xFFFFFFFFL;
+        //已经走过的点
+        if(set.contains(locate)) return 0;
+        int count = 1;
+        set.add(locate);
+        //当前点可以进入，则向上下左右走
+        count += movingCount(m,n,k,arr,i-1,j,set);
+        count += movingCount(m,n,k,arr,i+1,j,set);
+        count += movingCount(m,n,k,arr,i,j-1,set);
+        count += movingCount(m,n,k,arr,i,j+1,set);
+        return count;
+    }
+
 }

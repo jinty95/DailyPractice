@@ -95,4 +95,11 @@ public class Test5 {
         System.out.println(fun5.exist(board,word1));
     }
 
+    @Test
+    public void testMovingCount(){
+        int m = 16, n = 8;
+        int k = 4;
+        System.out.println(fun5.movingCount(m,n,k));
+    }
+
 }
