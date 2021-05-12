@@ -74,4 +74,13 @@ public class Test5 {
         System.out.println(Arrays.toString(fun5.decode(encoded2)));
     }
 
+    @Test
+    public void testXorQueries(){
+        int[] arr = {1,2,3,4,5,6};
+        int[][] queries = {
+                {0,1},{2,3},{1,5}
+        };
+        System.out.println(Arrays.toString(fun5.xorQueries(arr,queries)));
+    }
+
 }

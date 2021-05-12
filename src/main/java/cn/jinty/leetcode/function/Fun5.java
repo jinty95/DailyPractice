@@ -377,4 +377,30 @@ public class Fun5 {
         return perm;
     }
 
+    /**
+     * 1310. 子数组异或查询
+     * 有一个正整数数组arr，现给你一个对应的查询数组queries，其中queries[i] = [Li,Ri]。
+     * 对于每个查询i，请你计算从Li到Ri的XOR值（即arr[Li] xor arr[Li+1] xor ... xor arr[Ri]）作为本次查询的结果。
+     * 并返回一个包含给定查询queries所有结果的数组。
+     *
+     * @param arr 数组
+     * @param queries 子数组异或
+     * @return 结果
+     */
+    public int[] xorQueries(int[] arr, int[][] queries) {
+        //前缀异或结果
+        int[] prefix = new int[arr.length];
+        prefix[0] = arr[0];
+        for(int i=1;i<arr.length;i++){
+            prefix[i] = prefix[i-1] ^ arr[i];
+        }
+        //子数组异或查询
+        int[] result = new int[queries.length];
+        for(int i=0;i<queries.length;i++){
+            result[i] = prefix[queries[i][1]]
+                    ^ (queries[i][0] > 0 ? prefix[queries[i][0]-1] : 0);
+        }
+        return result;
+    }
+
 }
