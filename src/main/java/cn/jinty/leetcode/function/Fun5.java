@@ -2,9 +2,7 @@ package cn.jinty.leetcode.function;
 
 import cn.jinty.leetcode.TreeNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * LeetCode算法题
@@ -401,6 +399,56 @@ public class Fun5 {
                     ^ (queries[i][0] > 0 ? prefix[queries[i][0]-1] : 0);
         }
         return result;
+    }
+
+    /**
+     * 79. 单词搜索
+     * 给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。
+     * 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+     *
+     * @param board 二维网格 [1,6][1,6]
+     * @param word 单词 [1,15]
+     * @return 是否存在
+     */
+    public boolean exist(char[][] board, String word) {
+        int row = board.length;
+        int col = board[0].length;
+        if(row*col < word.length()) return false;
+        char[] words = word.toCharArray();
+        //存放已匹配的坐标
+        Set<Long> set = new HashSet<>();
+        //枚举起点
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(exist(board,i,j,set,words,0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //递归回溯 以(i,j)为起点搜索words[idx,words.length-1]
+    private boolean exist(char[][] board, int i, int j, Set<Long> set, char[] words, int idx){
+        //完成words匹配
+        if(idx==words.length) return true;
+        //用一个long来保存(i,j)坐标
+        Long locate = (long)i << 32 | (long)j & 0xFFFFFFFFL;
+        //坐标已被占用
+        if(set.contains(locate)) return false;
+        //当前字符不匹配
+        if(board[i][j]!=words[idx]) return false;
+        //当前字符匹配
+        if(idx==words.length-1) return true;
+        //保存坐标
+        set.add(locate);
+        //向上下左右四个方向递归
+        if(i>0 && exist(board,i-1,j,set,words,idx+1)) return true;
+        if(i<board.length-1 && exist(board,i+1,j,set,words,idx+1)) return true;
+        if(j>0 && exist(board,i,j-1,set,words,idx+1)) return true;
+        if(j<board[0].length-1 && exist(board,i,j+1,set,words,idx+1)) return true;
+        //移除坐标
+        set.remove(locate);
+        return false;
     }
 
 }

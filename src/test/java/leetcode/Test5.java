@@ -83,4 +83,16 @@ public class Test5 {
         System.out.println(Arrays.toString(fun5.xorQueries(arr,queries)));
     }
 
+    @Test
+    public void testExist(){
+        char[][] board = {
+                {'A','B','C','E'},
+                {'S','F','E','S'},
+                {'A','D','E','E'}
+
+        };
+        String word1 = "ABCESEEEFS";
+        System.out.println(fun5.exist(board,word1));
+    }
+
 }
