@@ -227,6 +227,12 @@ public class Test3 {
     }
 
     @Test
+    public void testCuttingRope(){
+        System.out.println(fun3.cuttingRope(10));
+        System.out.println(fun3.cuttingRope(200));
+    }
+
+    @Test
     public void testCombinationSum4(){
         int[] nums = {1,2,3};
         int target = 4;

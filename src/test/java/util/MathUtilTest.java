@@ -4,6 +4,7 @@ import cn.jinty.utils.MathUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * 数学工具类测试
@@ -48,6 +49,24 @@ public class MathUtilTest {
         System.out.println(MathUtil.log(2.0,1024.0));
         System.out.println(MathUtil.log(10.0,100000.0));
         System.out.println(MathUtil.log(3.0,81.0));
+    }
+
+    @Test
+    public void testIntMultiply(){
+        int i = Integer.MAX_VALUE;
+        int j = Integer.MAX_VALUE/2;
+        //直接相乘溢出
+        System.out.println(i*j);
+        //使用long保证任何int相乘都不会溢出
+        System.out.println((long)i * (long)j);
+        //使用大整数保证不会溢出
+        BigInteger bigIntegerI = new BigInteger(String.valueOf(i));
+        BigInteger bigIntegerJ = new BigInteger(String.valueOf(j));
+        System.out.println(bigIntegerI.multiply(bigIntegerJ));
+        //使用大十进制保证不会溢出
+        BigDecimal bigDecimalI = new BigDecimal(String.valueOf(i));
+        BigDecimal bigDecimalJ = new BigDecimal(String.valueOf(j));
+        System.out.println(bigDecimalI.multiply(bigDecimalJ));
     }
 
 }

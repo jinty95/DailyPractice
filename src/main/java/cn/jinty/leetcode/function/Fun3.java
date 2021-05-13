@@ -3,6 +3,7 @@ package cn.jinty.leetcode.function;
 import cn.jinty.leetcode.Node;
 import cn.jinty.leetcode.TreeNode;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -967,6 +968,37 @@ public class Fun3 {
         }
         return dp[n];
 
+    }
+
+    /**
+     * 剑指 Offer 14- II. 剪绳子 II
+     * 给你一根长度为 n 的绳子，请把绳子剪成整数长度的 m 段（m、n都是整数，n>1并且m>1），
+     * 每段绳子的长度记为 k[0],k[1]...k[m - 1] 。请问 k[0]*k[1]*...*k[m - 1] 可能的最大乘积是多少？
+     * 例如，当绳子的长度是8时，我们把它剪成长度分别为2、3、3的三段，此时得到的最大乘积是18。
+     * 答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。
+     *
+     * @param n 绳子长度
+     * @return 最大乘积
+     */
+    public int cuttingRope(int n) {
+        //动态规划，时间复杂度O(N^2)
+        int max = 0;
+        //dp[i]表示i拆分后的最大乘积
+        //这里需要使用大整数，因为只有加法可以阶段性取余，乘法必须先计算全部值的乘积，最后才可以取余
+        BigInteger[] dp = new BigInteger[n+1];
+        dp[1] = BigInteger.valueOf(1);
+        dp[2] = BigInteger.valueOf(1);
+        for(int i=3;i<=n;i++){
+            dp[i] = BigInteger.valueOf(0);
+            for(int j=1;j<i;j++){
+                BigInteger bj = BigInteger.valueOf(j);
+                BigInteger b1 = bj.multiply(BigInteger.valueOf(i-j));
+                BigInteger b2 = bj.multiply(dp[i-j]);
+                BigInteger greater = b1.compareTo(b2)>0 ? b1 : b2;
+                dp[i]= dp[i].compareTo(greater)>0 ? dp[i] : greater;
+            }
+        }
+        return dp[n].remainder(BigInteger.valueOf(1000000007)).intValue();
     }
 
     /**
