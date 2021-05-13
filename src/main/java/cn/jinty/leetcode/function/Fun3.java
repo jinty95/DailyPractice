@@ -1005,7 +1005,9 @@ public class Fun3 {
      * 377. 组合总和 Ⅳ
      * 给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。
      * 请你从 nums 中找出并返回总和为 target 的元素组合的个数。
-     * 请注意，顺序不同的序列被视作不同的组合。
+     * 注意：
+     * 1、顺序不同的序列被视作不同的组合。
+     * 2、数组中的元素可以重复利用。
      *
      * @param nums 数组(大于0的正整数)
      * @param target 目标(大于0的正整数)
@@ -1018,10 +1020,10 @@ public class Fun3 {
         int[] dp = new int[target+1];
         dp[0] = 1;
         for(int i=1;i<dp.length;i++){
-            for(int j=0;j<nums.length;j++){
-                //如果i可以拆出一个nums[j]，那么方案数新增dp[i-nums[j]]
-                if(nums[j]<=i){
-                    dp[i] += dp[i-nums[j]];
+            for (int num : nums) {
+                //如果i可以拆出一个num，那么方案数新增dp[i-num]
+                if (num <= i) {
+                    dp[i] += dp[i - num];
                 }
             }
         }
