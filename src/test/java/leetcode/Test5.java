@@ -102,4 +102,11 @@ public class Test5 {
         System.out.println(fun5.movingCount(m,n,k));
     }
 
+    @Test
+    public void testNumWays(){
+        System.out.println(fun5.numWays(1,5));
+        System.out.println(fun5.numWays(3,100));
+        System.out.println(fun5.numWays(430,148488));
+    }
+
 }
