@@ -381,7 +381,7 @@ public class Fun2 {
      * @return 罗马数字字符串
      */
     public String intToRoman(int num) {
-        StringBuilder sb = new StringBuilder();
+        /*StringBuilder sb = new StringBuilder();
         while(num>=1000){
             sb.append("M");
             num -= 1000;
@@ -434,7 +434,23 @@ public class Fun2 {
             sb.append("I");
             num -= 1;
         }
+        return sb.toString();*/
+
+        //上述写法太长，试着将代码缩短一些
+
+        //将数字与其对应的字符存到数组中
+        int[] number = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        String[] character = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        StringBuilder sb = new StringBuilder();
+        //将num从大单位开始分解
+        for(int i=0;i<number.length;i++){
+            while(num>=number[i]){
+                sb.append(character[i]);
+                num -= number[i];
+            }
+        }
         return sb.toString();
+
     }
 
     /**

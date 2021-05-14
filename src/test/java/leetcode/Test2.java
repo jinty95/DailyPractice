@@ -96,6 +96,12 @@ public class Test2 {
     }
 
     @Test
+    public void testIntToRoman(){
+        System.out.println(fun2.intToRoman(2021));
+        System.out.println(fun2.intToRoman(369));
+    }
+
+    @Test
     public void testMyAtoi(){
         System.out.println(fun2.myAtoi("   -2147483647   "));
     }
