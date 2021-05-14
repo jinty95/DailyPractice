@@ -109,4 +109,10 @@ public class Test5 {
         System.out.println(fun5.numWays(430,148488));
     }
 
+    @Test
+    public void testDicesProbability(){
+        System.out.println(Arrays.toString(fun5.dicesProbability(1)));
+        System.out.println(Arrays.toString(fun5.dicesProbability(2)));
+    }
+
 }

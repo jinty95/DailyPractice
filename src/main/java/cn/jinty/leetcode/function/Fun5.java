@@ -532,4 +532,47 @@ public class Fun5 {
         return dp[steps-1][0];
     }
 
+    /**
+     * 剑指 Offer 60. n个骰子的点数
+     *
+     * @param n 骰子个数
+     * @return 点数概率
+     */
+    public double[] dicesProbability(int n) {
+        //确定值范围
+        int min = n;
+        int max = n*6;
+        double[] answer = new double[max-min+1];
+        //确定所有可能出现的情况总数
+        int sum = 6;
+        int count = n;
+        while(count>1){
+            sum *= 6;
+            count--;
+        }
+        //确定每个值对应的情况数
+        //dp[i][j]表示用i+1个骰子得到j的情况数
+        int[][] dp = new int[n][max+1];
+        //1个骰子，值为1~6的情况各有一种
+        for(int j=1;j<=6;j++){
+            dp[0][j] = 1;
+        }
+        //大于1个骰子：枚举最后一个骰子的值，剩余值由剩余骰子组成
+        for(int i=1;i<n;i++){
+            //i+1个骰子的值范围
+            int minJ = i+1, maxJ = minJ*6;
+            for(int j=i+1;j<=maxJ;j++){
+                //最后一个骰子的值可以是1~6
+                for(int k=1; k<=6 && j>k; k++){
+                    dp[i][j] += dp[i-1][j-k];
+                }
+            }
+        }
+        //计算每种值对应的概率
+        for(int k=0;k<answer.length;k++){
+            answer[k] = dp[n-1][k+min]*1.0 / sum;
+        }
+        return answer;
+    }
+
 }
