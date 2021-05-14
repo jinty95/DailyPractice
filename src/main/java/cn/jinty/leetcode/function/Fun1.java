@@ -137,20 +137,17 @@ public class Fun1 {
     //配对交换：交换某个整数的奇数位和偶数位
     //也就是说，位0与位1交换，位2与位3交换，以此类推
     public int exchangeBits(int num) {
-        System.out.println(Integer.toString(num,2));
         int ans = 0;
         int[] map = new int[32];
         for(int i=0;i<32;i++){
             map[i] = ( num & (1<<i) ) > 0 ? 1 : 0;
         }
-        System.out.println(Arrays.toString(map));
         for(int i=1;i<32;i=i+2){
             ans |= map[i]<<(i-1);
         }
         for(int i=0;i<32;i=i+2){
             ans |= map[i]<<(i+1);
         }
-        System.out.println(Integer.toString(ans,2));
         return ans;
     }
 
@@ -241,10 +238,10 @@ public class Fun1 {
     }
 
     //汉诺塔问题
-    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+    public void hanoi(List<Integer> A, List<Integer> B, List<Integer> C) {
         hanoi(A.size(), A, B, C);
     }
-    public void hanoi(int n, List<Integer> A, List<Integer> B, List<Integer> C){
+    private void hanoi(int n, List<Integer> A, List<Integer> B, List<Integer> C){
         if(n == 1){
             C.add(A.remove(A.size() - 1));
         }else{
@@ -257,58 +254,6 @@ public class Fun1 {
         }
     }
 
-    //List分批
-    public void splitList(List<Integer> list,int windowSize){
-        int size = list.size();
-        int pointer = 0;
-        while(pointer<size){
-            List<Integer> curList = new ArrayList<>();
-            for(int i=0; pointer<size && i<windowSize;i++){
-                curList.add(list.get(pointer++));
-            }
-            System.out.println("当前批次="+curList+", 当前指针="+pointer);
-        }
-    }
-
-    //判断是否为IP地址
-    public boolean isIp(String ip){
-        Pattern pattern = Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
-        return pattern.matcher(ip).matches();
-    }
-
-    //IP地址转为int
-    public int ip2int(String ip){
-        if(!isIp(ip)){
-            throw new RuntimeException(ip+"不是合法的IP地址");
-        }
-        String[] strs = ip.split("\\.");
-        int result = 0;
-        for(int i=0;i<strs.length;i++){
-            int j = Integer.parseInt(strs[i]);
-            if(j>255){
-                throw new RuntimeException(ip+"不是合法的IP地址");
-            }
-            result |= j << (strs.length - 1 - i) * 8;
-        }
-        return result;
-    }
-
-    //int转为ip地址
-    public String int2ip(int num){
-        StringBuilder sb = new StringBuilder();
-        for(int i=3;i>=0;i--){
-            int j = (num >>> i * 8) & 255;
-            if(j>255){
-                throw new RuntimeException(num+"不能转为合法的IP地址");
-            }
-            sb.append(j);
-            if(i!=0){
-                sb.append(".");
-            }
-        }
-        return sb.toString();
-    }
-
     //组合和
     public <T> List<List<T>> combination(T[] array){
         List<List<T>> result = new ArrayList<>();
@@ -316,7 +261,6 @@ public class Fun1 {
         backtrack(0,array,result,record);
         return result;
     }
-
     /**
      * 回溯算法 - 列举所有组合
      * @param i 当前索引
@@ -339,51 +283,6 @@ public class Fun1 {
             //不取当前节点
             record.remove(record.size() - 1);
         }
-    }
-
-    /**
-     * 有序数组中进行二分查找
-     * @param array 有序数组
-     * @param target 目标值
-     * @return 目标值所在位置
-     */
-    public int binarySearch(int[] array,int target){
-        int left = 0;
-        int right = array.length-1;
-        while(left<=right){
-            int middle = left + (right-left)/2;
-            if(array[middle]==target){
-                return middle;
-            }else if(array[middle]>target){
-                right = middle-1;
-            }else{
-                left = middle+1;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * 计算阶乘 n!
-     * @param n 阶乘值
-     * @return 阶乘结果
-     */
-    public long factorial(int n){
-        long result = 1;
-        for(int i=1;i<=n;i++){
-            result *= i;
-        }
-        return result;
-    }
-
-    /**
-     * 计算C(n,m)
-     * @param n C的下标
-     * @param m C的上标
-     * @return 结果
-     */
-    public long combinationNum(int n,int m){
-        return factorial(n) / factorial(n-m) / factorial(m);
     }
 
     /**
@@ -763,5 +662,3 @@ public class Fun1 {
     }
 
 }
-
-

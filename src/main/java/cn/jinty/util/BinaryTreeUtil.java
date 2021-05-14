@@ -1,10 +1,8 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import cn.jinty.leetcode.TreeNode;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 /**
@@ -13,7 +11,7 @@ import java.util.Queue;
  * @author jinty
  * @date 2021/3/3
  **/
-public class BinaryTreeUtil {
+public final class BinaryTreeUtil {
 
     /**
      * 层次遍历打印二叉树

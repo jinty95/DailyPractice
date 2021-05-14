@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
  * @author jinty
  * @date 2021/3/5
  **/
-public class MathUtil {
+public final class MathUtil {
 
     /**
      * 判断数字是否为素数
@@ -120,6 +120,38 @@ public class MathUtil {
      */
     public static Double log(Double base,Double value){
         return Math.log(value) / Math.log(base);
+    }
+
+    /**
+     * 阶乘运算
+     *
+     * @param n 阶乘值
+     * @return 阶乘结果
+     */
+    public static long factorial(int n){
+        long result = 1;
+        for(int i=1;i<=n;i++){
+            result *= i;
+        }
+        return result;
+    }
+
+    /**
+     * 组合运算
+     * C(n,m) = n!/(m!(n-m)!)
+     *
+     * @param n C的下标
+     * @param m C的上标
+     * @return 组合数
+     */
+    public static long combinationNum(int n,int m){
+        if(n<0 || m<0){
+            throw new IllegalArgumentException("n值与m值不能为负数");
+        }
+        if(n<m){
+            throw new IllegalArgumentException("n值不能小于m值");
+        }
+        return factorial(n) / factorial(m) / factorial(n-m);
     }
 
 }

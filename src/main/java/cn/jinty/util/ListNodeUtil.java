@@ -1,7 +1,6 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import cn.jinty.leetcode.ListNode;
-import cn.jinty.leetcode.Node;
 
 /**
  * 链表工具类
@@ -9,7 +8,7 @@ import cn.jinty.leetcode.Node;
  * @author Jinty
  * @date 2020/4/8.
  */
-public class ListNodeUtil {
+public final class ListNodeUtil {
 
     //数组构建链表
     public static ListNode fromArray(int[] arr){

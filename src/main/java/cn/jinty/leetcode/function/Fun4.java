@@ -3,7 +3,6 @@ package cn.jinty.leetcode.function;
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.entity.Employee;
-import cn.jinty.utils.ArrayUtil;
 
 import java.util.*;
 

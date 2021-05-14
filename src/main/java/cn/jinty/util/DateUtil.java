@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Jinty
  * @date 2020/3/25.
  */
-public class DateUtil {
+public final class DateUtil {
 
     private static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

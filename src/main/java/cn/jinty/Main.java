@@ -1,6 +1,6 @@
 package cn.jinty;
 
-import cn.jinty.utils.EncryptUtil;
+import cn.jinty.util.EncryptUtil;
 import sun.misc.BASE64Encoder;
 
 import java.util.Arrays;

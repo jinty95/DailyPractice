@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -11,7 +11,7 @@ import java.util.Base64;
  * @author Jinty
  * @date 2020/5/8.
  */
-public class AesEncryptUtil {
+public final class AesEncryptUtil {
 
     //秘钥：可配置到配置文件中，采用注入方式获取，16位
     public static final String KEY = "X3ewzLzYBKzM9vwn";

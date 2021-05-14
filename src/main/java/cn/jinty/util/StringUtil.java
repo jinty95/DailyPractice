@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 /**
  * 字符串工具类
@@ -6,7 +6,7 @@ package cn.jinty.utils;
  * @author jinty
  * @date 2021/4/9
  **/
-public class StringUtil {
+public final class StringUtil {
 
     //十六进制字符集
     public static char[] hexChar =

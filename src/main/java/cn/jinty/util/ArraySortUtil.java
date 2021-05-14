@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import java.util.Random;
 

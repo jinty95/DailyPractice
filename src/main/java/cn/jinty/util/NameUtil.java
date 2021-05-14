@@ -1,11 +1,11 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 /**
  * @Description 命名工具类
  * @Author jinty
  * @Date 2019/9/9.
  */
-public class NameUtil {
+public final class NameUtil {
 
     //下划线命名转驼峰命名
     public static String snakeToCamel(String snake){

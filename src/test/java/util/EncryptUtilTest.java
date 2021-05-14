@@ -1,7 +1,7 @@
 package util;
 
-import cn.jinty.utils.EncryptUtil;
-import cn.jinty.utils.StringUtil;
+import cn.jinty.util.EncryptUtil;
+import cn.jinty.util.StringUtil;
 import org.junit.Test;
 import sun.misc.BASE64Encoder;
 

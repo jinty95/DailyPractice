@@ -4,8 +4,7 @@ import cn.jinty.leetcode.Node;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.Trie;
 import cn.jinty.leetcode.function.Fun3;
-import cn.jinty.utils.BinaryTreeUtil;
-import cn.jinty.utils.ListNodeUtil;
+import cn.jinty.util.BinaryTreeUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;

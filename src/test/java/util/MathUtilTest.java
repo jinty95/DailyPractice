@@ -1,6 +1,6 @@
 package util;
 
-import cn.jinty.utils.MathUtil;
+import cn.jinty.util.MathUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -67,6 +67,20 @@ public class MathUtilTest {
         BigDecimal bigDecimalI = new BigDecimal(String.valueOf(i));
         BigDecimal bigDecimalJ = new BigDecimal(String.valueOf(j));
         System.out.println(bigDecimalI.multiply(bigDecimalJ));
+    }
+
+    @Test
+    public void testFactorial(){
+        System.out.println(MathUtil.factorial(4));
+        System.out.println(MathUtil.factorial(5));
+        System.out.println(MathUtil.factorial(6));
+    }
+
+    @Test
+    public void testCombinationNum(){
+        System.out.println(MathUtil.combinationNum(3,1));
+        System.out.println(MathUtil.combinationNum(4,2));
+        System.out.println(MathUtil.combinationNum(4,5));
     }
 
 }

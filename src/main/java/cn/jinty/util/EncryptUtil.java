@@ -1,10 +1,9 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
@@ -18,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @author jinty
  * @date 2019/12/5.
  */
-public class EncryptUtil {
+public final class EncryptUtil {
 
     /**
      * 随机生成AES秘钥

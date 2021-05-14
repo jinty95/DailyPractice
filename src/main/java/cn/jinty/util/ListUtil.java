@@ -1,4 +1,4 @@
-package cn.jinty.utils;
+package cn.jinty.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,11 @@ import java.util.List;
  * @author jinty
  * @date 2020/12/8
  **/
-public class ListUtil {
+public final class ListUtil {
 
     /**
      * 列表按数量分组
+     *
      * @param list 原始列表
      * @param num 每组个数
      * @param <T> 泛型

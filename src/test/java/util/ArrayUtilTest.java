@@ -1,6 +1,6 @@
 package util;
 
-import cn.jinty.utils.ArrayUtil;
+import cn.jinty.util.ArrayUtil;
 import org.junit.Test;
 
 import java.util.Arrays;

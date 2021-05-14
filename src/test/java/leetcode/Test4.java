@@ -3,8 +3,8 @@ package leetcode;
 import cn.jinty.leetcode.ListNode;
 import cn.jinty.leetcode.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
-import cn.jinty.utils.ArrayUtil;
-import cn.jinty.utils.ListNodeUtil;
+import cn.jinty.util.ArrayUtil;
+import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
