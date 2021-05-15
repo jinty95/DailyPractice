@@ -96,9 +96,15 @@ public class Test2 {
     }
 
     @Test
+    public void testRomanToInt(){
+        System.out.println(fun2.romanToInt("MMDCCC"));
+        System.out.println(fun2.romanToInt("MMMMDCCCLVII"));
+    }
+
+    @Test
     public void testIntToRoman(){
-        System.out.println(fun2.intToRoman(2021));
-        System.out.println(fun2.intToRoman(369));
+        System.out.println(fun2.intToRoman(2800));
+        System.out.println(fun2.intToRoman(4857));
     }
 
     @Test

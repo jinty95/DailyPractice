@@ -376,7 +376,82 @@ public class Fun2 {
     }
 
     /**
+     * 13. 罗马数字转整数
+     * 罗马数字包含以下七种字符：I， V， X， L，C，D 和 M。
+     * 分别对应：1， 5， 10， 50， 100， 500， 1000
+     * 特殊情况：
+     * I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
+     * X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。 
+     * C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+     *
+     * @param s 罗马数字字符串
+     * @return 整数
+     */
+    public int romanToInt(String s) {
+        int num = 0;
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            if(c=='M'){
+                num += 1000;
+            }else if(c=='D'){
+                num += 500;
+            }else if(c=='C'){
+                if(i+1<s.length()){
+                    char c1 = s.charAt(i+1);
+                    if(c1=='M'){
+                        num += 900;
+                        i++;
+                        continue;
+                    }
+                    if(c1=='D'){
+                        num += 400;
+                        i++;
+                        continue;
+                    }
+                }
+                num += 100;
+            }else if(c=='L'){
+                num += 50;
+            }else if(c=='X'){
+                if(i+1<s.length()){
+                    char c1 = s.charAt(i+1);
+                    if(c1=='C'){
+                        num += 90;
+                        i++;
+                        continue;
+                    }
+                    if(c1=='L'){
+                        num += 40;
+                        i++;
+                        continue;
+                    }
+                }
+                num += 10;
+            }else if(c=='V'){
+                num += 5;
+            }else if(c=='I'){
+                if(i+1<s.length()){
+                    char c1 = s.charAt(i+1);
+                    if(c1=='X'){
+                        num += 9;
+                        i++;
+                        continue;
+                    }
+                    if(c1=='V'){
+                        num += 4;
+                        i++;
+                        continue;
+                    }
+                }
+                num += 1;
+            }
+        }
+        return num;
+    }
+
+    /**
      * 12. 整数转罗马数字
+     *
      * @param num 整数
      * @return 罗马数字字符串
      */
