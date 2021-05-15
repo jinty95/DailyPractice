@@ -22,7 +22,9 @@ public class Fun3 {
      * @return 最近公共祖先
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        List<TreeNode> pathP = new ArrayList<>();
+
+        //1、使用List<TreeNode>分别收集p和q的路径，找最后一个公共节点
+        /*List<TreeNode> pathP = new ArrayList<>();
         List<TreeNode> pathQ = new ArrayList<>();
         findPath(root,p,pathP);
         findPath(root,q,pathQ);
@@ -30,7 +32,30 @@ public class Fun3 {
         for(;i<Math.min(pathP.size(),pathQ.size());i++){
             if(pathP.get(i)!=pathQ.get(i)) break;
         }
-        return pathP.get(i-1);
+        return pathP.get(i-1);*/
+
+        //2、使用Map<TreeNode,TreeNode>保存节点及其父节点，基于Map得到路径，找最后一个公共节点
+        Map<TreeNode,TreeNode> map = new HashMap<>();
+        nodeParentMap(root,map);
+        List<TreeNode> pathP = new ArrayList<>();
+        while(p!=null){
+            pathP.add(p);
+            p = map.get(p);
+        }
+        List<TreeNode> pathQ = new ArrayList<>();
+        while(q!=null){
+            pathQ.add(q);
+            q = map.get(q);
+        }
+        int i=pathP.size()-1, j=pathQ.size()-1;
+        while(i>=0 && j>=0){
+            if(pathP.get(i)!=pathQ.get(j)){
+                return pathP.get(i+1);
+            }
+            i--;
+            j--;
+        }
+        return pathP.get(i+1);
     }
     //先序遍历寻找target的路径
     private boolean findPath(TreeNode root, TreeNode target, List<TreeNode>path){
@@ -49,6 +74,18 @@ public class Fun3 {
         //没有找到路径，当前节点需要删除
         path.remove(path.size()-1);
         return false;
+    }
+    //先序遍历构建所有节点与父节点的映射关系
+    private void nodeParentMap(TreeNode root, Map<TreeNode,TreeNode> map){
+        if(root==null) return;
+        if(root.left!=null){
+            map.put(root.left,root);
+        }
+        if(root.right!=null){
+            map.put(root.right,root);
+        }
+        nodeParentMap(root.left,map);
+        nodeParentMap(root.right,map);
     }
 
     /**

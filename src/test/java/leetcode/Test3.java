@@ -29,6 +29,8 @@ public class Test3 {
         root.left = left;
         root.right = right;
         System.out.println(fun3.lowestCommonAncestor(root,left,right).val);
+        System.out.println(fun3.lowestCommonAncestor(root,left,left).val);
+        System.out.println(fun3.lowestCommonAncestor(root,right,right).val);
     }
 
     @Test
