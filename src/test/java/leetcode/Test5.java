@@ -115,4 +115,17 @@ public class Test5 {
         System.out.println(Arrays.toString(fun5.dicesProbability(2)));
     }
 
+    @Test
+    public void testMissingTwo(){
+        System.out.println(Arrays.toString(
+                fun5.missingTwo(new int[]{1,2,3,4})
+        ));
+        System.out.println(Arrays.toString(
+                fun5.missingTwo(new int[]{1,2,3,5})
+        ));
+        System.out.println(Arrays.toString(
+                fun5.missingTwo(new int[]{3,4,1,6})
+        ));
+    }
+
 }

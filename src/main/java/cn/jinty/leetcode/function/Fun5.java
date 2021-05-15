@@ -575,4 +575,37 @@ public class Fun5 {
         return answer;
     }
 
+    /**
+     * 面试题 17.19. 消失的两个数字
+     * 给定一个数组，包含从 1 到 N 所有的整数，但其中缺了两个数字。
+     * 找到消失的两个数字，以任意顺序返回这两个数字均可。
+     *
+     * @param nums 数组
+     * @return 消失的两个数字
+     */
+    public int[] missingTwo(int[] nums) {
+
+        //1、排序：时间复杂度O(NlogN)，空间复杂度O(1)
+        int[] ans = new int[2];
+        int min = 1, max = nums.length+2;
+        Arrays.sort(nums);
+        int delta = 1;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]!=i+delta){
+                ans[delta-1] = i+delta;
+                delta++;
+                if(delta>2) return ans;
+                i--;
+            }
+        }
+        if(delta==1){
+            ans[0] = max-1;
+            ans[1] = max;
+        }else if(delta==2){
+            ans[1] = max;
+        }
+        return ans;
+
+    }
+
 }
