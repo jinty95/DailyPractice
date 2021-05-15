@@ -154,4 +154,23 @@ public final class MathUtil {
         return factorial(n) / factorial(m) / factorial(n-m);
     }
 
+    /**
+     * 从1到N的累加和
+     *
+     * @param n 正整数
+     * @return 累加和
+     */
+    public static long sumFromOneToN(int n){
+        if(n<1){
+            throw new IllegalArgumentException("n不能小于1");
+        }
+        long sum = 0;
+        long pair = n + 1L;
+        sum += pair * (n / 2);
+        if(n%2!=0){
+            sum += pair/2;
+        }
+        return sum;
+    }
+
 }
