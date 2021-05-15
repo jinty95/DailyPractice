@@ -35,7 +35,7 @@ public class Fun3 {
         return pathP.get(i-1);*/
 
         //2、使用Map<TreeNode,TreeNode>保存节点及其父节点，基于Map得到路径，找最后一个公共节点
-        Map<TreeNode,TreeNode> map = new HashMap<>();
+        /*Map<TreeNode,TreeNode> map = new HashMap<>();
         nodeParentMap(root,map);
         List<TreeNode> pathP = new ArrayList<>();
         while(p!=null){
@@ -55,7 +55,16 @@ public class Fun3 {
             i--;
             j--;
         }
-        return pathP.get(i+1);
+        return pathP.get(i+1);*/
+
+        //3、后序遍历，只有最近公共祖先p和q会出现在节点两侧
+        if(root==null) return null;
+        if(root==p || root==q) return root;
+        TreeNode left = lowestCommonAncestor(root.left,p,q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        if(left!=null && right!=null) return root;
+        return left != null ? left : right;
+
     }
     //先序遍历寻找target的路径
     private boolean findPath(TreeNode root, TreeNode target, List<TreeNode>path){
