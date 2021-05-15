@@ -608,4 +608,62 @@ public class Fun5 {
 
     }
 
+    /**
+     * 41. 缺失的第一个正数
+     * 给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+     *
+     * @param nums 数组
+     * @return 缺失的第一个正数
+     */
+    public int firstMissingPositive(int[] nums) {
+
+        //1、排序：时间复杂度O(NlogN)，空间复杂度O(1)
+        /*Arrays.sort(nums);
+        int first = 1;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>0){
+                if(nums[i]==first){
+                    first++;
+                }else if(first<nums[i]){
+                    return first;
+                }
+            }
+        }
+        return first;*/
+
+        //2、哈希：时间复杂度O(N)，空间复杂度O(N)
+        /*Set<Integer> set = new HashSet<>();
+        for(int num : nums){
+            set.add(num);
+        }
+        for(int i=1;i<=nums.length;i++){
+            if(!set.contains(i)){
+                return i;
+            }
+        }
+        return nums.length+1;*/
+
+        //3、原地哈希：时间复杂度O(N)，空间复杂度O(1)
+        //第一个缺失的正数取值范围在[1,N+1]
+        //原数组的负数和0是无用的，可以把它们换成N+1，使得数组都是正数
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]<=0) nums[i] = nums.length+1;
+        }
+        //对于[1,N]范围内的数，可以用原数组的下标表示，用负号来标识其出现
+        for(int i=0;i<nums.length;i++){
+            int val = Math.abs(nums[i]);
+            if(val<=nums.length && nums[val-1]>0){
+                nums[val-1] = -nums[val-1];
+            }
+        }
+        //找到第一个非负数，其下标加1即为答案，若找不到，则N+1为答案
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>0){
+                return i+1;
+            }
+        }
+        return nums.length+1;
+
+    }
+
 }

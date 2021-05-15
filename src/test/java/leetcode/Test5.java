@@ -128,4 +128,14 @@ public class Test5 {
         ));
     }
 
+    @Test
+    public void testFirstMissingPositive(){
+        System.out.println(fun5.firstMissingPositive(
+                new int[]{1,1,1,3,4,5}
+        ));
+        System.out.println(fun5.firstMissingPositive(
+                new int[]{6,2,1,3,4,5}
+        ));
+    }
+
 }
