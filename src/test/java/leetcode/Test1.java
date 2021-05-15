@@ -20,25 +20,21 @@ public class Test1 {
     private Fun1 fun = new Fun1();
 
     @Test
-    public void testDecompose(){
-        int n = 234654;
-        List<Integer> ans = fun.decompose(n);
-        System.out.println(ans);
-    }
-
-    @Test
-    public void testGetUniqueFromStringArr(){
-        String[] arr = {"haha","hehe","xixi","xixi","hehe"};
-        System.out.println(Arrays.toString(fun.getUniqueFromStringArr(arr)));
-    }
-
-    @Test
     public void testRotate(){
         int[][] matrix = {{2,29,20,26,16,28},{12,27,9,25,13,21},{32,33,32,2,28,14},{13,14,32,27,22,26},{33,1,20,7,21,7},{4,24,1,6,32,34}};
         ArrayUtil.print2DArray(matrix);
         System.out.println("---分割线---");
         fun.rotate(matrix);
         ArrayUtil.print2DArray(matrix);
+    }
+
+    @Test
+    public void testFindClosest(){
+        String[] words = {
+                "i","am","a","good","student",".","am","i","?"
+        };
+        System.out.println(fun.findClosest(words,"i","student"));
+        System.out.println(fun.findClosest(words,"i","a"));
     }
 
     @Test
@@ -52,7 +48,8 @@ public class Test1 {
     @Test
     public void testExchangeBits(){
         int num = 123;
-        fun.exchangeBits(num);
+        System.out.println(num);
+        System.out.println(fun.exchangeBits(num));
     }
 
     @Test
@@ -64,16 +61,25 @@ public class Test1 {
     }
 
     @Test
+    public void testMinSetSize(){
+        int[] arr = {1,1,2,2,3,4,5,6};
+        System.out.println(fun.minSetSize(arr));
+    }
+
+    @Test
     public void testHanota(){
         Long begin = System.currentTimeMillis();
         List<Integer> A = new ArrayList<>();
         List<Integer> B = new ArrayList<>();
         List<Integer> C = new ArrayList<>();
-        for(int i=30;i>0;i--){
+        for(int i=15;i>0;i--){
             A.add(i);
         }
         System.out.println("A列表="+A);
-        fun.hanoi(A,B,C);
+        System.out.println("B列表="+B);
+        System.out.println("C列表="+C);
+        fun.hanota(A,B,C);
+        System.out.println("移动结果");
         System.out.println("A列表="+A);
         System.out.println("B列表="+B);
         System.out.println("C列表="+C);
@@ -82,17 +88,9 @@ public class Test1 {
     }
 
     @Test
-    public void testCombination(){
-        Character[] nums = {'A','B','C','D','E'};
-        List<List<Character>> res = fun.combination(nums);
-        for(List<Character> list:res){
-            System.out.println(list.toString());
-        }
-    }
-
-    @Test
     public void testGenerateParenthesis(){
         System.out.println(fun.generateParenthesis(3));
+        System.out.println(fun.generateParenthesis(2));
     }
 
     @Test
@@ -106,6 +104,7 @@ public class Test1 {
     @Test
     public void testLongestNiceSubstring(){
         System.out.println(fun.longestNiceSubstring("AaBbCcdOiER"));
+        System.out.println(fun.longestNiceSubstring("AaBBb"));
     }
 
     @Test
@@ -124,21 +123,26 @@ public class Test1 {
     @Test
     public void testTotalMoney(){
         System.out.println(fun.totalMoney(10));
+        System.out.println(fun.totalMoney(14));
     }
 
     @Test
     public void testFindContinuousSequence(){
         ArrayUtil.print2DArray(fun.findContinuousSequence(15));
+        System.out.println();
+        ArrayUtil.print2DArray(fun.findContinuousSequence(5));
     }
 
     @Test
     public void testLengthOfLongestSubstring(){
         System.out.println(fun.lengthOfLongestSubstring("abccba"));
+        System.out.println(fun.lengthOfLongestSubstring("abcdefahijk"));
     }
 
     @Test
     public void testMaxSubArray(){
         System.out.println(fun.maxSubArray(new int[]{-1,-1,0,1}));
+        System.out.println(fun.maxSubArray(new int[]{-1,-1,0,1,9,-9}));
     }
 
     @Test
@@ -152,9 +156,20 @@ public class Test1 {
     }
 
     @Test
+    public void testMergeInBetween(){
+        //链表位置从0开始，第0个，第1个，以此类推
+        ListNode list1 = ListNodeUtil.fromArray(new int[]{1,2,3,4,5,6});
+        ListNode list2 = ListNodeUtil.fromArray(new int[]{7,8,9});
+        System.out.println(fun.mergeInBetween(list1,2,3,list2));
+    }
+
+    @Test
     public void testDeckRevealedIncreasing(){
         System.out.println(
                 Arrays.toString(fun.deckRevealedIncreasing(new int[]{17,13,11,2,3,5,7}))
+        );
+        System.out.println(
+                Arrays.toString(fun.deckRevealedIncreasing(new int[]{17,13}))
         );
     }
 

@@ -13,34 +13,13 @@ import java.util.regex.Pattern;
  */
 public class Fun1 {
 
-    //大于1的正整数质因数分解
-    public List<Integer> decompose(int n){
-        if(n<2){
-            throw new RuntimeException("该数不存在质因数");
-        }
-        List<Integer> ans = new ArrayList<>();
-        for (int i=2; i<=n; i++) {
-            if(n==i){
-                ans.add(i);
-            }else if(n%i==0){
-                ans.add(i);
-                n = n/i;
-                i--;
-            }
-        }
-        return ans;
-    }
-
-    //字符串数组去重
-    public String[] getUniqueFromStringArr(String[] strs){
-        Set<String> set = new HashSet<>();
-        for(String str:strs){
-            set.add(str);
-        }
-        return set.toArray(new String[set.size()]);
-    }
-
-    //N×N矩阵旋转90度
+    /**
+     * 面试题 01.07. 旋转矩阵
+     * 给你一幅由 N × N 矩阵表示的图像，其中每个像素的大小为 4 字节。
+     * 请你设计一种算法，将图像旋转 90 度。
+     *
+     * @param matrix 矩阵
+     */
     public void rotate(int[][] matrix) {
         int left = 0;
         int right = matrix.length-1;
@@ -65,19 +44,17 @@ public class Fun1 {
         }
     }
 
-    //在文本中寻找两个单词的最短距离
+    /**
+     * 面试题 17.11. 单词距离
+     * 有个内含单词的超大文本文件，给定任意两个单词，
+     * 找出在这个文件中这两个单词的最短距离(相隔单词数)。
+     *
+     * @param words 大文本
+     * @param word1 单词1
+     * @param word2 单词2
+     * @return 最短距离
+     */
     public int findClosest(String[] words, String word1, String word2) {
-        /*//先遍历一遍文本，将两个单词位置标记
-        int[] stamp = new int[words.length];
-        for(int i=0;i<words.length;i++){
-            if(words[i].equals(word1)){
-                stamp[i] = 1;
-            }else if(words[i].equals(word2)){
-                stamp[i] = 2;
-            }
-        }
-        //找到2和1的最短距离*/
-
         //遍历文本，分别收集两个单词的位置标记
         List<Integer> stamp1 = new ArrayList<>();
         List<Integer> stamp2 = new ArrayList<>();
@@ -96,11 +73,17 @@ public class Fun1 {
             }
         }
         return min;
-
     }
 
-    //根据数字二进制下 1 的数目排序
-    //如果存在多个数字二进制中 1 的数目相同，则必须将它们按照数值大小升序排列。
+    /**
+     * 1356. 根据数字二进制下 1 的数目排序
+     * 给你一个整数数组 arr 。请你将数组中的元素按照其二进制表示中数字 1 的数目升序排序。
+     * 如果存在多个数字二进制中 1 的数目相同，则必须将它们按照数值大小升序排列。
+     * 请你返回排序后的数组。
+     *
+     * @param arr 数组
+     * @return 排序结果
+     */
     public int[] sortByBits(int[] arr) {
         PriorityQueue<Integer> queue = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
@@ -134,8 +117,14 @@ public class Fun1 {
         return arr;
     }
 
-    //配对交换：交换某个整数的奇数位和偶数位
-    //也就是说，位0与位1交换，位2与位3交换，以此类推
+    /**
+     * 面试题 05.07. 配对交换
+     * 配对交换。编写程序，交换某个整数的奇数位和偶数位，尽量使用较少的指令
+     * （也就是说，位0与位1交换，位2与位3交换，以此类推）。
+     *
+     * @param num 整数
+     * @return 整数
+     */
     public int exchangeBits(int num) {
         int ans = 0;
         int[] map = new int[32];
@@ -151,8 +140,14 @@ public class Fun1 {
         return ans;
     }
 
-    //给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。
-    //请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+    /**
+     * 328. 奇偶链表
+     * 给定一个单链表，把所有的奇数节点和偶数节点分别排在一起。
+     * 请注意，这里的奇数节点和偶数节点指的是节点编号的奇偶性，而不是节点的值的奇偶性。
+     *
+     * @param head 链表
+     * @return 链表
+     */
     public ListNode oddEvenList(ListNode head) {
         //特殊情况
         if(head==null || head.next==null || head.next.next==null){
@@ -182,7 +177,8 @@ public class Fun1 {
         oddTail.next = evenHead;
         return oddHead;
 
-        //LeetCode答案：原地算法
+        //原地算法
+
         //定义四个指针：奇头、奇尾、偶头、偶尾
         //奇偶同步后移，分别收集奇偶，最后连接起来
         //注意：不可以先收集奇再收集偶，收集一次后，原顺序就被打乱了
@@ -196,11 +192,17 @@ public class Fun1 {
         }
         odd.next = evenHead;
         return head;*/
+
     }
 
-    //数组大小减半
-    //从中选出一个整数集合，并删除这些整数在数组中的每次出现。
-    //返回 至少 能删除数组中的一半整数的整数集合的最小大小。
+    /**
+     * 1338. 数组大小减半
+     * 给你一个整数数组 arr。你可以从中选出一个整数集合，并删除这些整数在数组中的每次出现。
+     * 返回 至少 能删除数组中的一半整数的整数集合的最小大小。
+     *
+     * @param arr 数组
+     * @return 使数组减半的最小大小
+     */
     public int minSetSize(int[] arr) {
         //特殊情况
         if(arr==null || arr.length==0){
@@ -209,12 +211,7 @@ public class Fun1 {
         //词频统计
         Map<Integer,Integer> map = new HashMap<>();
         for(int i:arr){
-            Integer one = map.get(i);
-            if(one==null){
-                map.put(i,1);
-            }else{
-                map.put(i,one+1);
-            }
+            map.put(i,map.getOrDefault(i,0)+1);
         }
         //按频率排序
         PriorityQueue<Map.Entry<Integer,Integer>> queue = new PriorityQueue<>(new Comparator<Map.Entry<Integer,Integer>>() {
@@ -223,9 +220,7 @@ public class Fun1 {
                 return o2.getValue() - o1.getValue();
             }
         });
-        for(Map.Entry<Integer,Integer> entry : map.entrySet()){
-            queue.add(entry);
-        }
+        queue.addAll(map.entrySet());
         //数组减半
         int len = arr.length/2;
         int mid = 0;
@@ -237,58 +232,43 @@ public class Fun1 {
         return ans;
     }
 
-    //汉诺塔问题
-    public void hanoi(List<Integer> A, List<Integer> B, List<Integer> C) {
-        hanoi(A.size(), A, B, C);
+    /**
+     * 面试题 08.06. 汉诺塔问题
+     * 在经典汉诺塔问题中，有 3 根柱子及 N 个不同大小的穿孔圆盘，盘子可以滑入任意一根柱子。
+     * 一开始，所有盘子自上而下按升序依次套在第一根柱子上(即每一个盘子只能放在更大的盘子上面)。
+     * 移动圆盘时受到以下限制:
+     * (1) 每次只能移动一个盘子;
+     * (2) 盘子只能从柱子顶端滑出移到下一根柱子;
+     * (3) 盘子只能叠在比它大的盘子上。
+     * 编写程序，将所有盘子从第一根柱子移到最后一根柱子。
+     *
+     * @param A 柱子A
+     * @param B 柱子B
+     * @param C 柱子C
+     */
+    public void hanota(List<Integer> A, List<Integer> B, List<Integer> C) {
+        hanota(A.size(), A, B, C);
     }
-    private void hanoi(int n, List<Integer> A, List<Integer> B, List<Integer> C){
+    //递归函数：表示将n个圆盘从A移到C
+    private void hanota(int n, List<Integer> A, List<Integer> B, List<Integer> C){
         if(n == 1){
             C.add(A.remove(A.size() - 1));
         }else{
-            //把A经过辅助C放到B上
-            hanoi(n - 1, A, C, B);
-            //把A放到C上
+            //把A的前n-1个圆盘经过辅助C放到B上
+            hanota(n - 1, A, C, B);
+            //把A的最底部圆盘放到C上
             C.add(A.remove(A.size() - 1));
-            //把B经过辅助A放到C上
-            hanoi(n - 1, B, A, C);
-        }
-    }
-
-    //组合和
-    public <T> List<List<T>> combination(T[] array){
-        List<List<T>> result = new ArrayList<>();
-        List<T> record = new ArrayList<>();
-        backtrack(0,array,result,record);
-        return result;
-    }
-    /**
-     * 回溯算法 - 列举所有组合
-     * @param i 当前索引
-     * @param array 目标数组
-     * @param result 结果
-     * @param record 已收集记录
-     * @param <T> 泛型
-     */
-    private <T> void backtrack(
-            int i, T[] array,
-            List<List<T>> result,
-            List<T> record) {
-        //结果收集
-        result.add(new ArrayList<>(record));
-        for (int j = i; j < array.length; j++) {
-            //取当前节点
-            record.add(array[j]);
-            //剩余节点的所有可能组合
-            backtrack(j + 1, array, result, record);
-            //不取当前节点
-            record.remove(record.size() - 1);
+            //把B的所有圆盘经过辅助A放到C上
+            hanota(n - 1, B, A, C);
         }
     }
 
     /**
-     * 打印n对括号的所有合法的（例如，开闭一一对应）组合
-     * @param n 括号对
-     * @return 括号组合
+     * 22. 括号生成
+     * 数字 n 代表生成括号的对数，设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     *
+     * @param n 括号的对数
+     * @return 括号所有组合
      */
     public List<String> generateParenthesis(int n) {
         List<String> result = new ArrayList<>();
@@ -298,6 +278,7 @@ public class Fun1 {
     }
     /**
      * 递归函数 - 回溯
+     *
      * @param result 最终结果
      * @param record 当前字符串记录
      * @param left 字符串记录中未配对左括号数量
@@ -334,7 +315,9 @@ public class Fun1 {
     }
 
     /**
+     * 386. 字典序排数
      * 给定一个整数 n, 返回从 1 到 n 的字典顺序。
+     *
      * @param n 给定整数
      * @return 1-n字典顺序
      */
@@ -362,11 +345,12 @@ public class Fun1 {
     }
 
     /**
-     * 求最长的美好子字符串：
+     * 1763. 最长的美好子字符串
      * 当一个字符串包含的每一种字母的大写和小写形式同时出现，就称这个字符串是美好字符串。
      * 如果有多个答案，返回最早出现的美好子字符串。
-     * @param s 输入字符串
-     * @return 结果字符串
+     *
+     * @param s 字符串
+     * @return 美好子字符串
      */
     public String longestNiceSubstring(String s) {
         String ans = "";
@@ -395,6 +379,10 @@ public class Fun1 {
 
     /**
      * 547、省份数量
+     * 有 n 个城市，其中一些彼此相连，另一些没有相连。
+     * 如果城市 a 与城市 b 直接相连，且城市 b 与城市 c 直接相连，那么城市 a 与城市 c 间接相连。
+     * 省份 是一组直接或间接相连的城市，组内不含其他没有相连的城市。
+     *
      * @param isConnected 城市-城市-是否连接
      * @return 省份数量
      */
@@ -436,6 +424,13 @@ public class Fun1 {
 
     /**
      * 面试题 17.07. 婴儿名字
+     * 每年，政府都会公布一万个最常见的婴儿名字和它们出现的频率，也就是同名婴儿的数量。
+     * 有些名字有多种拼法，例如，John 和 Jon 本质上是相同的名字，但被当成了两个名字公布出来。
+     * 给定两个列表，一个是名字及对应的频率，另一个是本质相同的名字对。
+     * 设计一个算法打印出每个真实名字的实际频率。
+     * 注意：如果 John 和 Jon 是相同的，并且 Jon 和 Johnny 相同，则 John 与 Johnny 也相同，即它们有传递和对称性。
+     * 在结果列表中，选择 字典序最小 的名字作为真实名字。
+     *
      * @param names 名字及频率
      * @param synonyms 本质上相同的名字
      * @return 名字及实际频率
@@ -478,6 +473,11 @@ public class Fun1 {
 
     /**
      * 1716. 计算力扣银行的钱
+     * Hercy 想要为购买第一辆车存钱。他每天都往力扣银行里存钱。
+     * 最开始，他在周一的时候存入 1 块钱。从周二到周日，他每天都比前一天多存入 1 块钱。
+     * 在接下来每一个周一，他都会比前一个周一多存入 1 块钱。
+     * 请返回在第 n 天结束的时候他在力扣银行总共存了多少块钱。
+     *
      * @param n 总天数
      * @return 总额
      */
@@ -497,23 +497,26 @@ public class Fun1 {
 
     /**
      * 剑指 Offer 57 - II. 和为s的连续正数序列
+     * 输入一个正整数 target ，输出所有和为 target 的连续正整数序列（至少含有两个数）。
+     * 序列内的数字由小到大排列，不同序列按照首个数字从小到大排列。
+     *
      * @param target 目标值
      * @return 结果
      */
     public int[][] findContinuousSequence(int target) {
+        //双指针
         List<int[]> lists = new ArrayList<>();
         int left=1;
         int sum = 0;
         for(int right=1; right<=target; right++){
-            if(sum == target){
-                lists.add(buildSequenceArray(left,right-1));
-                sum -= left++;
-                right--;
-            }else if(sum > target){
-                sum -= left++;
-                right--;
-            }else{
+            if(sum < target){
                 sum += right;
+            }else{
+                if(sum == target) {
+                    lists.add(buildSequenceArray(left, right - 1));
+                }
+                sum -= left++;
+                right--;
             }
         }
         return lists.toArray(new int[lists.size()][]);
@@ -528,12 +531,18 @@ public class Fun1 {
 
     /**
      * 3. 无重复字符的最长子串
+     * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     * 注意：是子串而不是子序列
+     *
      * @param s 字符串(由英文字母、数字、符号和空格组成)
      * @return 满足条件的最长子串长度
      */
     public int lengthOfLongestSubstring(String s) {
+        //双指针
         int max = 0, left = 0, right = -1;
+        //记录词频
         int[] charMap = new int[128];
+        //一次遍历，时间复杂度O(N)
         for(int i=0; i<s.length(); i++){
             right++;
             int idx = (int)s.charAt(i);
@@ -555,34 +564,34 @@ public class Fun1 {
 
     /**
      * 面试题 16.17. 连续数列
+     * 给定一个整数数组，找出总和最大的连续数列，并返回总和。
+     *
      * @param nums 数列
      * @return 总和最大的连续数列的总和值
      */
     public int maxSubArray(int[] nums) {
         int max = Integer.MIN_VALUE;
+        //前缀数列和
         int pre = 0;
-        for(int i=0; i<nums.length; i++){
-            pre = Math.max(pre+nums[i],nums[i]);
-            max = Math.max(max,pre);
+        for (int num : nums) {
+            //如果当前数字加上前缀数列和更小，那么抛弃前缀，当前数字独自作为一个数列
+            pre = Math.max(pre + num, num);
+            //根据当前数列判断是否要更新最大值
+            max = Math.max(max, pre);
         }
         return max;
-    }
-    private int[] buildPrefixSum(int[] nums){
-        int[] sum = new int[nums.length];
-        int tmp = 0;
-        for(int i=0;i<nums.length;i++){
-            tmp += nums[i];
-            sum[i] = tmp;
-        }
-        return sum;
     }
 
     /**
      * 1630. 等差子数组
+     * 如果一个数列由至少两个元素组成，且每两个连续元素之间的差值都相同，那么这个序列就是 等差数列 。
+     * 更正式地，数列 s 是等差数列，只需要满足：对于每个有效的 i ， s[i+1] - s[i] == s[1] - s[0] 都成立。
+     * 请判断给定边界的子数组能否重新排列后形成等差数列
+     *
      * @param nums 原数组
      * @param l 左边界数组
      * @param r 右边界数组
-     * @return 在左右边界范围内的子数组能否重组为等差数组。
+     * @return List<Boolean>
      */
     public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
         List<Boolean> list = new ArrayList<>();
@@ -606,6 +615,9 @@ public class Fun1 {
 
     /**
      * 1669. 合并两个链表
+     * 给你两个链表list1 和list2，它们包含的元素分别为n个和m个。
+     * 请你将list1中第a个节点到第b个节点删除，并将list2接在被删除节点的位置。
+     *
      * @param list1 链表1
      * @param a 删除区间左边界
      * @param b 删除区间右边界
@@ -640,20 +652,34 @@ public class Fun1 {
 
     /**
      * 950. 按递增顺序显示卡牌
-     * @param deck 给定卡牌序列
+     * 牌组中的每张卡牌都对应有一个唯一的整数。你可以按你想要的顺序对这套卡片进行排序。
+     * 最初，这些卡牌在牌组里是正面朝下的（即，未显示状态）。
+     * 现在，重复执行以下步骤，直到显示所有卡牌为止：
+     * 1、从牌组顶部抽一张牌，显示它，然后将其从牌组中移出。
+     * 2、如果牌组中仍有牌，则将下一张处于牌组顶部的牌放在牌组的底部。
+     * 3、如果仍有未显示的牌，那么返回步骤 1。否则，停止行动。
+     * 返回能以递增顺序显示卡牌的牌组顺序。
+     *
+     * @param deck 给定卡牌(初始序列不需要关注)
      * @return 可以按规则处理后递增显示卡牌的卡牌序列
      */
     public int[] deckRevealedIncreasing(int[] deck) {
+        //排序
         Arrays.sort(deck);
+        //使用队列模拟操作过程
         Queue<Integer> queue = new LinkedList<>();
+        //从大到小遍历卡牌
         for(int i=deck.length-1;i>=0;i--){
             if(queue.isEmpty()){
                 queue.offer(deck[i]);
             }else{
+                //将队头移到队尾
                 queue.offer(queue.poll());
+                //小卡牌加入队尾
                 queue.offer(deck[i]);
             }
         }
+        //逆序读取队列，得到卡牌序列
         int[] ans = new int[deck.length];
         for(int i=deck.length-1;i>=0;i--){
             ans[i] = queue.poll();
