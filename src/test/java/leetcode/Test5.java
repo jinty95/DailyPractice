@@ -138,4 +138,10 @@ public class Test5 {
         ));
     }
 
+    @Test
+    public void testUniquePaths(){
+        System.out.println(fun5.uniquePaths(3,7));
+        System.out.println(fun5.uniquePaths(1,1));
+    }
+
 }
