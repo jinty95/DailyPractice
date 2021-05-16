@@ -758,4 +758,62 @@ public class Fun5 {
         return new String(ans);
     }
 
+    /**
+     * 877. 石子游戏
+     * 亚历克斯和李用几堆石子在做游戏。偶数堆石子排成一行，每堆都有正整数颗石子piles[i]。
+     * 游戏以谁手中的石子最多来决出胜负。石子的总数是奇数，所以没有平局。
+     * 亚历克斯和李轮流进行，亚历克斯先开始。每回合，玩家从行的开始或结束处取走整堆石头。
+     * 这种情况一直持续到没有更多的石子堆为止，此时手中石子最多的玩家获胜。
+     * 假设亚历克斯和李都发挥出最佳水平，当亚历克斯赢得比赛时返回true，当李赢得比赛时返回false。
+     *
+     * @param piles 石子堆数组 (2 <= piles.length <= 500 且 piles.length 是偶数)
+     * @return 先手能否获胜
+     */
+    public boolean stoneGame(int[] piles) {
+
+        /*//1、暴力递归：时间复杂度O(2^N)
+        return stoneGame(piles,0,0,0,piles.length-1,0);*/
+
+        //2、动态规划：时间复杂度O(N^2)
+        //dp[i][j]表示在piles[i...j]中先手多拿的石子数(相应的，-dp[i][j]表示后手多拿的石子数)
+        int n = piles.length;
+        int[][] dp = new int[n][n];
+        for(int i=0;i<n;i++){
+            dp[i][i] = piles[i];
+        }
+        //枚举区间长度
+        for(int len=1;len<n;len++){
+            //枚举起点
+            for(int i=0;i<n-len;i++){
+                //计算终点
+                int j = i+len;
+                //递推方程：先手拿左边石子或拿右边石子，子问题中当前先手成为后手
+                dp[i][j] = Math.max(piles[i]-dp[i+1][j],piles[j]-dp[i][j-1]);
+            }
+        }
+        return dp[0][n-1] > 0;
+
+    }
+    /**
+     * 暴力递归：枚举所有情况
+     *
+     * @param piles 石子堆数组
+     * @param sum0 先手分数
+     * @param sum1 后手分数
+     * @param left 左指针
+     * @param right 右指针
+     * @param player 当前玩家：0为先手，1为后手
+     * @return 先手能否取胜
+     */
+    private boolean stoneGame(int[] piles,int sum0,int sum1,int left,int right,int player){
+        if(left > right) return sum0 > sum1;
+        if(player == 0){
+            return stoneGame(piles,sum0+piles[left],sum1,left+1,right,1) ||
+                    stoneGame(piles,sum0+piles[right],sum1,left,right-1,1);
+        }else{
+            return stoneGame(piles,sum0,sum1+piles[left],left+1,right,0) ||
+                    stoneGame(piles,sum0,sum1+piles[right],left,right-1,0);
+        }
+    }
+
 }

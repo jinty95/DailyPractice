@@ -157,4 +157,10 @@ public class Test5 {
         System.out.println(fun5.restoreString(s,indices));
     }
 
+    @Test
+    public void testStoneGame(){
+        System.out.println(fun5.stoneGame(new int[]{5,3,4,5}));
+        System.out.println(fun5.stoneGame(new int[]{5,8,5,3}));
+    }
+
 }
