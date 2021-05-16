@@ -150,4 +150,11 @@ public class Test5 {
         System.out.println(fun5.findMaximumXOR(new int[]{3,10,5,25,2,8}));
     }
 
+    @Test
+    public void testRestoreString(){
+        String s = "codeleet";
+        int[] indices = {4,5,6,7,0,2,1,3};
+        System.out.println(fun5.restoreString(s,indices));
+    }
+
 }
