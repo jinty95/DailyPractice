@@ -694,4 +694,50 @@ public class Fun5 {
         return dp[m-1][n-1];
     }
 
+    /**
+     * 421. 数组中两个数的最大异或值
+     * 给你一个整数数组 nums ，返回 nums[i] XOR nums[j] 的最大运算结果，其中 0 ≤ i ≤ j < n 。
+     * 1 <= nums.length <= 2 * 10^4
+     * 0 <= nums[i] <= 2^31 - 1
+     *
+     * @param nums 数组
+     * @return 最大异或值
+     */
+    public int findMaximumXOR(int[] nums) {
+
+        /*//1、时间复杂度O(N^2)
+        //因为输入数组是正数，所以异或结果最小为0
+        int max = 0;
+        for(int i=0;i<nums.length-1;i++){
+            for(int j=i+1;j<nums.length;j++){
+                max = Math.max(max,nums[i]^nums[j]);
+            }
+        }
+        return max;*/
+
+        //2、时间复杂度O(31N)=O(N)
+        //从高位往低位确定x的值
+        int x = 0;
+        loop : for(int k=30;k>=0;k--){
+            Set<Integer> set = new HashSet<>();
+            for(int num : nums){
+                //保留所有数从最高位开始到第 k 个二进制位为止的部分
+                set.add(num >> k);
+            }
+            //假设x的下一位为1
+            int xNext = 2*x+1;
+            for(int num : nums){
+                //x的下一位可以为1
+                if(set.contains(xNext ^ num>>k)){
+                    x = xNext;
+                    continue loop;
+                }
+            }
+            //x的下一位不能为1
+            x = xNext - 1;
+        }
+        return x;
+
+    }
+
 }
