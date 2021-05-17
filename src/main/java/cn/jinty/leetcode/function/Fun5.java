@@ -668,7 +668,7 @@ public class Fun5 {
 
     /**
      * 62. 不同路径
-     * 一个机器人位于一个 m x n 网格的左上角。机器人每次只能向下或者向右移动一步。
+     * 一个机器人位于一个 m x n 网格的左上角。机器人每次只能向下或者向右移动一步。
      * 机器人试图达到网格的右下角。问总共有多少条不同的路径？
      *
      * @param m 行
@@ -813,6 +813,44 @@ public class Fun5 {
         }else{
             return stoneGame(piles,sum0,sum1+piles[left],left+1,right,0) ||
                     stoneGame(piles,sum0,sum1+piles[right],left,right-1,0);
+        }
+    }
+
+    /*
+     * 993. 二叉树的堂兄弟节点
+     * 如果二叉树的两个节点深度相同，但 父节点不同 ，则它们是一对堂兄弟节点。
+     * 我们给出了具有唯一值的二叉树的根节点 root ，以及树中两个不同节点的值 x 和 y 。
+     *
+     * @param root 根节点
+     * @param x 节点值1
+     * @param y 节点值2
+     * @return x和y是否为堂兄弟
+     */
+    public boolean isCousins(TreeNode root, int x, int y) {
+        Map<Integer,Integer> map = new HashMap<>();
+        nodeParentMap(root,map);
+        int depthX = 0, depthY = 0;
+        Integer valX = x, valY = y;
+        while(valX!=null){
+            depthX++;
+            valX = map.get(valX);
+        }
+        while(valY!=null){
+            depthY++;
+            valY = map.get(valY);
+        }
+        return depthX==depthY && !map.get(x).equals(map.get(y));
+    }
+    //用哈希表存储节点与父节点的映射
+    private void nodeParentMap(TreeNode root, Map<Integer,Integer> map){
+        if(root==null) return;
+        if(root.left!=null){
+            map.put(root.left.val,root.val);
+            nodeParentMap(root.left,map);
+        }
+        if(root.right!=null){
+            map.put(root.right.val,root.val);
+            nodeParentMap(root.right,map);
         }
     }
 

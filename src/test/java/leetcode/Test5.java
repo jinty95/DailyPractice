@@ -158,9 +158,17 @@ public class Test5 {
     }
 
     @Test
-    public void testStoneGame(){
-        System.out.println(fun5.stoneGame(new int[]{5,3,4,5}));
-        System.out.println(fun5.stoneGame(new int[]{5,8,5,3}));
+    public void testStoneGame() {
+        System.out.println(fun5.stoneGame(new int[]{5, 3, 4, 5}));
+        System.out.println(fun5.stoneGame(new int[]{5, 8, 5, 3}));
+    }
+
+    @Test
+    public void testIsCousins(){
+        TreeNode root = new TreeNode(5);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(7);
+        System.out.println(fun5.isCousins(root,3,7));
     }
 
 }
