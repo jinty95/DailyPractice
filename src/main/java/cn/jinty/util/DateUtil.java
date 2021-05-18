@@ -6,20 +6,20 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 日期时间相关工具类
+ * 日期时间 - 工具类
  *
  * @author Jinty
  * @date 2020/3/25.
  */
 public final class DateUtil {
 
-    private static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    private static final SimpleDateFormat YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
 
-    private static final SimpleDateFormat YYYY_MM = new SimpleDateFormat("yyyy-MM");
+    public static final SimpleDateFormat YYYY_MM = new SimpleDateFormat("yyyy-MM");
 
-    private static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
+    public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
 
     /**
      * 返回(年月日时分秒)文本字符串
@@ -322,6 +322,60 @@ public final class DateUtil {
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MILLISECOND,0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一年的开始时刻
+     *
+     * @param year 年份
+     * @return 时间
+     */
+    public static Date getBeginOfYear(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR,year);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一年的结束时刻
+     *
+     * @param year 年份
+     * @return 时间
+     */
+    public static Date getEndOfYear(int year){
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR,year+1);
+        calendar.add(Calendar.SECOND,-1);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取今年的开始时刻
+     *
+     * @return 时间
+     */
+    public static Date getBeginOfThisYear(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        calendar.clear();
+        calendar.set(Calendar.YEAR,year);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取今年的结束时刻
+     *
+     * @return 时间
+     */
+    public static Date getEndOfThisYear(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        calendar.clear();
+        calendar.set(Calendar.YEAR,year+1);
+        calendar.add(Calendar.SECOND,-1);
         return calendar.getTime();
     }
 
