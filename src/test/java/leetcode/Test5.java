@@ -171,4 +171,13 @@ public class Test5 {
         System.out.println(fun5.isCousins(root,3,7));
     }
 
+    @Test
+    public void testCountTriplets(){
+        System.out.println(
+            fun5.countTriplets(
+                new int[]{2,3,1,6,7}
+            )
+        );
+    }
+
 }

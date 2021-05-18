@@ -854,4 +854,49 @@ public class Fun5 {
         }
     }
 
+    /**
+     * 1442. 形成两个异或相等数组的三元组数目
+     * 从数组中取三个下标 i、j 和 k ，其中 (0 <= i < j <= k < arr.length) 。
+     * a 和 b 定义如下：
+     * a = arr[i] ^ arr[i + 1] ^ ... ^ arr[j - 1]
+     * b = arr[j] ^ arr[j + 1] ^ ... ^ arr[k]
+     * 请返回能够令 a == b 成立的三元组 (i, j , k) 的数目。
+     *
+     * @param arr 数组 1 <= arr.length <= 300
+     * @return 三元组数目
+     */
+    public int countTriplets(int[] arr) {
+        int count = 0;
+        //前缀异或
+        int[] preXor = new int[arr.length];
+        preXor[0] = arr[0];
+        for(int i=1;i<arr.length;i++){
+            preXor[i] = preXor[i-1] ^ arr[i];
+        }
+        /*//1、枚举所有三元组 时间复杂度O(N^3)
+        for(int i=0;i<arr.length-1;i++){
+            for(int j=i+1;j<arr.length;j++){
+                for(int k=j;k<arr.length;k++){
+                    int a = (i==0) ? preXor[j-1] : preXor[j-1]^preXor[i-1];
+                    int b = preXor[k]^preXor[j-1];
+                    if(a==b) count++;
+                }
+            }
+        }
+        return count;*/
+
+        //2、枚举所有的二元组 时间复杂度O(N^2)
+        //判断 preXor[j-1]^preXor[i-1]==preXor[k]^preXor[j-1]
+        //只需 preXor[i-1]==preXor[k] j可以取[i+1,k]的任意值
+        for(int i=0;i<arr.length-1;i++){
+            for(int k=i+1;k<arr.length;k++){
+                if((i==0 && preXor[k]==0) || (i>0 && preXor[i-1]==preXor[k])){
+                    count += (k-i);
+                }
+            }
+        }
+        return count;
+
+    }
+
 }
