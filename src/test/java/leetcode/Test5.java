@@ -180,4 +180,13 @@ public class Test5 {
         );
     }
 
+    @Test
+    public void testKthLargestValue(){
+        int[][] matrix = {
+                {5,2},{1,6}
+        };
+        System.out.println(fun5.kthLargestValue(matrix,1));
+        System.out.println(fun5.kthLargestValue(matrix,2));
+    }
+
 }
