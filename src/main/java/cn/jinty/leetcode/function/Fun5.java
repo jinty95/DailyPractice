@@ -939,4 +939,55 @@ public class Fun5 {
         return queue.peek();
     }
 
+    /**
+     * 692. 前K个高频单词
+     * 给一非空的单词列表，返回前 k 个出现次数最多的单词。
+     * 返回的答案应该按单词出现频率由高到低排序。如果不同的单词有相同出现频率，按字母顺序排序。
+     *
+     * @param words 单词数组
+     * @param k 整数
+     * @return 前K个高频单词
+     */
+    public List<String> topKFrequent(String[] words, int k) {
+        //收集词频 时间O(N)、空间O(N)
+        Map<String,Integer> map = new HashMap<>();
+        for(String word : words){
+            map.put(word,map.getOrDefault(word,0)+1);
+        }
+        //小根堆排序 时间O(NlogK)、空间O(K)
+        PriorityQueue<Map.Entry<String,Integer>> queue = new PriorityQueue<>(
+            k, (o1, o2) -> {
+                 if(o1.getValue().equals(o2.getValue())){
+                     return o2.getKey().compareTo(o1.getKey());
+                 }
+                 return o1.getValue() - o2.getValue();
+            }
+        );
+        for(Map.Entry<String,Integer> entry : map.entrySet()){
+            if(queue.size()<k){
+                queue.offer(entry);
+            }else{
+                Map.Entry<String,Integer> min = queue.peek();
+                if(entry.getValue().equals(min.getValue())){
+                    if(entry.getKey().compareTo(min.getKey()) < 0){
+                        queue.poll();
+                        queue.offer(entry);
+                    }
+                }else{
+                    if(entry.getValue()>min.getValue()){
+                        queue.poll();
+                        queue.offer(entry);
+                    }
+                }
+            }
+        }
+        //构建结果
+        List<String> ans = new ArrayList<>();
+        while( ! queue.isEmpty()){
+            ans.add(queue.poll().getKey());
+        }
+        Collections.reverse(ans);
+        return ans;
+    }
+
 }

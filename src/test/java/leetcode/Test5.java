@@ -189,4 +189,13 @@ public class Test5 {
         System.out.println(fun5.kthLargestValue(matrix,2));
     }
 
+    @Test
+    public void testTopKFrequent(){
+        String[] words = {
+                "the", "day", "is", "sunny", "the", "day",
+                "the", "the", "sunny", "is", "is", "is"
+        };
+        System.out.println(fun5.topKFrequent(words,4));
+    }
+
 }
