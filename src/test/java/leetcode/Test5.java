@@ -198,4 +198,11 @@ public class Test5 {
         System.out.println(fun5.topKFrequent(words,4));
     }
 
+    @Test
+    public void testMaxUncrossedLines(){
+        int[] nums1 = {1,2,3,4,5};
+        int[] nums2 = {2,1,4,3,5};
+        System.out.println(fun5.maxUncrossedLines(nums1,nums2));
+    }
+
 }
