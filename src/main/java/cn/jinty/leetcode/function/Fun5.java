@@ -802,17 +802,22 @@ public class Fun5 {
      * @param sum1 后手分数
      * @param left 左指针
      * @param right 右指针
-     * @param player 当前玩家：0为先手，1为后手
-     * @return 先手能否取胜
+     * @param player 当前玩家：0为Alex，1为Lee
+     * @return 当前玩家能否取胜
      */
     private boolean stoneGame(int[] piles,int sum0,int sum1,int left,int right,int player){
-        if(left > right) return sum0 > sum1;
+        if(left > right){
+            if(player==0) return sum0 > sum1;
+            else return sum1 > sum0;
+        }
         if(player == 0){
-            return stoneGame(piles,sum0+piles[left],sum1,left+1,right,1) ||
-                    stoneGame(piles,sum0+piles[right],sum1,left,right-1,1);
+            //玩家0有两种选择，选择其中一种可以使得玩家1必输，则玩家0必赢
+            return ! stoneGame(piles,sum0+piles[left],sum1,left+1,right,1) ||
+                    ! stoneGame(piles,sum0+piles[right],sum1,left,right-1,1);
         }else{
-            return stoneGame(piles,sum0,sum1+piles[left],left+1,right,0) ||
-                    stoneGame(piles,sum0,sum1+piles[right],left,right-1,0);
+            //玩家1有两种选择，选择其中一种可以使得玩家0必输，则玩家1必赢
+            return ! stoneGame(piles,sum0,sum1+piles[left],left+1,right,0) ||
+                    ! stoneGame(piles,sum0,sum1+piles[right],left,right-1,0);
         }
     }
 
