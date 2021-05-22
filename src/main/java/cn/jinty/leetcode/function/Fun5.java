@@ -1033,4 +1033,68 @@ public class Fun5 {
         return dp[nums1.length-1][nums2.length-1];
     }
 
+    /**
+     * 810. 黑板异或游戏
+     * 黑板上写着一个非负整数数组 nums[i] 。Alice 和 Bob 轮流从黑板上擦掉一个数字，Alice 先手。
+     * 如果擦除一个数字后，剩余的所有数字按位异或运算得出的结果等于 0 的话，当前玩家游戏失败。 
+     * (另外，如果只剩一个数字，按位异或运算得到它本身；如果无数字剩余，按位异或运算结果为 0。）
+     * 换种说法就是，轮到某个玩家时，如果当前黑板上所有数字按位异或运算结果等于 0，这个玩家获胜。
+     * 假设两个玩家每步都使用最优解，当且仅当 Alice 获胜时返回 true。
+     *
+     * @param nums 非负整数数组 1 <= nums.length <= 1000
+     * @return 先手能否获胜
+     */
+    public boolean xorGame(int[] nums) {
+
+        /*//1、暴力递归：时间复杂度(N!)
+        int sum = 0;
+        for(int num : nums){
+            sum ^= num;
+        }
+        int[] rob = new int[nums.length];
+        return xorGame(nums,nums.length,sum,rob,0);*/
+
+        //上述做法复杂度太高，数组稍微长一点就超时了
+
+        //2、数学：时间复杂度O(N)
+        //要么一开始异或结果为0，要么数组长度为偶数，二者满足其一，则先手必赢
+        if(nums.length%2 == 0){
+            return true;
+        }
+        int sum = 0;
+        for(int num : nums){
+            sum ^= num;
+        }
+        return sum == 0;
+
+    }
+    /**
+     * 递归函数：在剩余的nums中player能否取胜
+     * @param nums 原数组
+     * @param remainSize 剩余大小
+     * @param sum 所有剩余元素的异或结果
+     * @param rob 已删除的元素(值为1表示删除)
+     * @param player 当前玩家：0、 1
+     * @return 当前玩家能否取胜
+     */
+    private boolean xorGame(int[] nums, int remainSize, int sum, int[] rob, Integer player){
+        //剩余异或结果为0，当前玩家获胜
+        if(remainSize==0 || sum==0){
+            return true;
+        }
+        //在剩余的数组中删除一个元素，如果导致对手必输，那么当前玩家必赢
+        for(int i=0;i<nums.length;i++){
+            if(rob[i] == 0){
+                int nextSum = sum ^ nums[i];
+                if(nextSum != 0){
+                    rob[i] = 1;
+                    boolean flag = ! xorGame(nums, remainSize-1, nextSum, rob, player==0 ? 1 : 0);
+                    rob[i] = 0;
+                    if(flag) return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

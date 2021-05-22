@@ -205,4 +205,12 @@ public class Test5 {
         System.out.println(fun5.maxUncrossedLines(nums1,nums2));
     }
 
+    @Test
+    public void testXorGame(){
+        int[] nums1 = {1,1,2};
+        System.out.println(fun5.xorGame(nums1));
+        int[] nums2 = {1,0};
+        System.out.println(fun5.xorGame(nums2));
+    }
+
 }
