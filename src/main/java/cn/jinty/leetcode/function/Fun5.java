@@ -1,5 +1,6 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.leetcode.IntTrie;
 import cn.jinty.leetcode.TreeNode;
 
 import java.util.*;
@@ -1095,6 +1096,67 @@ public class Fun5 {
             }
         }
         return false;
+    }
+
+    /**
+     * 1707. 与数组中元素的最大异或值
+     * 给你一个由非负整数组成的数组 nums 。另有一个查询数组 queries ，其中 queries[i] = [xi, mi] 。
+     * 第 i 个查询的答案是 xi 和任何 nums 数组中不超过 mi 的元素按位异或（XOR）得到的最大值。
+     * 换句话说，答案是 max(nums[j] XOR xi) ，其中所有 j 均满足 nums[j] <= mi 。如果 nums 中的所有元素都大于 mi，最终答案就是 -1 。
+     * 返回一个整数数组 answer 作为查询的答案，其中 answer.length == queries.length 且 answer[i] 是第 i 个查询的答案。
+     *
+     * @param nums 数组(非负整数)  1 <= nums.length <= 10^5
+     * @param queries 查询(非负整数)  1 <= queries.length <= 10^5
+     * @return 结果
+     */
+    public int[] maximizeXor(int[] nums, int[][] queries) {
+
+        /*//1、暴力枚举：时间复杂度 O(NQ)
+        int[] result = new int[queries.length];
+        //排序
+        Arrays.sort(nums);
+        //遍历
+        for(int i=0;i<queries.length;i++){
+            int[] query = queries[i];
+            int max = -1;
+            for(int num : nums){
+                if(num>query[1]) break;
+                max = Math.max(max,num^query[0]);
+            }
+            result[i] = max;
+        }
+        return result;*/
+
+        //2、前缀树：时间复杂度O(NlogN+QlogQ+(N+Q)31)
+        int[] result = new int[queries.length];
+        //对nums排序
+        Arrays.sort(nums);
+        //复制queries，为了排序后保存原索引
+        int[][] copyQueries = new int[queries.length][3];
+        for(int i=0;i<queries.length;i++){
+            copyQueries[i][0] = queries[i][0];
+            copyQueries[i][1] = queries[i][1];
+            copyQueries[i][2] = i;
+        }
+        //对copyQueries按照copyQueries[i][1]排序
+        Arrays.sort(copyQueries,((o1, o2) -> o1[1]-o2[1]));
+        //遍历copyQueries，一边构建前缀树，一边查询最大值
+        int j = 0;
+        IntTrie trie = new IntTrie();
+        for(int i=0;i<copyQueries.length;i++){
+            //把所有小于copyQueries[i][1]的nums[j]都存入前缀树
+            while(j<nums.length && nums[j]<=copyQueries[i][1]){
+                trie.insert(nums[j++]);
+            }
+            if(j==0){
+                //前缀树还没有存入整数
+                result[copyQueries[i][2]] = -1;
+            }else{
+                result[copyQueries[i][2]] = trie.getMaxXor(copyQueries[i][0]);
+            }
+        }
+        return result;
+
     }
 
 }

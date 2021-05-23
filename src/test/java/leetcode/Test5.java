@@ -213,4 +213,11 @@ public class Test5 {
         System.out.println(fun5.xorGame(nums2));
     }
 
+    @Test
+    public void testMaximizeXor(){
+        int[] nums = {0,1,2,3,4};
+        int[][] queries = {{3,1},{1,3},{5,6}};
+        System.out.println(Arrays.toString(fun5.maximizeXor(nums,queries)));
+    }
+
 }
