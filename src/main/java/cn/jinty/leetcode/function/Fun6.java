@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.function;
 
+import java.util.Arrays;
+
 /**
  * LeetCode算法题
  *
@@ -43,6 +45,54 @@ public class Fun6 {
             }
         }
         return dp[0][s.length()-1];
+    }
+
+    /**
+     * 475. 供暖器
+     * 设计一个有固定加热半径的供暖器向所有房屋供暖，使得在加热器的加热半径范围内的每个房屋都可以获得供暖。
+     * 现在，给出位于一条水平线上的房屋 houses 和供暖器 heaters 的位置，请你找出并返回可以覆盖所有房屋的最小加热半径。
+     * 说明：所有供暖器都遵循你的半径标准，加热的半径也一样。
+     *
+     * @param houses 房子位置
+     * @param heaters 加热器位置
+     * @return 最小半径
+     */
+    public int findRadius(int[] houses, int[] heaters) {
+        //排序
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        //房子在左，供暖器在右，求每个房子到供暖器的最短距离
+        int[] leftDis = new int[houses.length];
+        int j = 0;
+        for(int i=0;i<houses.length;i++){
+            if(j==heaters.length){
+                leftDis[i] = Integer.MAX_VALUE;
+            }else if(houses[i]<=heaters[j]){
+                leftDis[i] = heaters[j]-houses[i];
+            }else{
+                j++;
+                i--;
+            }
+        }
+        //房子在右，供暖器在左，求每个房子到供暖器的最短距离
+        int[] rightDis = new int[houses.length];
+        j = heaters.length-1;
+        for(int i=houses.length-1;i>=0;i--){
+            if(j==-1){
+                rightDis[i] = Integer.MAX_VALUE;
+            }else if(houses[i]>=heaters[j]){
+                rightDis[i] = houses[i]-heaters[j];
+            }else{
+                j--;
+                i++;
+            }
+        }
+        //对于每个房子，求到左右供暖器的最小距离，所有最小距离中的最大值即为加热半径
+        int radix = 0;
+        for(int i=0;i<houses.length;i++){
+            radix = Math.max(radix,Math.min(leftDis[i],rightDis[i]));
+        }
+        return radix;
     }
 
 }
