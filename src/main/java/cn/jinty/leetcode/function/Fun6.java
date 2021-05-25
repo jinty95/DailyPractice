@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.util.ArrayUtil;
+
 import java.util.Arrays;
 
 /**
@@ -93,6 +95,55 @@ public class Fun6 {
             radix = Math.max(radix,Math.min(leftDis[i],rightDis[i]));
         }
         return radix;
+    }
+
+    /**
+     * 1262. 可被三整除的最大和
+     * 给你一个整数数组 nums，请你找出并返回能被三整除的最大和。
+     *
+     * @param nums 数组  1 <= nums.length <= 4 * 10^4
+     * @return 能被三整除的最大和
+     */
+    public int maxSumDivThree(int[] nums) {
+
+        /*//1、递归回溯：时间复杂度O(2^N)
+        maxSumDivThree(nums,0,0);
+        return maxSumDivThree;*/
+
+        //上述做法复杂度太高，执行超时
+
+        //2、动态规划：时间复杂度O(3N)
+        //dp[i][j]表示数组nums[0...i]模3得j的最大和
+        int[][] dp = new int[nums.length][3];
+        for(int j=0;j<3;j++){
+            dp[0][j] = nums[0]%3 == j ? nums[0] : 0;
+        }
+        for(int i=1;i<nums.length;i++){
+            int mod = nums[i]%3;
+            for(int j=0;j<3;j++){
+                dp[i][j] = Math.max(mod == j ? nums[i] : 0, dp[i-1][j]);
+                int offset = (j+3-mod)%3;
+                if(dp[i-1][offset]!=0){
+                    dp[i][j] = Math.max(
+                            dp[i][j], dp[i-1][offset] + nums[i]
+                    );
+                }
+            }
+        }
+        return dp[nums.length-1][0];
+
+    }
+    private int maxSumDivThree = 0;
+    //递归函数：枚举所有组合
+    private void maxSumDivThree(int[] nums,int index,int sum){
+        if(sum%3==0){
+            maxSumDivThree = Math.max(maxSumDivThree,sum);
+        }
+        for(int i=index;i<nums.length;i++){
+            sum += nums[i];
+            maxSumDivThree(nums,i+1,sum);
+            sum -= nums[i];
+        }
     }
 
 }

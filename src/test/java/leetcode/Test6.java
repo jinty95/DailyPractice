@@ -26,4 +26,10 @@ public class Test6 {
         System.out.println(fun6.findRadius(houses,heater));
     }
 
+    @Test
+    public void testMaxSumDivThree(){
+        int[] nums = {3,5,6,1,8};
+        System.out.println(fun6.maxSumDivThree(nums));
+    }
+
 }
