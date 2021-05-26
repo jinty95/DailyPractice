@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.leetcode.tree;
 
 import java.util.HashMap;
 import java.util.Map;

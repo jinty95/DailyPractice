@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.leetcode.tree;
 
 /**
  * 前缀树 - 基于01存储int型整数

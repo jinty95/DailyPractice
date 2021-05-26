@@ -1,6 +1,6 @@
 package cn.jinty.util;
 
-import cn.jinty.leetcode.ListNode;
+import cn.jinty.leetcode.entity.ListNode;
 
 /**
  * 链表工具类

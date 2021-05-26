@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.leetcode.linear;
 
 import java.util.Deque;
 import java.util.LinkedList;

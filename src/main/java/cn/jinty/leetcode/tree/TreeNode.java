@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.leetcode.tree;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

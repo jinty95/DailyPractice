@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.leetcode.linear;
 
 /**
  * 具有增量操作的栈

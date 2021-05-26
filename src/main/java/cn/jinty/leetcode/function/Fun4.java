@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.ListNode;
-import cn.jinty.leetcode.TreeNode;
+import cn.jinty.leetcode.entity.ListNode;
+import cn.jinty.leetcode.tree.TreeNode;
 import cn.jinty.leetcode.entity.Employee;
 
 import java.util.*;
@@ -691,8 +691,8 @@ public class Fun4 {
 
     /**
      * 25. K 个一组翻转链表
-     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
-     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
      *
      * @param head 链表
      * @param k 正整数
@@ -804,7 +804,7 @@ public class Fun4 {
     /**
      * 7. 整数反转
      * 给你一个 32 位的有符号整数 x ，返回将 x 中的数字部分反转后的结果。
-     * 如果反转后整数超过 32 位的有符号整数的范围 [−2^31,  2^31 − 1] ，就返回 0。
+     * 如果反转后整数超过 32 位的有符号整数的范围 [−2^31, 2^31 − 1]，就返回 0。
      * 假设环境不允许存储 64 位整数（有符号或无符号）。
      *
      * @param x 整数
@@ -846,7 +846,7 @@ public class Fun4 {
 
     /**
      * 1473. 粉刷房子 III
-     * 在一个小城市里，有 m 个房子排成一排，你需要给每个房子涂上 n 种颜色之一（颜色编号为 1 到 n ）。有的房子去年夏天已经涂过颜色了，所以这些房子不需要被重新涂色。
+     * 在一个小城市里，有 m 个房子排成一排，你需要给每个房子涂上 n 种颜色之一（颜色编号为 1 到 n ）。有的房子去年夏天已经涂过颜色了，所以这些房子不需要被重新涂色。
      * 我们将连续相同颜色尽可能多的房子称为一个街区。请你返回房子涂色方案的最小总花费，使得每个房子都被涂色后，恰好组成 target 个街区。如果没有可用的涂色方案，请返回 -1 。
      *
      * @param houses houses[i]是第 i 个房子的颜色，0 表示这个房子还没有被涂色。
@@ -943,8 +943,8 @@ public class Fun4 {
 
     /**
      * 740. 删除并获得点数
-     * 每次操作中，选择任意一个 nums[i] ，删除它并获得 nums[i] 的点数。
-     * 之后，你必须删除每个等于 nums[i] - 1 或 nums[i] + 1 的元素。
+     * 每次操作中，选择任意一个 nums[i] ，删除它并获得 nums[i] 的点数。
+     * 之后，你必须删除每个等于 nums[i] - 1 或 nums[i] + 1 的元素。
      * 开始你拥有 0 个点数。返回你能通过这些操作获得的最大点数。
      *
      * @param nums 正整数数组 (1 <= nums[i] <= 10^4)

@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.ListNode;
-import cn.jinty.leetcode.TreeNode;
+import cn.jinty.leetcode.entity.ListNode;
+import cn.jinty.leetcode.tree.TreeNode;
 
 import java.util.*;
 
@@ -380,9 +380,9 @@ public class Fun2 {
      * 罗马数字包含以下七种字符：I， V， X， L，C，D 和 M。
      * 分别对应：1， 5， 10， 50， 100， 500， 1000
      * 特殊情况：
-     * I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
-     * X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。 
-     * C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+     * I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
+     * X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。
+     * C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
      *
      * @param s 罗马数字字符串
      * @return 整数

@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.Node;
-import cn.jinty.leetcode.TreeNode;
+import cn.jinty.leetcode.entity.Node;
+import cn.jinty.leetcode.tree.TreeNode;
 
 import java.math.BigInteger;
 import java.util.*;

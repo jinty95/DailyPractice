@@ -1,7 +1,7 @@
 package leetcode;
 
 import cn.jinty.leetcode.function.Fun1;
-import cn.jinty.leetcode.ListNode;
+import cn.jinty.leetcode.entity.ListNode;
 import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
