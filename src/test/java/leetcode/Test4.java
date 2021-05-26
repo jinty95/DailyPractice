@@ -1,5 +1,6 @@
 package leetcode;
 
+import cn.jinty.leetcode.entity.Employee;
 import cn.jinty.leetcode.entity.ListNode;
 import cn.jinty.leetcode.tree.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
@@ -132,6 +133,16 @@ public class Test4 {
     public void testSingleNumber(){
         int[] nums = {0,9,0,0,8,3,8,8,9,9};
         System.out.println(fun4.singleNumber(nums));
+    }
+
+    @Test
+    public void testGetImportance(){
+        List<Employee> list = new ArrayList<>();
+        list.add(new Employee(1,10,Arrays.asList(2,3,4)));
+        list.add(new Employee(2,5,null));
+        list.add(new Employee(3,7,null));
+        list.add(new Employee(4,8,null));
+        System.out.println(fun4.getImportance(list,1));
     }
 
     @Test
