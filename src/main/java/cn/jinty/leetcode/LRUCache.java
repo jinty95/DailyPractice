@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Least Recently Used 最近使用时间最小
+ * 是一种常用的淘汰策略，将上一次使用时间离现在最久的元素删除
  *
  * @author jinty
  * @date 2021/3/15
@@ -32,6 +33,11 @@ public class LRUCache extends LinkedHashMap<Integer,Integer>{
     @Override
     protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
         return super.size() > capacity;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 
 }

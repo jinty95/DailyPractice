@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.function;
 
 import cn.jinty.leetcode.entity.Employee;
 import cn.jinty.leetcode.entity.ListNode;

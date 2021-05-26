@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.function;
 
 import cn.jinty.leetcode.function.Fun6;
 import cn.jinty.util.ArrayUtil;
