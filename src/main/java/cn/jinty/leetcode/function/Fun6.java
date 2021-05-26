@@ -2,7 +2,7 @@ package cn.jinty.leetcode.function;
 
 import cn.jinty.util.ArrayUtil;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * LeetCode算法题
@@ -144,6 +144,45 @@ public class Fun6 {
             maxSumDivThree(nums,i+1,sum);
             sum -= nums[i];
         }
+    }
+
+    /**
+     * 1190. 反转每对括号间的子串
+     * 给出一个字符串 s（仅含有小写英文字母和括号）。
+     * 请你按照从括号内到外的顺序，逐层反转每对匹配括号中的字符串，并返回最终的结果。
+     * 注意，您的结果中 不应 包含任何括号。
+     *
+     * @param s 字符串
+     * @return 结果
+     */
+    public String reverseParentheses(String s) {
+        //借助栈完成括号内的反转操作
+        Deque<Character> deque = new LinkedList<>();
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+            if(c==')'){
+                //找到一个右括号，则把对应区间内字符取出
+                List<Character> list = new ArrayList<>();
+                while(deque.peek()!='('){
+                    list.add(deque.pop());
+                }
+                //删除对应的左括号
+                deque.poll();
+                //区间字符反转后重新入栈
+                for(Character one : list){
+                    deque.push(one);
+                }
+            }else{
+                //除了右括号的字符直接入栈
+                deque.push(c);
+            }
+        }
+        //从栈中取出最终结果
+        StringBuilder sb = new StringBuilder();
+        while( ! deque.isEmpty()){
+            sb.append(deque.pollLast());
+        }
+        return sb.toString();
     }
 
 }

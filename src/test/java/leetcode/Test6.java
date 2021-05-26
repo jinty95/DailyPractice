@@ -32,4 +32,10 @@ public class Test6 {
         System.out.println(fun6.maxSumDivThree(nums));
     }
 
+    @Test
+    public void testReverseParentheses(){
+        String s = "(ed(et(oc))el)";
+        System.out.println(fun6.reverseParentheses(s));
+    }
+
 }
