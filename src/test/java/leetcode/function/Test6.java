@@ -50,4 +50,11 @@ public class Test6 {
         ArrayUtil.print2DArray(board);
     }
 
+    @Test
+    public void testConvert(){
+        System.out.println(fun6.convert("PAYPALISHIRING",3));
+        System.out.println(fun6.convert("PAYPALISHIRING",4));
+        System.out.println(fun6.convert("ABCD",1));
+    }
+
 }

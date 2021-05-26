@@ -232,4 +232,75 @@ public class Fun6 {
         }
     }
 
+    /**
+     * 6. Z 字形变换
+     * 将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。
+     * 比如输入字符串为 "PAYPALISHIRING" 行数为 3 时，排列如下：
+     *          P   A   H   N
+     *          A P L S I I G
+     *          Y   I   R
+     * 之后，输出需要从左往右逐行读取，产生出一个新的字符串，比如："PAHNAPLSIIGYIR"。
+     *
+     * @param s 字符串
+     * @param numRows 行数
+     * @return 新字符串
+     */
+    public String convert(String s, int numRows) {
+
+        /*//解法1：时间复杂度O(NlogN)
+        //不需要处理的情况
+        if(numRows==1 || s.length()<=numRows) return s;
+        //记录每个字符的坐标位置
+        int[][] pos = new int[s.length()][3];
+        int i=0, j=0, k=0;
+        boolean down = true;
+        while(k<s.length()){
+            if(down){
+                if(i==numRows-1) down = false;
+                else{
+                    //下降
+                    pos[k] = new int[]{s.charAt(k), i++, j};
+                    k++;
+                }
+            }else{
+                if(i==0) down = true;
+                else{
+                    //上升
+                    pos[k] = new int[]{s.charAt(k), i--, j++};
+                    k++;
+                }
+            }
+        }
+        //先按行后按列排序
+        Arrays.sort(pos,(o1,o2)->{
+            if(o1[1]==o2[1]) return o1[2]-o2[2];
+            return o1[1]-o2[1];
+        });
+        //构建结果字符串
+        StringBuilder result = new StringBuilder();
+        for (int[] po : pos) {
+            result.append((char) po[0]);
+        }
+        return result.toString();*/
+
+        //解法2：时间复杂度O(N)
+        if(numRows==1) return s;
+        StringBuilder sb = new StringBuilder();
+        //Z字形变换是一个周期性结构，且行数增一周期增二，对于每一行，一个周期会贡献1~2个元素
+        int cycle = 2*numRows-2;
+        //遍历行
+        for(int i=0;i<numRows;i++){
+            //收集属于该行的元素
+            for(int j=i;j<s.length();j+=cycle){
+                sb.append(s.charAt(j));
+                if(i>0 && i<numRows-1){
+                    int k = j-i+cycle-i;
+                    if(k<s.length()) sb.append(s.charAt(k));
+                }
+            }
+        }
+        return sb.toString();
+
+    }
+
 }
