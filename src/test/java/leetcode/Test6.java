@@ -1,6 +1,7 @@
 package leetcode;
 
 import cn.jinty.leetcode.function.Fun6;
+import cn.jinty.util.ArrayUtil;
 import org.junit.Test;
 
 /**
@@ -36,6 +37,17 @@ public class Test6 {
     public void testReverseParentheses(){
         String s = "(ed(et(oc))el)";
         System.out.println(fun6.reverseParentheses(s));
+    }
+
+    @Test
+    public void testGameOfLife(){
+        int[][] board = {
+                {0,1,0},{0,0,1},{1,1,1},{0,0,0}
+        };
+        ArrayUtil.print2DArray(board);
+        fun6.gameOfLife(board);
+        System.out.println();
+        ArrayUtil.print2DArray(board);
     }
 
 }

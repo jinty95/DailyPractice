@@ -185,4 +185,51 @@ public class Fun6 {
         return sb.toString();
     }
 
+    /**
+     * 289. 生命游戏
+     * 生命游戏，简称为生命，是英国数学家约翰·何顿·康威在 1970 年发明的细胞自动机。
+     * 给定一个包含 m × n 个格子的面板，每一个格子都可以看成是一个细胞。每个细胞都具有一个初始状态：1 即为活细胞（live），或 0 即为死细胞（dead）。
+     * 每个细胞与其八个相邻位置（水平，垂直，对角线）的细胞都遵循以下四条生存定律：
+     * 1、如果活细胞周围八个位置的活细胞数少于两个，则该位置活细胞死亡；
+     * 2、如果活细胞周围八个位置有两个或三个活细胞，则该位置活细胞仍然存活；
+     * 3、如果活细胞周围八个位置有超过三个活细胞，则该位置活细胞死亡；
+     * 4、如果死细胞周围正好有三个活细胞，则该位置死细胞复活；
+     * 下一个状态是通过将上述规则同时应用于当前状态下的每个细胞所形成的，其中细胞的出生和死亡是同时发生的。给你 m x n 网格面板 board 的当前状态，返回下一个状态。
+     *
+     * @param board 二维网格面板
+     */
+    public void gameOfLife(int[][] board) {
+        int row = board.length;
+        int col = board[0].length;
+        //下一个状态
+        int[][] next = new int[row][col];
+        int[] around = {-1,0,1};
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                //基于周围8个点统计活细胞数量
+                int live = 0;
+                for (int a : around) {
+                    if ((i == 0 && a == -1) || (i == row - 1 && a == 1)) continue;
+                    for (int b : around) {
+                        if ((j == 0 && b == -1) || (j == col - 1 && b == 1)) continue;
+                        if (a == 0 && b == 0) continue;
+                        if (board[i + a][j + b] == 1) {
+                            live++;
+                        }
+                    }
+                }
+                //推出当前点的下一个状态
+                if(board[i][j]==0){
+                    if(live==3) next[i][j]=1;
+                }else{
+                    if(live==2 || live==3) next[i][j]=1;
+                }
+            }
+        }
+        //将下一个状态写回原数组
+        for(int i=0;i<row;i++){
+            System.arraycopy(next[i], 0, board[i], 0, col);
+        }
+    }
+
 }
