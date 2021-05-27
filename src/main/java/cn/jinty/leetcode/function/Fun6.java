@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.function;
 
+import cn.jinty.leetcode.entity.ListNode;
+
 import java.util.*;
 
 /**
@@ -441,6 +443,46 @@ public class Fun6 {
         findTargetSumWays(nums,index+1,sum+nums[index],target);
         //减
         findTargetSumWays(nums,index+1,sum-nums[index],target);
+    }
+
+    /**
+     * 2. 两数相加
+     * 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
+     * 请你将两个数相加，并以相同形式返回一个表示和的链表。
+     * 你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     *
+     * @param l1 链表1
+     * @param l2 链表2
+     * @return 表示和的链表
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode head = new ListNode();
+        ListNode temp = head;
+        int carry = 0;
+        while(l1!=null || l2!=null){
+            //按位求和
+            int sum = carry;
+            if(l1!=null){
+                sum += l1.val;
+                l1 = l1.next;
+            }
+            if(l2!=null){
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            //求进位
+            carry = sum >= 10 ? 1 : 0;
+            //保留低位
+            sum %= 10;
+            //构建节点
+            temp.next = new ListNode(sum);
+            temp = temp.next;
+        }
+        //可能遗漏的进位
+        if(carry==1){
+            temp.next = new ListNode(1);
+        }
+        return head.next;
     }
 
 }

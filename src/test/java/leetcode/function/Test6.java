@@ -1,7 +1,9 @@
 package leetcode.function;
 
+import cn.jinty.leetcode.entity.ListNode;
 import cn.jinty.leetcode.function.Fun6;
 import cn.jinty.util.ArrayUtil;
+import cn.jinty.util.ListNodeUtil;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
@@ -74,6 +76,13 @@ public class Test6 {
     public void testFindTargetSumWays(){
         int[] nums = {0,0,0,0,0,0,0,0,1};
         System.out.println(fun6.findTargetSumWays(nums,1));
+    }
+
+    @Test
+    public void testAddTwoNumbers(){
+        ListNode l1 = ListNodeUtil.fromArray(new int[]{9,9,9});
+        ListNode l2 = new ListNode(1);
+        System.out.println(fun6.addTwoNumbers(l1,l2));
     }
 
 }
