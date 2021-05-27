@@ -23,4 +23,12 @@ public class ListUtilTest {
         System.out.println(ListUtil.splitByNum(list,4));
     }
 
+    @Test
+    public void testAsList(){
+        List<Integer> list1 = ListUtil.asList(1,2,3);
+        System.out.println(list1);
+        List<String> list2 = ListUtil.asList("a","b","c");
+        System.out.println(list2);
+    }
+
 }

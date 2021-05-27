@@ -36,4 +36,20 @@ public final class ListUtil {
         return splitList;
     }
 
+    /**
+     * 数组转列表
+     *
+     * @param array 数组
+     * @param <T> 泛型
+     * @return 列表
+     */
+    @SafeVarargs
+    public static <T> List<T> asList(T... array){
+        List<T> list = new ArrayList<>();
+        for(T one : array){
+            list.add(one);
+        }
+        return list;
+    }
+
 }
