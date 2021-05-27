@@ -70,4 +70,10 @@ public class Test6 {
         );
     }
 
+    @Test
+    public void testFindTargetSumWays(){
+        int[] nums = {0,0,0,0,0,0,0,0,1};
+        System.out.println(fun6.findTargetSumWays(nums,1));
+    }
+
 }
