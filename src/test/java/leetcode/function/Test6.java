@@ -85,4 +85,13 @@ public class Test6 {
         System.out.println(fun6.addTwoNumbers(l1,l2));
     }
 
+    @Test
+    public void testMergeKLists(){
+        ListNode l1 = ListNodeUtil.fromArray(new int[]{1,3,5,7,9});
+        ListNode l2 = ListNodeUtil.fromArray(new int[]{2,4,6,8,10});
+        ListNode l3 = ListNodeUtil.fromArray(new int[]{10,11,12,13});
+        ListNode[] lists = new ListNode[]{l1,l2,l3};
+        System.out.println(fun6.mergeKLists(lists));
+    }
+
 }

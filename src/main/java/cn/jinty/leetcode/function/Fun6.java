@@ -485,4 +485,79 @@ public class Fun6 {
         return head.next;
     }
 
+    /**
+     * 23. 合并K个升序链表
+     * 给你一个链表数组，每个链表都已经按升序排列。
+     * 请你将所有链表合并到一个升序链表中，返回合并后的链表。
+     *
+     * @param lists 链表数组
+     * @return 合并链表
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+
+        /*//1、从左到右一个一个合并
+        //先将lists[0]、lists[1]合并，然后将结果与lists[2]合并，以此类推
+        if(lists.length<1){
+            return null;
+        }else if(lists.length==1){
+            return lists[0];
+        }
+        ListNode head = new ListNode();
+        ListNode temp = head;
+        ListNode temp1 = lists[0];
+        for(int i=1;i<lists.length;i++){
+            ListNode temp2 = lists[i];
+            while(temp1!=null && temp2!=null){
+                if(temp1.val<temp2.val){
+                    temp.next = temp1;
+                    temp = temp.next;
+                    temp1 = temp1.next;
+                }else{
+                    temp.next = temp2;
+                    temp = temp.next;
+                    temp2 = temp2.next;
+                }
+            }
+            if(temp1!=null) temp.next = temp1;
+            if(temp2!=null) temp.next = temp2;
+            temp1 = head.next;
+            temp = head;
+        }
+        return head.next;*/
+
+        //2、分治法：两两合并，合并结果再两两合并
+        if(lists.length==0) return null;
+        return mergeKLists(lists,0,lists.length-1);
+
+    }
+    //将数组按照区间中点二分，完成左右两个区间的内部合并后，再将这两个区间合并
+    private ListNode mergeKLists(ListNode[] lists, int left, int right){
+        if(left==right){
+            return lists[left];
+        }
+        int mid = left+(right-left)/2;
+        ListNode l1 = mergeKLists(lists,left,mid);
+        ListNode l2 = mergeKLists(lists,mid+1,right);
+        return mergeTwoLists(l1,l2);
+    }
+    //合并两个链表
+    private ListNode mergeTwoLists(ListNode l1,ListNode l2){
+        ListNode head = new ListNode();
+        ListNode temp = head;
+        while(l1!=null && l2!=null){
+            if(l1.val<l2.val){
+                temp.next = l1;
+                temp = temp.next;
+                l1 = l1.next;
+            }else{
+                temp.next = l2;
+                temp = temp.next;
+                l2 = l2.next;
+            }
+        }
+        if(l1!=null) temp.next = l1;
+        if(l2!=null) temp.next = l2;
+        return head.next;
+    }
+
 }
