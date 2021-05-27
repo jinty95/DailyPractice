@@ -1,7 +1,5 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.util.ArrayUtil;
-
 import java.util.*;
 
 /**
@@ -301,6 +299,94 @@ public class Fun6 {
         }
         return sb.toString();
 
+    }
+
+    /**
+     * 139. 单词拆分
+     * 给定一个非空字符串 s 和一个包含非空单词的列表 wordDict，
+     * 判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。
+     * 说明：
+     * 1、拆分时可以重复使用字典中的单词。
+     * 2、字典中没有重复的单词。
+     *
+     * @param s 字符串
+     * @param wordDict 字典
+     * @return 字符串能否由字典的单词组成
+     */
+    public boolean wordBreak(String s, List<String> wordDict) {
+
+        /*//1、暴力递归
+        //将列表转为哈希表
+        Set<String> wordSet = new HashSet<>(wordDict);
+        return wordBreak1(s, wordSet);*/
+
+        /*//2、记忆搜索
+        //将列表转为哈希表
+        Set<String> wordSet = new HashSet<>(wordDict);
+        //创建记忆表
+        Map<Integer,Boolean> map = new HashMap<>();
+        return wordBreak2(s, 0, map, wordSet);*/
+
+        //3、动态规划
+        //将列表转为哈希表
+        Set<String> wordSet = new HashSet<>(wordDict);
+        //dp[i]表示s[i...len-1]能否拆分
+        boolean[] dp = new boolean[s.length()+1];
+        dp[s.length()] = true;
+        //i为子串起点
+        for(int i=s.length()-1;i>=0;i--){
+            StringBuilder sb = new StringBuilder();
+            //j为子串终点，j+1为剩余串
+            for(int j=i;j<s.length();j++){
+                sb.append(s.charAt(j));
+                //若s[i...j]能在字典找到，判断s[j+1...len-1]能否拆分
+                if(wordSet.contains(sb.toString())){
+                    if(dp[j+1]){
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return dp[0];
+
+    }
+    //递归函数1：暴力递归
+    private boolean wordBreak1(String s, Set<String> wordSet){
+        if(s.equals("")) return true;
+        //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<s.length();i++){
+            sb.append(s.charAt(i));
+            if(wordSet.contains(sb.toString())){
+                if(wordBreak1(s.substring(sb.length()),wordSet)) return true;
+            }
+        }
+        return false;
+    }
+    //递归函数2：使用记忆表避免重复计算
+    private boolean wordBreak2(String s, int begin, Map<Integer,Boolean> map, Set<String> wordSet){
+        if(begin==s.length()) return true;
+        //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
+        StringBuilder sb = new StringBuilder();
+        for(int i=begin;i<s.length();i++){
+            //收集字符
+            sb.append(s.charAt(i));
+            //匹配到单词
+            if(wordSet.contains(sb.toString())){
+                //剩余字符串的起点
+                int nextBegin = begin + sb.length();
+                //查记忆表
+                Boolean flag = map.get(nextBegin);
+                //查不到则递归求解
+                if(flag==null){
+                    flag = wordBreak2(s, nextBegin, map, wordSet);
+                    map.put(nextBegin,flag);
+                }
+                if(flag) return true;
+            }
+        }
+        return false;
     }
 
 }

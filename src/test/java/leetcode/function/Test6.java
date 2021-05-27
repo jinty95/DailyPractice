@@ -2,7 +2,10 @@ package leetcode.function;
 
 import cn.jinty.leetcode.function.Fun6;
 import cn.jinty.util.ArrayUtil;
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * LeetCode算法题 - 测试
@@ -55,6 +58,16 @@ public class Test6 {
         System.out.println(fun6.convert("PAYPALISHIRING",3));
         System.out.println(fun6.convert("PAYPALISHIRING",4));
         System.out.println(fun6.convert("ABCD",1));
+    }
+
+    @Test
+    public void testWordBreak(){
+        System.out.println(fun6.wordBreak(
+                "leetcode", ListUtil.asList("leet","code"))
+        );
+        System.out.println(fun6.wordBreak(
+                "anappleaday", ListUtil.asList("an","apple","a","day"))
+        );
     }
 
 }
