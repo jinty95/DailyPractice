@@ -53,18 +53,42 @@ public final class ArrayUtil {
     }
 
     /**
-     * 将数组中某个元素移动到头部
+     * 数组中元素交换
      *
-     * @param arr 数组
-     * @param idx 索引
+     * @param nums 数组
+     * @param a 索引a
+     * @param b 索引b
      */
-    public static void moveToFirst(int[] arr,int idx){
-        int tmp = arr[idx];
-        while(idx>0){
-            arr[idx] = arr[idx-1];
-            idx--;
+    public static void swap(int[] nums, int a, int b){
+        if(a==b) return;
+        nums[a] ^= nums[b];
+        nums[b] ^= nums[a];
+        nums[a] ^= nums[b];
+    }
+
+    /**
+     * 数组反转
+     *
+     * @param nums 数组
+     */
+    public static void reverse(int[] nums){
+        int i=0, j=nums.length-1;
+        while(i<j){
+            swap(nums,i,j);
+            i++;
+            j--;
         }
-        arr[0] = tmp;
+    }
+
+    /**
+     * 有序数组中进行二分查找
+     *
+     * @param nums 有序数组
+     * @param target 目标
+     * @return 目标所在位置
+     */
+    public static int binarySearch(int[] nums,int target){
+        return binarySearch(nums,0,nums.length-1,target);
     }
 
     /**
@@ -91,7 +115,7 @@ public final class ArrayUtil {
     }
 
     /**
-     * 随机生成指定长度的数组
+     * 生成指定长度的数组(值为0~9的随机数)
      *
      * @param len 长度
      * @return 数组
