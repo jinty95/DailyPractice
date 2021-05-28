@@ -121,4 +121,10 @@ public class Test6 {
         System.out.println(Arrays.toString(fun6.dailyTemperatures(temperatures)));
     }
 
+    @Test
+    public void testFindDuplicate(){
+        System.out.println(fun6.findDuplicate(new int[]{1,1,2,3,4,5,6,7,8,9}));
+        System.out.println(fun6.findDuplicate(new int[]{1,8,2,3,4,5,6,7,8,9}));
+    }
+
 }

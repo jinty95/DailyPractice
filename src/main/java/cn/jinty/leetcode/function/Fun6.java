@@ -700,4 +700,30 @@ public class Fun6 {
         return ans;
     }
 
+    /**
+     * 287. 寻找重复数
+     * 给定一个包含 n + 1 个整数的数组 nums ，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。
+     * 假设 nums 只有 一个重复的整数 ，找出 这个重复的数 。
+     * 你设计的解决方案必须不修改数组 nums 且只用常量级 O(1) 的额外空间。
+     *
+     * @param nums 数组
+     * @return 重复数字
+     */
+    public int findDuplicate(int[] nums) {
+        //一次遍历：时间复杂度O(N)
+        //把nums[i]放在nums[i]-1的位置，出现值重复时可以得到重复数
+        for(int i=0;i<nums.length;i++){
+            int next = nums[i]-1;
+            if(next==i) continue;
+            if(nums[next]==nums[i]) return nums[i];
+            else{
+                nums[next] ^= nums[i];
+                nums[i] ^= nums[next];
+                nums[next] ^= nums[i];
+                i--;
+            }
+        }
+        return -1;
+    }
+
 }
