@@ -637,4 +637,41 @@ public class Fun6 {
         return Math.max(tasks.length, maxLen);
     }
 
+    /**
+     * 279. 完全平方数
+     * 给定正整数 n ，找到若干个完全平方数（比如 1, 4, 9, 16, ...）使得它们的和等于 n。你需要让组成和的完全平方数的个数最少。
+     * 给你一个整数 n ，返回和为 n 的完全平方数的 最少数量 。
+     * 完全平方数是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
+     *
+     * @param n 正整数  1 <= n <= 10^4
+     * @return 组成n的完全平方数最少数量
+     */
+    public int numSquares(int n) {
+        //动态规划
+        //所有小于等于n的完全平方数
+        List<Integer> squares = new ArrayList<>();
+        for(int i=1;i*i<=n;i++){
+            squares.add(i*i);
+        }
+        //dp[i][j]表示用squares[0...i]的完全平方数组成j的最少个数
+        int[][] dp = new int[squares.size()][n+1];
+        //j==0时最少个数为0
+        //i==0时最少个数为j
+        for(int j=1;j<=n;j++){
+            dp[0][j] = j;
+        }
+        for(int i=1;i<squares.size();i++){
+            for(int j=1;j<=n;j++){
+                //不使用square[i]
+                dp[i][j] = dp[i-1][j];
+                //使用1个或以上square[i]
+                int square = squares.get(i);
+                for(int k=1; k*square<=j ; k++){
+                    dp[i][j] = Math.min(dp[i][j],dp[i-1][j-k*square]+k);
+                }
+            }
+        }
+        return dp[squares.size()-1][n];
+    }
+
 }

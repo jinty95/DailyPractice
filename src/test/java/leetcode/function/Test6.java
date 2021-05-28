@@ -106,4 +106,10 @@ public class Test6 {
         System.out.println(fun6.leastInterval(new char[]{'A','A','A','B','B','B','C','C','C','D','D','D'},2));
     }
 
+    @Test
+    public void testNumSquares(){
+        System.out.println(fun6.numSquares(10));
+        System.out.println(fun6.numSquares(12));
+    }
+
 }
