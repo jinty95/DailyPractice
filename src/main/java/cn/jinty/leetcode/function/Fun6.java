@@ -560,4 +560,42 @@ public class Fun6 {
         return head.next;
     }
 
+    /**
+     * 477. 汉明距离总和
+     * 两个整数的 汉明距离 指的是这两个数字的二进制数对应位不同的数量。
+     * 计算一个数组中，任意两个数之间汉明距离的总和。
+     *
+     * @param nums 数组  数组的长度不超过10^4
+     * @return 汉明距离总和
+     */
+    public int totalHammingDistance(int[] nums) {
+
+        /*//1、暴力枚举：时间复杂度O(N^2)，最大为10^8，可能会超时
+        int sum = 0;
+        for(int i=0;i<nums.length;i++){
+            for(int j=i+1;j<nums.length;j++){
+                sum += Integer.bitCount(nums[i]^nums[j]);
+            }
+        }
+        return sum;*/
+
+        //2、数位01计数：时间复杂度O(32N)，最大为32*10^4
+        //固定一个位，统计该位1和0出现的数量，二者的乘积即为该位贡献的汉明距离
+        int sum = 0;
+        for(int i=0;i<=31;i++){
+            int count0 = 0;
+            int count1 = 0;
+            for(int num : nums){
+                if(((num>>i)&1)==0){
+                    count0++;
+                }else{
+                    count1++;
+                }
+            }
+            sum += count0 * count1;
+        }
+        return sum;
+
+    }
+
 }

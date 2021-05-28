@@ -7,8 +7,6 @@ import cn.jinty.util.ListNodeUtil;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 /**
  * LeetCode算法题 - 测试
  *
@@ -92,6 +90,12 @@ public class Test6 {
         ListNode l3 = ListNodeUtil.fromArray(new int[]{10,11,12,13});
         ListNode[] lists = new ListNode[]{l1,l2,l3};
         System.out.println(fun6.mergeKLists(lists));
+    }
+
+    @Test
+    public void testTotalHammingDistance(){
+        System.out.println(fun6.totalHammingDistance(new int[]{4,14,2}));
+        System.out.println(fun6.totalHammingDistance(new int[]{1,2,3,4,5,6,7,8,9,10}));
     }
 
 }
