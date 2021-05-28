@@ -98,4 +98,12 @@ public class Test6 {
         System.out.println(fun6.totalHammingDistance(new int[]{1,2,3,4,5,6,7,8,9,10}));
     }
 
+    @Test
+    public void testLeastInterval(){
+        System.out.println(fun6.leastInterval(new char[]{'A','B','C','D'},2));
+        System.out.println(fun6.leastInterval(new char[]{'A','A','A'},2));
+        System.out.println(fun6.leastInterval(new char[]{'A','A','A','B','B','B'},2));
+        System.out.println(fun6.leastInterval(new char[]{'A','A','A','B','B','B','C','C','C','D','D','D'},2));
+    }
+
 }

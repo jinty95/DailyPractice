@@ -598,4 +598,43 @@ public class Fun6 {
 
     }
 
+    /**
+     * 621. 任务调度器
+     * 给你一个用字符数组 tasks 表示的 CPU 需要执行的任务列表。其中每个字母表示一种不同种类的任务。
+     * 任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。在任何一个单位时间，CPU 可以完成一个任务，或者处于待命状态。
+     * 然而，两个 相同种类 的任务之间必须有长度为整数 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。
+     * 你需要计算完成所有任务所需要的 最短时间 。
+     *
+     * @param tasks 任务列表
+     *              1 <= task.length <= 10^4
+     *              tasks[i]是大写英文字母
+     * @param n 相同任务的间隔时间
+     *              0 <= n <= 100
+     * @return 最短时间
+     */
+    public int leastInterval(char[] tasks, int n) {
+        if(n==0) return tasks.length;
+        //词频统计
+        int[] freqs = new int[26];
+        for(char task : tasks){
+            freqs[task-'A']++;
+        }
+        //最高频率
+        int maxFreq = 0;
+        //最高频率的出现次数
+        int count = 0;
+        for(int freq : freqs){
+            if(freq>maxFreq){
+                maxFreq = freq;
+                count = 1;
+            }else if(freq==maxFreq){
+                count += 1;
+            }
+        }
+        //出现次数最多的字符按n间隔执行，需要的最短时间
+        int maxLen = (maxFreq-1) * (n+1) + count;
+        //若数组长度大于最短时间，则最短时间为数组长度
+        return Math.max(tasks.length, maxLen);
+    }
+
 }
