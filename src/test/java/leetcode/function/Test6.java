@@ -7,6 +7,8 @@ import cn.jinty.util.ListNodeUtil;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode算法题 - 测试
  *
@@ -110,6 +112,13 @@ public class Test6 {
     public void testNumSquares(){
         System.out.println(fun6.numSquares(10));
         System.out.println(fun6.numSquares(12));
+    }
+
+    @Test
+    public void testDailyTemperatures(){
+        int[] temperatures = {73, 74, 75, 71, 69, 72, 76, 73};
+        System.out.println(Arrays.toString(temperatures));
+        System.out.println(Arrays.toString(fun6.dailyTemperatures(temperatures)));
     }
 
 }
