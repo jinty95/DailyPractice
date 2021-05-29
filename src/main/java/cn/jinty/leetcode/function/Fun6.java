@@ -771,4 +771,63 @@ public class Fun6 {
         return count;
     }
 
+    /**
+     * 560. 和为K的子数组
+     * 给定一个整数数组和一个整数 k，你需要找到该数组中和为 k 的连续的子数组的个数。
+     *
+     * @param nums 数组(数组长度为[1, 20,000])
+     * @param k 整数
+     * @return 和为k的子数组个数
+     */
+    public int subarraySum(int[] nums, int k) {
+        
+        /*//1、前缀和+枚举子数组：时间复杂度O(N^2)
+        int[] prefixSum = new int[nums.length];
+        prefixSum[0] = nums[0];
+        for(int i=1;i<nums.length;i++){
+            prefixSum[i] = prefixSum[i-1]+nums[i];
+        }
+        int count = 0;
+        for(int i=0;i<nums.length;i++){
+            for(int j=i;j<nums.length;j++){
+                int sum;
+                if(i==0) sum = prefixSum[j];
+                else sum = prefixSum[j]-prefixSum[i-1];
+                if(sum==k) count++;
+            }
+        }
+        return count;*/
+
+        /*//2、枚举子数组：时间复杂度O(N^2)
+        int count = 0;
+        for(int i=0;i<nums.length;i++){
+            int sum = 0;
+            for(int j=i;j<nums.length;j++){
+                sum += nums[j];
+                if(sum==k) count++;
+            }
+        }
+        return count;*/
+
+        //3、前缀和+哈希表：时间复杂度O(N)
+        int count = 0;
+        //哈希表保存"前缀和->出现次数"
+        Map<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        //前缀和pre[i]表示nums[0...i]的和
+        int[] pre = new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            if(i==0) pre[i] = nums[i];
+            else pre[i] = pre[i-1]+nums[i];
+            //哈希表中已经收集了pre[0...i-1]，和为pre[i]-k的个数，即为以i结尾的子数组符合条件的个数
+            count += map.getOrDefault(pre[i]-k,0);
+            //nums[0...i]可能是符合条件的子数组
+            //if(pre[i]==k) count += 1;
+            //pre[i]存入哈希表
+            map.put(pre[i],map.getOrDefault(pre[i],0)+1);
+        }
+        return count;
+
+    }
+
 }

@@ -138,4 +138,11 @@ public class Test6 {
         System.out.println(fun6.numSubmatrixSumTarget(matrix,1));
     }
 
+    @Test
+    public void testSubarraySum(){
+        System.out.println(fun6.subarraySum(new int[]{1,1,1,1,1},2));
+        System.out.println(fun6.subarraySum(new int[]{-2,2,-2,2,-2,2},2));
+        System.out.println(fun6.subarraySum(new int[]{1},0));
+    }
+
 }
