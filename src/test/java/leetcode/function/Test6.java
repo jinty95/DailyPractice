@@ -127,4 +127,15 @@ public class Test6 {
         System.out.println(fun6.findDuplicate(new int[]{1,8,2,3,4,5,6,7,8,9}));
     }
 
+    @Test
+    public void testNumSubmatrixSumTarget(){
+        int[][] matrix = {
+                {0,1,0},
+                {1,1,1},
+                {0,1,0}
+        };
+        System.out.println(fun6.numSubmatrixSumTarget(matrix,0));
+        System.out.println(fun6.numSubmatrixSumTarget(matrix,1));
+    }
+
 }

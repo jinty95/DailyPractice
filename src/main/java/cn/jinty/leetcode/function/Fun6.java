@@ -726,4 +726,49 @@ public class Fun6 {
         return -1;
     }
 
+    /**
+     * 1074. 元素和为目标值的子矩阵数量
+     * 给出矩阵matrix和目标值target，返回元素总和等于目标值的非空子矩阵的数量。
+     * 子矩阵x1, y1, x2, y2是满足 x1 <= x <= x2且y1 <= y <= y2的所有单元matrix[x][y]的集合。
+     * 如果(x1, y1, x2, y2) 和(x1', y1', x2', y2')两个子矩阵中部分坐标不同（如：x1 != x1'），那么这两个子矩阵也不同。
+     *
+     * @param matrix 矩阵
+     * @param target 目标值
+     * @return 元素和为目标值的子矩阵数量
+     */
+    public int numSubmatrixSumTarget(int[][] matrix, int target) {
+        //1、前缀和+枚举：时间复杂度O((MN)^2)，空间复杂度O(MN)
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] prefixSum = new int[row][col];
+        prefixSum[0][0] = matrix[0][0];
+        for(int i=1;i<row;i++){
+            prefixSum[i][0] = prefixSum[i-1][0] + matrix[i][0];
+        }
+        for(int j=1;j<col;j++){
+            prefixSum[0][j] = prefixSum[0][j-1] + matrix[0][j];
+        }
+        for(int i=1;i<row;i++){
+            for(int j=1;j<col;j++){
+                prefixSum[i][j] = prefixSum[i-1][j] + prefixSum[i][j-1] - prefixSum[i-1][j-1] + matrix[i][j];
+            }
+        }
+        int count = 0;
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                for(int a=i;a<row;a++){
+                    for(int b=j;b<col;b++){
+                        int sum;
+                        if(i==0 && j==0) sum = prefixSum[a][b];
+                        else if(i==0) sum = prefixSum[a][b] - prefixSum[a][j-1];
+                        else if(j==0) sum = prefixSum[a][b] - prefixSum[i-1][b];
+                        else sum = prefixSum[a][b] - prefixSum[i-1][b] - prefixSum[a][j-1] + prefixSum[i-1][j-1];
+                        if(sum == target) count++;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
 }
