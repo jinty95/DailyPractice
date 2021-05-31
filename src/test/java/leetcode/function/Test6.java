@@ -155,4 +155,16 @@ public class Test6 {
         System.out.println(Arrays.toString(fun6.assignTasks(servers2,tasks2)));
     }
 
+    @Test
+    public void testGetBiggestThree(){
+        int[][] grid = {
+                {3,  4,  5,  1,  3},
+                {3,  3,  4,  2,  3},
+                {20, 30, 200,40, 10},
+                {1,  5,  5,  4,  1},
+                {4,  3,  2,  2,  5}
+        };
+        System.out.println(Arrays.toString(fun6.getBiggestThree(grid)));
+    }
+
 }

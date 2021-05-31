@@ -894,4 +894,68 @@ public class Fun6 {
         return ans;
     }
 
+    /**
+     * 1878. 矩阵中最大的三个菱形和
+     * 给你一个 m x n 的整数矩阵 grid 。
+     * 菱形和 指的是 grid 中一个正菱形 边界 上的元素之和。本题中的菱形必须为正方形旋转45度，且四个角都在一个格子当中。
+     * 请你按照 降序 返回 grid 中三个最大的 互不相同的菱形和 。如果不同的和少于三个，则将它们全部返回。
+     *
+     * @param grid 网格 (1 <= grid[i][j] <= 10^5)
+     * @return 最大的三个菱形和
+     */
+    public int[] getBiggestThree(int[][] grid) {
+        //前缀和+枚举菱形
+        int row = grid.length, col = grid[0].length;
+        //sum1[i][j]表示grid[i][j]向左上角直到边界的和
+        int[][] sum1 = new int[row][col];
+        //sum2[i][j]表示grid[i][j]向右上角直到边界的和
+        int[][] sum2 = new int[row][col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                if(i==0 || j==0){
+                    sum1[i][j] = grid[i][j];
+                }else{
+                    sum1[i][j] = sum1[i-1][j-1] + grid[i][j];
+                }
+                if(i==0 || j==col-1){
+                    sum2[i][j] = grid[i][j];
+                }else{
+                    sum2[i][j] = sum2[i-1][j+1] + grid[i][j];
+                }
+            }
+        }
+        int[] ans = new int[3];
+        //枚举菱形所占正方形的左上角坐标以及边长
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                for(int k=1;k+i<=row && k+j<=col;k+=2){
+                    //求菱形和
+                    int sum;
+                    if(k==1) sum = grid[i][j];
+                    else{
+                        int midI = i+k/2, midJ = j+k/2, maxI = i+k-1, maxJ = j+k-1;
+                        sum = sum2[midI][j] - (i==0 ? 0 : sum2[i-1][midJ+1])
+                                + sum1[midI][maxJ] - (i==0 ? 0 : sum1[i-1][midJ-1])
+                                + sum2[maxI][midJ] - (maxJ==col-1 ? 0 : sum2[midI-1][maxJ+1])
+                                + sum1[maxI][midJ] - (j==0 ? 0 : sum1[midI-1][j-1])
+                                - grid[midI][j] - grid[midI][maxJ] - grid[maxI][midJ] - grid[i][midJ];
+                    }
+                    //保存最大的三个和，不重复
+                    if(sum==ans[0] || sum==ans[1] || sum==ans[2]) continue;
+                    int min = 0;
+                    for(int a=1;a<3;a++){
+                        if(ans[a]<ans[min]){
+                            min = a;
+                        }
+                    }
+                    ans[min] = Math.max(sum,ans[min]);
+                }
+            }
+        }
+        Arrays.sort(ans);
+        if(ans[1]==0) return new int[]{ans[2]};
+        if(ans[0]==0) return new int[]{ans[2],ans[1]};
+        return new int[]{ans[2],ans[1],ans[0]};
+    }
+
 }
