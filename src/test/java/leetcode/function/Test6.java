@@ -167,4 +167,10 @@ public class Test6 {
         System.out.println(Arrays.toString(fun6.getBiggestThree(grid)));
     }
 
+    @Test
+    public void testOriginalDigits(){
+        System.out.println(fun6.originalDigits("onetwothreefourfive"));
+        System.out.println(fun6.originalDigits("sixseveneightninezero"));
+    }
+
 }

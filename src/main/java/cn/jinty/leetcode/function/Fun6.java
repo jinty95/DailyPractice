@@ -958,4 +958,45 @@ public class Fun6 {
         return new int[]{ans[2],ans[1],ans[0]};
     }
 
+    /**
+     * 423. 从英文中重建数字
+     * 给定一个非空字符串，其中包含字母顺序打乱的英文单词表示的数字0-9。按升序输出原始的数字。
+     * 注意:
+     * 1、输入只包含小写英文字母。
+     * 2、输入保证合法并可以转换为原始的数字，这意味着像 "abc" 或 "zerone" 的输入是不允许的。
+     * 3、输入字符串的长度小于 50,000。
+     *
+     * @param s 英文字符串
+     * @return 数字字符串
+     */
+    public String originalDigits(String s) {
+        //字母出现次数
+        int[] map = new int[26];
+        for(int i=0;i<s.length();i++){
+            map[s.charAt(i)-'a']++;
+        }
+        //数字及其数量
+        int[] num = new int[10];
+        num[0] = map[25]; //z的数量确定0的数量
+        num[2] = map[22]; //w的数量确定2的数量
+        num[4] = map[20]; //u的数量确定4的数量
+        num[6] = map[23]; //x的数量确定6的数量
+        num[8] = map[6]; //g的数量确定8的数量
+        num[1] = map[14] - num[0] - num[2] - num[4]; //o的数量减去0,2,4的数量确定1的数量
+        num[3] = map[17] - num[0] - num[4]; //r的数量减去0,4的数量确定3的数量
+        num[5] = map[5] - num[4]; //f的数量减去4的数量确定5的数量
+        num[7] = map[18] - num[6]; //s的数量减去6的数量确定7的数量
+        num[9] = map[8] - num[5] - num[6] - num[8]; //i的数量减去5,6,8的数量确定9的数量
+        //构建数字字符串
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<num.length;i++){
+            if(num[i]>0){
+                for(int j=0;j<num[i];j++){
+                    sb.append(i);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
 }
