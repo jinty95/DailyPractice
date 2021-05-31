@@ -145,4 +145,14 @@ public class Test6 {
         System.out.println(fun6.subarraySum(new int[]{1},0));
     }
 
+    @Test
+    public void testAssignTasks(){
+        int[] servers1 = {1,2,3,4,5,6};
+        int[] tasks1 = {1,1,1,1,1,1};
+        System.out.println(Arrays.toString(fun6.assignTasks(servers1,tasks1)));
+        int[] servers2 = {31,96,73,90,15,11,1,90,72,9,30,88};
+        int[] tasks2 = {87,10,3,5,76,74,38,64,16,64,93,95,60,79,54,26,30,44,64,71};
+        System.out.println(Arrays.toString(fun6.assignTasks(servers2,tasks2)));
+    }
+
 }

@@ -830,4 +830,68 @@ public class Fun6 {
 
     }
 
+    /**
+     * 5774. 使用服务器处理任务
+     * 给你两个 下标从 0 开始 的整数数组 servers 和 tasks ，长度分别为 n 和 m 。servers[i] 是第 i 台服务器的 权重 ，而 tasks[j] 是处理第 j 项任务 所需要的时间（单位：秒）。
+     * 你正在运行一个仿真系统，在处理完所有任务后，该系统将会关闭。每台服务器只能同时处理一项任务。第 0 项任务在第 0 秒可以开始处理，相应地，第 j 项任务在第 j 秒可以开始处理。
+     * 处理第 j 项任务时，你需要为它分配一台 权重最小 的空闲服务器。如果存在多台相同权重的空闲服务器，请选择 下标最小 的服务器。如果一台空闲服务器在第 t 秒分配到第 j 项任务，那么在 t + tasks[j] 时它将恢复空闲状态。
+     * 如果没有空闲服务器，则必须等待，直到出现一台空闲服务器，并 尽可能早地处理剩余任务。 如果有多项任务等待分配，则按照 下标递增 的顺序完成分配。
+     * 如果同一时刻存在多台空闲服务器，可以同时将多项任务分别分配给它们。
+     * 构建长度为 m 的答案数组 ans ，其中 ans[j] 是第 j 项任务分配的服务器的下标。
+     *
+     * @param servers  服务器列表
+     * @param tasks 任务列表
+     * @return 分配结果
+     */
+    public int[] assignTasks(int[] servers, int[] tasks) {
+        //使用两个小根堆，分别维护空闲服务器及工作中服务器
+        PriorityQueue<int[]> idle = new PriorityQueue<>((o1, o2) -> {
+            if(o1[1]==o2[1]) return o1[0]-o2[0];
+            return o1[1]-o2[1];
+        });
+        PriorityQueue<int[]> busy = new PriorityQueue<>(((o1, o2) -> {
+            if(o1[2]==o2[2]){
+                if(o1[1]==o2[1]) return o1[0]-o2[0];
+                return o1[1]-o2[1];
+            }
+            return o1[2]-o2[2];
+        }));
+        //复制服务器
+        int[][] copyServers = new int[servers.length][3];
+        for(int i=0;i<servers.length;i++){
+            //索引
+            copyServers[i][0] = i;
+            //权重
+            copyServers[i][1] = servers[i];
+            //可用时间
+            copyServers[i][2] = 0;
+            //空闲服务器初始化
+            idle.offer(copyServers[i]);
+        }
+        //当前时间
+        int curTime = 0;
+        //分配任务
+        int[] ans = new int[tasks.length];
+        for(int i=0;i<tasks.length;i++){
+            curTime = Math.max(curTime,i);
+            //服务器恢复空闲状态
+            while( ! busy.isEmpty() && busy.peek()[2]<=curTime){
+                idle.offer(busy.poll());
+            }
+            //若不存在空闲服务器
+            if(idle.isEmpty()){
+                curTime = busy.peek()[2];
+                while( ! busy.isEmpty() && busy.peek()[2]<=curTime){
+                    idle.offer(busy.poll());
+                }
+            }
+            //分配服务器
+            int[] server = idle.poll();
+            ans[i] = server[0];
+            server[2] = curTime+tasks[i];
+            busy.offer(server);
+        }
+        return ans;
+    }
+
 }
