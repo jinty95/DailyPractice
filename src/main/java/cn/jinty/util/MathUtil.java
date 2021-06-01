@@ -173,4 +173,16 @@ public final class MathUtil {
         return sum;
     }
 
+    /**
+     * 获取整数位数最低的1
+     *
+     * @param num 整型数字
+     * @return 位数最低的1
+     */
+    public static int lowBit(int num){
+        //-num是num按位取反+1，num&(-num)即可得到最低的1
+        //例如: num=0110, -num=1010  num*(-num)=0010
+        return num & (-num);
+    }
+
 }

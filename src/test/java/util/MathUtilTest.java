@@ -92,4 +92,15 @@ public class MathUtilTest {
         System.out.println(MathUtil.sumFromOneToN(Integer.MAX_VALUE));
     }
 
+    @Test
+    public void testLowBit(){
+        int num = 9999;
+        System.out.println(Integer.toBinaryString(num));
+        while(num>0){
+            int lowBit = MathUtil.lowBit(num);
+            System.out.println(Integer.toBinaryString(lowBit));
+            num -= lowBit;
+        }
+    }
+
 }
