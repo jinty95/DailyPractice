@@ -999,4 +999,40 @@ public class Fun6 {
         return sb.toString();
     }
 
+    /**
+     * 1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
+     * 给你一个下标从 0 开始的正整数数组 candiesCount ，其中 candiesCount[i] 表示你拥有的第 i 类糖果的数目。
+     * 同时给你一个二维数组 queries ，其中 queries[i] = [favoriteTypei, favoriteDayi, dailyCapi] 。
+     * 你按照如下规则进行一场游戏：
+     * 1、你从第 0 天开始吃糖果。
+     * 2、你在吃完 所有 第 i - 1 类糖果之前，不能 吃任何一颗第 i 类糖果。
+     * 3、在吃完所有糖果之前，你必须每天 至少 吃 一颗 糖果。
+     * 请你构建一个布尔型数组 answer ，满足 answer.length == queries.length 。answer[i] 为 true 的条件是：
+     * 在每天吃 不超过 dailyCapi 颗糖果的前提下，你可以在第 favoriteDayi 天吃到第 favoriteTypei 类糖果；
+     * 否则 answer[i] 为 false 。注意，只要满足上面 3 条规则中的第二条规则，你就可以在同一天吃不同类型的糖果。
+     *
+     * @param candiesCount 糖果数量
+     * @param queries 数组[最喜欢的糖果-最喜欢的天数-每天食量]
+     * @return 能否在最喜欢的那天吃到最喜欢的糖果
+     */
+    public boolean[] canEat(int[] candiesCount, int[][] queries) {
+        //糖果数量前缀和
+        long[] preSum = new long[candiesCount.length];
+        preSum[0] = candiesCount[0];
+        for(int i=1;i<candiesCount.length;i++) preSum[i] = preSum[i-1]+candiesCount[i];
+        //每天最低食量1，最高食量queries[i][2]
+        boolean[] ans = new boolean[queries.length];
+        for(int i=0;i<queries.length;i++){
+            long favoriteDay = queries[i][1]+1;
+            //favoriteDay天的最低累计食量
+            long minCandy = favoriteDay;
+            //favoriteDay天的最高累计食量
+            long maxCandy = favoriteDay * queries[i][2];
+            //最喜欢糖果前缀和是否在最低及最高累计食量的范围内
+            ans[i] = minCandy <= preSum[queries[i][0]]
+                    && maxCandy > (queries[i][0]==0 ? 0 : preSum[queries[i][0]-1]);
+        }
+        return ans;
+    }
+
 }
