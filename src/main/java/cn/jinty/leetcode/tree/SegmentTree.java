@@ -2,6 +2,7 @@ package cn.jinty.leetcode.tree;
 
 /**
  * 线段树
+ * O(logN)的时间复杂度内修改单个元素及查询区间信息
  *
  * @author jinty
  * @date 2021/5/31
@@ -10,7 +11,7 @@ public class SegmentTree {
 
     //原数组
     private int[] nums;
-    //树状数组
+    //区间和数组(逻辑结构为二叉树)
     //节点为[a,b]区间和，左子为[a,(a+b)/2]区间和，右子为[(a+b)/2+1,b]区间和
     private int[] tree;
 
