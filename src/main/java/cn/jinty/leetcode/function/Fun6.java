@@ -1035,4 +1035,49 @@ public class Fun6 {
         return ans;
     }
 
+    /**
+     * 523. 连续的子数组和
+     * 给你一个整数数组 nums 和一个整数 k ，编写一个函数来判断该数组是否含有同时满足下述条件的连续子数组：
+     * 子数组大小 至少为 2 ，且子数组元素总和为 k 的倍数。如果存在，返回 true ；否则，返回 false 。
+     *
+     * @param nums 数组
+     *        1 <= nums.length <= 10^5
+     *        0 <= nums[i] <= 10^9
+     *        0 <= sum(nums[i]) <= 2^31 - 1
+     * @param k 整数
+     *        1 <= k <= 2^31 - 1
+     * @return 是否存在
+     */
+    public boolean checkSubarraySum(int[] nums, int k) {
+        /*//1、暴力枚举：时间复杂度O(N^2)，可能超时
+        for(int i=0;i<nums.length-1;i++){
+            int sum = nums[i];
+            for(int j=i+1;j<nums.length;j++){
+                sum += nums[j];
+                if(sum % k == 0){
+                    return true;
+                }
+            }
+        }
+        return false;*/
+
+        //2、前缀和+哈希表：时间复杂度O(N)
+        //哈希表保存<前缀和对k取模的余数，前缀和最后一个元素的索引>
+        Map<Integer,Integer> map = new HashMap<>();
+        //第一个元素特殊处理
+        int sum = nums[0];
+        map.put(sum % k,0);
+        //第二个元素开始遍历
+        for(int i=1;i<nums.length;i++){
+            sum += nums[i];
+            int mod = sum % k;
+            if(mod==0) return true;
+            //如果存在两个相同的余数，则这两个余数之间的区间和是k的倍数，若区间长度大于1，则是符合题意的一个子数组
+            Integer index = map.get(mod);
+            if(index==null) map.put(mod,i);
+            else if(i-index>1) return true;
+        }
+        return false;
+    }
+
 }

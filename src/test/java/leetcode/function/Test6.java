@@ -187,4 +187,10 @@ public class Test6 {
         );
     }
 
+    @Test
+    public void testCheckSubarraySum(){
+        int[] nums = {2,4,6,8,10};
+        System.out.println(fun6.checkSubarraySum(nums,30));
+    }
+
 }
