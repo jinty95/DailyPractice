@@ -1,6 +1,6 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.entity.ListNode;
+import cn.jinty.leetcode.linear.ListNode;
 import cn.jinty.leetcode.tree.TreeNode;
 import cn.jinty.leetcode.entity.Employee;
 

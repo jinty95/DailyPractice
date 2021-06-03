@@ -1,7 +1,7 @@
 package leetcode.function;
 
 import cn.jinty.leetcode.entity.Employee;
-import cn.jinty.leetcode.entity.ListNode;
+import cn.jinty.leetcode.linear.ListNode;
 import cn.jinty.leetcode.tree.TreeNode;
 import cn.jinty.leetcode.function.Fun4;
 import cn.jinty.util.ArrayUtil;

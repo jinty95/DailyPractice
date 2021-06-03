@@ -1,6 +1,6 @@
 package leetcode.function;
 
-import cn.jinty.leetcode.entity.ListNode;
+import cn.jinty.leetcode.linear.ListNode;
 import cn.jinty.leetcode.function.Fun6;
 import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.ListNodeUtil;
