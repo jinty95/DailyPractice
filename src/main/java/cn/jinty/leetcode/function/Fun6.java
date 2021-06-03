@@ -1080,4 +1080,31 @@ public class Fun6 {
         return false;
     }
 
+    /**
+     * 525. 连续数组
+     * 给定一个二进制数组 nums , 找到含有相同数量的 0 和 1 的最长连续子数组，并返回该子数组的长度。
+     *
+     * @param nums 数组
+     *             1 <= nums.length <= 10^5
+     *             nums[i] 不是 0 就是 1
+     * @return 最长连续子数组长度
+     */
+    public int findMaxLength(int[] nums) {
+        //前缀和+哈希表：时间复杂度O(N)
+        int max = 0;
+        //前缀和表示nums[0...i]中0比1多出的数量
+        int pre = 0;
+        //哈希表表示<前缀和，数组下标>
+        Map<Integer,Integer> map = new HashMap<>();
+        map.put(0,-1);
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0) pre++;
+            else pre--;
+            //如果有两个前缀0比1多出的数量相同，则之间子数组0和1数量相同
+            if(map.get(pre)==null) map.put(pre,i);
+            else max = Math.max(max,i-map.get(pre));
+        }
+        return max;
+    }
+
 }

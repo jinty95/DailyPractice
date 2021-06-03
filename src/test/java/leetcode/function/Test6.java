@@ -193,4 +193,10 @@ public class Test6 {
         System.out.println(fun6.checkSubarraySum(nums,30));
     }
 
+    @Test
+    public void testFindMaxLength(){
+        System.out.println(fun6.findMaxLength(new int[]{0,0,0,0,1,1,1,1}));
+        System.out.println(fun6.findMaxLength(new int[]{0,1,0,1,0,1,0,1}));
+    }
+
 }
