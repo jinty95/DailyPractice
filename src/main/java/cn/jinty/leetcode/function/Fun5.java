@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.tree.IntTrie;
-import cn.jinty.leetcode.tree.TreeNode;
+import cn.jinty.struct.tree.IntTrie;
+import cn.jinty.struct.tree.TreeNode;
 
 import java.util.*;
 

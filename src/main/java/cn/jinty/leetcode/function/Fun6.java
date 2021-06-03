@@ -1,6 +1,6 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.linear.ListNode;
+import cn.jinty.struct.linear.ListNode;
 
 import java.util.*;
 

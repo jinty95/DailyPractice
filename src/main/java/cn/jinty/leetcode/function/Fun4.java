@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.linear.ListNode;
-import cn.jinty.leetcode.tree.TreeNode;
+import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.leetcode.entity.Employee;
 
 import java.util.*;

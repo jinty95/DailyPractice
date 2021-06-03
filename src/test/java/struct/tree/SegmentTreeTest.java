@@ -1,6 +1,6 @@
-package leetcode.tree;
+package struct.tree;
 
-import cn.jinty.leetcode.tree.SegmentTree;
+import cn.jinty.struct.tree.SegmentTree;
 import org.junit.Test;
 
 /**

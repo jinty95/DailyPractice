@@ -1,4 +1,4 @@
-package cn.jinty.leetcode;
+package cn.jinty.struct;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

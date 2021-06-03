@@ -1,4 +1,4 @@
-package cn.jinty.leetcode.graph;
+package cn.jinty.struct.graph;
 
 import java.util.*;
 import java.util.stream.Collectors;

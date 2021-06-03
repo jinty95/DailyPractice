@@ -1,4 +1,4 @@
-package cn.jinty.leetcode.linear;
+package cn.jinty.struct.linear;
 
 /**
  * 链表节点类

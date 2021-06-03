@@ -1,8 +1,8 @@
 package leetcode.function;
 
 import cn.jinty.leetcode.entity.Node;
-import cn.jinty.leetcode.tree.TreeNode;
-import cn.jinty.leetcode.tree.Trie;
+import cn.jinty.struct.tree.TreeNode;
+import cn.jinty.struct.tree.Trie;
 import cn.jinty.leetcode.function.Fun3;
 import cn.jinty.util.BinaryTreeUtil;
 import org.junit.Test;

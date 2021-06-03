@@ -1,6 +1,6 @@
-package leetcode.graph;
+package struct.graph;
 
-import cn.jinty.leetcode.graph.GraphNode;
+import cn.jinty.struct.graph.GraphNode;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 

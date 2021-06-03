@@ -1,6 +1,6 @@
 package leetcode.function;
 
-import cn.jinty.leetcode.tree.TreeNode;
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.leetcode.function.Fun5;
 import org.junit.Test;
 

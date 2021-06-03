@@ -1,6 +1,6 @@
-package leetcode.tree;
+package struct.tree;
 
-import cn.jinty.leetcode.tree.BinaryIndexTree;
+import cn.jinty.struct.tree.BinaryIndexTree;
 import org.junit.Test;
 
 /**

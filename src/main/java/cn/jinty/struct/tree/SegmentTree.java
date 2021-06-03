@@ -1,4 +1,4 @@
-package cn.jinty.leetcode.tree;
+package cn.jinty.struct.tree;
 
 /**
  * 线段树

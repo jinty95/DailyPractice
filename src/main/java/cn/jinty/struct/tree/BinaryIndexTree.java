@@ -1,4 +1,4 @@
-package cn.jinty.leetcode.tree;
+package cn.jinty.struct.tree;
 
 /**
  * 二进制索引树 (树状数组、Fenwick树)

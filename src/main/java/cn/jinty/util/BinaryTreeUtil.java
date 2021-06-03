@@ -1,6 +1,6 @@
 package cn.jinty.util;
 
-import cn.jinty.leetcode.tree.TreeNode;
+import cn.jinty.struct.tree.TreeNode;
 
 import java.util.LinkedList;
 import java.util.Queue;

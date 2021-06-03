@@ -1,7 +1,7 @@
 package cn.jinty.leetcode.function;
 
-import cn.jinty.leetcode.linear.ListNode;
-import cn.jinty.leetcode.UnionFind;
+import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.UnionFind;
 
 import java.util.*;
 

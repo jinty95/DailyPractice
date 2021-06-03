@@ -1,6 +1,6 @@
-package leetcode;
+package struct;
 
-import cn.jinty.leetcode.LRUCache;
+import cn.jinty.struct.LRUCache;
 import org.junit.Test;
 
 /**

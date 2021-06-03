@@ -1,7 +1,7 @@
 package leetcode.function;
 
-import cn.jinty.leetcode.linear.ListNode;
-import cn.jinty.leetcode.tree.TreeNode;
+import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.leetcode.function.Fun2;
 import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.BinaryTreeUtil;
