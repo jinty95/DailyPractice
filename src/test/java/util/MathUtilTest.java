@@ -111,4 +111,13 @@ public class MathUtilTest {
         System.out.println(MathUtil.add(Integer.MAX_VALUE,Integer.MAX_VALUE));
     }
 
+    @Test
+    public void testMultiply(){
+        System.out.println(MathUtil.multiply(2,2));
+        System.out.println(MathUtil.multiply(20,25));
+        System.out.println(MathUtil.multiply(-2,2));
+        System.out.println(MathUtil.multiply(2,-30));
+        System.out.println(MathUtil.multiply(1000000000,3));
+    }
+    
 }

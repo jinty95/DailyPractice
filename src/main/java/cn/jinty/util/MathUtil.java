@@ -206,4 +206,32 @@ public final class MathUtil {
         return sum;
     }
 
+    /**
+     * 乘法的实现
+     * 把b表示为2次幂的和，利用乘法分配律，将a*b转为多个a*2^k的和，而a*2^k可以用左移k位实现
+     *
+     * @param a 整数
+     * @param b 整数
+     * @return 乘积
+     */
+    public static long multiply(int a,int b){
+        //乘0得0
+        if(a==0 || b==0) return 0L;
+        //负负得正
+        if(a<0 && b<0) return multiply(-a,-b);
+        //正数
+        long positive = a>0 ? a : b;
+        //另一个数
+        long another = a>0 ? b : a;
+        //乘积
+        long sum = 0;
+        //按位分解正数
+        for(int k=0;k<32;k++){
+            if(((positive>>k)&1) == 1){
+                sum += (another<<k);
+            }
+        }
+        return sum;
+    }
+
 }
