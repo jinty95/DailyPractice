@@ -9,43 +9,44 @@ import java.util.LinkedList;
  * @author jinty
  * @date 2021/3/26
  **/
-class MaxQueue {
+public class MaxQueue {
 
-    //值队列
-    Deque<Integer> queue;
+    //原值队列
+    public Deque<Integer> queue;
     //最大值队列(单调递减队列)
-    Deque<Integer> monotoneQueue;
+    public Deque<Integer> maxQueue;
 
+    //构造器
     public MaxQueue() {
         queue = new LinkedList<>();
-        monotoneQueue = new LinkedList<>();
+        maxQueue = new LinkedList<>();
     }
 
-    //O(1)
-    public int max_value() {
-        if(monotoneQueue.isEmpty()) return -1;
-        return monotoneQueue.peekFirst();
+    //获取队列的最大值，时间复杂度O(1)
+    public int maxValue() {
+        if(maxQueue.isEmpty()) return -1;
+        return maxQueue.peekFirst();
     }
 
-    //O(N) 如何优化到O(1)呢？
-    public void push_back(int value) {
+    //从队列尾部插入一个元素
+    //不满足单调递减的元素出最大值队列后，不需要再次入队列，插入N个元素，本方法最多操作N次，平均时间复杂度O(1)
+    public void pushBack(int value) {
         queue.offerLast(value);
-        int popCount = 1;
-        while(!monotoneQueue.isEmpty() && monotoneQueue.peekLast()<value){
-            monotoneQueue.pollLast();
-            popCount++;
+        while(!maxQueue.isEmpty() && maxQueue.peekLast()<value){
+            maxQueue.pollLast();
         }
-        while(popCount>0){
-            monotoneQueue.offerLast(value);
-            popCount--;
-        }
+        maxQueue.offerLast(value);
     }
 
-    //O(1)
-    public int pop_front() {
+    //从队列头部取出一个元素
+    //当取出的元素等于最大值队列的队头元素时，最大值队列的队头出队列，时间复杂度O(1)
+    public int popFront() {
         if(queue.isEmpty()) return -1;
-        monotoneQueue.pollFirst();
-        return queue.pollFirst();
+        int val = queue.pollFirst();
+        if(val==maxQueue.peekFirst()){
+            maxQueue.pollFirst();
+        }
+        return val;
     }
 
 }
