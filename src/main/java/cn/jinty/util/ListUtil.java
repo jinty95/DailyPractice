@@ -52,4 +52,26 @@ public final class ListUtil {
         return list;
     }
 
+    /**
+     * 是否为空
+     *
+     * @param list 列表
+     * @param <T> 泛型
+     * @return 是否为空
+     */
+    public static <T> boolean isEmpty(List<T> list){
+        return list==null || list.size()==0;
+    }
+
+    /**
+     * 是否非空
+     *
+     * @param list 列表
+     * @param <T> 泛型
+     * @return 是否非空
+     */
+    public static <T> boolean isNotEmpty(List<T> list){
+        return ! isEmpty(list);
+    }
+
 }
