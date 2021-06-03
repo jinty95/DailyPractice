@@ -185,4 +185,25 @@ public final class MathUtil {
         return num & (-num);
     }
 
+    /**
+     * 加法的实现
+     *
+     * @param a 整数
+     * @param b 整数
+     * @return 和
+     */
+    public static long add(int a,int b){
+        //无进位和
+        long sum = a;
+        //进位
+        long carry = b;
+        //循环直到进位等于0
+        while(carry!=0){
+            long temp = sum ^ carry;
+            carry = (sum & carry)<<1;
+            sum = temp;
+        }
+        return sum;
+    }
+
 }

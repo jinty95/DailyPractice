@@ -103,4 +103,12 @@ public class MathUtilTest {
         }
     }
 
+    @Test
+    public void testAdd(){
+        System.out.println(MathUtil.add(1,1));
+        System.out.println(MathUtil.add(7,8));
+        System.out.println(MathUtil.add(999,1001));
+        System.out.println(MathUtil.add(Integer.MAX_VALUE,Integer.MAX_VALUE));
+    }
+
 }
