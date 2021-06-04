@@ -207,4 +207,10 @@ public class Test6 {
         ));
     }
 
+    @Test
+    public void testSumSubarrayMins(){
+        int[] nums = {3,1,2,4};
+        System.out.println(fun6.sumSubarrayMins(nums));
+    }
+
 }

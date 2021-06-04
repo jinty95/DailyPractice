@@ -1146,4 +1146,47 @@ public class Fun6 {
         return ans;
     }
 
+    /**
+     * 907. 子数组的最小值之和
+     * 给定一个整数数组 arr，找到 min(b) 的总和，其中 b 为 arr 的每个（连续）子数组。
+     * 由于答案可能很大，因此返回答案模 10^9 + 7 。
+     *
+     * @param arr 数组
+     *            1 <= arr.length <= 3 * 10^4
+     *            1 <= arr[i] <= 3 * 10^4
+     * @return 子数组的最小值总和
+     */
+    public int sumSubarrayMins(int[] arr) {
+
+        /*//1、暴力枚举：时间复杂度O(N^2)
+        int sum = 0;
+        for(int i=0;i<arr.length;i++){
+            int min = Integer.MAX_VALUE;
+            for(int j=i;j<arr.length;j++){
+                min = Math.min(min,arr[j]);
+                sum += min;
+                sum %= 1_000_000_007;
+            }
+        }
+        return sum;*/
+
+        //2、单调栈：时间复杂度O(N)
+        //栈保存元素的下标，并按照元素的值从栈底到栈顶单调递增
+        Deque<Integer> s = new LinkedList<>();
+        long res = 0;
+        //枚举所有元素arr[j]，计算以arr[j]为最小值的子数组数量
+        for (int i = 0; i <= arr.length; i++) {
+            while (!s.isEmpty() && arr[s.peek()] > (i == arr.length ? 0 : arr[i])) {
+                //出现递减，说明栈顶为一个凸起，即左右两个相邻元素都比它小
+                //所有以arr[j]为最小值的子数组在(k,i)之间，子数组数量为(i-j)*(j-k)
+                int j = s.pop();
+                int k = s.isEmpty() ? -1 : s.peek();
+                res = (res + ((long)arr[j] * (i - j) * (j - k)) % 1000000007) % 1000000007;
+            }
+            s.push(i);
+        }
+        return (int)res;
+
+    }
+
 }
