@@ -199,4 +199,12 @@ public class Test6 {
         System.out.println(fun6.findMaxLength(new int[]{0,1,0,1,0,1,0,1}));
     }
 
+    @Test
+    public void testThreeSumClosest(){
+        System.out.println(fun6.threeSumClosest(
+                new int[]{1,1,1,1,1,1,1,1,1},
+                4
+        ));
+    }
+
 }

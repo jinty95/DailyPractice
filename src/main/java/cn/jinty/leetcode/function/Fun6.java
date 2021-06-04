@@ -1107,4 +1107,43 @@ public class Fun6 {
         return max;
     }
 
+    /**
+     * 16. 最接近的三数之和
+     * 给定一个包括 n 个整数的数组 nums 和 一个目标值 target。
+     * 找出 nums 中的三个整数，使得它们的和与 target 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+     *
+     * @param nums 数组
+     * @param target 目标值
+     * @return 最接近目标的三数之和
+     */
+    public int threeSumClosest(int[] nums, int target) {
+        //排序+双指针：时间复杂度O(N^2)
+        Arrays.sort(nums);
+        int ans = 0;
+        int diff = Integer.MAX_VALUE;
+        for(int i=0;i<nums.length;i++){
+            //左右指针
+            int left = i+1, right=nums.length-1;
+            while(left < right){
+                //三数和
+                int sum = nums[i] + nums[left] + nums[right];
+                //等于目标值直接返回
+                if(sum==target) return sum;
+                //求差值
+                int abs = Math.abs(sum-target);
+                if(abs<diff){
+                    diff = abs;
+                    ans = sum;
+                }
+                //指针移动
+                if(sum>target){
+                    right--;
+                }else{
+                    left++;
+                }
+            }
+        }
+        return ans;
+    }
+
 }
