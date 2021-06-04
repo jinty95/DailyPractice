@@ -14,6 +14,16 @@ public class ListNode {
     public ListNode() {}
     public ListNode(int x) { val = x; }
 
+    public int getLength(){
+        ListNode node = this;
+        int len = 0;
+        while(node!=null){
+            len++;
+            node = node.next;
+        }
+        return len;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
