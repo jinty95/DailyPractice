@@ -164,13 +164,7 @@ public final class MathUtil {
         if(n<1){
             throw new IllegalArgumentException("n不能小于1");
         }
-        long sum = 0;
-        long pair = n + 1L;
-        sum += pair * (n / 2);
-        if(n%2!=0){
-            sum += pair/2;
-        }
-        return sum;
+        return (1L+n) * n / 2;
     }
 
     /**
