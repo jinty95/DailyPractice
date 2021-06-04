@@ -119,5 +119,11 @@ public class MathUtilTest {
         System.out.println(MathUtil.multiply(2,-30));
         System.out.println(MathUtil.multiply(1000000000,3));
     }
-    
+
+    @Test
+    public void testPow(){
+        System.out.println(Math.pow(10,-3));
+        System.out.println(MathUtil.pow(10,-3));
+    }
+
 }

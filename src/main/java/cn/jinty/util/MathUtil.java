@@ -228,4 +228,32 @@ public final class MathUtil {
         return sum;
     }
 
+    /**
+     * 指数运算
+     *
+     * @param a base 底数
+     * @param b exponent 指数
+     * @return 结果
+     */
+    public static double pow(double a, int b){
+        double ans = 1;
+        //负数次：a^(-b)=(1/a)^b
+        if(b<0){
+            a = 1/a;
+            b = -b;
+        }
+        double temp = a;
+        //将次方拆分为2次幂的和：a^b=a^(2^k1+2^k2...)=a^(2^k1)*a^(2^k2)*...
+        while(b>0){
+            //判断指数的每一位是否为1
+            if((b&1)==1){
+                ans *= temp;
+            }
+            b >>= 1;
+            //底数倍增：temp=a^(2^k)
+            temp *= temp;
+        }
+        return ans;
+    }
+
 }
