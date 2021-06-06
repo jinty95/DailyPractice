@@ -1189,4 +1189,62 @@ public class Fun6 {
 
     }
 
+    /**
+     * 474. 一和零
+     * 给你一个二进制字符串数组 strs 和两个整数 m 和 n 。
+     * 请你找出并返回 strs 的最大子集的大小，该子集中 最多 有 m 个 0 和 n 个 1 。
+     * 如果 x 的所有元素也是 y 的元素，集合 x 是集合 y 的 子集 。
+     *
+     * @param strs 字符串数组 (1 <= strs.length <= 600)
+     * @param m 0的最大个数
+     * @param n 1的最大个数
+     * @return 最大子集大小
+     */
+    public int findMaxForm(String[] strs, int m, int n) {
+
+        //1、暴力枚举：每个字符串有取或不取两种选择，时间复杂度为O(2^k)，执行会超时
+
+        //2、动态规划：类似于01背包问题的解题思路，时间复杂度为O(k * m * n)
+        /*//dp[k][i][j]表示strs[0...k]的最多有i个0和j个1的最大子集大小
+        int[][][] dp = new int[strs.length][m+1][n+1];
+        for(int k=0;k<strs.length;k++){
+            int num0 = countChar(strs[k],'0');
+            int num1 = strs[k].length() - num0;
+            for(int i=0;i<=m;i++){
+                for(int j=0;j<=n;j++){
+                    if(k==0) dp[k][i][j] = (i>=num0 && j>=num1 ? 1 : 0);
+                    else dp[k][i][j] = Math.max(dp[k-1][i][j],
+                            i>=num0 && j>=num1 ? dp[k-1][i-num0][j-num1]+1 : 0
+                    );
+                }
+            }
+        }
+        return dp[strs.length-1][m][n];*/
+
+        //3、动态规划：空间压缩(由于dp[k]只取决于dp[k-1]，更早的历史不会再用到，所以不需要保留，可以滚动覆盖更新)
+        int[][] dp = new int[m+1][n+1];
+        for(int k=0;k<strs.length;k++){
+            int num0 = countChar(strs[k],'0');
+            int num1 = strs[k].length() - num0;
+            for(int i=m;i>=0;i--){
+                for(int j=n;j>=0;j--){
+                    if(k==0) dp[i][j] = (i>=num0 && j>=num1 ? 1 : 0);
+                    else dp[i][j] = Math.max(dp[i][j],
+                            i>=num0 && j>=num1 ? dp[i-num0][j-num1]+1 : 0
+                    );
+                }
+            }
+        }
+        return dp[m][n];
+
+    }
+    //计算字符串中指定字符的数量
+    private int countChar(String str, char c){
+        int num = 0;
+        for(int i=0;i<str.length();i++){
+            if(str.charAt(i) == c) num++;
+        }
+        return num;
+    }
+
 }

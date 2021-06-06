@@ -213,4 +213,10 @@ public class Test6 {
         System.out.println(fun6.sumSubarrayMins(nums));
     }
 
+    @Test
+    public void testFindMaxForm(){
+        String[] strs = {"10", "0001", "111001", "1", "0"};
+        System.out.println(fun6.findMaxForm(strs,5,3));
+    }
+
 }
