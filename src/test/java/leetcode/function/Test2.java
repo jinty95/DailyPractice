@@ -4,11 +4,9 @@ import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.leetcode.function.Fun2;
 import cn.jinty.util.ArrayUtil;
-import cn.jinty.util.BinaryTreeUtil;
 import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,10 +25,8 @@ public class Test2 {
         int[] pre = {3,9,20,15,7};
         int[] in = {9,3,15,20,7};
         TreeNode treeNode = fun2.buildTree(pre,in);
-        BinaryTreeUtil.bfsPrint(treeNode);
-        List<Integer> list = new ArrayList<>();
-        TreeNode.preOrder(treeNode,list,true);
-        System.out.println(list);
+        System.out.println(treeNode.preOrder());
+        System.out.println(treeNode.inOrder());
     }
 
     @Test
@@ -76,7 +72,8 @@ public class Test2 {
         TreeNode root = new TreeNode(5);
         root.left = new TreeNode(3);
         root.right = new TreeNode(6);
-        BinaryTreeUtil.bfsPrint(fun2.convertBiNode(root));
+        System.out.println(TreeNode.bfs(root));
+        System.out.println(TreeNode.bfs(fun2.convertBiNode(root)));
     }
 
     @Test

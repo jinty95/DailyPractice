@@ -13,10 +13,14 @@ import java.util.Queue;
  **/
 public class TreeNode {
 
+    //值
     public int val;
+    //左子树
     public TreeNode left;
+    //右子树
     public TreeNode right;
 
+    //构造器
     public TreeNode(){}
     public TreeNode(int val){
         this.val = val;
@@ -27,12 +31,15 @@ public class TreeNode {
         this.right = right;
     }
 
-    @Override
-    public String toString() {
-        return serialize(this);
+    //前序遍历
+    public List<Integer> preOrder(){
+        return preOrder(this);
     }
-
-    //前序遍历：收集节点值列表
+    public static List<Integer> preOrder(TreeNode root){
+        List<Integer> list = new ArrayList<>();
+        preOrder(root,list,true);
+        return list;
+    }
     public static void preOrder(TreeNode root, List<Integer> list, boolean containNull){
         if(root==null){
             if(containNull) list.add(null);
@@ -43,7 +50,15 @@ public class TreeNode {
         }
     }
 
-    //中序遍历：收集节点值列表
+    //中序遍历
+    public List<Integer> inOrder(){
+        return inOrder(this);
+    }
+    public static List<Integer> inOrder(TreeNode root){
+        List<Integer> list = new ArrayList<>();
+        inOrder(root,list,true);
+        return list;
+    }
     public static void inOrder(TreeNode root, List<Integer> list, boolean containNull){
         if(root==null){
             if(containNull) list.add(null);
@@ -54,7 +69,15 @@ public class TreeNode {
         }
     }
 
-    //后序遍历：收集节点值列表
+    //后序遍历
+    public List<Integer> postOrder(){
+        return postOrder(this);
+    }
+    public static List<Integer> postOrder(TreeNode root){
+        List<Integer> list = new ArrayList<>();
+        postOrder(root,list,true);
+        return list;
+    }
     public static void postOrder(TreeNode root, List<Integer> list, boolean containNull){
         if(root==null){
             if(containNull) list.add(null);
@@ -65,7 +88,10 @@ public class TreeNode {
         }
     }
 
-    //层次遍历：收集节点值列表
+    //层次遍历
+    public List<Integer> bfs(){
+        return bfs(this);
+    }
     public static List<Integer> bfs(TreeNode root){
         List<Integer> list = new ArrayList<>();
         if(root==null) return list;
@@ -88,6 +114,9 @@ public class TreeNode {
     }
 
     //二叉树序列化为字符串
+    public String serialize(){
+        return serialize(this);
+    }
     public static String serialize(TreeNode root) {
         if(root==null) return null;
         return bfs(root).toString();
@@ -130,6 +159,12 @@ public class TreeNode {
             }
         }
         return root;
+    }
+
+    //转为字符串
+    @Override
+    public String toString() {
+        return serialize(this);
     }
 
 }
