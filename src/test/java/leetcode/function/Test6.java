@@ -219,4 +219,10 @@ public class Test6 {
         System.out.println(fun6.findMaxForm(strs,5,3));
     }
 
+    @Test
+    public void testLastStoneWeightII(){
+        int[] stones = new int[]{31,26,33,21,40};
+        System.out.println(fun6.lastStoneWeightII(stones));
+    }
+
 }

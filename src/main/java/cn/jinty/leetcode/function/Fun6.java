@@ -1247,4 +1247,87 @@ public class Fun6 {
         return num;
     }
 
+    /**
+     * 1049. 最后一块石头的重量 II
+     * 有一堆石头，用整数数组 stones 表示。其中 stones[i] 表示第 i 块石头的重量。
+     * 每一回合，从中选出任意两块石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x <= y。那么粉碎的可能结果如下：
+     * 如果 x == y，那么两块石头都会被完全粉碎；
+     * 如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。
+     * 最后，最多只会剩下一块 石头。返回此石头 最小的可能重量 。如果没有石头剩下，就返回 0。
+     *
+     * @param stones 石头数组
+     *               1 <= stones.length <= 30
+     *               1 <= stones[i] <= 100
+     * @return 最后一块石头的最小可能重量
+     */
+    public int lastStoneWeightII(int[] stones) {
+
+        /*//1、排序后从大到小遍历，两两相减，重复这个过程直到只剩一个数不为0，时间复杂度O(N*logN*N*logN)
+        if(stones==null || stones.length==0) return 0;
+        if(stones.length==1) return stones[0];
+        boolean flag = false;
+        do {
+            Arrays.sort(stones);
+            if(stones[stones.length-2]==0) return stones[stones.length-1];
+            for(int i=stones.length-2;i>=0;i-=2){
+                if(stones[i]==0) break;
+                else{
+                    stones[i+1] -= stones[i];
+                    stones[i] = 0;
+                    flag = true;
+                }
+            }
+            System.out.println(Arrays.toString(stones));
+        } while (flag);
+        return stones[stones.length-1];*/
+
+        //上述做法得到的结果有误，例如[31,26,33,21,40]得到9而实际答案为5
+
+        /*//2、动态规划：在数组每一个数前面添加正号或负号，求最小非负数和
+        //dp[i][j]表示stones[0...i]添加正号或负号是否可以得到j
+        //j的范围为[-3000,3000]，用[0,6000]表示
+        boolean[][] dp = new boolean[stones.length][6001];
+        dp[0][3000+stones[0]] = true;
+        dp[0][3000-stones[0]] = true;
+        for(int i=1;i<stones.length;i++){
+            for(int j=0;j<=6000;j++){
+                if(dp[i-1][j]){
+                    dp[i][j+stones[i]] = true;
+                    dp[i][j-stones[i]] = true;
+                }
+            }
+        }
+        for(int j=3000;j<=6000;j++){
+            if(dp[stones.length-1][j]){
+                return j-3000;
+            }
+        }
+        return 0;*/
+
+        //3、动态规划：范围根据实际数组决定
+        int sum = 0;
+        for(int stone : stones){
+            sum += stone;
+        }
+        int range = sum * 2 + 1;
+        boolean[][] dp = new boolean[stones.length][range];
+        dp[0][sum+stones[0]] = true;
+        dp[0][sum-stones[0]] = true;
+        for(int i=1;i<stones.length;i++){
+            for(int j=0;j<range;j++){
+                if(dp[i-1][j]){
+                    dp[i][j+stones[i]] = true;
+                    dp[i][j-stones[i]] = true;
+                }
+            }
+        }
+        for(int j=sum;j<range;j++){
+            if(dp[stones.length-1][j]){
+                return j-sum;
+            }
+        }
+        return 0;
+
+    }
+
 }
