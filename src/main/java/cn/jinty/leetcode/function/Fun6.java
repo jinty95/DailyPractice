@@ -1330,4 +1330,80 @@ public class Fun6 {
 
     }
 
+    /**
+     * 879. 盈利计划
+     * 集团里有 n 名员工，他们可以完成各种各样的工作创造利润。
+     * 第 i 种工作会产生 profit[i] 的利润，它要求 group[i] 名成员共同参与。如果成员参与了其中一项工作，就不能参与另一项工作。
+     * 工作的任何至少产生 minProfit 利润的子集称为 盈利计划 。并且工作的成员总数最多为 n 。
+     * 有多少种计划可以选择？因为答案很大，所以 返回结果模 10^9 + 7 的值。
+     *
+     * @param n 员工总数 (1 <= n <= 100)
+     * @param minProfit 最低利润 (0 <= minProfit <= 100)
+     * @param group 工作人力列表 (1 <= group.length <= 100 && 1 <= group[i] <= 100)
+     * @param profit 工作利润列表 (profit.length == group.length && 0 <= profit[i] <= 100)
+     * @return 盈利计划数
+     */
+    public int profitableSchemes(int n, int minProfit, int[] group, int[] profit) {
+
+        /*//1、动态规划
+        int mod = 1000000007;
+        //计算最大利润
+        int maxProfit = 0;
+        for(int one : profit){
+            maxProfit += one;
+        }
+        //dp[i][j][k]表示完成[0...i]的任意工作，最多有j名员工，得到k利润的方案数
+        int[][][] dp = new int[profit.length][n+1][maxProfit+1];
+        //i==0
+        for(int j=0;j<=n;j++){
+            //利润为0有一种方案，就是什么都不做
+            dp[0][j][0] = 1;
+            //当员工足够时，利润为profit[0]有一种方案
+            if(j>=group[0]) dp[0][j][profit[0]] = 1;
+        }
+        //i>0
+        for(int i=1;i<profit.length;i++){
+            for(int j=0;j<=n;j++){
+                for(int k=0;k<=maxProfit;k++){
+                    //不做i工作
+                    dp[i][j][k] += dp[i-1][j][k];
+                    dp[i][j][k] %= mod;
+                    //做i工作
+                    if(j>=group[i] && k>=profit[i]){
+                        dp[i][j][k] += dp[i-1][j-group[i]][k-profit[i]];
+                        dp[i][j][k] %= mod;
+                    }
+                }
+            }
+        }
+        //计算盈利方案数
+        int count = 0;
+        for(int k=minProfit;k<=maxProfit;k++){
+            count += dp[profit.length-1][n][k];
+            count %= mod;
+        }
+        return count;*/
+
+        //上述做法最大空间需要100*100*10000=10^8，数量级为亿，超出空间限制
+
+        //2、动态规划：基于第一种做法优化dp数组的第三维
+        int mod = 1000000007;
+        //dp[i][j][k]表示完成[0...i-1]的任意工作，最多有j名员工，利润至少为k的方案数
+        int[][][] dp = new int[profit.length+1][n+1][minProfit+1];
+        for(int j=0;j<=n;j++) dp[0][j][0] = 1;
+        for(int i=1;i<=profit.length;i++){
+            for(int j=0;j<=n;j++){
+                for(int k=0;k<=minProfit;k++){
+                    if(j<group[i-1]){
+                        dp[i][j][k] = dp[i-1][j][k];
+                    }else{
+                        dp[i][j][k] = (dp[i-1][j][k] + dp[i-1][j-group[i-1]][Math.max(0,k-profit[i-1])]) % mod;
+                    }
+                }
+            }
+        }
+        return dp[profit.length][n][minProfit];
+
+    }
+
 }
