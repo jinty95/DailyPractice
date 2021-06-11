@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import java.util.Random;
+
 /**
  * 字符串 - 工具类
  *
@@ -9,10 +11,72 @@ package cn.jinty.util;
 public final class StringUtil {
 
     //十六进制字符集
-    public static char[] hexChar = {
+    public static final char[] hexChar = {
             '0','1','2','3','4','5','6','7',
             '8','9','A','B','C','D','E','F'
     };
+
+    //数字
+    public static final char[] number = {
+            '0','1','2','3','4','5','6','7','8','9'
+    };
+
+    //字母
+    public static final char[] letter = {
+            'A','B','C','D','E','F','G',
+            'H','I','J','K','L','M','N',
+            'O','P','Q','R','S','T',
+            'U','V','W','X','Y','Z'
+    };
+
+    /**
+     * 生成随机字符串(数字)
+     *
+     * @param length 长度
+     * @return 字符串
+     */
+    public static String randomNumber(int length){
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        while(length-->0){
+            sb.append(number[random.nextInt(number.length)]);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 生成随机字符串(字母)
+     *
+     * @param length 长度
+     * @return 字符串
+     */
+    public static String randomLetter(int length){
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        while(length-->0){
+            sb.append(letter[random.nextInt(letter.length)]);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 生成随机字符串(数字+字母)
+     *
+     * @param length 长度
+     * @return 字符串
+     */
+    public static String random(int length){
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        while(length-->0){
+            if(random.nextInt(36)<10){
+                sb.append(number[random.nextInt(number.length)]);
+            }else{
+                sb.append(letter[random.nextInt(letter.length)]);
+            }
+        }
+        return sb.toString();
+    }
 
     /**
      * 字节数组转为十六进制字符串

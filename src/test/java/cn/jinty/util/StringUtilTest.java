@@ -11,6 +11,13 @@ import org.junit.Test;
 public class StringUtilTest {
 
     @Test
+    public void testRandom(){
+        System.out.println(StringUtil.randomNumber(10));
+        System.out.println(StringUtil.randomLetter(10));
+        System.out.println(StringUtil.random(10));
+    }
+
+    @Test
     public void testSnakeToCamel(){
         System.out.println(StringUtil.snakeToCamel("hello_world_are_you_ok"));
         System.out.println(StringUtil.snakeToCamel("my_name"));
