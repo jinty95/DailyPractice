@@ -25,32 +25,20 @@ public class Solution {
      */
     public int[] sortByBits(int[] arr) {
         PriorityQueue<Integer> queue = new PriorityQueue<>((o1, o2) -> {
-            int count1 = 0;
-            int count2 = 0;
-            int standard = 1;
-            int n = 32;
-            while(n>0){
-                if((o1 & standard)>0){
-                    count1++;
-                }
-                if((o2 & standard)>0){
-                    count2++;
-                }
-                n--;
-                standard = standard << 1;
-            }
-            if(count1==count2){
-                return o1-o2;
-            }
+            int count1 = Integer.bitCount(o1);
+            int count2 = Integer.bitCount(o2);
+            if(count1==count2) return o1-o2;
             return count1 - count2;
         });
         for(int i:arr){
             queue.add(i);
         }
-        for(int i=0;i<arr.length;i++){
-            arr[i] = queue.poll();
+        int[] ans = new int[arr.length];
+        int i=0;
+        while( ! queue.isEmpty()){
+            ans[i++] = queue.poll();
         }
-        return arr;
+        return ans;
     }
 
     /**
@@ -555,8 +543,9 @@ public class Solution {
             }
         }
         int[] ans = new int[k];
-        for(int i=0;i<k;i++){
-            ans[i] = queue.poll();
+        int i=0;
+        while( ! queue.isEmpty()){
+            ans[i++] = queue.poll();
         }
         return ans;
     }
@@ -596,25 +585,18 @@ public class Solution {
      * @return 结果链表
      */
     public ListNode deleteDuplicate(ListNode head) {
+        //双指针：时间复杂度O(N)
         if(head==null || head.next==null) return head;
         ListNode p1 = head;
         ListNode p2 = p1.next;
-        boolean findRepeat = false;
         while(p2!=null){
-            if(p1.val==p2.val){
-                findRepeat = true;
-            }else{
-                if(findRepeat){
-                    p1.next = p2;
-                    findRepeat = false;
-                }
-                p1 = p2;
+            if(p2.val!=p1.val){
+                p1.next = p2;
+                p1 = p1.next;
             }
             p2 = p2.next;
         }
-        if(findRepeat){
-            p1.next = p2;
-        }
+        p1.next = null;
         return head;
     }
 
@@ -890,27 +872,22 @@ public class Solution {
      * @return 最大收益
      */
     public int maxProfit2(int[] prices) {
-        //最大收益
+        //1、寻找所有的上升区间
         int maxProfit = 0;
         if(prices==null || prices.length==0) return maxProfit;
-        //动态更新的最小及最大价格
         int minPrice = prices[0];
         int maxPrice = prices[0];
         for(int i=1;i<prices.length;i++){
             if(prices[i-1]>prices[i]){
-                //存在获利区间
+                //存在上升区间
                 if(maxPrice>minPrice){
                     maxProfit += maxPrice - minPrice;
                 }
-                //价格下降
                 minPrice = prices[i];
-                maxPrice = prices[i];
-            }else{
-                //价格上升
-                maxPrice = prices[i];
             }
+            maxPrice = prices[i];
         }
-        //存在获利区间
+        //存在上升区间
         if(maxPrice>minPrice){
             maxProfit += maxPrice - minPrice;
         }

@@ -12,7 +12,7 @@ import java.util.Map;
  **/
 public class LRUCache extends LinkedHashMap<Integer,Integer>{
 
-    private int capacity;
+    private final int capacity;
 
     //初始化
     public LRUCache(int capacity) {

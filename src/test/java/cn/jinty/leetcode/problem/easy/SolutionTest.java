@@ -19,14 +19,14 @@ import java.util.List;
  **/
 public class SolutionTest {
 
-    private Solution solution = new Solution();
+    private final Solution solution = new Solution();
 
     @Test
     public void testSortByBits(){
         int[] arr = {4,5,6,8};
         System.out.println(Arrays.toString(arr));
-        arr = solution.sortByBits(arr);
-        System.out.println(Arrays.toString(arr));
+        int[] ans = solution.sortByBits(arr);
+        System.out.println(Arrays.toString(ans));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class SolutionTest {
 
     @Test
     public void testHanota(){
-        Long begin = System.currentTimeMillis();
+        long begin = System.currentTimeMillis();
         List<Integer> A = new ArrayList<>();
         List<Integer> B = new ArrayList<>();
         List<Integer> C = new ArrayList<>();
@@ -154,7 +154,7 @@ public class SolutionTest {
     @Test
     public void testDeleteDuplicates(){
         ListNode head2 = ListNodeUtil.fromArray(
-                new int[]{1,2,3,3,3,4,4,4,5,5,5}
+                new int[]{1,1,2,3,3,3,4,4,4,5,5,5}
         );
         System.out.println(solution.deleteDuplicate(head2));
     }

@@ -335,11 +335,12 @@ public class Solution {
         //构建结果
         List<String> answer = new ArrayList<>();
         for(String str : uf.parents.keySet()){
+            //只收集顶层节点及其秩
             if(str.equals(uf.parents.get(str))){
-                answer.add(str+"("+uf.number.get(str)+")");
+                answer.add(str+"("+uf.getNumber(str)+")");
             }
         }
-        return answer.toArray(new String[answer.size()]);
+        return answer.toArray(new String[0]);
     }
 
     /**

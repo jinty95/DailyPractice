@@ -266,9 +266,9 @@ public final class ArraySortUtil {
         int[] count=new int[10];
         while(m<=d) {
             //这里采用最小位优先
-            for(int i=0;i<arr.length;i++) {
-                int radix=(arr[i]/n)%10;
-                temp[radix][count[radix]++]=arr[i];
+            for (int j : arr) {
+                int radix = (j / n) % 10;
+                temp[radix][count[radix]++] = j;
             }
             //根据每个数出现的次数，去二维数组中取出覆盖原数组，完成一轮排序
             for(int i=0;i<count.length;i++) {

@@ -483,7 +483,7 @@ public class Solution {
             for(int j=0;j<col;j++){
                 for(int m=i;m<row;m++){
                     for(int n=j;n<col;n++){
-                        int diff = 0;
+                        int diff;
                         if(i==0&&j==0) diff = sum[m][n];
                         else if(i==0) diff = sum[m][n]-sum[m][j-1];
                         else if(j==0) diff = sum[m][n]-sum[i-1][n];

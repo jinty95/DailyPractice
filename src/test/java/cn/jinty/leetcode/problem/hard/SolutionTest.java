@@ -14,7 +14,7 @@ import java.util.Arrays;
  **/
 public class SolutionTest {
 
-    private Solution solution = new Solution();
+    private final Solution solution = new Solution();
 
     @Test
     public void testMaxEnvelopes(){
