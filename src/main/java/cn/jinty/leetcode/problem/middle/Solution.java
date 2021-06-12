@@ -4849,4 +4849,74 @@ public class Solution {
 
     }
 
+    /**
+     * 第 54 场双周赛 第3题 最大的幻方
+     * 一个 k x k 的 幻方 指的是一个 k x k 填满整数的方格阵，且每一行、每一列以及两条对角线的和 全部相等 。
+     * 幻方中的整数 不需要互不相同 。显然，每个 1 x 1 的方格都是一个幻方。
+     * 给你一个 m x n 的整数矩阵 grid ，请你返回矩阵中 最大幻方 的 尺寸 （即边长 k）。
+     *
+     * @param grid 矩阵(1 <= m, n <= 50)
+     * @return 最大幻方的边长
+     */
+    public int largestMagicSquare(int[][] grid) {
+        //前缀和
+        int row = grid.length, col = grid[0].length;
+        int maxLen = Math.min(row,col);
+        //行
+        int[][] rowPre = new int[row][col];
+        //列
+        int[][] colPre = new int[row][col];
+        //左对角
+        int[][] leftPre = new int[row][col];
+        //右对角
+        int[][] rightPre = new int[row][col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                //行
+                if(j==0) rowPre[i][j] = grid[i][j];
+                else rowPre[i][j] = rowPre[i][j-1] + grid[i][j];
+                //列
+                if(i==0) colPre[i][j] = grid[i][j];
+                else colPre[i][j] = colPre[i-1][j] + grid[i][j];
+                //左对角
+                if(i==0 || j==0) leftPre[i][j] = grid[i][j];
+                else leftPre[i][j] = leftPre[i-1][j-1] + grid[i][j];
+                //右对角
+                if(i==0 || j==col-1) rightPre[i][j] = grid[i][j];
+                else rightPre[i][j] = rightPre[i-1][j+1] +grid[i][j];
+            }
+        }
+        //最小幻方边长为1
+        int max = 1;
+        //枚举起点
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                //枚举幻方边长
+                loop : for(int l=2; l<=maxLen && i+l<=row && j+l<=col; l++){
+                    //起始行
+                    int sum = rowPre[i][j+l-1] - (j==0 ? 0 : rowPre[i][j-1]);
+                    //其余行
+                    for(int a=i+1;a<i+l;a++){
+                        int rowSum = rowPre[a][j+l-1] - (j==0 ? 0 : rowPre[a][j-1]);
+                        if(sum != rowSum) continue loop;
+                    }
+                    //所有列
+                    for(int b=j;b<j+l;b++){
+                        int colSum = colPre[i+l-1][b] - (i==0 ? 0 : colPre[i-1][b]);
+                        if(sum != colSum) continue loop;
+                    }
+                    //左对角
+                    int leftSum = leftPre[i+l-1][j+l-1] - (i==0 || j==0 ? 0 : leftPre[i-1][j-1]);
+                    if(sum != leftSum) continue;
+                    //右对角
+                    int rightSum = rightPre[i+l-1][j] - (i==0 || j+l==col ? 0 : rightPre[i-1][j+l]);
+                    if(sum != rightSum) continue;
+                    //找到符合条件的幻方
+                    max = Math.max(max,l);
+                }
+            }
+        }
+        return max;
+    }
+
 }

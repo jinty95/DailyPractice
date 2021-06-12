@@ -902,4 +902,15 @@ public class SolutionTest {
         System.out.println(solution.lastStoneWeightII(stones));
     }
 
+    @Test
+    public void testLargestMagicSquare(){
+        int[][] grid = {
+                {7,1,4,5,6},
+                {2,5,1,6,4},
+                {1,5,4,3,2},
+                {1,2,7,3,4}
+        };
+        System.out.println(solution.largestMagicSquare(grid));
+    }
+
 }
