@@ -1254,4 +1254,42 @@ public class Solution {
 
     }
 
+    /**
+     * 1449. 数位成本和为目标值的最大数字
+     * 给你一个整数数组cost和一个整数target。请你返回满足如下规则可以得到的最大整数：
+     * 给当前结果添加一个数位（i + 1）的成本为cost[i]（cost数组下标从0开始）。总成本必须恰好等于target。添加的数位中没有数字0。
+     * 由于答案可能会很大，请你以字符串形式返回。如果按照上述要求无法得到任何整数，请你返回"0"。
+     *
+     * @param cost 1~9的成本
+     * @param target 目标值
+     * @return 最大数字
+     */
+    public String largestNumber(int[] cost, int target) {
+
+        //最大数：1、长度尽可能长(100>99)，2、长度相同情况下字典序尽可能大(100<999)
+
+        //完全背包问题：给定一组资源，单元素可无限获取，给定限制，求最值
+
+        //动态规划
+        //dp[i]表示目标值为i时的最大数
+        String[] dp = new String[target+1];
+        Arrays.fill(dp,"");
+        //枚举目标值
+        for(int i=1;i<=target;i++){
+            //枚举最后一个数位
+            for(int j=0;j<cost.length;j++){
+                if(i >= cost[j] && ! "0".equals(dp[i-cost[j]])){
+                    String temp = dp[i-cost[j]] + String.valueOf(j+1);
+                    if(dp[i].length()<temp.length() || (dp[i].length()==temp.length() && dp[i].compareTo(temp)<0)){
+                        dp[i] = temp;
+                    }
+                }
+            }
+            //如果不能消耗完目标值，做一个标记
+            if("".equals(dp[i])) dp[i] = "0";
+        }
+        return dp[target];
+
+    }
+
 }

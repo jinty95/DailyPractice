@@ -199,4 +199,11 @@ public class SolutionTest {
         System.out.println(solution.profitableSchemes(n,minProfit,group,profit));
     }
 
+    @Test
+    public void testLargestNumber(){
+        int[] cost = {4,3,2,5,6,7,2,5,5};
+        int target = 9;
+        System.out.println(solution.largestNumber(cost,target));
+    }
+
 }
