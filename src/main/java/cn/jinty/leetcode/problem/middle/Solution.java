@@ -4919,4 +4919,67 @@ public class Solution {
         return max;
     }
 
+    /**
+     * 第 245 场周赛 第2题 可移除字符的最大数目
+     * 给你两个字符串 s 和 p ，其中 p 是 s 的一个 子序列 。同时，给你一个元素 互不相同 且下标 从 0 开始 计数的整数数组 removable ，该数组是 s 中下标的一个子集（s 的下标也 从 0 开始 计数）。
+     * 请你找出一个整数 k（0 <= k <= removable.length），选出 removable 中的 前 k 个下标，然后从 s 中移除这些下标对应的 k 个字符。
+     * 整数 k 需满足：在执行完上述步骤后， p 仍然是 s 的一个 子序列 。更正式的解释是，对于每个 0 <= i < k ，先标记出位于 s[removable[i]] 的字符，接着移除所有标记过的字符，然后检查 p 是否仍然是 s 的一个子序列。
+     * 返回你可以找出的 最大 k ，满足在移除字符后 p 仍然是 s 的一个子序列。s 和 p 都由小写英文字母组成。
+     *
+     * @param s 原串
+     * @param p 子序列
+     * @param removable 移除
+     * @return 可移除的最大数目
+     */
+    public int maximumRemovals(String s, String p, int[] removable) {
+        /*//1、暴力破解：时间复杂度O(NM)，N = s.length，M = removable.length
+        int k = 0;
+        //标识是否删除：0否，1是
+        int[] map = new int[s.length()];
+        for (int aRemovable : removable) {
+            map[aRemovable] = 1;
+            if (!isSubSerial(s, p, map)) break;
+            k++;
+        }
+        return k;*/
+
+        //上述做法超时
+
+        //2、二分查找：时间复杂度O(NlogM)，N = s.length，M = removable.length
+        int k = 0;
+        int left = 0, right = removable.length-1;
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            Set<Integer> remove = new HashSet<>();
+            for(int i=0;i<=mid;i++){
+                remove.add(removable[i]);
+            }
+            if(isSubSerial(s,p,remove)){
+                k = mid+1;
+                left = mid+1;
+            }else{
+                right = mid-1;
+            }
+        }
+        return k;
+    }
+    //1、判断p是否为s的子序列
+    private boolean isSubSerial(String s, String p, int[] map){
+        int i=0, j=0;
+        while(i<s.length() && j<p.length()){
+            if (map[i]==0 && s.charAt(i)==p.charAt(j)) j++;
+            i++;
+        }
+        return j==p.length();
+    }
+    //2、判断p是否为s的子序列
+    private boolean isSubSerial(String s, String p, Set<Integer> remove){
+        int i=0, j=0;
+        while(i<s.length() && j<p.length()){
+            if (!remove.contains(i) && s.charAt(i)==p.charAt(j)) j++;
+            i++;
+        }
+        return j==p.length();
+    }
+
 }

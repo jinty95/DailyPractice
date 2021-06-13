@@ -913,4 +913,12 @@ public class SolutionTest {
         System.out.println(solution.largestMagicSquare(grid));
     }
 
+    @Test
+    public void testMaximumRemovals(){
+        String s = "abcacb";
+        String p = "ab";
+        int[] removable = {3,1,0};
+        System.out.println(solution.maximumRemovals(s,p,removable));
+    }
+
 }
