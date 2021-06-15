@@ -279,4 +279,10 @@ public class SolutionTest {
         System.out.println(solution.isCousins(root,3,7));
     }
 
+    @Test
+    public void testPeakIndexInMountainArray(){
+        int[] arr = {0,1,2,3,4,3,2,1};
+        System.out.println(solution.peakIndexInMountainArray(arr));
+    }
+
 }

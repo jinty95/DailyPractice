@@ -1049,4 +1049,26 @@ public class Solution {
         }
     }
 
+    /**
+     * 852. 山脉数组的峰顶索引
+     * 符合下列属性的数组 arr 称为 山脉数组 ：
+     * 1、arr.length >= 3
+     * 2、存在 i（0 < i < arr.length - 1）使得：arr[0] < arr[1] < ... arr[i-1] < arr[i] 且 arr[i] > arr[i+1] > ... > arr[arr.length - 1]
+     * 给你由整数组成的山脉数组 arr ，返回任何满足 arr[0] < arr[1] < ... arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1] 的下标 i 。
+     *
+     * @param arr 山脉数组
+     * @return 峰顶
+     */
+    public int peakIndexInMountainArray(int[] arr) {
+        //1、二分查找：时间复杂度O(logN)
+        int left = 0, right = arr.length-1;
+        while(left <= right){
+            int mid = left + (right-left)/2;
+            if(arr[mid]>arr[mid+1] && arr[mid]>arr[mid-1]) return mid;
+            else if(arr[mid]>arr[mid+1]) right = mid-1;
+            else left = mid+1;
+        }
+        return -1;
+    }
+
 }
