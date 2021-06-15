@@ -206,4 +206,10 @@ public class SolutionTest {
         System.out.println(solution.largestNumber(cost,target));
     }
 
+    @Test
+    public void testMinDistance(){
+        System.out.println(solution.minDistance("horse","ros"));
+        System.out.println(solution.minDistance("intention","execution"));
+    }
+
 }

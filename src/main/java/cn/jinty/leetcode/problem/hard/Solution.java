@@ -1279,7 +1279,7 @@ public class Solution {
             //枚举最后一个数位
             for(int j=0;j<cost.length;j++){
                 if(i >= cost[j] && ! "0".equals(dp[i-cost[j]])){
-                    String temp = dp[i-cost[j]] + String.valueOf(j+1);
+                    String temp = dp[i-cost[j]] + (j + 1);
                     if(dp[i].length()<temp.length() || (dp[i].length()==temp.length() && dp[i].compareTo(temp)<0)){
                         dp[i] = temp;
                     }
@@ -1289,6 +1289,41 @@ public class Solution {
             if("".equals(dp[i])) dp[i] = "0";
         }
         return dp[target];
+
+    }
+
+    /**
+     * 72. 编辑距离
+     * 给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。
+     * 你可以对一个单词进行如下三种操作：
+     * 1、插入一个字符 2、删除一个字符 3、替换一个字符
+     *
+     * @param word1 单词1
+     * @param word2 单词2
+     * @return 最短编辑距离
+     */
+    public int minDistance(String word1, String word2) {
+
+        //解的范围：最小0(什么都不做)、最大len1+len2(删除单词1，添加单词2)
+
+        //动态规划
+        char[] w1 = word1.toCharArray(), w2 = word2.toCharArray();
+        //dp[i][j]表示w1[0...i-1]与w2[0...j-1]的最短编辑距离
+        int[][] dp = new int[w1.length+1][w2.length+1];
+        //边界
+        dp[0][0] = 0;
+        for(int i=1;i<=w1.length;i++) dp[i][0] = i;
+        for(int j=1;j<=w2.length;j++) dp[0][j] = j;
+        //递推
+        for(int i=1;i<=w1.length;i++){
+            for(int j=1;j<=w2.length;j++){
+                //最后字符相同，不需要编辑
+                if(w1[i-1]==w2[j-1]) dp[i][j] = dp[i-1][j-1];
+                //最后字符不同，枚举增、删、改，取最小值
+                else dp[i][j] = Math.min(dp[i-1][j-1]+1,Math.min(dp[i-1][j] + 1,dp[i][j-1] + 1));
+            }
+        }
+        return dp[w1.length][w2.length];
 
     }
 
