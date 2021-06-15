@@ -921,4 +921,10 @@ public class SolutionTest {
         System.out.println(solution.maximumRemovals(s,p,removable));
     }
 
+    @Test
+    public void testLongestSubstring(){
+        System.out.println(solution.longestSubstring("abc",3));
+        System.out.println(solution.longestSubstring("aabbbbcc",3));
+    }
+
 }

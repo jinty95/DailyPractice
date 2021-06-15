@@ -4982,4 +4982,51 @@ public class Solution {
         return j==p.length();
     }
 
+    /**
+     * 395. 至少有 K 个重复字符的最长子串
+     * 给你一个字符串 s 和一个整数 k ，请你找出 s 中的最长子串， 要求该子串中的每一字符出现次数都不少于 k 。返回这一子串的长度。
+     *
+     * @param s 字符串 (1 <= s.length <= 10^4)(s仅由小写英文字母组成)
+     * @param k 整数 (1 <= k <= 10^5)
+     * @return 子串长度
+     */
+    public int longestSubstring(String s, int k) {
+        /*//1、暴力破解：枚举所有子串，时间复杂度O(N^2)
+        int maxLen = 0;
+        if(k<=1) return s.length();
+        if(k>s.length()) return maxLen;
+        for(int i=0;i<s.length();i++){
+            int[] map = new int[26];
+            for(int j=i;j<s.length();j++){
+                map[s.charAt(j)-'a']++;
+                if(isLegalSubstring(map,k)) maxLen = Math.max(maxLen,j-i+1);
+            }
+        }
+        return maxLen;*/
+
+        //2、分治+递归：时间复杂度O(26N)
+        //统计字符频率，若存在频率小于k的字符，则符合条件的子串不可能包含这个字符，将原串分割，然后递归求解；若不存在频率小于k的字符，则原串为答案
+        int[] map = new int[26];
+        for(int i=0;i<s.length();i++) map[s.charAt(i)-'a']++;
+        char split = 0;
+        for(int i=0;i<26;i++){
+            if(map[i]!=0 && map[i]<k) split = (char)(i+'a');
+        }
+        if(split==0) return s.length();
+        int maxLen = 0;
+        String[] strs = s.split(String.valueOf(split));
+        for(String str : strs){
+            if(str.length()==0) continue;
+            maxLen = Math.max(maxLen,longestSubstring(str,k));
+        }
+        return maxLen;
+    }
+    //判断是否为合法子串
+    private boolean isLegalSubstring(int[] map, int k){
+        for(int one : map){
+            if(one!=0 && one<k) return false;
+        }
+        return true;
+    }
+
 }
