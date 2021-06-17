@@ -934,4 +934,11 @@ public class SolutionTest {
         System.out.println(Arrays.toString(solution.smallestK(arr,k)));
     }
 
+    @Test
+    public void testMinOperations(){
+        int[] arr = {1,1,3,9,10,2,3};
+        int k = 10;
+        System.out.println(solution.minOperations(arr,k));
+    }
+
 }

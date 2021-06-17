@@ -5062,4 +5062,41 @@ public class Solution {
         return ans;
     }
 
+    /**
+     * 1658. 将 x 减到 0 的最小操作数
+     * 给你一个整数数组 nums 和一个整数 x 。每一次操作时，你应当移除数组 nums 最左边或最右边的元素，然后从 x 中减去该元素的值。
+     * 请注意，需要 修改 数组以供接下来的操作使用。
+     * 如果可以将 x 恰好 减到 0 ，返回 最小操作数 ；否则，返回 -1 。
+     *
+     * @param nums 数组 (1 <= nums.length <= 10^5)
+     * @param x 目标值
+     * @return 最小操作数
+     */
+    public int minOperations(int[] nums, int x) {
+        //前缀和+哈希表：时间复杂度O(N)
+        int minOps = Integer.MAX_VALUE;
+        //左侧前缀和，使用哈希表，存储结构为<前缀和，下标>
+        Map<Integer,Integer> leftPreMap = new HashMap<>();
+        int leftPre = 0;
+        for(int i=0;i<nums.length;i++){
+            leftPre += nums[i];
+            //左侧前缀和组成x
+            if(leftPre==x) minOps = Math.min(minOps,i+1);
+            leftPreMap.put(leftPre,i);
+        }
+        //右侧前缀和，可与左侧前缀和搭配组成x
+        int rightPre = 0;
+        for(int i=nums.length-1;i>=0;i--){
+            rightPre += nums[i];
+            //右侧前缀和组成x
+            if(rightPre==x) minOps = Math.min(minOps,nums.length-i);
+            //右侧前缀和+左侧前缀和组成x
+            if(leftPreMap.containsKey(x-rightPre)){
+                int j = leftPreMap.get(x-rightPre);
+                if(j<i) minOps = Math.min(minOps,j+1+nums.length-i);
+            }
+        }
+        return minOps==Integer.MAX_VALUE ? -1 : minOps;
+    }
+
 }
