@@ -927,4 +927,11 @@ public class SolutionTest {
         System.out.println(solution.longestSubstring("aabbbbcc",3));
     }
 
+    @Test
+    public void testSmallestK(){
+        int[] arr = {1,5,8,2,9,3,4,7,0,6};
+        int k = 2;
+        System.out.println(Arrays.toString(solution.smallestK(arr,k)));
+    }
+
 }

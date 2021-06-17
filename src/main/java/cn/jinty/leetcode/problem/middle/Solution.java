@@ -5029,4 +5029,37 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 面试题 17.14. 最小K个数
+     * 设计一个算法，找出数组中最小的k个数。以任意顺序返回这k个数均可。
+     *
+     * @param arr 数组
+     * @param k 整数
+     * @return 最小K个数
+     */
+    public int[] smallestK(int[] arr, int k) {
+        /*//1、排序：时间复杂度O(NlogN)
+        Arrays.sort(arr);
+        int len = Math.min(k,arr.length);
+        int[] ans = new int[len];
+        System.arraycopy(arr,0,ans,0,len);
+        return ans;*/
+
+        //2、大根堆：时间复杂度O(NlogK)
+        if(k<1) return new int[]{};
+        PriorityQueue<Integer> queue = new PriorityQueue<>(k,(o1,o2)->o2-o1);
+        for (int a : arr) {
+            if (queue.size() < k) queue.offer(a);
+            else if (queue.peek() > a) {
+                queue.poll();
+                queue.offer(a);
+            }
+        }
+        int[] ans = new int[queue.size()];
+        for(int i=ans.length-1;i>=0;i--){
+            ans[i] = queue.poll();
+        }
+        return ans;
+    }
+
 }
