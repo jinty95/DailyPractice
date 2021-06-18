@@ -3,6 +3,7 @@ package cn.jinty.leetcode.problem.hard;
 import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.IntTrie;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -1324,6 +1325,40 @@ public class Solution {
             }
         }
         return dp[w1.length][w2.length];
+
+    }
+
+    /**
+     * 483. 最小好进制
+     * 对于给定的整数 n, 如果 n 的 k（k>=2）进制数的所有数位全为1，则称 k（k>=2）是 n 的一个好进制。
+     * 以字符串的形式给出 n, 以字符串的形式返回 n 的最小好进制。
+     *
+     * @param n 十进制数(字符串表示)(n的取值范围是[3,10^18])
+     * @return 最小好进制(字符串表示)
+     */
+    public String smallestGoodBase(String n) {
+
+        //n转为k进制，且数位全1，则 n=k^0+k^1+...+k^m
+
+        //long最大可保存19位十进制，故n可以转为long类型存储
+        long nVal = Long.parseLong(n);
+        //k的最小值为2，所以m的最大值为logN，k的范围[2,n-1]，m的范围[2,logN]
+        int mMax = (int) Math.floor(Math.log(nVal) / Math.log(2));
+        //m值大时k值小，所以从大到小枚举m值，只要有满足的k值，即为答案
+        for (int m = mMax; m > 1; m--) {
+            //由于 k^m < n < (k+1)^m ，所以 k < n^(1/m) < k+1，所以k为n^(1/m)的整数部分
+            int k = (int) Math.pow(nVal, 1.0 / m);
+            //给定m值和k值，判断能否在全1情况下组成n值
+            long mul = 1, sum = 1;
+            for (int i = 0; i < m; i++) {
+                mul *= k;
+                sum += mul;
+            }
+            if (sum == nVal) {
+                return Integer.toString(k);
+            }
+        }
+        return Long.toString(nVal - 1);
 
     }
 
