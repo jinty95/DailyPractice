@@ -12,6 +12,15 @@ import java.util.List;
  **/
 public final class MathUtil {
 
+    //数字与字母
+    public static final char[] numberAndLetter = {
+            '0','1','2','3','4','5','6','7','8','9',
+            'A','B','C','D','E','F','G',
+            'H','I','J','K','L','M','N',
+            'O','P','Q','R','S','T',
+            'U','V','W','X','Y','Z'
+    };
+
     /**
      * 判断数字是否为素数
      *
@@ -254,6 +263,36 @@ public final class MathUtil {
             temp *= temp;
         }
         return ans;
+    }
+
+    /**
+     * 十进制转二进制
+     *
+     * @param number 十进制整数
+     * @return 二进制字符串
+     */
+    public static String toBinaryString(int number){
+        return toString(number,2);
+    }
+
+    /**
+     * 十进制转N进制
+     *
+     * @param number 十进制整数
+     * @param radix N进制
+     * @throws IllegalArgumentException 进制范围必须在[2,36]
+     * @return N进制字符串
+     */
+    public static String toString(int number, int radix){
+        if(radix<2 || radix>36){
+            throw new IllegalArgumentException("radix must in [2,36], illegal radix : "+radix);
+        }
+        StringBuilder sb = new StringBuilder();
+        while(number!=0){
+            sb.append(numberAndLetter[number % radix]);
+            number /= radix;
+        }
+        return sb.reverse().toString();
     }
 
 }

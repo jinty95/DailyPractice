@@ -125,4 +125,11 @@ public class MathUtilTest {
         System.out.println(MathUtil.pow(10,-3));
     }
 
+    @Test
+    public void testToString(){
+        System.out.println(MathUtil.toBinaryString(15));
+        System.out.println(MathUtil.toString(36,36));
+        System.out.println(MathUtil.toString(36,1));
+    }
+
 }
