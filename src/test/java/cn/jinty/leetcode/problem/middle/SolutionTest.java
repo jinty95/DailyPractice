@@ -941,4 +941,10 @@ public class SolutionTest {
         System.out.println(solution.minOperations(arr,k));
     }
 
+    @Test
+    public void testMaxLength(){
+        System.out.println(solution.maxLength(Arrays.asList("abc","ad","efg")));
+        System.out.println(solution.maxLength(Arrays.asList("abcdefg","hijklmn","opqrst","uvwxyz")));
+    }
+
 }
