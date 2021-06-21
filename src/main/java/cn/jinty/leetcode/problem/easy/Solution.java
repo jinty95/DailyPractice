@@ -1071,4 +1071,62 @@ public class Solution {
         return -1;
     }
 
+    /**
+     * 401. 二进制手表
+     * 二进制手表顶部有 4 个 LED 代表 小时（0-11），底部的 6 个 LED 代表 分钟（0-59）。每个 LED 代表一个 0 或 1，最低位在右侧。
+     * 小时灯分别为(8,4,2,1)，分钟灯分别为(32,16,8,4,2,1)
+     * 给你一个整数 turnedOn ，表示当前亮着的 LED 的数量，返回二进制手表可以表示的所有可能时间。你可以 按任意顺序 返回答案。
+     * 小时不会以零开头：例如，"01:00" 是无效的时间，正确的写法应该是 "1:00" 。
+     * 分钟必须由两位数组成，可能会以零开头：例如，"10:2" 是无效的时间，正确的写法应该是 "10:02" 。
+     *
+     * @param turnedOn 亮灯数
+     * @return 可能时间
+     */
+    public List<String> readBinaryWatch(int turnedOn) {
+
+        /*//1、回溯算法：时间复杂度O(2^10)
+        List<String> ans = new ArrayList<>();
+        if(turnedOn<0 || turnedOn>8) return ans;
+        int[] onOrNot = new int[10];
+        readBinaryWatch(turnedOn,onOrNot,0,ans);
+        return ans;*/
+
+        //2、枚举时分：时间复杂度O(12*60)
+        //枚举所有时分组合，计算二者的1比特数目和，如果等于turnedOn，则是一个答案
+        List<String> ans = new ArrayList<>();
+        if(turnedOn<0 || turnedOn>8) return ans;
+        for(int i=0;i<12;i++){
+            for(int j=0;j<60;j++){
+                if(Integer.bitCount(i)+Integer.bitCount(j)==turnedOn){
+                    ans.add(i+":"+(j<10?"0":"")+j);
+                }
+            }
+        }
+        return ans;
+
+    }
+    //递归函数：枚举每个灯的两种状态，亮或不亮
+    private void readBinaryWatch(int turnedOn, int[] onOrNot, int idx, List<String> ans){
+        if(idx>=10 && turnedOn!=0) return;
+        if(turnedOn==0){
+            //小时
+            int hour = onOrNot[0]*8 + onOrNot[1]*4 + onOrNot[2]*2 + onOrNot[3];
+            if(hour>11) return;
+            //分钟
+            int minute = onOrNot[4]*32 + onOrNot[5]*16 + onOrNot[6]*8 + onOrNot[7]*4 + onOrNot[8]*2 + onOrNot[9];
+            if(minute>59) return;
+            //字符串化
+            StringBuilder sb = new StringBuilder(String.valueOf(hour)).append(":");
+            if(minute<10) sb.append("0");
+            sb.append(minute);
+            ans.add(sb.toString());
+            return;
+        }
+        for(int i=idx; i<10; i++){
+            onOrNot[i] = 1;
+            readBinaryWatch(turnedOn-1,onOrNot,i+1,ans);
+            onOrNot[i] = 0;
+        }
+    }
+
 }

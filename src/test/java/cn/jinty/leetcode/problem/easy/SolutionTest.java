@@ -285,4 +285,9 @@ public class SolutionTest {
         System.out.println(solution.peakIndexInMountainArray(arr));
     }
 
+    @Test
+    public void testReadBinaryWatch(){
+        System.out.println(solution.readBinaryWatch(1));
+    }
+
 }
