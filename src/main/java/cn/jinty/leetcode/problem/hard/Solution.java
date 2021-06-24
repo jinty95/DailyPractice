@@ -1365,4 +1365,34 @@ public class Solution {
 
     }
 
+    /**
+     * 149. 直线上最多的点数
+     * 给你一个数组 points ，其中 points[i] = [xi, yi] 表示 X-Y 平面上的一个点。求最多有多少个点在同一条直线上。
+     *
+     * @param points 点坐标数组 (1 <= points.length <= 300)
+     * @return 直线上最多的点数
+     */
+    public int maxPoints(int[][] points) {
+        //1、暴力破解：时间复杂度O(N^2)
+        //求一个点到所有点的斜率，相同斜率代表在同一直线上
+        int maxPoints = 1;
+        for(int i=0;i<points.length;i++){
+            //统计斜率出现次数：key表示斜率(小数)，value表示出现次数(整数)
+            Map<Double,Integer> slopeCount = new HashMap<>();
+            for(int j=0;j<points.length && j!=i;j++){
+                //注意斜率无穷大的情况
+                double slope = Double.MAX_VALUE;
+                if(points[i][0] != points[j][0]){
+                    slope = (points[i][1]-points[j][1]) * 1.0 / (points[i][0]-points[j][0]);
+                }
+                slopeCount.put(slope, slopeCount.getOrDefault(slope,0)+1);
+            }
+            //取斜率最大出现次数
+            for(Double slope : slopeCount.keySet()){
+                maxPoints = Math.max(maxPoints,slopeCount.get(slope)+1);
+            }
+        }
+        return maxPoints;
+    }
+
 }

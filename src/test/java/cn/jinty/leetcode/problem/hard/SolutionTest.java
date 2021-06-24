@@ -218,4 +218,16 @@ public class SolutionTest {
         System.out.println(solution.smallestGoodBase("1000000000000000000"));
     }
 
+    @Test
+    public void testMaxPoints(){
+        int[][] points1 = {
+                {1,1},{3,2},{5,3},{4,1},{2,3},{1,4},{2,0}
+        };
+        System.out.println(solution.maxPoints(points1));
+        int[][] points2 = {
+                {0,0},{4,5},{7,8},{8,9},{5,6},{3,4},{1,1}
+        };
+        System.out.println(solution.maxPoints(points2));
+    }
+
 }
