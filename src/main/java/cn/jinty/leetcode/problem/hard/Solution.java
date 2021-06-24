@@ -1338,11 +1338,13 @@ public class Solution {
      */
     public String smallestGoodBase(String n) {
 
-        //n转为k进制，且数位全1，则 n=k^0+k^1+...+k^m
+        //若k为n的好进制，则 n=k^0+k^1+...+k^m
+        //若等式中n固定，则k大时m小，k小时m大，类似反比例关系
 
         //long最大可保存19位十进制，故n可以转为long类型存储
         long nVal = Long.parseLong(n);
-        //k的最小值为2，所以m的最大值为logN，k的范围[2,n-1]，m的范围[2,logN]
+        //k的最小值为2，所以m的最大值为logN，k的最大值为n-1，所以m的最小值为1
+        //所以k的范围为[2,n-1]，m的范围为[1,logN]
         int mMax = (int) Math.floor(Math.log(nVal) / Math.log(2));
         //m值大时k值小，所以从大到小枚举m值，只要有满足的k值，即为答案
         for (int m = mMax; m > 1; m--) {
@@ -1358,6 +1360,7 @@ public class Solution {
                 return Integer.toString(k);
             }
         }
+        //m==1时，k==n-1，此时k为n的好进制
         return Long.toString(nVal - 1);
 
     }
