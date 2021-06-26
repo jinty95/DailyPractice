@@ -1395,4 +1395,94 @@ public class Solution {
         return maxPoints;
     }
 
+    /**
+     * 773. 滑动谜题
+     * 在一个 2 x 3 的板上（board）有 5 块砖瓦，用数字 1~5 来表示, 以及一块空缺用 0 来表示。
+     * 一次移动定义为选择 0 与一个相邻的数字（上下左右）进行交换。
+     * 最终当板 board 的结果是 [[1,2,3],[4,5,0]] 谜板被解开。
+     * 给出一个谜板的初始状态，返回最少可以通过多少次移动解开谜板，如果不能解开谜板，则返回 -1 。
+     *
+     * @param board 面板
+     * @return 解谜的最少滑动次数
+     */
+    public int slidingPuzzle(int[][] board) {
+        //1、广度优先搜索：时间复杂度O(N!)，其中N为面板大小
+        //从[[1,2,3],[4,5,0]]开始，求所有下一步的状态，并对下一步状态集重复以上过程，记录步数，直到找到目标排列或者所有可行排列都已经出现
+        //起点
+        int[][] start = {{1,2,3},{4,5,0}};
+        if(equals(board,start)) return 0;
+        //已经出现过的排列
+        Set<String> occurred = new HashSet<>();
+        occurred.add(numArrToStr(start));
+        //下一步的状态集
+        Queue<int[][]> next = new LinkedList<>();
+        next.offer(start);
+        //步数
+        int count = 1;
+        while( ! next.isEmpty()){
+            int size = next.size();
+            for(int i=0;i<size;i++){
+                int[][] status = next.poll();
+                //找到0所在位置
+                int x=0, y=0;
+                for(int a=0;a<2;a++){
+                    for(int b=0;b<3;b++){
+                        if(status[a][b]==0){
+                            x=a; y=b;
+                        }
+                    }
+                }
+                //0向上下左右四个方向滑动
+                if(x==0 && sliding(status,x,y,x+1,y,board,occurred,next)) return count;
+                if(x==1 && sliding(status,x,y,x-1,y,board,occurred,next)) return count;
+                if(y>0 && sliding(status,x,y,x,y-1,board,occurred,next)) return count;
+                if(y<2 && sliding(status,x,y,x,y+1,board,occurred,next)) return count;
+            }
+            count++;
+        }
+        return -1;
+    }
+    //比较两个二维数组是否相等
+    private boolean equals(int[][] a, int[][] b){
+        for(int i=0;i<a.length;i++){
+            for(int j=0;j<a[0].length;j++){
+                if(a[i][j] != b[i][j]) return false;
+            }
+        }
+        return true;
+    }
+    //二维数组转字符串
+    private String numArrToStr(int[][] arr){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<arr.length;i++){
+            for(int j=0;j<arr[0].length;j++){
+                sb.append(arr[i][j]);
+            }
+        }
+        return sb.toString();
+    }
+    //二维数组元素交换
+    private void swap(int[][] arr, int x1, int y1, int x2, int y2){
+        int temp = arr[x1][y1];
+        arr[x1][y1] = arr[x2][y2];
+        arr[x2][y2] = temp;
+    }
+    //滑动并判断结果是否为目标值
+    private boolean sliding(int[][] status, int x1, int y1, int x2, int y2,
+                            int[][] target, Set<String> occurred, Queue<int[][]> next){
+        swap(status,x1,y1,x2,y2);
+        if(equals(status,target)) return true;
+        String str = numArrToStr(status);
+        if( ! occurred.contains(str)){
+            occurred.add(str);
+            int[][] nextStatus = new int[status.length][status[0].length];
+            for(int i=0;i<status.length;i++){
+                System.arraycopy(status[i],0,nextStatus[i],0,status[i].length);
+            }
+            next.offer(nextStatus);
+        }
+        swap(status,x1,y1,x2,y2);
+        return false;
+    }
+
 }

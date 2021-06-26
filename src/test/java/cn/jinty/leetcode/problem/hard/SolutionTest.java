@@ -230,4 +230,18 @@ public class SolutionTest {
         System.out.println(solution.maxPoints(points2));
     }
 
+    @Test
+    public void testSlidingPuzzle(){
+        int[][] board = {
+                {4,1,2},
+                {5,0,3}
+        };
+        System.out.println(solution.slidingPuzzle(board));
+        board = new int[][]{
+                {3,2,4},
+                {1,5,0}
+        };
+        System.out.println(solution.slidingPuzzle(board));
+    }
+
 }
