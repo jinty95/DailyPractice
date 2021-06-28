@@ -19,4 +19,17 @@ public class SolutionTest1 {
         System.out.println(solution.openLock(deadEnds,target));
     }
 
+    @Test
+    public void testSnakesAndLadders(){
+        int[][] board = {
+            {-1,-1,-1,-1,-1,-1},
+            {-1,-1,-1,-1,-1,-1},
+            {-1,-1,-1,-1,-1,-1},
+            {-1,35,-1,-1,13,-1},
+            {-1,-1,-1,-1,-1,-1},
+            {-1,15,-1,-1,-1,-1}
+        };
+        System.out.println(solution.snakesAndLadders(board));
+    }
+
 }
