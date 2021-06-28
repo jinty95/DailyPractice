@@ -1485,4 +1485,62 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 815. 公交路线
+     * 给你一个数组 routes ，表示一系列公交线路，其中每个 routes[i] 表示一条公交线路，第 i 辆公交车将会在上面循环行驶。
+     * 例如，路线 routes[0] = [1, 5, 7] 表示第 0 辆公交车会一直按序列 1 -> 5 -> 7 -> 1 -> 5 -> 7 -> 1 -> ... 这样的车站路线行驶。
+     * 现在从 source 车站出发（初始时不在公交车上），要前往 target 车站。 期间仅可乘坐公交车。
+     * 求出 最少乘坐的公交车数量 。如果不可能到达终点车站，返回 -1 。
+     *
+     * @param routes 公交路线网 (1 <= routes.length <= 500 且 sum(routes[i].length) <= 10^5)
+     * @param source 起点站
+     * @param target 终点站
+     * @return 从起点到终点的最少乘坐公交车数量
+     */
+    public int numBusesToDestination(int[][] routes, int source, int target) {
+        //1、广度优先搜索
+        //从起点站出发，枚举一趟车能够到达的所有站点，并对这个站点集合重复上述过程，记录车次数，直到到达目标站点或所有可达站点都已经出现
+        if(source==target) return 0;
+        //建立站点与所属线路的映射关系
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        for(int i=0;i<routes.length;i++){
+            for(int j=0;j<routes[i].length;j++){
+                map.computeIfAbsent(routes[i][j], k -> new ArrayList<>()).add(i);
+            }
+        }
+        //可达站点
+        Set<Integer> accessStop = new HashSet<>();
+        //可达路线(不同站点有相同路线时，这条路线只需检查一次)
+        Set<Integer> accessRoute = new HashSet<>();
+        //下一趟可达站点集
+        Queue<Integer> next = new LinkedList<>();
+        //起点
+        accessStop.add(source);
+        next.offer(source);
+        //车次
+        int count = 1;
+        //层次遍历
+        while( ! next.isEmpty()){
+            //枚举本层所有站点
+            int size = next.size();
+            for(int i=0;i<size;i++){
+                int stop = next.poll();
+                //枚举站点的下一趟可达站点
+                for(int route : map.get(stop)){
+                    if(accessRoute.contains(route)) continue;
+                    accessRoute.add(route);
+                    for(int a : routes[route]){
+                        if(a==target) return count;
+                        if( ! accessStop.contains(a)){
+                            accessStop.add(a);
+                            next.offer(a);
+                        }
+                    }
+                }
+            }
+            count++;
+        }
+        return -1;
+    }
+
 }

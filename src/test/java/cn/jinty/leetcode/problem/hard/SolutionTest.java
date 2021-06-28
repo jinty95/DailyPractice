@@ -244,4 +244,12 @@ public class SolutionTest {
         System.out.println(solution.slidingPuzzle(board));
     }
 
+    @Test
+    public void testNumBusesToDestination(){
+        int[][] routes = {{1,2,7},{3,7,6}};
+        System.out.println(solution.numBusesToDestination(routes,1,6));
+        routes = new int[][]{{1,2,3},{3,5,6},{6,8,9}};
+        System.out.println(solution.numBusesToDestination(routes,1,9));
+    }
+
 }
