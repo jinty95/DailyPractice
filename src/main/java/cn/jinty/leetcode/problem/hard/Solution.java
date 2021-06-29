@@ -2,6 +2,7 @@ package cn.jinty.leetcode.problem.hard;
 
 import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.IntTrie;
+import cn.jinty.util.ArrayUtil;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -1541,6 +1542,66 @@ public class Solution {
             count++;
         }
         return -1;
+    }
+
+    /**
+     * 37. 解数独
+     * 编写一个程序，通过填充空格来解决数独问题。
+     * 数独的解法需遵循如下规则：
+     * 数字 1-9 在每一行只能出现一次。
+     * 数字 1-9 在每一列只能出现一次。
+     * 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
+     * 数独部分空格内已填入了数字，空白格用 '.' 表示。
+     *
+     * @param board 9x9面板
+     */
+    public void solveSudoku(char[][] board) {
+        //标识空白格
+        List<int[]> space = new ArrayList<>();
+        //标识已有数字
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] cell = new boolean[9][9];
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(board[i][j]=='.'){
+                    space.add(new int[]{i,j});
+                }else{
+                    int val = board[i][j]-'1';
+                    row[i][val] = true;
+                    col[j][val] = true;
+                    cell[i/3*3+j/3][val] = true;
+                }
+            }
+        }
+        //递归回溯
+        solveSudoku(board,space,0,row,col,cell);
+    }
+    //递归回溯(深度优先搜索)：枚举空白格的可选数字，递归处理，若空白格无法填充，则回溯，重复过程直到空白格全部被填充为止
+    private boolean solveSudoku(char[][] board, List<int[]> space, int pos,
+                        boolean[][] row, boolean[][] col, boolean[][] cell){
+        //所有空白格都已填充
+        if(pos==space.size()) return true;
+        //获取当前空白格坐标
+        int[] coordinate = space.get(pos);
+        int i = coordinate[0], j = coordinate[1];
+        //枚举空白格可选数字
+        for(int n=0;n<9;n++){
+            //数字不可选
+            if(row[i][n] || col[j][n] || cell[i/3*3+j/3][n]) continue;
+            //数字可选
+            board[i][j] = (char)(n+'1');
+            row[i][n] = true;
+            col[j][n] = true;
+            cell[i/3*3+j/3][n] = true;
+            //递归
+            if(solveSudoku(board,space,pos+1,row,col,cell)) return true;
+            //回溯
+            row[i][n] = false;
+            col[j][n] = false;
+            cell[i/3*3+j/3][n] = false;
+        }
+        return false;
     }
 
 }

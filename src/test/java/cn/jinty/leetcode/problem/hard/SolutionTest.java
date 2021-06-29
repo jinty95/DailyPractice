@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.hard;
 
 import cn.jinty.struct.linear.ListNode;
+import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
 
@@ -250,6 +251,25 @@ public class SolutionTest {
         System.out.println(solution.numBusesToDestination(routes,1,6));
         routes = new int[][]{{1,2,3},{3,5,6},{6,8,9}};
         System.out.println(solution.numBusesToDestination(routes,1,9));
+    }
+
+    @Test
+    public void testSolveSudoku(){
+        char[][] sudoku = {
+            {'5','3','.',  '.','7','.',  '.','.','.'},
+            {'6','.','.',  '1','9','5',  '.','.','.'},
+            {'.','9','8',  '.','.','.',  '.','6','.'},
+
+            {'8','.','.',  '.','6','.',  '.','.','3'},
+            {'4','.','.',  '8','.','3',  '.','.','1'},
+            {'7','.','.',  '.','2','.',  '.','.','6'},
+
+            {'.','6','.',  '.','.','.',  '2','8','.'},
+            {'.','.','.',  '4','1','9',  '.','.','5'},
+            {'.','.','.',  '.','8','.',  '.','7','9'}
+        };
+        solution.solveSudoku(sudoku);
+        ArrayUtil.print2DArray(sudoku);
     }
 
 }

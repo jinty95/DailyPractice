@@ -25,6 +25,17 @@ public final class ArrayUtil {
     }
 
     /**
+     * 打印二维数组
+     *
+     * @param arr 二维数组
+     */
+    public static void print2DArray(char[][] arr){
+        for(char[] one:arr){
+            System.out.println(Arrays.toString(one));
+        }
+    }
+
+    /**
      * 打印三维数组
      *
      * @param arr 三维数组
