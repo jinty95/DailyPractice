@@ -1129,4 +1129,24 @@ public class Solution {
         }
     }
 
+    /**
+     * 168. Excel表列名称
+     * 给定一个正整数，返回它在 Excel 表中相对应的列名称。
+     * 1 -> A, 2 -> B, 3 -> C, ... 26 -> Z, 27 -> AA, 28 -> AB
+     *
+     * @param columnNumber 列编号
+     * @return 列名称
+     */
+    public String convertToTitle(int columnNumber) {
+        //十进制与二十六进制的转换
+        //这里的二十六进制不是从0开始而是从1开始，取值范围为[1,26]，而不是[0,25]
+        StringBuilder sb = new StringBuilder();
+        while(columnNumber>0){
+            columnNumber--;
+            sb.append((char)(columnNumber%26+'A'));
+            columnNumber /= 26;
+        }
+        return sb.reverse().toString();
+    }
+
 }

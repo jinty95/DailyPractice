@@ -290,4 +290,12 @@ public class SolutionTest {
         System.out.println(solution.readBinaryWatch(1));
     }
 
+    @Test
+    public void testConvertToTitle(){
+        System.out.println(solution.convertToTitle(28));
+        System.out.println(solution.convertToTitle(26));
+        System.out.println(solution.convertToTitle(52));
+        System.out.println(solution.convertToTitle(703));
+    }
+
 }
