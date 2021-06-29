@@ -140,4 +140,76 @@ public class Solution1 {
         return coordinate;
     }
 
+    /**
+     * 36. 有效的数独
+     * 请你判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
+     * 数字 1-9 在每一行只能出现一次。
+     * 数字 1-9 在每一列只能出现一次。
+     * 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+     * 数独部分空格内已填入了数字，空白格用 '.' 表示。
+     * 注意：
+     * 一个有效的数独（部分已被填充）不一定是可解的。
+     *
+     * @param board 9x9面板
+     * @return 是否有效数独
+     */
+    public boolean isValidSudoku(char[][] board) {
+        /*//1、三次遍历
+        //行
+        for(int i=0;i<board.length;i++){
+            int[] seen = new int[10];
+            for(int j=0;j<board[0].length;j++){
+                if(board[i][j]=='.') continue;
+                if(seen[board[i][j]-'1']==1) return false;
+                seen[board[i][j]-'1']=1;
+            }
+        }
+        //列
+        for(int j=0;j<board[0].length;j++){
+            int[] seen = new int[10];
+            for(int i=0;i<board.length;i++){
+                if(board[i][j]=='.') continue;
+                if(seen[board[i][j]-'1']==1) return false;
+                seen[board[i][j]-'1']=1;
+            }
+        }
+        //3x3方格
+        for(int a=0;a<3;a++){
+            for(int b=0;b<3;b++){
+                int row = a*3;
+                int col = b*3;
+                int[] seen = new int[10];
+                for(int i=row;i<row+3;i++){
+                    for(int j=col;j<col+3;j++){
+                        if(board[i][j]=='.') continue;
+                        if(seen[board[i][j]-'1']==1) return false;
+                        seen[board[i][j]-'1']=1;
+                    }
+                }
+            }
+        }
+        return true;*/
+
+        //2、一次遍历
+        int[][] row = new int[9][9];
+        int[][] col = new int[9][9];
+        int[][] cell = new int[9][9];
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                if(board[i][j]=='.') continue;
+                //行
+                if(row[i][board[i][j]-'1']==1) return false;
+                row[i][board[i][j]-'1']=1;
+                //列
+                if(col[j][board[i][j]-'1']==1) return false;
+                col[j][board[i][j]-'1']=1;
+                //方格
+                int num = i/3 * 3 + j/3;
+                if(cell[num][board[i][j]-'1']==1) return false;
+                cell[num][board[i][j]-'1']=1;
+            }
+        }
+        return true;
+    }
+
 }
