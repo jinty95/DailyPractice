@@ -238,6 +238,45 @@ public final class MathUtil {
     }
 
     /**
+     * 除法的实现(输入输出都为整数)
+     *
+     * @param a 被除数
+     * @param b 除数
+     * @return 整数结果
+     * @throws IllegalArgumentException 除数不能为0
+     */
+    public static int divide(int a, int b){
+        //非法除数
+        if(b==0) throw new IllegalArgumentException("除数不能为0");
+        //转为long防止溢出
+        long la = a;
+        long lb = b;
+        //确定正负号
+        boolean minus = (a<0 && b>0) || (a>0 && b<0);
+        //转为正数
+        if(la<0) la = -la;
+        if(lb<0) lb = -lb;
+        //除数倍增，记录倍数N，被除数若大于除数，说明被除数可以分解出N个除数
+        long result = 0;
+        long count = 1;
+        long multi = lb;
+        while(la>=multi){
+            multi <<= 1;
+            count <<= 1;
+        }
+        //除数倍增达到最大值后开始倍减，同时累计被除数可以分解出的除数数量
+        while(multi>lb){
+            multi >>= 1;
+            count >>= 1;
+            if(la>=multi){
+                la -= multi;
+                result += count;
+            }
+        }
+        return (int)(minus ? -result : (result>Integer.MAX_VALUE ? Integer.MAX_VALUE : result));
+    }
+
+    /**
      * 指数运算
      *
      * @param a base 底数

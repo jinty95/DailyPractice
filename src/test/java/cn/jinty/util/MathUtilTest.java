@@ -26,8 +26,8 @@ public class MathUtilTest {
         System.out.println();
 
         //BigDecimal
-        BigDecimal b1 = new BigDecimal(4.015);
-        BigDecimal b2 = new BigDecimal(1000.0);
+        BigDecimal b1 = new BigDecimal("4.015");
+        BigDecimal b2 = new BigDecimal("1000.0");
         System.out.println(b1+" + "+b2+" = "+(b1.add(b2)));
         System.out.println(b1+" - "+b2+" = "+(b1.subtract(b2)));
         System.out.println(b1+" * "+b2+" = "+(b1.multiply(b2)));
@@ -117,6 +117,17 @@ public class MathUtilTest {
         System.out.println(MathUtil.multiply(-2,2));
         System.out.println(MathUtil.multiply(2,-30));
         System.out.println(MathUtil.multiply(1000000000,3));
+    }
+
+    @Test
+    public void testDivide(){
+        System.out.println(MathUtil.divide(10,3));
+        System.out.println(MathUtil.divide(10,-3));
+        System.out.println(MathUtil.divide(10000000,2));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE,-1));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE,2));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE,1));
+        System.out.println(MathUtil.divide(Integer.MAX_VALUE,1));
     }
 
     @Test
