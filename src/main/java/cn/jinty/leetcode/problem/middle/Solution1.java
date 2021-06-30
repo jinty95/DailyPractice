@@ -212,4 +212,58 @@ public class Solution1 {
         return true;
     }
 
+    /**
+     * 227. 基本计算器 II
+     * 给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。
+     * s 由整数和运算符 ('+', '-', '*', '/') 组成，中间由一些空格隔开
+     * 整数除法仅保留整数部分。
+     *
+     * @param s 字符串表达式
+     * @return 计算结果
+     */
+    public int calculate(String s) {
+        //利用两个双端队列实现
+        //一个存放数字
+        Deque<Integer> numberQueue = new LinkedList<>();
+        //一个存放运算符
+        Deque<Character> operatorQueue = new LinkedList<>();
+        //遍历表达式
+        for(int i=0;i<s.length();i++){
+            char c = s.charAt(i);
+            //空格
+            if(c==' ') continue;
+            //数字
+            if(Character.isDigit(c)){
+                int num = 0;
+                int j=i;
+                while(j<s.length() && Character.isDigit(s.charAt(j))){
+                    num = num * 10 + s.charAt(j)-'0';
+                    j++;
+                }
+                i=j-1;
+                numberQueue.offerLast(num);
+                //先完成乘除
+                if( ! operatorQueue.isEmpty() && ('*'==operatorQueue.peekLast() || '/'==operatorQueue.peekLast())){
+                    char operator = operatorQueue.pollLast();
+                    int num2 = numberQueue.pollLast();
+                    int num1 = numberQueue.pollLast();
+                    if('*' == operator) numberQueue.offerLast(num1 * num2);
+                    else numberQueue.offerLast(num1 / num2);
+                }
+            }else{
+                //运算符
+                operatorQueue.offerLast(c);
+            }
+        }
+        //后完成加减(按原顺序从头到尾运算)
+        while( ! operatorQueue.isEmpty()){
+            char operator = operatorQueue.pollFirst();
+            int num1 = numberQueue.pollFirst();
+            int num2 = numberQueue.pollFirst();
+            if('+' == operator) numberQueue.offerFirst(num1 + num2);
+            else numberQueue.offerFirst(num1 - num2);
+        }
+        return numberQueue.pollFirst();
+    }
+
 }
