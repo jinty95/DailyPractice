@@ -1604,4 +1604,97 @@ public class Solution {
         return false;
     }
 
+    /**
+     * 224. 基本计算器
+     * 给你一个字符串表达式 s ，请你实现一个基本计算器来计算并返回它的值。
+     * s 由数字、'+'、'-'、'*'、'/'、'('、')'、和 ' ' 组成
+     * s 表示一个有效的表达式
+     *
+     * @param s 字符串表达式 (1 <= s.length <= 3 * 10^5)
+     * @return 计算结果
+     */
+    public int calculate(String s) {
+        //中缀表达式转后缀表达式
+        List<String> suffix = infixToSuffix(s);
+        //计算后缀表达式
+        Deque<Integer> stack = new LinkedList<>();
+        for(String a : suffix){
+            switch (a) {
+                case "+" : stack.push(stack.pop() + stack.pop());  break;
+                case "-" : stack.push(-1 * stack.pop() + stack.pop()); break;
+                case "*" : stack.push(stack.pop() * stack.pop()); break;
+                case "/" : Integer divisor = stack.pop(); stack.push(stack.pop() / divisor); break;
+                default : stack.push(Integer.parseInt(a));
+            }
+        }
+        return stack.pop();
+    }
+    //中缀表达式转后缀表达式
+    private List<String> infixToSuffix(String infix){
+        //用列表存储后缀表达式
+        List<String> suffix = new ArrayList<>();
+        //用栈存储操作符及括号
+        Deque<Character> stack = new LinkedList<>();
+        //去除空格
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<infix.length();i++){
+            if(infix.charAt(i)==' ') continue;
+            sb.append(infix.charAt(i));
+        }
+        infix = sb.toString();
+        //遍历表达式
+        for(int i=0;i<infix.length();i++){
+            char c = infix.charAt(i);
+            //数字
+            if(Character.isDigit(c)){
+                int j=i+1;
+                while(j<infix.length() && Character.isDigit(infix.charAt(j))){
+                    j++;
+                }
+                suffix.add(infix.substring(i,j));
+                i=j-1;
+            }else{
+                //括号及操作符
+                if(c=='('){
+                    //左括号：直接入栈
+                    stack.push(c);
+                }else if(c==')'){
+                    //右括号：出栈直到遇到左括号为止
+                    while(true){
+                        if(stack.peek()=='('){
+                            stack.pop();
+                            break;
+                        }
+                        suffix.add(String.valueOf(stack.pop()));
+                    }
+                }else{
+                    //操作符：前导正负号左侧补0
+                    if(i==0 || '('==infix.charAt(i-1) || isOperator(infix.charAt(i-1))){
+                        suffix.add("0");
+                    }
+                    //操作符：栈非空，栈顶为操作符，且优先级不小于当前符号，则栈顶出栈，当前符号入栈；其余情况当前符号直接入栈
+                    while( ! stack.isEmpty() && isOperator(stack.peek()) && getPriority(stack.peek())>=getPriority(c)) {
+                        suffix.add(String.valueOf(stack.pop()));
+                    }
+                    stack.push(c);
+                }
+            }
+        }
+        //栈中剩余操作符全部出栈
+        while( ! stack.isEmpty()){
+            suffix.add(String.valueOf(stack.pop()));
+        }
+        System.out.println(suffix);
+        return suffix;
+    }
+    //判断是否为操作符
+    private boolean isOperator(char c){
+        return c=='*' || c=='/' || c=='+' || c=='-';
+    }
+    //获取操作符的优先级
+    private int getPriority(char c){
+        if(c=='*' || c=='/') return 1;
+        return 0;
+    }
+
 }

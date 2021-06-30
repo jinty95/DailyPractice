@@ -272,4 +272,15 @@ public class SolutionTest {
         ArrayUtil.print2DArray(sudoku);
     }
 
+    @Test
+    public void testCalculate(){
+        System.out.println(solution.calculate("(1+1)-1+2")); //3
+        System.out.println(solution.calculate("- 1 + 2 - 1 ")); //0
+        System.out.println(solution.calculate("5-(4-(3-(2-1)))")); //3
+        System.out.println(solution.calculate("1-(+1+1)")); //-1
+        System.out.println(solution.calculate("1-(-1+1)")); //1
+        System.out.println(solution.calculate("+48+-48")); //0
+        System.out.println(solution.calculate("3+(4*5)-7/2")); //20
+    }
+
 }
