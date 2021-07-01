@@ -298,4 +298,13 @@ public class SolutionTest {
         System.out.println(solution.convertToTitle(703));
     }
 
+    @Test
+    public void testNumWays(){
+        System.out.println(solution.numWays(
+                5,
+                new int[][]{{0,2},{2,1},{3,4},{2,3},{1,4},{2,0},{0,4}},
+                3
+        ));
+    }
+
 }
