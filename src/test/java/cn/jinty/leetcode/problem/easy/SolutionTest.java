@@ -307,4 +307,10 @@ public class SolutionTest {
         ));
     }
 
+    @Test
+    public void testAddStrings(){
+        System.out.println(solution.addStrings("45","55"));
+        System.out.println(solution.addStrings("1","99999999999999999999999"));
+    }
+
 }

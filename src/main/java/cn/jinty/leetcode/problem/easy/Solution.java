@@ -1178,4 +1178,29 @@ public class Solution {
         return count;
     }
 
+    /**
+     * 415. 字符串相加
+     * 给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。
+     *
+     * @param num1 字符串
+     * @param num2 字符串
+     * @return 和
+     */
+    public String addStrings(String num1, String num2) {
+        StringBuilder sb = new StringBuilder();
+        //进位
+        int carry = 0;
+        //从低位开始累加
+        int i=num1.length()-1, j=num2.length()-1;
+        while(i>=0 || j>=0){
+            int num = carry + (i>=0?num1.charAt(i)-'0':0) + (j>=0?num2.charAt(j)-'0':0);
+            sb.append(num%10);
+            carry = num/10;
+            i--;
+            j--;
+        }
+        if(carry==1) sb.append(1);
+        return sb.reverse().toString();
+    }
+
 }
