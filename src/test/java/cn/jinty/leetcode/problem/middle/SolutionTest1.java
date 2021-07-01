@@ -56,4 +56,10 @@ public class SolutionTest1 {
         System.out.println(solution.calculate("1+1-2+3"));
     }
 
+    @Test
+    public void testMultiply(){
+        System.out.println(solution.multiply("5","10"));
+        System.out.println(solution.multiply("123","456"));
+    }
+
 }

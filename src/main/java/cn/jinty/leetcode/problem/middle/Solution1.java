@@ -266,4 +266,62 @@ public class Solution1 {
         return numberQueue.pollFirst();
     }
 
+    /**
+     * 43. 字符串相乘
+     * 给定两个以字符串形式表示的非负整数 num1 和 num2，
+     * 返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
+     *
+     * @param num1 字符串
+     * @param num2 字符串
+     * @return 乘积
+     */
+    public String multiply(String num1, String num2) {
+        if("0".equals(num1) || "0".equals(num2)) return "0";
+        String result = "0";
+        //把num2按位拆分，每位与num1相乘，乘后补足0，最后把所有值相加
+        for(int i=0;i<num2.length();i++){
+            int j = num2.length()-1-i;
+            String product = multiply(num1,num2.charAt(j)-'0');
+            StringBuilder sb = new StringBuilder(product);
+            for(int k=0;k<i;k++){
+                sb.append("0");
+            }
+            product = sb.toString();
+            result = add(result,product);
+        }
+        return result;
+    }
+    //字符串乘[0~9]
+    private String multiply(String num1, int num2){
+        if(num2==0) return "0";
+        StringBuilder sb = new StringBuilder();
+        //进位
+        int carry = 0;
+        //从低位开始按位相乘
+        for(int i=num1.length()-1;i>=0;i--){
+            int num = (num1.charAt(i)-'0') * num2 + carry;
+            sb.append(num%10);
+            carry = num/10;
+        }
+        if(carry>0) sb.append(carry);
+        return sb.reverse().toString();
+    }
+    //字符串相加
+    private String add(String num1, String num2) {
+        StringBuilder sb = new StringBuilder();
+        //进位
+        int carry = 0;
+        //从低位开始按位相加
+        int i=num1.length()-1, j=num2.length()-1;
+        while(i>=0 || j>=0){
+            int num = carry + (i>=0?num1.charAt(i)-'0':0) + (j>=0?num2.charAt(j)-'0':0);
+            sb.append(num%10);
+            carry = num/10;
+            i--;
+            j--;
+        }
+        if(carry==1) sb.append(1);
+        return sb.reverse().toString();
+    }
+
 }
