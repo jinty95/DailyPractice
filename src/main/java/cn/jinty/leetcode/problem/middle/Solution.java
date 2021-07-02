@@ -69,7 +69,7 @@ public class Solution {
             }
         }
         //遍历位置标记，找最小值
-        Integer min = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE;
         for(Integer i : stamp1){
             for(Integer j : stamp2){
                 min = Math.min(min,Math.abs(i-j));
@@ -95,9 +95,8 @@ public class Solution {
         ListNode cur = head;
         ListNode oddHead = new ListNode(cur.val);
         ListNode oddTail = oddHead;
-        while(cur!=null && cur.next!=null && cur.next.next!=null){
-            ListNode tmp = new ListNode(cur.next.next.val);
-            oddTail.next = tmp;
+        while(cur.next != null && cur.next.next != null){
+            oddTail.next = new ListNode(cur.next.next.val);
             oddTail = oddTail.next;
             cur = cur.next.next;
         }
@@ -105,9 +104,8 @@ public class Solution {
         cur = head.next;
         ListNode evenHead = new ListNode(cur.val);
         ListNode evenTail = evenHead;
-        while(cur!=null && cur.next!=null && cur.next.next!=null){
-            ListNode tmp = new ListNode(cur.next.next.val);
-            evenTail.next = tmp;
+        while(cur.next != null && cur.next.next != null){
+            evenTail.next = new ListNode(cur.next.next.val);
             evenTail = evenTail.next;
             cur = cur.next.next;
         }
@@ -151,13 +149,8 @@ public class Solution {
         for(int i:arr){
             map.put(i,map.getOrDefault(i,0)+1);
         }
-        //按频率排序
-        PriorityQueue<Map.Entry<Integer,Integer>> queue = new PriorityQueue<>(new Comparator<Map.Entry<Integer,Integer>>() {
-            @Override
-            public int compare(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2) {
-                return o2.getValue() - o1.getValue();
-            }
-        });
+        //按频率倒序
+        PriorityQueue<Map.Entry<Integer,Integer>> queue = new PriorityQueue<>((o1, o2) -> o2.getValue() - o1.getValue());
         queue.addAll(map.entrySet());
         //数组减半
         int len = arr.length/2;
@@ -165,7 +158,9 @@ public class Solution {
         int ans = 0;
         while(mid<len){
             ans++;
-            mid += queue.poll().getValue();
+            Map.Entry<Integer,Integer> entry = queue.poll();
+            assert entry != null;
+            mid += entry.getValue();
         }
         return ans;
     }
@@ -197,26 +192,22 @@ public class Solution {
             result.add(record.toString());
         }else{
             if(left==0){
-                //没有未配对的左括号
+                //没有未配对的左括号，只能加入左括号
                 record.append('(');
                 generateParenthesis(result,record,left+1,remain);
                 record.deleteCharAt(record.length()-1);
             }else{
-                //有未配对的左括号
+                //有未配对的左括号，可以加入左括号或者右括号
                 if(left<remain){
-                    //左括号未用完
+                    //1、选择加入左括号
                     record.append('(');
                     generateParenthesis(result,record,left+1,remain);
                     record.deleteCharAt(record.length()-1);
-                    record.append(')');
-                    generateParenthesis(result,record,left-1,remain-1);
-                    record.deleteCharAt(record.length()-1);
-                }else{
-                    //左括号已用完
-                    record.append(')');
-                    generateParenthesis(result,record,left-1,remain-1);
-                    record.deleteCharAt(record.length()-1);
                 }
+                //2、选择加入右括号
+                record.append(')');
+                generateParenthesis(result,record,left-1,remain-1);
+                record.deleteCharAt(record.length()-1);
             }
         }
     }
@@ -387,7 +378,7 @@ public class Solution {
      * @param r 右边界数组
      * @return List<Boolean>
      */
-    public List<Boolean> checkArithmeticSubarrays(int[] nums, int[] l, int[] r) {
+    public List<Boolean> checkArithmeticSubArrays(int[] nums, int[] l, int[] r) {
         List<Boolean> list = new ArrayList<>();
         int len = l.length;
         for(int i=0;i<len;i++){
@@ -464,14 +455,12 @@ public class Solution {
         Queue<Integer> queue = new LinkedList<>();
         //从大到小遍历卡牌
         for(int i=deck.length-1;i>=0;i--){
-            if(queue.isEmpty()){
-                queue.offer(deck[i]);
-            }else{
+            if (!queue.isEmpty()) {
                 //将队头移到队尾
                 queue.offer(queue.poll());
-                //小卡牌加入队尾
-                queue.offer(deck[i]);
             }
+            //小卡牌加入队尾
+            queue.offer(deck[i]);
         }
         //逆序读取队列，得到卡牌序列
         int[] ans = new int[deck.length];
@@ -559,7 +548,7 @@ public class Solution {
     public int[][] reconstructQueue(int[][] people) {
         int[][] ans = new int[people.length][];
         //将乱序队列升序排序
-        Arrays.sort(people, ((o1, o2) -> o1[0] - o2[0]));
+        Arrays.sort(people, (Comparator.comparingInt(o -> o[0])));
         //从身高最低者开始重建队列
         for (int[] person : people) {
             int count = person[1];
@@ -744,20 +733,22 @@ public class Solution {
         boolean negative = false;
         for(int i=0;i<s.length();i++){
             char c = s.charAt(i);
-            if(i==0 && c=='-') negative = true;
-            else if(i==0 && c=='+') {}
-            else if(c>='0' && c<='9') {
+            if(c>='0' && c<='9') {
+                //数字
                 ans = ans * 10 + (c-'0');
                 if(ans>Integer.MAX_VALUE){
                     break;
                 }
-            }else{
+            }else if(i==0 && c=='-'){
+                //合法负号
+                negative = true;
+            }else if( ! (i==0 && c=='+')){
+                //非法情况(除了合法正号的其余情况)
                 break;
             }
         }
-        return negative ?
-                (ans>Integer.MAX_VALUE ? Integer.MIN_VALUE : ((int)ans)*-1) :
-                (ans>Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)ans);
+        if(negative) return ans > Integer.MAX_VALUE ? Integer.MIN_VALUE : ((int)ans)*-1;
+        return ans > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int)ans;
     }
 
     /**
@@ -810,7 +801,7 @@ public class Solution {
     public int[][] merge(int[][] intervals) {
         List<int[]> list = new ArrayList<>();
         //按区间左边界值升序
-        Arrays.sort(intervals,(o1, o2) -> o1[0]-o2[0]);
+        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
         //上一个区间
         int left = intervals[0][0], right = intervals[0][1];
         for(int i=1;i<intervals.length;i++){
@@ -843,11 +834,7 @@ public class Solution {
             char[] arr = str.toCharArray();
             Arrays.sort(arr);
             String newStr = new String(arr);
-            List<String> list = map.get(newStr);
-            if(list==null){
-                list = new ArrayList<>();
-                map.put(newStr,list);
-            }
+            List<String> list = map.computeIfAbsent(newStr, k -> new ArrayList<>());
             list.add(str);
         }
         return new ArrayList<>(map.values());
@@ -863,6 +850,7 @@ public class Solution {
      * @param m 排列的最大值 (1 <= m <= 10^3)
      * @return 查询结果
      */
+    @SuppressWarnings("unused")
     public int[] processQueries(int[] queries, int m) {
 
         //1、定义一个长度为m的数组，每次查询都遍历这个数组，并做前置操作，时间复杂度O(NM)
@@ -1163,7 +1151,7 @@ public class Solution {
     public ListNode reverseBetween(ListNode head, int left, int right) {
         //反转区间的前一个及后一个节点
         ListNode pre = head;
-        ListNode post = head;
+        ListNode post;
         //寻找left表示的节点
         ListNode leftNode = head;
         while(left>1){
@@ -1203,19 +1191,21 @@ public class Solution {
      * @param popped 弹出顺序
      * @return 是否合法
      */
+    @SuppressWarnings("all")
     public boolean validateStackSequences(int[] pushed, int[] popped) {
         //使用栈模拟过程
         Deque<Integer> stack = new LinkedList<>();
         int i = 0;
         for(int j=0; j<popped.length; j++){
             if(i < pushed.length){
-                //栈空先压入元素
+                //栈空先压入一个元素
                 if(stack.isEmpty()) stack.push(pushed[i++]);
-                //栈顶与下一个弹出元素比较
+                //栈顶与下一个弹出元素比较，不等则一直压入，直到相等或元素用完
                 while(i<pushed.length && stack.peek() != popped[j]){
                     stack.push(pushed[i++]);
                 }
             }
+            //栈顶与下一个弹出元素比较，不等说明非法
             if(stack.peek() != popped[j]) return false;
             stack.pop();
         }
@@ -1364,41 +1354,31 @@ public class Solution {
      */
     public ListNode deleteDuplicates(ListNode head) {
         if(head==null || head.next==null) return head;
-        ListNode p1 = head;
+        //建立哨兵避免头节点判断
+        ListNode newHead = new ListNode();
+        newHead.next = head;
+        ListNode temp = newHead;
+        ListNode p1 = temp.next;
         ListNode p2 = p1.next;
-        //p1与p2的重复
-        while(p1.val==p2.val){
-            p2 = p2.next;
-            if(p2==null) return null;
-            if(p1.val!=p2.val){
+        while(p2!=null){
+            if(p2.val==p1.val){
+                //遇到重复节点
+                while(true){
+                    p2 = p2.next;
+                    if(p2==null || p2.val!=p1.val){
+                        temp.next = p2;
+                        p1 = p2;
+                        p2 = p1==null ? null : p1.next;
+                        break;
+                    }
+                }
+            }else{
+                temp = temp.next;
                 p1 = p2;
                 p2 = p2.next;
             }
-            if(p2==null) return p1;
         }
-        //p2与p3的重复
-        ListNode tmp1 = p1;
-        ListNode p3 = p2.next;
-        boolean findRepeat = false;
-        while(p3!=null){
-            if(p3.val==p2.val){
-                findRepeat = true;
-            }else{
-                if(findRepeat){
-                    tmp1.next = p3;
-                    p2 = p3;
-                    findRepeat = false;
-                }else{
-                    tmp1 = p2;
-                    p2 = p3;
-                }
-            }
-            p3 = p3.next;
-            if(p3==null && findRepeat){
-                tmp1.next = p3;
-            }
-        }
-        return p1;
+        return newHead.next;
     }
 
     /**
@@ -1606,7 +1586,7 @@ public class Solution {
         boolean begin = true;
         while(N>0){
             //以四个数为一组来处理
-            int tmp = 0;
+            int tmp;
             if(N>=4) tmp = N*(N-1)/(N-2)+(begin?(N-3):3-N);
             else if(N==3) tmp = N*(N-1)/(N-2);
             else if(N==2) tmp = N*(N-1);
@@ -1641,9 +1621,7 @@ public class Solution {
             else{
                 if(count>2){
                     int distance = count-2;
-                    for(int j=i;j<len;j++){
-                        nums[j-distance] = nums[j];
-                    }
+                    System.arraycopy(nums, i, nums, i - distance, len - i);
                     len -= distance;
                     i -= distance;
                 }
@@ -1740,6 +1718,7 @@ public class Solution {
 
     }
     //先序遍历寻找target的路径
+    @SuppressWarnings("unused")
     private boolean findPath(TreeNode root, TreeNode target, List<TreeNode>path){
         if(root==null) return false;
         //当前节点加入路径
@@ -1758,6 +1737,7 @@ public class Solution {
         return false;
     }
     //先序遍历构建所有节点与父节点的映射关系
+    @SuppressWarnings("unused")
     private void nodeParentMap(TreeNode root, Map<TreeNode,TreeNode> map){
         if(root==null) return;
         if(root.left!=null){
@@ -1876,8 +1856,9 @@ public class Solution {
         int ans = 1;
         while(n>0){
             //由于int值溢出，故使用long
-            long ugly = queue.poll();
-            ans = (int)ugly;
+            Long ugly = queue.poll();
+            assert ugly != null;
+            ans = ugly.intValue();
             n--;
             long ugly2 = ugly * 2;
             long ugly3 = ugly * 3;
@@ -1929,7 +1910,7 @@ public class Solution {
     public int rob(int[] nums) {
         if(nums==null || nums.length==0) return 0;
         if(nums.length==1) return nums[0];
-        int max = 0;
+        int max;
         //保存从第一个屋子到第i个屋子所能偷到的最大值
         int[] dp = new int[nums.length];
         //第一个屋子不偷
@@ -2018,7 +1999,7 @@ public class Solution {
      * @return 双向链表
      */
     public Node treeToDoublyList(Node root) {
-        if(root==null) return root;
+        if(root==null) return null;
         //收集节点路径
         List<Node> list = new ArrayList<>();
         inOrder(root,list);
@@ -2054,8 +2035,7 @@ public class Solution {
         //旧节点与新节点的映射
         Map<Node,Node> oldToNew = new HashMap<>();
         //新建节点，保证next一致
-        Node newHead = null;
-        Node tmp = newHead;
+        Node newHead = null, tmp = null;
         while(head!=null){
             if(tmp==null){
                 newHead = new Node(head.val);
@@ -2166,6 +2146,7 @@ public class Solution {
     //成员变量
     private List<Integer> answer = null;
     //递归函数
+    @SuppressWarnings("unused")
     private void largestDivisibleSubset(int[] nums, int idx,List<Integer> list){
         if(idx==-1){
             //元素收集完毕，判断是否比answer长
@@ -2188,50 +2169,6 @@ public class Solution {
                 }
             }
         }
-    }
-
-    /**
-     * 剑指 Offer 67. 把字符串转换成整数
-     *
-     * @param str 字符串
-     * @return 整数
-     */
-    public int strToInt(String str) {
-        //空串
-        if(str==null) return 0;
-        str = str.trim();
-        if(str.length()==0) return 0;
-        //收集有效数字
-        StringBuilder sb = new StringBuilder();
-        //是否为负数
-        boolean negative = false;
-        for(int i=0;i<str.length();i++){
-            char c = str.charAt(i);
-            if(i==0 && c=='-') negative=true;
-            else if(i==0 && c=='+') negative = false;
-            else if(c>='0' && c<='9'){
-                //去除无意义的前导0
-                if(sb.length()==0 && c=='0') continue;
-                sb.append(c);
-            }
-            else break;
-        }
-        str = sb.toString();
-        //无法解析
-        if(str.length()==0) return 0;
-        //溢出
-        if(str.length()>10) return negative ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-        if(str.length()==10 && negative && str.compareTo("2147483648")>0) return Integer.MIN_VALUE;
-        if(str.length()==10 && !negative && str.compareTo("2147483647")>0) return Integer.MAX_VALUE;
-        //正常情况
-        int answer = 0;
-        int multiple = 1;
-        for(int i=str.length()-1;i>=0;i--){
-            int d = str.charAt(i)-'0';
-            answer += d*multiple;
-            multiple *= 10;
-        }
-        return negative ? -answer : answer;
     }
 
     /**
@@ -2286,7 +2223,6 @@ public class Solution {
      */
     public int cuttingRope(int n) {
         //动态规划，时间复杂度O(N^2)
-        int max = 0;
         //dp[i]表示i拆分后的最大乘积
         //这里需要使用大整数，因为只有加法可以阶段性取余，乘法必须先计算全部值的乘积，最后才可以取余
         BigInteger[] dp = new BigInteger[n+1];
@@ -2509,6 +2445,7 @@ public class Solution {
 
     }
     //递归函数
+    @SuppressWarnings("unused")
     private int shipWithinDays(int[] weights, int D, int idx, int[] sum){
         //数组角标越界，返回0
         if(idx>=weights.length) return 0;
@@ -2529,6 +2466,7 @@ public class Solution {
         return max;
     }
     //递归函数+记忆表
+    @SuppressWarnings("unused")
     private int shipWithinDays(int[] weights, int D, int idx, int[] sum, int[][] memory){
         //数组角标越界，返回0
         if(idx>=weights.length) return 0;
@@ -2951,13 +2889,10 @@ public class Solution {
         //从最便宜的开始买，直到钱不足，钱可以有剩余
         Arrays.sort(costs);
         int count = 0;
-        for(int i=0;i<costs.length;i++){
-            if(coins>=costs[i]){
-                count++;
-                coins -= costs[i];
-            }else{
-                break;
-            }
+        for (int cost : costs) {
+            if (coins < cost) break;
+            count++;
+            coins -= cost;
         }
         return count;
 
@@ -3102,7 +3037,9 @@ public class Solution {
         int flowerNum = m * k;
         if(flowerNum > bloomDay.length) return -1;
         if(flowerNum == bloomDay.length){
-            return Arrays.stream(bloomDay).max().getAsInt();
+            OptionalInt max = Arrays.stream(bloomDay).max();
+            assert max.isPresent();
+            return max.getAsInt();
         }
         //天数范围为数组最小值(一朵开花)~数组最大值(全部开花)
         int left = bloomDay[0], right = bloomDay[0];
@@ -3339,10 +3276,9 @@ public class Solution {
      * @return 点数概率
      */
     public double[] dicesProbability(int n) {
-        //确定值范围
-        int min = n;
-        int max = n*6;
-        double[] answer = new double[max-min+1];
+        //确定值范围 [n,6n]
+        int max = 6*n;
+        double[] answer = new double[max-n+1];
         //确定所有可能出现的情况总数
         int sum = 6;
         int count = n;
@@ -3370,7 +3306,7 @@ public class Solution {
         }
         //计算每种值对应的概率
         for(int k=0;k<answer.length;k++){
-            answer[k] = dp[n-1][k+min]*1.0 / sum;
+            answer[k] = dp[n-1][k+n] * 1.0 / sum;
         }
         return answer;
     }
@@ -3497,6 +3433,7 @@ public class Solution {
      * @param player 当前玩家：0为Alex，1为Lee
      * @return 当前玩家能否取胜
      */
+    @SuppressWarnings({"unused","BooleanMethodIsAlwaysInverted"})
     private boolean stoneGame(int[] piles,int sum0,int sum1,int left,int right,int player){
         if(left > right){
             if(player==0) return sum0 > sum1;
@@ -3628,6 +3565,7 @@ public class Solution {
                 queue.offer(entry);
             }else{
                 Map.Entry<String,Integer> min = queue.peek();
+                assert min != null;
                 if(entry.getValue().equals(min.getValue())){
                     if(entry.getKey().compareTo(min.getKey()) < 0){
                         queue.poll();
@@ -3774,6 +3712,7 @@ public class Solution {
     }
     private int maxSumDivThree = 0;
     //递归函数：枚举所有组合
+    @SuppressWarnings("unused")
     private void maxSumDivThree(int[] nums,int index,int sum){
         if(sum%3==0){
             maxSumDivThree = Math.max(maxSumDivThree,sum);
@@ -3993,6 +3932,7 @@ public class Solution {
 
     }
     //递归函数1：暴力递归
+    @SuppressWarnings("unused")
     private boolean wordBreak1(String s, Set<String> wordSet){
         if(s.equals("")) return true;
         //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
@@ -4006,6 +3946,7 @@ public class Solution {
         return false;
     }
     //递归函数2：使用记忆表避免重复计算
+    @SuppressWarnings("unused")
     private boolean wordBreak2(String s, int begin, Map<Integer,Boolean> map, Set<String> wordSet){
         if(begin==s.length()) return true;
         //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
@@ -4071,8 +4012,10 @@ public class Solution {
 
     }
     //全局变量
+    @SuppressWarnings("unused")
     private int targetSumWays = 0;
     //递归函数
+    @SuppressWarnings("unused")
     private void findTargetSumWays(int[] nums, int index, int sum, int target){
         if(index==nums.length){
             if(sum==target) targetSumWays++;
@@ -4521,19 +4464,20 @@ public class Solution {
     /**
      * 1744. 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
      * 给你一个下标从 0 开始的正整数数组 candiesCount ，其中 candiesCount[i] 表示你拥有的第 i 类糖果的数目。
-     * 同时给你一个二维数组 queries ，其中 queries[i] = [favoriteTypei, favoriteDayi, dailyCapi] 。
+     * 同时给你一个二维数组 queries ，其中 queries[i] = [favoriteType, favoriteDay, dailyCap] 。
      * 你按照如下规则进行一场游戏：
      * 1、你从第 0 天开始吃糖果。
      * 2、你在吃完 所有 第 i - 1 类糖果之前，不能 吃任何一颗第 i 类糖果。
      * 3、在吃完所有糖果之前，你必须每天 至少 吃 一颗 糖果。
+     * (注意，只要满足上面 3 条规则中的第二条规则，你就可以在同一天吃不同类型的糖果。)
      * 请你构建一个布尔型数组 answer ，满足 answer.length == queries.length 。answer[i] 为 true 的条件是：
-     * 在每天吃 不超过 dailyCapi 颗糖果的前提下，你可以在第 favoriteDayi 天吃到第 favoriteTypei 类糖果；
-     * 否则 answer[i] 为 false 。注意，只要满足上面 3 条规则中的第二条规则，你就可以在同一天吃不同类型的糖果。
+     * 在每天吃 不超过 dailyCap 颗糖果的前提下，你可以在第 favoriteDay 天吃到第 favoriteType 类糖果；否则 answer[i] 为 false 。
      *
      * @param candiesCount 糖果数量
      * @param queries 数组[最喜欢的糖果-最喜欢的天数-每天食量]
      * @return 能否在最喜欢的那天吃到最喜欢的糖果
      */
+    @SuppressWarnings("UnnecessaryLocalVariable")
     public boolean[] canEat(int[] candiesCount, int[][] queries) {
         //糖果数量前缀和
         long[] preSum = new long[candiesCount.length];
@@ -4567,7 +4511,7 @@ public class Solution {
      *        1 <= k <= 2^31 - 1
      * @return 是否存在
      */
-    public boolean checkSubarraySum(int[] nums, int k) {
+    public boolean checkSubArraySum(int[] nums, int k) {
         /*//1、暴力枚举：时间复杂度O(N^2)，可能超时
         for(int i=0;i<nums.length-1;i++){
             int sum = nums[i];
@@ -4758,6 +4702,7 @@ public class Solution {
 
     }
     //计算字符串中指定字符的数量
+    @SuppressWarnings("SameParameterValue")
     private int countChar(String str, char c){
         int num = 0;
         for(int i=0;i<str.length();i++){
@@ -4781,28 +4726,7 @@ public class Solution {
      */
     public int lastStoneWeightII(int[] stones) {
 
-        /*//1、排序后从大到小遍历，两两相减，重复这个过程直到只剩一个数不为0，时间复杂度O(N*logN*N*logN)
-        if(stones==null || stones.length==0) return 0;
-        if(stones.length==1) return stones[0];
-        boolean flag = false;
-        do {
-            Arrays.sort(stones);
-            if(stones[stones.length-2]==0) return stones[stones.length-1];
-            for(int i=stones.length-2;i>=0;i-=2){
-                if(stones[i]==0) break;
-                else{
-                    stones[i+1] -= stones[i];
-                    stones[i] = 0;
-                    flag = true;
-                }
-            }
-            System.out.println(Arrays.toString(stones));
-        } while (flag);
-        return stones[stones.length-1];*/
-
-        //上述做法得到的结果有误，例如[31,26,33,21,40]得到9而实际答案为5
-
-        /*//2、动态规划：在数组每一个数前面添加正号或负号，求最小非负数和
+        /*//1、动态规划：在数组每一个数前面添加正号或负号，求最小非负数和
         //dp[i][j]表示stones[0...i]添加正号或负号是否可以得到j
         //j的范围为[-3000,3000]，用[0,6000]表示
         boolean[][] dp = new boolean[stones.length][6001];
@@ -4823,7 +4747,7 @@ public class Solution {
         }
         return 0;*/
 
-        //3、动态规划：范围根据实际数组决定
+        //2、动态规划：范围根据实际数组决定
         int sum = 0;
         for(int stone : stones){
             sum += stone;
@@ -4964,6 +4888,7 @@ public class Solution {
         return k;
     }
     //1、判断p是否为s的子序列
+    @SuppressWarnings("unused")
     private boolean isSubSerial(String s, String p, int[] map){
         int i=0, j=0;
         while(i<s.length() && j<p.length()){
@@ -5022,6 +4947,7 @@ public class Solution {
         return maxLen;
     }
     //判断是否为合法子串
+    @SuppressWarnings("unused")
     private boolean isLegalSubstring(int[] map, int k){
         for(int one : map){
             if(one!=0 && one<k) return false;
@@ -5057,7 +4983,9 @@ public class Solution {
         }
         int[] ans = new int[queue.size()];
         for(int i=ans.length-1;i>=0;i--){
-            ans[i] = queue.poll();
+            Integer val = queue.poll();
+            assert val != null;
+            ans[i] = val;
         }
         return ans;
     }

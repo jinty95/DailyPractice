@@ -77,20 +77,20 @@ public class SolutionTest {
 
     @Test
     public void testTrulyMostPopular(){
-        String[] names = {"Fcclu(70)","Ommjh(63)","Dnsay(60)","Qbmk(45)","Unsb(26)","Gauuk(75)","Wzyyim(34)","Bnea(55)","Kri(71)","Qnaakk(76)","Gnplfi(68)","Hfp(97)","Qoi(70)","Ijveol(46)","Iidh(64)","Qiy(26)","Mcnef(59)","Hvueqc(91)","Obcbxb(54)","Dhe(79)","Jfq(26)","Uwjsu(41)","Wfmspz(39)","Ebov(96)","Ofl(72)","Uvkdpn(71)","Avcp(41)","Msyr(9)","Pgfpma(95)","Vbp(89)","Koaak(53)","Qyqifg(85)","Dwayf(97)","Oltadg(95)","Mwwvj(70)","Uxf(74)","Qvjp(6)","Grqrg(81)","Naf(3)","Xjjol(62)","Ibink(32)","Qxabri(41)","Ucqh(51)","Mtz(72)","Aeax(82)","Kxutz(5)","Qweye(15)","Ard(82)","Chycnm(4)","Hcvcgc(97)","Knpuq(61)","Yeekgc(11)","Ntfr(70)","Lucf(62)","Uhsg(23)","Csh(39)","Txixz(87)","Kgabb(80)","Weusps(79)","Nuq(61)","Drzsnw(87)","Xxmsn(98)","Onnev(77)","Owh(64)","Fpaf(46)","Hvia(6)","Kufa(95)","Chhmx(66)","Avmzs(39)","Okwuq(96)","Hrschk(30)","Ffwni(67)","Wpagta(25)","Npilye(14)","Axwtno(57)","Qxkjt(31)","Dwifi(51)","Kasgmw(95)","Vgxj(11)","Nsgbth(26)","Nzaz(51)","Owk(87)","Yjc(94)","Hljt(21)","Jvqg(47)","Alrksy(69)","Tlv(95)","Acohsf(86)","Qejo(60)","Gbclj(20)","Nekuam(17)","Meutux(64)","Tuvzkd(85)","Fvkhz(98)","Rngl(12)","Gbkq(77)","Uzgx(65)","Ghc(15)","Qsc(48)","Siv(47)"};
-        String[] synonyms = {"(Gnplfi,Qxabri)","(Uzgx,Siv)","(Bnea,Lucf)","(Qnaakk,Msyr)","(Grqrg,Gbclj)","(Uhsg,Qejo)","(Csh,Wpagta)","(Xjjol,Lucf)","(Qoi,Obcbxb)","(Npilye,Vgxj)","(Aeax,Ghc)","(Txixz,Ffwni)","(Qweye,Qsc)","(Kri,Tuvzkd)","(Ommjh,Vbp)","(Pgfpma,Xxmsn)","(Uhsg,Csh)","(Qvjp,Kxutz)","(Qxkjt,Tlv)","(Wfmspz,Owk)","(Dwayf,Chycnm)","(Iidh,Qvjp)","(Dnsay,Rngl)","(Qweye,Tlv)","(Wzyyim,Kxutz)","(Hvueqc,Qejo)","(Tlv,Ghc)","(Hvia,Fvkhz)","(Msyr,Owk)","(Hrschk,Hljt)","(Owh,Gbclj)","(Dwifi,Uzgx)","(Iidh,Fpaf)","(Iidh,Meutux)","(Txixz,Ghc)","(Gbclj,Qsc)","(Kgabb,Tuvzkd)","(Uwjsu,Grqrg)","(Vbp,Dwayf)","(Xxmsn,Chhmx)","(Uxf,Uzgx)"};
+        String[] names = {"Mary(30)","Merry(70)","Lucy(20)","Lucky(30)","Mike(15)"};
+        String[] synonyms = {"(Mary,Merry)","(Lucy,Lucky)","(Lucy,Lily)"};
         System.out.println(Arrays.toString(solution.trulyMostPopular(names,synonyms)));
     }
 
     @Test
     public void testLengthOfLongestSubstring(){
-        System.out.println(solution.lengthOfLongestSubstring("abccba"));
-        System.out.println(solution.lengthOfLongestSubstring("abcdefahijk"));
+        System.out.println(solution.lengthOfLongestSubstring("hello"));
+        System.out.println(solution.lengthOfLongestSubstring("world"));
     }
 
     @Test
-    public void testCheckArithmeticSubarrays(){
-        System.out.println(solution.checkArithmeticSubarrays(
+    public void testCheckArithmeticSubArrays(){
+        System.out.println(solution.checkArithmeticSubArrays(
                 new int[]{5,3,7,9,1},
                 new int[]{0,0,2},
                 new int[]{4,3,3}
@@ -286,10 +286,10 @@ public class SolutionTest {
 
     @Test
     public void testDeleteDuplicates(){
-        ListNode head1 = ListNodeUtil.fromArray(
-                new int[]{1,2,3,3,3,4,4,4,5,5,5}
-        );
-        System.out.println(solution.deleteDuplicates(head1));
+        System.out.println(solution.deleteDuplicates(ListNodeUtil.fromArray(
+                new int[]{1,2,3,3,3,4,4,4,5,5,5})));
+        System.out.println(solution.deleteDuplicates(ListNodeUtil.fromArray(
+                new int[]{1,1,2,3,3,3,4,5,5,5,6,7})));
     }
 
     @Test
@@ -354,8 +354,8 @@ public class SolutionTest {
 
     @Test
     public void testRemoveDuplicates(){
-        int[] nums = {1,1,1,1,1,1,1,2};
-        System.out.println(solution.removeDuplicates(nums));
+        System.out.println(solution.removeDuplicates(new int[]{1,1,1,1,1,1,1,2}));
+        System.out.println(solution.removeDuplicates(new int[]{1,1,1,1,1,1,1,2,2,3,3,4,4,4}));
     }
 
     @Test
@@ -459,18 +459,6 @@ public class SolutionTest {
         int[] arr = {2,3,4,8};
         System.out.println(Arrays.toString(arr));
         System.out.println(solution.largestDivisibleSubset(arr));
-    }
-
-    @Test
-    public void testStrToInt(){
-        System.out.println(solution.strToInt("00000000000"));
-        System.out.println(solution.strToInt("2147483648"));
-        System.out.println(solution.strToInt("-2147483649"));
-        System.out.println(solution.strToInt("abc 1234"));
-        System.out.println(solution.strToInt("9898989 aaa"));
-        System.out.println(solution.strToInt("555555555555555"));
-        System.out.println(solution.strToInt("-1818181"));
-        System.out.println(solution.strToInt("+100"));
     }
 
     @Test
@@ -603,6 +591,7 @@ public class SolutionTest {
     public void testMaxIceCream(){
         int[] costs = {1,2,3,4,1};
         System.out.println(solution.maxIceCream(costs,7));
+        System.out.println(solution.maxIceCream(costs,9));
     }
 
     @Test
@@ -865,9 +854,9 @@ public class SolutionTest {
     }
 
     @Test
-    public void testCheckSubarraySum(){
+    public void testCheckSubArraySum(){
         int[] nums = {2,4,6,8,10};
-        System.out.println(solution.checkSubarraySum(nums,30));
+        System.out.println(solution.checkSubArraySum(nums,30));
     }
 
     @Test

@@ -1106,6 +1106,7 @@ public class Solution {
 
     }
     //递归函数：枚举每个灯的两种状态，亮或不亮
+    @SuppressWarnings("unused")
     private void readBinaryWatch(int turnedOn, int[] onOrNot, int idx, List<String> ans){
         if(idx>=10 && turnedOn!=0) return;
         if(turnedOn==0){

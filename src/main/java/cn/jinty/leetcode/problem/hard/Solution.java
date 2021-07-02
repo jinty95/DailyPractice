@@ -2,9 +2,7 @@ package cn.jinty.leetcode.problem.hard;
 
 import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.IntTrie;
-import cn.jinty.util.ArrayUtil;
 
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -942,6 +940,7 @@ public class Solution {
      * @param player 当前玩家：0、 1
      * @return 当前玩家能否取胜
      */
+    @SuppressWarnings("unused")
     private boolean xorGame(int[] nums, int remainSize, int sum, int[] rob, Integer player){
         //剩余异或结果为0，当前玩家获胜
         if(remainSize==0 || sum==0){
@@ -1003,7 +1002,7 @@ public class Solution {
             copyQueries[i][2] = i;
         }
         //对copyQueries按照copyQueries[i][1]排序
-        Arrays.sort(copyQueries,((o1, o2) -> o1[1]-o2[1]));
+        Arrays.sort(copyQueries,(Comparator.comparingInt(o -> o[1])));
         //遍历copyQueries，一边构建前缀树，一边查询最大值
         int j = 0;
         IntTrie trie = new IntTrie();
@@ -1435,7 +1434,7 @@ public class Solution {
                 }
                 //0向上下左右四个方向滑动
                 if(x==0 && sliding(status,x,y,x+1,y,board,occurred,next)) return count;
-                if(x==1 && sliding(status,x,y,x-1,y,board,occurred,next)) return count;
+                if(x==1 && sliding(status,x,y, 0,y,board,occurred,next)) return count;
                 if(y>0 && sliding(status,x,y,x,y-1,board,occurred,next)) return count;
                 if(y<2 && sliding(status,x,y,x,y+1,board,occurred,next)) return count;
             }
