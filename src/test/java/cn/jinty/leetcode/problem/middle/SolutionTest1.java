@@ -62,4 +62,12 @@ public class SolutionTest1 {
         System.out.println(solution.multiply("123","456"));
     }
 
+    @Test
+    public void testRestoreIpAddresses(){
+        System.out.println(solution.restoreIpAddresses("0000"));
+        System.out.println(solution.restoreIpAddresses("255255255255"));
+        System.out.println(solution.restoreIpAddresses("101023"));
+        System.out.println(solution.restoreIpAddresses("20210702"));
+    }
+
 }
