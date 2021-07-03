@@ -11,6 +11,7 @@ import java.util.Date;
  * @author Jinty
  * @date 2020/3/25.
  */
+@SuppressWarnings("unused")
 public final class DateUtil {
 
     public static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

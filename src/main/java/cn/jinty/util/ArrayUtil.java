@@ -11,6 +11,7 @@ import java.util.Scanner;
  * @author wangjintai
  * @date 2020/2/25.
  */
+@SuppressWarnings("unused")
 public final class ArrayUtil {
 
     /**

@@ -400,4 +400,43 @@ public class Solution1 {
         return res.toString();
     }
 
+    /**
+     * 31. 下一个排列
+     * 实现获取 下一个排列 的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+     * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+     * 必须 原地 修改，只允许使用额外常数空间。
+     *
+     * @param numbers 数组 (1 <= nums.length <= 100)
+     */
+    public void nextPermutation(int[] numbers) {
+        //从右向左，找到第一个下降点i
+        int i=-1;
+        for(int j=numbers.length-2;j>=0;j--){
+            if(numbers[j]<numbers[j+1]){
+                i=j;
+                break;
+            }
+        }
+        if(i==-1){
+            //不存在从右向左的下降点，说明原排列从左向右降序，那么下一个排列为从左向右升序排列
+            Arrays.sort(numbers);
+        }else{
+            //在下降点i的右区间，找到比i大的最小值，与i交换，然后对i+1开始的右区间升序
+            int j=i+1;
+            while(j<numbers.length && numbers[i]<numbers[j]){
+                j++;
+            }
+            j--;
+            swap(numbers,i,j);
+            Arrays.sort(numbers,i+1,numbers.length);
+        }
+    }
+    //元素交换
+    private void swap(int[] arr, int a, int b){
+        if(a==b) return;
+        arr[a] ^= arr[b];
+        arr[b] ^= arr[a];
+        arr[a] ^= arr[b];
+    }
+
 }

@@ -2,6 +2,8 @@ package cn.jinty.leetcode.problem.middle;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode - 算法题 - 测试
  *
@@ -74,6 +76,16 @@ public class SolutionTest1 {
     public void testFrequencySort(){
         System.out.println(solution.frequencySort("hello"));
         System.out.println(solution.frequencySort("congratulation"));
+    }
+
+    @Test
+    public void testNextPermutation(){
+        int[] numbers = {0,1,4,6,5,3,2};
+        solution.nextPermutation(numbers);
+        System.out.println(Arrays.toString(numbers));
+        numbers = new int[]{0,1,2,3,4,5,6};
+        solution.nextPermutation(numbers);
+        System.out.println(Arrays.toString(numbers));
     }
 
 }
