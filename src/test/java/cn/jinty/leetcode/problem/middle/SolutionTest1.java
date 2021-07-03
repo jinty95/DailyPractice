@@ -70,4 +70,10 @@ public class SolutionTest1 {
         System.out.println(solution.restoreIpAddresses("20210702"));
     }
 
+    @Test
+    public void testFrequencySort(){
+        System.out.println(solution.frequencySort("hello"));
+        System.out.println(solution.frequencySort("congratulation"));
+    }
+
 }

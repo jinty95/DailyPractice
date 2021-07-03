@@ -374,4 +374,30 @@ public class Solution1 {
         return sb.substring(0,sb.length()-1);
     }
 
+    /**
+     * 451. 根据字符出现频率排序
+     * 给定一个字符串，请将字符串里的字符按照出现的频率降序排列。
+     *
+     * @param s 字符串
+     * @return 按频率倒序得到的新字符串
+     */
+    public String frequencySort(String s) {
+        //词频统计
+        Map<Character,Integer> map = new HashMap<>();
+        for(char c :s.toCharArray()){
+            map.put(c,map.getOrDefault(c,0)+1);
+        }
+        //排序
+        List<Map.Entry<Character,Integer>> entryList = new ArrayList<>(map.entrySet());
+        entryList.sort((o1, o2) -> o2.getValue() - o1.getValue());
+        //重构
+        StringBuilder res = new StringBuilder();
+        for(Map.Entry<Character,Integer> entry : entryList){
+            for(int i=0;i<entry.getValue();i++){
+                res.append(entry.getKey());
+            }
+        }
+        return res.toString();
+    }
+
 }
