@@ -23,4 +23,11 @@ public class ListNodeUtilTest {
         System.out.println(ListNodeUtil.getIntersectionNode(a,b));
     }
 
+    @Test
+    public void testReverse(){
+        ListNode a = ListNodeUtil.fromArray(new int[]{1,2,3,4,5,6,7});
+        System.out.println(a);
+        System.out.println(ListNodeUtil.reverse(a));
+    }
+
 }

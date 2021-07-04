@@ -2,9 +2,6 @@ package cn.jinty.util;
 
 import cn.jinty.struct.linear.ListNode;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * 链表工具类
  *
@@ -39,20 +36,7 @@ public final class ListNodeUtil {
      * @return 第一个交点或null
      */
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-
-        /*//1、哈希表：时间复杂度O(N+M)，空间复杂度O(N)
-        Set<ListNode> set = new HashSet<>();
-        while(headA!=null){
-            set.add(headA);
-            headA = headA.next;
-        }
-        while(headB!=null){
-            if(set.contains(headB)) return headB;
-            headB = headB.next;
-        }
-        return null;*/
-
-        //2、快慢指针：时间复杂度O(N+M)，空间复杂度O(1)
+        //快慢指针：先计算两个链表长度，长链表先走，两个链表等长时一起走，第一个相遇点即为交点
         if(headA==null || headB==null) return null;
         int lenA = headA.getLength();
         int lenB = headB.getLength();
@@ -69,7 +53,25 @@ public final class ListNodeUtil {
             another = another.next;
         }
         return null;
+    }
 
+    /**
+     * 翻转单链表(无环)
+     *
+     * @param head 原链表
+     * @return 翻转链表
+     */
+    public static ListNode reverse(ListNode head){
+        ListNode pre = null;
+        ListNode next = head.next;
+        while(next!=null){
+            head.next = pre;
+            pre = head;
+            head = next;
+            next = next.next;
+        }
+        head.next = pre;
+        return head;
     }
 
 }
