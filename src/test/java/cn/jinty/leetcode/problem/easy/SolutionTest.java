@@ -313,4 +313,10 @@ public class SolutionTest {
         System.out.println(solution.addStrings("1","99999999999999999999999"));
     }
 
+    @Test
+    public void testFindErrorNumbers(){
+        System.out.println(Arrays.toString(solution.findErrorNumbers(new int[]{1,1})));
+        System.out.println(Arrays.toString(solution.findErrorNumbers(new int[]{1,1,2,3,4,6,7,8})));
+    }
+
 }
