@@ -283,4 +283,11 @@ public class SolutionTest {
         System.out.println(solution.calculate("3+(4*5)-7/2")); //20
     }
 
+    @Test
+    public void testCountOfAtoms(){
+        System.out.println(solution.countOfAtoms("H2O"));
+        System.out.println(solution.countOfAtoms("Mg(OH)2"));
+        System.out.println(solution.countOfAtoms("K4(ON(SO3)2)15"));
+    }
+
 }

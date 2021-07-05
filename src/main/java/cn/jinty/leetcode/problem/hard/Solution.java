@@ -1696,4 +1696,78 @@ public class Solution {
         return 0;
     }
 
+    /**
+     * 726. 原子的数量
+     * 给定一个化学式formula（作为字符串），返回每种原子的数量。
+     * 原子总是以一个大写字母开始，接着跟随0个或任意个小写字母，表示原子的名字。
+     * 如果数量大于 1，原子后会跟着数字表示原子的数量。如果数量等于 1 则不会跟数字。例如，H2O 和 H2O2 是可行的，但 H1O2 这个表达是不可行的。
+     * 两个化学式连在一起是新的化学式。例如 H2O2He3Mg4 也是化学式。
+     * 一个括号中的化学式和数字（可选择性添加）也是化学式。例如 (H2O2) 和 (H2O2)3 是化学式。
+     * 给定一个化学式，输出所有原子的数量。格式为：
+     * 第一个（按字典序）原子的名子，跟着它的数量（如果数量大于 1），然后是第二个原子的名字（按字典序），跟着它的数量（如果数量大于 1），以此类推。
+     *
+     * @param formula 化学式
+     * @return 原子及其数量
+     */
+    public String countOfAtoms(String formula) {
+        //使用栈消除括号
+        Deque<String> atoms = new LinkedList<>();
+        Deque<Integer> counts = new LinkedList<>();
+        for(int i=0;i<formula.length();i++){
+            char c = formula.charAt(i);
+            if(c=='('){
+                //左括号：单独入栈
+                atoms.push("(");
+            }else if(c==')'){
+                //右括号：将上一个左括号到当前右括号范围内的所有原子数量乘上右括号后面的数字
+                int multi = getCount(formula,i+1);
+                //出栈
+                List<String> tempAtoms = new ArrayList<>();
+                List<Integer> tempCounts = new ArrayList<>();
+                while( ! "(".equals(atoms.peek())){
+                    tempAtoms.add(atoms.pop());
+                    tempCounts.add(counts.pop()*multi);
+                }
+                atoms.pop();
+                //入栈
+                for(int k=tempAtoms.size()-1;k>=0;k--){
+                    atoms.push(tempAtoms.get(k));
+                    counts.push(tempCounts.get(k));
+                }
+            }else if(c>='A' && c<='Z'){
+                //大写字母：新原子，将其完整名称和数量入栈
+                int j=i+1;
+                while(j<formula.length() && formula.charAt(j)>='a' && formula.charAt(j)<='z'){
+                    j++;
+                }
+                atoms.push(formula.substring(i,j));
+                counts.push(getCount(formula,j));
+            }
+        }
+        //收集原子及其数量
+        TreeMap<String,Integer> map = new TreeMap<>();
+        while( ! atoms.isEmpty()){
+            String atom = atoms.pop();
+            int count = counts.pop();
+            map.put(atom,map.getOrDefault(atom,0)+count);
+        }
+        //构建结果串
+        StringBuilder result = new StringBuilder();
+        for(String atom : map.keySet()){
+            result.append(atom);
+            int count = map.get(atom);
+            if(count>1) result.append(count);
+        }
+        return result.toString();
+    }
+    //解析数量
+    private int getCount(String formula, int begin){
+        int count = 0;
+        while(begin<formula.length() && Character.isDigit(formula.charAt(begin))){
+            count = count * 10 + formula.charAt(begin)-'0';
+            begin++;
+        }
+        return count==0 ? 1 : count;
+    }
+
 }
