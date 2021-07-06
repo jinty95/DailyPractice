@@ -1,8 +1,10 @@
 package cn.jinty.leetcode.problem.middle;
 
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * LeetCode - 算法题 - 测试
@@ -86,6 +88,15 @@ public class SolutionTest1 {
         numbers = new int[]{0,1,2,3,4,5,6};
         solution.nextPermutation(numbers);
         System.out.println(Arrays.toString(numbers));
+    }
+
+    @Test
+    public void testDisplayTable(){
+        List<String> order1 = ListUtil.asList("David","3","Ceviche");
+        List<String> order2 = ListUtil.asList("Corina","10","Beef Burrito");
+        List<String> order3 = ListUtil.asList("David","3","Fried Chicken");
+        List<List<String>> orders = ListUtil.asList(order1,order2,order3);
+        System.out.println(solution.displayTable(orders));
     }
 
 }

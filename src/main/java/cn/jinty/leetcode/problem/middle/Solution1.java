@@ -439,4 +439,49 @@ public class Solution1 {
         arr[a] ^= arr[b];
     }
 
+    /**
+     * 1418. 点菜展示表
+     * 给你一个数组 orders，表示客户在餐厅中完成的订单，确切地说， orders[i]=[customerName,tableNumber,foodItem] ，
+     * 其中 customerName 是客户的姓名，tableNumber 是客户所在餐桌的桌号，而 foodItem 是客户点的餐品名称。
+     * 请你返回该餐厅的 点菜展示表 。在这张表中，表中第一行为标题，其第一列为餐桌桌号 “Table” ，后面每一列都是按字母顺序排列的餐品名称。
+     * 接下来每一行中的项则表示每张餐桌订购的相应餐品数量，第一列应当填对应的桌号，后面依次填写下单的餐品数量。
+     * 注意：客户姓名不是点菜展示表的一部分。此外，表中的数据行应该按餐桌桌号升序排列。
+     *
+     * @param orders 订单列表
+     * @return 点菜展示表
+     */
+    public List<List<String>> displayTable(List<List<String>> orders) {
+        //哈希表存菜品列表
+        TreeSet<String> foods = new TreeSet<>();
+        //哈希表存桌号及其订单(桌号->(菜品->数量))
+        TreeMap<Integer,Map<String,Integer>> tableAndOrder = new TreeMap<>();
+        for(List<String> order : orders){
+            Integer tableNumber = Integer.parseInt(order.get(1));
+            String foodItem = order.get(2);
+            foods.add(foodItem);
+            Map<String, Integer> foodAndNum = tableAndOrder.computeIfAbsent(tableNumber, k -> new HashMap<>());
+            foodAndNum.put(foodItem,foodAndNum.getOrDefault(foodItem,0)+1);
+        }
+        //构建结果列表
+        List<List<String>> displays = new ArrayList<>();
+        //标题
+        List<String> title = new ArrayList<>();
+        title.add("Table");
+        title.addAll(foods);
+        displays.add(title);
+        //餐桌、菜品和数量
+        for(Integer tableNumber : tableAndOrder.keySet()){
+            List<String> display = new ArrayList<>();
+            display.add(String.valueOf(tableNumber));
+            Map<String,Integer> foodAndNum = tableAndOrder.get(tableNumber);
+            for(int i=1;i<title.size();i++){
+                Integer number = foodAndNum.get(title.get(i));
+                if(number==null) number=0;
+                display.add(String.valueOf(number));
+            }
+            displays.add(display);
+        }
+        return displays;
+    }
+
 }
