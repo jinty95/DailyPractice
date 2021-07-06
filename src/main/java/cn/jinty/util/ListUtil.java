@@ -27,7 +27,7 @@ public final class ListUtil {
         int size = list.size();
         int p = 0;
         while(p < size){
-            List<T> oneList = new ArrayList<>();;
+            List<T> oneList = new ArrayList<>();
             for(int i=0; i<num && p<size; i++){
                 oneList.add(list.get(p++));
             }
@@ -44,6 +44,7 @@ public final class ListUtil {
      * @return 列表
      */
     @SafeVarargs
+    @SuppressWarnings("all")
     public static <T> List<T> asList(T... array){
         List<T> list = new ArrayList<>();
         for(T one : array){
@@ -70,6 +71,7 @@ public final class ListUtil {
      * @param <T> 泛型
      * @return 是否非空
      */
+    @SuppressWarnings("unused")
     public static <T> boolean isNotEmpty(List<T> list){
         return ! isEmpty(list);
     }

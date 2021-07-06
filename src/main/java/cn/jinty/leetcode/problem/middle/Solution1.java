@@ -106,7 +106,8 @@ public class Solution1 {
             //枚举本层的所有点
             int size = next.size();
             for(int i=0;i<size;i++){
-                int number = next.poll();
+                Integer number = next.poll();
+                assert number != null;
                 //枚举点的所有下一步落点
                 for(int j=1;j<=6;j++){
                     int nextNumber = number+j;
@@ -223,11 +224,10 @@ public class Solution1 {
      * @return 计算结果
      */
     public int calculate(String s) {
-        //利用两个双端队列实现
-        //一个存放数字
-        Deque<Integer> numberQueue = new LinkedList<>();
-        //一个存放运算符
-        Deque<Character> operatorQueue = new LinkedList<>();
+        //利用栈实现
+        //在入栈的过程中计算乘除，仅剩加减运算，再将减号与数字绑定，仅剩加运算，最后出栈求和即可。
+        Deque<Integer> stack = new LinkedList<>();
+        char operation = '+';
         //遍历表达式
         for(int i=0;i<s.length();i++){
             char c = s.charAt(i);
@@ -235,36 +235,35 @@ public class Solution1 {
             if(c==' ') continue;
             //数字
             if(Character.isDigit(c)){
-                int num = 0;
-                int j=i;
+                //解析完整数字
+                int num=0, j=i;
                 while(j<s.length() && Character.isDigit(s.charAt(j))){
                     num = num * 10 + s.charAt(j)-'0';
                     j++;
                 }
                 i=j-1;
-                numberQueue.offerLast(num);
                 //先完成乘除
-                if( ! operatorQueue.isEmpty() && ('*'==operatorQueue.peekLast() || '/'==operatorQueue.peekLast())){
-                    char operator = operatorQueue.pollLast();
-                    int num2 = numberQueue.pollLast();
-                    int num1 = numberQueue.pollLast();
-                    if('*' == operator) numberQueue.offerLast(num1 * num2);
-                    else numberQueue.offerLast(num1 / num2);
+                if( ! stack.isEmpty() && ('*'==operation || '/'==operation)){
+                    int pre = stack.pop();
+                    if('*'==operation) num = pre * num;
+                    else num = pre / num;
                 }
+                //减号与数字绑定
+                if('-'==operation){
+                    num = -num;
+                }
+                stack.push(num);
             }else{
                 //运算符
-                operatorQueue.offerLast(c);
+                operation = c;
             }
         }
-        //后完成加减(按原顺序从头到尾运算)
-        while( ! operatorQueue.isEmpty()){
-            char operator = operatorQueue.pollFirst();
-            int num1 = numberQueue.pollFirst();
-            int num2 = numberQueue.pollFirst();
-            if('+' == operator) numberQueue.offerFirst(num1 + num2);
-            else numberQueue.offerFirst(num1 - num2);
+        //遍历栈做加法运算
+        int result = 0;
+        while( ! stack.isEmpty()){
+            result += stack.pop();
         }
-        return numberQueue.pollFirst();
+        return result;
     }
 
     /**

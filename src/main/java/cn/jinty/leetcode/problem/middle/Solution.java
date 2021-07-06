@@ -464,8 +464,9 @@ public class Solution {
         }
         //逆序读取队列，得到卡牌序列
         int[] ans = new int[deck.length];
-        for(int i=deck.length-1;i>=0;i--){
-            ans[i] = queue.poll();
+        int i = deck.length-1;
+        while( ! queue.isEmpty()){
+            ans[i--] = queue.poll();
         }
         return ans;
     }
