@@ -7,6 +7,11 @@ package cn.jinty.design.proxy;
  * @date 2020/7/16.
  */
 public interface Image {
+
+    //展示
     void display();
+
+    //染色
     void dye();
+
 }

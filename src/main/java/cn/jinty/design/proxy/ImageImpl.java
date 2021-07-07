@@ -6,11 +6,11 @@ package cn.jinty.design.proxy;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class RealImage implements Image{
+public class ImageImpl implements Image{
 
-    private String name;
+    private final String name;
 
-    public RealImage(String name) {
+    public ImageImpl(String name) {
         this.name = name;
         load();
     }
