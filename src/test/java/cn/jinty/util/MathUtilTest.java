@@ -73,13 +73,15 @@ public class MathUtilTest {
         System.out.println(MathUtil.factorial(4));
         System.out.println(MathUtil.factorial(5));
         System.out.println(MathUtil.factorial(6));
+        System.out.println(MathUtil.factorial(33));
     }
 
     @Test
     public void testCombinationNum(){
         System.out.println(MathUtil.combinationNum(3,1));
         System.out.println(MathUtil.combinationNum(4,2));
-        System.out.println(MathUtil.combinationNum(4,5));
+        System.out.println(MathUtil.combinationNum(6,5));
+        System.out.println(MathUtil.combinationNum(33,2)); //溢出得到错误结果
     }
 
     @Test

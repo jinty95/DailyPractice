@@ -483,4 +483,64 @@ public class Solution1 {
         return displays;
     }
 
+    /**
+     * 1711. 大餐计数
+     * 大餐 是指 恰好包含两道不同餐品 的一餐，其美味程度之和等于 2 的幂。你可以搭配 任意 两道餐品做一顿大餐。
+     * 给你一个整数数组 deliciousness ，其中 deliciousness[i] 是第 i 道餐品的美味程度，
+     * 返回你可以用数组中的餐品做出的不同 大餐 的数量。结果需要对 10^9 + 7 取余。
+     * 注意，只要餐品下标不同，就可以认为是不同的餐品，即便它们的美味程度相同。
+     *
+     * @param deliciousness 餐品列表(1 <= deliciousness.length <= 10^5)(0 <= deliciousness[i] <= 2^20)
+     * @return 大餐数量
+     */
+    public int countPairs(int[] deliciousness) {
+
+        /*//1、枚举：时间复杂度O(N^2)，最大O(10^10)，可能超时
+        //二次幂集合
+        Set<Integer> pow2 = new HashSet<>();
+        int base = 1;
+        for(int i=0;i<=21;i++){
+            pow2.add(base);
+            base *= 2;
+        }
+        int count = 0, mod = 1000000007;
+        //二层遍历
+        for(int i=0;i<deliciousness.length;i++){
+            for(int j=i+1;j<deliciousness.length;j++){
+                if(pow2.contains(deliciousness[i]+deliciousness[j])){
+                    count = (count + 1) % mod;
+                }
+            }
+        }
+        return count;*/
+
+        //2、哈希表：时间复杂度O(22N)=O(N)
+        //二次幂数组
+        int[] pow2 = new int[22];
+        pow2[0] = 1;
+        for(int i=1;i<pow2.length;i++){
+            pow2[i] = pow2[i-1]*2;
+        }
+        //频率统计(数字->出现次数)
+        Map<Integer,Integer> numFreq = new HashMap<>();
+        for (int delicious : deliciousness) {
+            numFreq.put(delicious, numFreq.getOrDefault(delicious, 0) + 1);
+        }
+        int count = 0, mod = 1000000007;
+        //枚举数字
+        for(int num : deliciousness){
+            //将当前数字从频率中去除：防止匹配自己，也防止后续其它数匹配这个数
+            numFreq.put(num,numFreq.get(num)-1);
+            //枚举二次幂
+            for(int a : pow2){
+                int diff = a - num;
+                if(numFreq.containsKey(diff)){
+                    count = (count + numFreq.get(diff)) % mod;
+                }
+            }
+        }
+        return count;
+
+    }
+
 }

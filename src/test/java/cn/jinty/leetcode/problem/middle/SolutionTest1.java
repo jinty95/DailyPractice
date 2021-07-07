@@ -99,4 +99,11 @@ public class SolutionTest1 {
         System.out.println(solution.displayTable(orders));
     }
 
+    @Test
+    public void testCountPairs(){
+        System.out.println(solution.countPairs(new int[]{1,3,5,7,9}));
+        System.out.println(solution.countPairs(new int[]{3,3,3,1,1,1,7}));
+        System.out.println(solution.countPairs(new int[]{64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64}));
+    }
+
 }
