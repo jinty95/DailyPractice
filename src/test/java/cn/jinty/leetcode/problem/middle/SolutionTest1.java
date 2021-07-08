@@ -106,4 +106,10 @@ public class SolutionTest1 {
         System.out.println(solution.countPairs(new int[]{64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64}));
     }
 
+    @Test
+    public void testNumSubArraysWithSum(){
+        System.out.println(solution.numSubArraysWithSum(new int[]{0,1,0,1,0},2));
+        System.out.println(solution.numSubArraysWithSum(new int[]{0,0,0,0,0},0));
+    }
+
 }

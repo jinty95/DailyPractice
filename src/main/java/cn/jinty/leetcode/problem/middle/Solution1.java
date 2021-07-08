@@ -543,4 +543,31 @@ public class Solution1 {
 
     }
 
+    /**
+     * 930. 和相同的二元子数组
+     * 给你一个二元数组 numbers ，和一个整数 goal ，请你统计并返回有多少个和为 goal 的 非空 子数组。
+     * 子数组 是数组的一段连续部分。
+     *
+     * @param numbers 二元数组
+     * @param goal 目标
+     * @return 子数组数量
+     */
+    public int numSubArraysWithSum(int[] numbers, int goal) {
+        //1、前缀和+哈希表
+        int count = 0;
+        int pre = 0;
+        //哈希表保存(前缀和->出现次数)
+        Map<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        for(int number : numbers){
+            pre += number;
+            int diff = pre - goal;
+            if(map.containsKey(diff)){
+                count += map.get(diff);
+            }
+            map.put(pre,map.getOrDefault(pre,0)+1);
+        }
+        return count;
+    }
+
 }
