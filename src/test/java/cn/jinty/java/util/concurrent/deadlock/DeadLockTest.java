@@ -1,4 +1,4 @@
-package cn.jinty.juc;
+package cn.jinty.java.util.concurrent.deadlock;
 
 import org.junit.Test;
 

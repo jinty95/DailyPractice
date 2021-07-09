@@ -1,16 +1,16 @@
-package cn.jinty.juc;
+package cn.jinty.java.util.concurrent.threadpool;
 
 import org.junit.Test;
 
 import java.util.concurrent.*;
 
 /**
- * 多线程 - 测试
+ * 多线程与线程池 - 测试
  *
  * @author jinty
  * @date 2021/5/25
  **/
-public class MultiThreadTest {
+public class ThreadPoolTest {
 
     /**
      * 普通多线程

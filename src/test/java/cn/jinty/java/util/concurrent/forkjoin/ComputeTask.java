@@ -1,4 +1,4 @@
-package cn.jinty.juc.forkjoin;
+package cn.jinty.java.util.concurrent.forkjoin;
 
 import java.util.concurrent.RecursiveTask;
 
@@ -14,7 +14,7 @@ public class ComputeTask extends RecursiveTask<Long> {
     private final long begin;
     //终止数
     private final long end;
-    //最小单位长度
+    //最小计算区间
     private static final long minLen = 1000L;
 
     public ComputeTask(long begin, long end){
@@ -26,7 +26,7 @@ public class ComputeTask extends RecursiveTask<Long> {
     protected Long compute() {
         long result = 0L;
         //不可继续切分
-        if(end-begin<=1000){
+        if(end-begin<=minLen){
             for(long i=begin;i<=end;i++){
                 result += i;
             }

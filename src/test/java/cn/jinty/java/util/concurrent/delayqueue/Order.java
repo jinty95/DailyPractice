@@ -1,4 +1,4 @@
-package cn.jinty.juc.delay;
+package cn.jinty.java.util.concurrent.delayqueue;
 
 import cn.jinty.util.DateUtil;
 

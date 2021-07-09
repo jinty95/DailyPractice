@@ -1,4 +1,4 @@
-package cn.jinty.juc.forkjoin;
+package cn.jinty.java.util.concurrent.forkjoin;
 
 import org.junit.Test;
 
