@@ -319,4 +319,10 @@ public class SolutionTest {
         System.out.println(Arrays.toString(solution.findErrorNumbers(new int[]{1,1,2,3,4,6,7,8})));
     }
 
+    @Test
+    public void testMajorityElement(){
+        System.out.println(solution.majorityElement(new int[]{1,2,3}));
+        System.out.println(solution.majorityElement(new int[]{1,1,1,2,3,4,1}));
+    }
+
 }

@@ -1246,4 +1246,32 @@ public class Solution {
 
     }
 
+    /**
+     * 面试题 17.10. 主要元素
+     * 数组中占比超过一半的元素称之为主要元素。给你一个 整数 数组，找出其中的主要元素。若没有，返回 -1 。
+     * 请设计时间复杂度为 O(N) 、空间复杂度为 O(1) 的解决方案。
+     *
+     * @param numbers 数组
+     * @return 主要元素
+     */
+    public int majorityElement(int[] numbers) {
+        //摩尔投票法
+        //摩尔投票法：定义两个变量major(众数)和vote(票数)，遍历数组，当票数为0时，新的候选人上台，票数+1，后续遇到不同候选人反对，则当前候选人票数-1，直到为0时下台，后续有新的候选人站上去。
+        //只要有一个候选人拥有超过一半的选票，那么经过上述操作，这个候选人最终一定会站在台上，但是最终站在台上的则不一定是众数，所以在结束时，要重新统计一下major的真实选票，超过一半即为众数，否则说明不存在众数。
+        int major = 0, vote = 0;
+        for(int number : numbers){
+            if(vote==0){
+                major = number;
+                vote = 1;
+            }else{
+                vote = major==number ? vote+1 : vote-1;
+            }
+        }
+        int count = 0;
+        for(int number : numbers){
+            if(number==major) count++;
+        }
+        return count>numbers.length/2 ? major : -1;
+    }
+
 }
