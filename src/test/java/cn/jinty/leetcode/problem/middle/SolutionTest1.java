@@ -112,4 +112,11 @@ public class SolutionTest1 {
         System.out.println(solution.numSubArraysWithSum(new int[]{0,0,0,0,0},0));
     }
 
+    @Test
+    public void testHIndex(){
+        System.out.println(solution.hIndex(new int[]{1,0,3,5,6}));
+        System.out.println(solution.hIndex(new int[]{6,6,6,6,6,6}));
+        System.out.println(solution.hIndex(new int[]{100,100,100}));
+    }
+
 }

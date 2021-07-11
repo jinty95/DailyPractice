@@ -570,4 +570,53 @@ public class Solution1 {
         return count;
     }
 
+    /**
+     * 274. H指数
+     * 给定一位研究者论文被引用次数的数组（被引用次数是非负整数）。编写一个方法，计算出研究者的 h 指数。
+     * h 指数的定义：h 代表“高引用次数”（high citations），
+     * 一名科研人员的 h 指数是指他（她）的 （N 篇论文中）总共有 h 篇论文分别被引用了至少 h 次。
+     * 且其余的 N - h 篇论文每篇被引用次数 不超过 h 次。
+     *
+     * @param citations 引用次数
+     * @return H指数
+     */
+    public int hIndex(int[] citations) {
+
+        /*//1、排序+二分查找：时间复杂度O(NlogN)
+        if(citations==null || citations.length==0) return 0;
+        //排序
+        Arrays.sort(citations);
+        //二分查找
+        int len = citations.length;
+        int left = 0, right = len-1;
+        int ans = 0;
+        while(left<=right){
+            //求中点
+            int mid = left + (right-left)/2;
+            //右区间数量
+            int rightCount = len - mid;
+            if(citations[mid]<=rightCount){
+                //中点引用数小于等于右区间数量，说明中点可能是H指数，向右找更大的H指数
+                ans = Math.max(ans,citations[mid]);
+                left = mid+1;
+            }else{
+                //中点引用数大于右区间数量，右区间数量可能是H指数，向左找更大的H指数
+                ans = Math.max(ans,rightCount);
+                right = mid-1;
+            }
+        }
+        return ans;*/
+
+        //2、排序+遍历：时间复杂度O(NlogN)
+        if(citations==null || citations.length==0) return 0;
+        Arrays.sort(citations);
+        int h = 0;
+        for(int i=citations.length-1;i>=0;i--){
+            if(citations[i]>h) h++;
+            else break;
+        }
+        return h;
+
+    }
+
 }
