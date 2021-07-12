@@ -1,14 +1,14 @@
-package cn.jinty.design.pattern;
+package cn.jinty.design.template;
 
 /**
- * 愤怒的小鸟 - 游戏 - 实现类
+ * 植物大战僵尸 - 游戏 - 实现类
  *
  * @author jinty
  * @date 2021/7/8
  **/
-public class AngryBird extends Game{
+public class PlantsVsZombies extends Game{
 
-    private final static String name = AngryBird.class.getSimpleName();
+    private final static String name = PlantsVsZombies.class.getSimpleName();
 
     @Override
     protected void startup() {
@@ -17,7 +17,7 @@ public class AngryBird extends Game{
 
     @Override
     protected void playing() {
-        System.out.printf("[%s] playing, so funny %n",name);
+        System.out.printf("[%s] playing, so excited %n",name);
     }
 
     @Override

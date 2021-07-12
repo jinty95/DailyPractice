@@ -1,4 +1,4 @@
-package cn.jinty.design.pattern;
+package cn.jinty.design.template;
 
 /**
  * 游戏 - 抽象类 - 模板方法模式

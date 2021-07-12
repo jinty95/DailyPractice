@@ -1,4 +1,4 @@
-package cn.jinty.design.pattern;
+package cn.jinty.design.template;
 
 /**
  * 模板方法模式 - 测试
