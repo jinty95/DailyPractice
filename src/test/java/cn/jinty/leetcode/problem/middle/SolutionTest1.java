@@ -119,4 +119,10 @@ public class SolutionTest1 {
         System.out.println(solution.hIndex(new int[]{100,100,100}));
     }
 
+    @Test
+    public void testCombinationSum2(){
+        System.out.println(solution.combinationSum2(new int[]{1,1,1,1,2},3));
+        System.out.println(solution.combinationSum2(new int[]{10,1,2,7,6,1,5},8));
+    }
+
 }

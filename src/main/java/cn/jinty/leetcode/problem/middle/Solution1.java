@@ -619,4 +619,49 @@ public class Solution1 {
 
     }
 
+    /**
+     * 40. 组合总和 II
+     * 给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+     * candidates 中的每个数字在每个组合中只能使用一次。
+     * 注意：解集不能包含重复的组合。
+     *
+     * @param candidates 候选数组(1 <= candidates.length <= 100)(1 <= candidates[i] <= 50)
+     * @param target 目标(1 <= target <= 30)
+     * @return 组合
+     */
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        //1、回溯算法：时间复杂度O(2^N)，实际上不会到达2^N，因为组合的和大于等于target时就不会往下递归了
+        //排序
+        Arrays.sort(candidates);
+        //单个组合
+        List<Integer> result = new ArrayList<>();
+        //所有组合，使用Set去重
+        Set<List<Integer>> results = new HashSet<>();
+        //递归回溯
+        combinationSum2(candidates,0,target,0,result,results);
+        //返回，Set转List
+        return new ArrayList<>(results);
+    }
+    //递归回溯
+    @SuppressWarnings("unused")
+    private void combinationSum2(int[] candidates, int idx, int target, int sum, List<Integer> result, Set<List<Integer>> results){
+        //等于target，终止递归
+        if(sum==target){
+            results.add(new ArrayList<>(result));
+            return;
+        }
+        //角标越界，终止递归
+        if(idx>=candidates.length) return;
+        //遍历原数组
+        for(int i=idx;i<candidates.length;i++){
+            //大于target，则后续会一直大于target，可以提前返回
+            if(sum+candidates[i]>target) break;
+            //递归
+            result.add(candidates[i]);
+            combinationSum2(candidates,i+1,target,sum+candidates[i],result,results);
+            //回溯
+            result.remove(result.size()-1);
+        }
+    }
+
 }
