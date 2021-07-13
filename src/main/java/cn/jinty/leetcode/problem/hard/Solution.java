@@ -1770,4 +1770,116 @@ public class Solution {
         return count==0 ? 1 : count;
     }
 
+    /**
+     * 218. 天际线问题
+     * 城市的天际线是从远处观看该城市中所有建筑物形成的轮廓的外部轮廓。给你所有建筑物的位置和高度，请返回由这些建筑物形成的 天际线 。
+     * 每个建筑物的几何信息由数组 buildings 表示，其中三元组 buildings[i] = [left, right, height] 表示：
+     * left 是第 i 座建筑物左边缘的 x 坐标。right 是第 i 座建筑物右边缘的 x 坐标。height 是第 i 座建筑物的高度。
+     * 天际线 应该表示为由 “关键点” 组成的列表，格式 [[x1,y1],[x2,y2],...] ，并按 x 坐标 进行 排序 。关键点是水平线段的左端点。
+     * 列表中最后一个点是最右侧建筑物的终点，y 坐标始终为 0 ，仅用于标记天际线的终点。此外，任何两个相邻建筑物之间的地面都应被视为天际线轮廓的一部分。
+     * 注意：输出天际线中不得有连续的相同高度的水平线。例如 [...[2 3], [4 5], [7 5], [11 5], [12 7]...] 是不正确的答案；三条高度为 5 的线应该在最终输出中合并为一个：[...[2 3], [4 5], [12 7], ...]
+     *
+     * @param buildings 建筑群
+     *                  (1 <= buildings.length <= 10^4)
+     *                  (0 <= left < right <= 2^31 - 1)
+     *                  (buildings 按 left 非递减排序)
+     * @return 天际线
+     */
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+
+        /*//1、哈希表：时间复杂度最高可达 10^4 * (2^31)，执行会超时
+        List<List<Integer>> lists = new ArrayList<>();
+        //建筑群的左右边界
+        int left = buildings[0][0], right = 0;
+        //哈希表保存每个点及其最高高度
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int[] building : buildings){
+            right = Math.max(right,building[1]);
+            for(int i=building[0];i<=building[1];i++){
+                map.put(i,Math.max(building[2],map.getOrDefault(i,0)));
+            }
+        }
+        //遍历区间，获取每个点的最高高度，描出轮廓
+        int height = 0;
+        for(int i=left;i<=right;i++){
+            int h = map.getOrDefault(i,0);
+            if(h==height) continue;
+            if(h>height){
+                //上升
+                lists.add(Arrays.asList(i,h));
+            }else{
+                //下降
+                lists.add(Arrays.asList(i-1,h));
+            }
+            //刷新当前高度
+            height = h;
+        }
+        if(height!=0){
+            lists.add(Arrays.asList(right,0));
+        }
+        return lists;*/
+
+        /*//2、扫描线：时间复杂度O(N^2)
+        //由于关键点只会出现在边缘，所以只需要扫描所有左右边缘，求边缘的最高高度(注意：建筑仅对[left,right)区间贡献高度)。
+        List<List<Integer>> lists = new ArrayList<>();
+        //收集所有边缘
+        List<Integer> edges = new ArrayList<>();
+        for(int[] building : buildings){
+            edges.add(building[0]);
+            edges.add(building[1]);
+        }
+        //边缘按横坐标升序排序
+        Collections.sort(edges);
+        //遍历边缘并求最高高度
+        int preH = 0;
+        for(Integer edge : edges){
+            int maxH = 0;
+            for(int[] building : buildings){
+                if(building[0]<=edge && edge<building[1]){
+                    maxH = Math.max(maxH,building[2]);
+                }
+            }
+            if(preH!=maxH){
+                lists.add(Arrays.asList(edge,maxH));
+                preH = maxH;
+            }
+        }
+        return lists;*/
+
+        //3、扫描线+优先队列：时间复杂度O(NlogN)
+        List<List<Integer>> lists = new ArrayList<>();
+        //收集所有边缘
+        List<Integer> edges = new ArrayList<>();
+        for(int[] building : buildings){
+            edges.add(building[0]);
+            edges.add(building[1]);
+        }
+        //边缘按横坐标升序排序
+        Collections.sort(edges);
+        //用优先队列保存区间右边缘及区间高度(倒序)
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o2[1]-o1[1]);
+        //遍历边缘并求最高高度
+        int preH = 0;
+        int idx = 0, len = buildings.length;
+        for(Integer edge : edges){
+            //用队列维护当前边缘的所属区间，区间中的最高高度即为当前边缘的最高高度
+            while(idx < len && buildings[idx][0] <= edge){
+                queue.offer(new int[]{buildings[idx][1], buildings[idx][2]});
+                idx++;
+            }
+            //只比较队头与当前边缘，因为其余队内元素不影响结果判定，所以可以延迟删除
+            while(!queue.isEmpty() && queue.peek()[0] <= edge){
+                queue.poll();
+            }
+            //获取队头
+            int maxH = queue.isEmpty() ? 0 : queue.peek()[1];
+            if(preH != maxH){
+                lists.add(Arrays.asList(edge, maxH));
+                preH = maxH;
+            }
+        }
+        return lists;
+
+    }
+
 }
