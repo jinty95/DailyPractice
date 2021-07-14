@@ -664,4 +664,43 @@ public class Solution1 {
         }
     }
 
+    /**
+     * 1818. 绝对差值和
+     * 给你两个正整数数组 numbers1 和 numbers2 ，数组的长度都是 n 。
+     * 数组 numbers1 和 numbers2 的 绝对差值和 定义为所有 |numbers1[i] - numbers2[i]|（0 <= i < n）的 总和（下标从 0 开始）。
+     * 你可以选用 numbers1 中的 任意一个 元素来替换 numbers1 中的 至多 一个元素，以 最小化 绝对差值和。
+     * 在替换数组 numbers1 中最多一个元素 之后 ，返回最小绝对差值和。因为答案可能很大，所以需要对 10^9 + 7 取余 后返回。
+     *
+     * @param numbers1 数组1 (1 <= len <= 10^5)(1 <= numbers1[i] <= 10^5)
+     * @param numbers2 数组2 (1 <= len <= 10^5)(1 <= numbers2[i] <= 10^5)
+     * @return 最小绝对差值和
+     */
+    public int minAbsoluteSumDiff(int[] numbers1, int[] numbers2) {
+        //1、有序集合：时间复杂度O(NlogN)，空间复杂度O(N)
+        //先计算好绝对差值和，并使用TreeSet存放numbers1，然后遍历numbers1，针对numbers1[i]，在TreeSet中快速寻找环绕numbers2[i]的两个数，
+        //分别用它们替换numbers1[i]，看能否使得结果更小，记录过程中出现的最大减小幅度，绝对差值和减去最大减幅即为答案。
+        final int MOD = 1000000007;
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        int absoluteSum = 0;
+        for(int i=0;i<numbers1.length;i++){
+            absoluteSum = (absoluteSum + Math.abs(numbers1[i]-numbers2[i])) % MOD;
+            treeSet.add(numbers1[i]);
+        }
+        int maxDesc = 0;
+        for(int i=0;i<numbers1.length;i++){
+            int diff1 = Math.abs(numbers1[i]-numbers2[i]);
+            Integer ceil = treeSet.ceiling(numbers2[i]);
+            if(ceil!=null){
+                int diff2 = Math.abs(ceil-numbers2[i]);
+                if(diff1>diff2) maxDesc = Math.max(maxDesc,diff1-diff2);
+            }
+            Integer floor = treeSet.floor(numbers2[i]);
+            if(floor!=null){
+                int diff2 = Math.abs(floor-numbers2[i]);
+                if(diff1>diff2) maxDesc = Math.max(maxDesc,diff1-diff2);
+            }
+        }
+        return (absoluteSum - maxDesc + MOD) % MOD;
+    }
+
 }

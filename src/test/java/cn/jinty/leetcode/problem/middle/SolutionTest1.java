@@ -125,4 +125,17 @@ public class SolutionTest1 {
         System.out.println(solution.combinationSum2(new int[]{10,1,2,7,6,1,5},8));
     }
 
+    @Test
+    public void testMinAbsoluteSumDiff(){
+        System.out.println(solution.minAbsoluteSumDiff(
+                new int[]{1,7,5}, new int[]{2,3,5}
+        ));
+        System.out.println(solution.minAbsoluteSumDiff(
+                new int[]{1,10,4,4,2,7}, new int[]{9,3,5,1,7,4}
+        ));
+        System.out.println(solution.minAbsoluteSumDiff(
+                new int[]{100,10,101}, new int[]{99,1,99}
+        ));
+    }
+
 }
