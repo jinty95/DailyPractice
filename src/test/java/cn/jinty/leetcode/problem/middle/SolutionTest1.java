@@ -138,4 +138,14 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testMaximumElementAfterDecrementingAndRearranging(){
+        System.out.println(solution.maximumElementAfterDecrementingAndRearranging(
+                new int[]{2,1,2,2,1}
+        ));
+        System.out.println(solution.maximumElementAfterDecrementingAndRearranging(
+                new int[]{1,2,2,100,100}
+        ));
+    }
+
 }
