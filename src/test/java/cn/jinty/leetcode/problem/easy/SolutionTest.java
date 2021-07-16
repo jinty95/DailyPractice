@@ -325,4 +325,10 @@ public class SolutionTest {
         System.out.println(solution.majorityElement(new int[]{1,1,1,2,3,4,1}));
     }
 
+    @Test
+    public void testSearch(){
+        System.out.println(solution.search(new int[]{2,2,5,5,6},5));
+        System.out.println(solution.search(new int[]{1,2},3));
+    }
+
 }

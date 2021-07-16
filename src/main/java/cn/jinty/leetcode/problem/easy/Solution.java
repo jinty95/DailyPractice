@@ -1274,4 +1274,40 @@ public class Solution {
         return count>numbers.length/2 ? major : -1;
     }
 
+    /**
+     * 剑指 Offer 53 - I. 在排序数组中查找数字 I
+     * 统计一个数字在排序数组中出现的次数。
+     *
+     * @param numbers 有序数组
+     * @param target 目标
+     * @return 目标出现次数
+     */
+    public int search(int[] numbers, int target) {
+        //二分查找：时间复杂度O(logN)
+        int left = binarySearch(numbers,target,true);
+        if(left==-1) return 0;
+        int right = binarySearch(numbers,target,false);
+        return right - left + 1;
+    }
+    private int binarySearch(int[] numbers, int target, boolean searchLeft){
+        int idx = -1;
+        int i = 0, j = numbers.length-1;
+        while(i<=j){
+            int mid = i+(j-i)/2;
+            if(numbers[mid]==target){
+                idx = mid;
+                if(searchLeft){
+                    j = mid - 1;
+                }else{
+                    i = mid + 1;
+                }
+            }else if(numbers[mid]>target){
+                j = mid - 1;
+            }else{
+                i = mid + 1;
+            }
+        }
+        return idx;
+    }
+
 }
