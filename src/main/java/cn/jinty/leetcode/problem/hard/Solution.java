@@ -802,6 +802,68 @@ public class Solution {
     }
 
     /**
+     * 44. 通配符匹配
+     * 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
+     * '?' 可以匹配任何单个字符。
+     * '*' 可以匹配任意字符串（包括空字符串）。
+     * 两个字符串完全匹配才算匹配成功。
+     * 说明:
+     * s 可能为空，且只包含从 a-z 的小写字母。
+     * p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+     *
+     * @param s 字符串
+     * @param p 匹配模式
+     * @return 能否匹配
+     */
+    public boolean canMatch(String s, String p) {
+        /*//1、递归：时间复杂度O(N^M)，其中N是s的长度，M是p中*号的数量，执行超时
+        char[] sArr = s.toCharArray();
+        char[] pArr = p.toCharArray();
+        return canMatch(sArr,pArr,0,0);*/
+
+        //2、动态规划：时间复杂度O(MN)，其中N是s的长度，M是p的长度
+        char[] sArr = s.toCharArray();
+        char[] pArr = p.toCharArray();
+        //dp[i][j]表示p[0..i-1]与s[0..j-1]能否匹配
+        boolean[][] dp = new boolean[p.length()+1][s.length()+1];
+        //边界
+        dp[0][0] = true;
+        for(int i=0;i<p.length();i++){
+            if(pArr[i]=='*') dp[i+1][0] = true;
+            else break;
+        }
+        //递推
+        for(int i=0;i<p.length();i++){
+            for(int j=0;j<s.length();j++){
+                if(pArr[i]=='*'){
+                    dp[i+1][j+1] = dp[i][j] || dp[i][j+1] || dp[i+1][j];
+                }else if(pArr[i]==sArr[j] || pArr[i]=='?'){
+                    dp[i+1][j+1] = dp[i][j];
+                }
+            }
+        }
+        return dp[p.length()][s.length()];
+    }
+    //判断从si及pi开始的s和p能否匹配：关键在于*的处理，需要枚举*匹配零个或多个的所有情况
+    @SuppressWarnings("unused")
+    private boolean canMatch(char[] s, char[] p, int si, int pi){
+        if(pi==p.length) return si==s.length;
+        //1、pi不是*
+        if(p[pi]!='*'){
+            return si!=s.length && (s[si]==p[pi] || p[pi]=='?') && canMatch(s,p,si+1,pi+1);
+        }
+        //2、pi是*
+        while(si!=s.length){
+            //枚举*匹配0个或多个
+            if(canMatch(s,p,si,pi+1)){
+                return true;
+            }
+            si++;
+        }
+        return canMatch(s,p,si,pi+1);
+    }
+
+    /**
      * 面试题 17.19. 消失的两个数字
      * 给定一个数组，包含从 1 到 N 所有的整数，但其中缺了两个数字。
      * 找到消失的两个数字，以任意顺序返回这两个数字均可。

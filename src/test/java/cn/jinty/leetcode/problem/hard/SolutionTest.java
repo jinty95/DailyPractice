@@ -123,6 +123,13 @@ public class SolutionTest {
     }
 
     @Test
+    public void testCanMatch(){
+        System.out.println(solution.canMatch("aa","b"));
+        System.out.println(solution.canMatch("aa","a*"));
+        System.out.println(solution.canMatch("aaaa","?*aa*"));
+    }
+
+    @Test
     public void testMissingTwo(){
         System.out.println(Arrays.toString(
                 solution.missingTwo(new int[]{1,2,3,4})
