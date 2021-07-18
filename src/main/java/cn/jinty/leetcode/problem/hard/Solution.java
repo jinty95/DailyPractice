@@ -1944,4 +1944,59 @@ public class Solution {
 
     }
 
+    /**
+     * 32. 最长有效括号
+     * 给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号子串的长度。
+     *
+     * @param s 字符串
+     * @return 最长有效括号“子串”长度
+     */
+    public int longestValidParentheses(String s) {
+
+        /*//1、栈：时间复杂度O(N)，空间复杂度O(N)
+        int maxLen = 0;
+        Deque<Integer> stack = new LinkedList<>();
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                //遇到左括号：左括号下标入栈
+                stack.push(i);
+            } else {
+                //遇到右括号：左括号下标出栈
+                stack.pop();
+                if (stack.isEmpty()) {
+                    //若栈空则右括号下标入栈
+                    stack.push(i);
+                } else {
+                    //栈非空则计算子串长度(这是以当前右括号为结尾的最长有效括号子串长度)
+                    maxLen = Math.max(maxLen, i - stack.peek());
+                }
+            }
+        }
+        return maxLen;*/
+
+        //2、动态规划：时间复杂度O(N)，空间复杂度O(N)
+        //dp[i]表示以s[i]为结尾的最长有效括号子串长度
+        //只有右括号可以做结尾，所有以左括号为结尾的最长有效括号子串长度恒为0
+        int[] dp = new int[s.length()];
+        int max = 0;
+        for(int i=1;i<s.length();i++){
+            if(s.charAt(i)==')'){
+                if(s.charAt(i-1)=='('){
+                    //...()
+                    dp[i] = (i>1 ? dp[i-2] : 0) + 2;
+                }else{
+                    //...))
+                    int left = i-dp[i-1]-1;
+                    if(left>=0 && s.charAt(left)=='('){
+                        dp[i] = dp[i-1] + 2 + (left>0 ? dp[left-1] : 0);
+                    }
+                }
+            }
+            max = Math.max(max,dp[i]);
+        }
+        return max;
+
+    }
+
 }

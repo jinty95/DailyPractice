@@ -310,4 +310,13 @@ public class SolutionTest {
         }));
     }
 
+    @Test
+    public void testLongestValidParentheses(){
+        System.out.println(solution.longestValidParentheses(""));
+        System.out.println(solution.longestValidParentheses("(()"));
+        System.out.println(solution.longestValidParentheses(")(()())"));
+        System.out.println(solution.longestValidParentheses("()(()"));
+        System.out.println(solution.longestValidParentheses("()(())"));
+    }
+
 }
