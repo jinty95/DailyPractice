@@ -730,4 +730,66 @@ public class Solution1 {
         return pre;
     }
 
+    /**
+     * 1838. 最高频元素的频数
+     * 元素的 频数 是该元素在一个数组中出现的次数。
+     * 给你一个整数数组 numbers 和一个整数 k 。在一步操作中，你可以选择 numbers 的一个下标，并将该下标对应元素的值增加 1 。
+     * 执行最多 k 次操作后，返回数组中最高频元素的最大可能频数。
+     *
+     * @param numbers 数组 (1 <= numbers.length <= 10^5)
+     * @param k 最大操作次数
+     * @return 最高频元素的最大可能频数
+     */
+    public int maxFrequency(int[] numbers, int k) {
+
+        /*//1、排序+哈希表
+        //排序
+        Arrays.sort(numbers);
+        //哈希表记录数字、频数、数字第一次出现位置
+        Map<Integer,int[]> map = new HashMap<>();
+        for(int i=0;i<numbers.length;i++){
+            int[] value = map.computeIfAbsent(numbers[i],a->new int[]{0,-1});
+            //数字第一次出现位置
+            if(value[1]==-1) value[1]=i;
+            //频数
+            value[0]++;
+        }
+        //对于每个数，都向前操作，记录最大可能频数
+        int maxFreq = 0;
+        for(Integer key : map.keySet()){
+            int[] value = map.get(key);
+            int count = value[0];
+            int pre = value[1]-1;
+            int i = k;
+            while(pre>=0 && i>0){
+                if(i>=key-numbers[pre]){
+                    i-=(key-numbers[pre]);
+                    count++;
+                    pre--;
+                }else{
+                    break;
+                }
+            }
+            maxFreq = Math.max(maxFreq,count);
+        }
+        return maxFreq;*/
+
+        //2、排序+滑动窗口
+        //窗口每次右滑一位，需要增加(right-left)*(numbers[right]-numbers[right-1])个数字，判断是否超过k
+        Arrays.sort(numbers);
+        int ans = 1;
+        int left = 0, right = 1, delta = 0;
+        while(right<numbers.length){
+            delta += (right-left)*(numbers[right]-numbers[right-1]);
+            while(delta>k){
+                delta -= (numbers[right]-numbers[left]);
+                left++;
+            }
+            ans = Math.max(ans,right-left+1);
+            right++;
+        }
+        return ans;
+
+    }
+
 }

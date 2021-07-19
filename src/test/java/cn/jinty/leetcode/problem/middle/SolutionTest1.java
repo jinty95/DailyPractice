@@ -148,4 +148,14 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testMaxFrequency(){
+        System.out.println(solution.maxFrequency(
+                new int[]{1,4,8,13},5
+        ));
+        System.out.println(solution.maxFrequency(
+                new int[]{1,2,4},5
+        ));
+    }
+
 }
