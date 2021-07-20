@@ -39,8 +39,9 @@ public class DateUtilTest {
     public void testCountInterval(){
         Date d1 = DateUtil.parse("2021-07-14 19:00:00");
         Date d2 = DateUtil.parse("2021-07-15 18:00:00");
-        System.out.println(DateUtil.countInterval(d1,d2));
-        System.out.println(DateUtil.countIntervalOnlyDay(d1,d2));
+        System.out.println(DateUtil.countIntervalForDay(d1,d2));
+        System.out.println(DateUtil.countInterval(d1,d2,DateUtil.HOUR));
+        System.out.println(DateUtil.countInterval(d1,d2,DateUtil.MINUTE));
     }
 
     @Test
@@ -89,6 +90,14 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.getTodayEnd()));
         System.out.println(DateUtil.format(DateUtil.getYesterdayBegin()));
         System.out.println(DateUtil.format(DateUtil.getYesterdayEnd()));
+    }
+
+    @Test
+    public void testGetCountDown(){
+        System.out.println(DateUtil.getCountDown(DateUtil.parse("0-7-20 1:0:0")));
+        System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-21 10:00:00")));
+        System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-24 00:00:00")));
+        System.out.println(DateUtil.getCountDown(DateUtil.parse("2022-07-20 00:00:00")));
     }
 
 }

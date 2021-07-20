@@ -15,14 +15,20 @@ import java.util.Date;
 public final class DateUtil {
 
     /**
+     * 时间单位(毫秒表示)
+     */
+    public static final long MILLISECOND = 1;
+    public static final long SECOND = MILLISECOND * 1000;
+    public static final long MINUTE = SECOND * 60;
+    public static final long HOUR = MINUTE * 60;
+    public static final long DAY = HOUR * 24;
+
+    /**
      * 常用的时间格式
      */
     public static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     public static final SimpleDateFormat YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
-
     public static final SimpleDateFormat YYYY_MM = new SimpleDateFormat("yyyy-MM");
-
     public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
 
     /**
@@ -43,6 +49,7 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr, SimpleDateFormat sdf){
+        if(dateStr==null) return null;
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
@@ -145,27 +152,28 @@ public final class DateUtil {
     }
 
     /**
-     * 计算时间间隔天数
+     * 计算时间间隔
      *
      * @param begin 起始时间
      * @param end 结束时间
-     * @return 天数
+     * @param unit 时间单位(毫秒数)
+     * @return 间隔
      */
-    public static Integer countInterval(Date begin,Date end){
-        return (int)((begin.getTime() - end.getTime())/(1000*60*60*24));
+    public static Long countInterval(Date begin, Date end, long unit){
+        if(begin==null || end==null) return null;
+        if(unit<1) throw new IllegalArgumentException("time unit cannot less than 1");
+        return (begin.getTime() - end.getTime()) / unit;
     }
 
     /**
-     * 计算时间间隔天数(忽略时分秒)
+     * 计算时间间隔(单位:天)
      *
      * @param begin 起始时间
      * @param end 结束时间
-     * @return 天数
+     * @return 间隔
      */
-    public static Integer countIntervalOnlyDay(Date begin,Date end){
-        begin = setHourMinSecToZero(begin);
-        end = setHourMinSecToZero(end);
-        return countInterval(begin,end);
+    public static Long countIntervalForDay(Date begin, Date end){
+        return countInterval(begin,end,DAY);
     }
 
     /**
@@ -397,24 +405,23 @@ public final class DateUtil {
         return calendar.getTime();
     }
 
-
-    /* 以下为内部函数 */
-
-
     /**
-     * 时分秒置0
+     * 当前时间距离目标时间倒计时
      *
-     * @param date 时间
-     * @return 时间
+     * @param target 目标时间
+     * @return 倒计时文本提示
      */
-    private static Date setHourMinSecToZero(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-        return calendar.getTime();
+    public static String getCountDown(Date target){
+        if(target==null) return "";
+        Date now = new Date();
+        //大于一天时显示天数
+        long day = countIntervalForDay(target,now);
+        if(day<0) return "";
+        if(day>=1) return day + "天后截止";
+        //一天内显示小时与分钟
+        long minute = countInterval(target,now,MINUTE);
+        if(minute<0) return "";
+        return (minute/60) + "时" + (minute%60) + "分后截止";
     }
 
 }
