@@ -331,4 +331,10 @@ public class SolutionTest {
         System.out.println(solution.search(new int[]{1,2},3));
     }
 
+    @Test
+    public void testMaximumTime(){
+        System.out.println(solution.maximumTime("1?:5?"));
+        System.out.println(solution.maximumTime("?0:15"));
+    }
+
 }

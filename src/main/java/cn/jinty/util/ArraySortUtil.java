@@ -83,12 +83,12 @@ public final class ArraySortUtil {
     }
     private static void quickSort(int[] arr, int begin, int end){
         if(begin<end){
-            int mid = oneQucikSort(arr,begin,end);
+            int mid = oneQuickSort(arr,begin,end);
             quickSort(arr,begin,mid-1);
             quickSort(arr,mid+1,end);
         }
     }
-    private static int oneQucikSort(int[] arr, int begin, int end){
+    private static int oneQuickSort(int[] arr, int begin, int end){
         int mid=begin;
         boolean inLeft = true;
         while(begin<end) {
@@ -334,6 +334,7 @@ public final class ArraySortUtil {
      * @param ascend 是否升序，是则判断升序，否则判断降序
      * @return 是否有序
      */
+    @SuppressWarnings("SameParameterValue")
     private static boolean isOrdered(int[] arr, boolean ascend){
         if(arr==null || arr.length<2) return true;
         if(ascend){
