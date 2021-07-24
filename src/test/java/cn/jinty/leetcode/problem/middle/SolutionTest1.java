@@ -158,4 +158,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testGrayCode(){
+        System.out.println(solution.grayCode(2));
+        System.out.println(solution.grayCode(3));
+    }
+
 }
