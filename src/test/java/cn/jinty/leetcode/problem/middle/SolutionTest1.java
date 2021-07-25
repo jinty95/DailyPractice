@@ -164,4 +164,11 @@ public class SolutionTest1 {
         System.out.println(solution.grayCode(3));
     }
 
+    @Test
+    public void testRestoreArray(){
+        System.out.println(Arrays.toString(solution.restoreArray(
+                new int[][]{{1, 3}, {-4, 1}, {2, 4}, {-4, 4}}
+        )));
+    }
+
 }

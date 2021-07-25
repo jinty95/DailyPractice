@@ -812,4 +812,47 @@ public class Solution1 {
         return result;
     }
 
+    /**
+     * 1743. 从相邻元素对还原数组
+     * 存在一个由 n 个不同元素组成的整数数组 numbers ，但你已经记不清具体内容。好在你还记得 numbers 中的每一对相邻元素。
+     * 给你一个二维整数数组 adjacentPairs ，大小为 n - 1 ，其中每个 adjacentPairs[i] = [ui, vi] 表示元素 ui 和 vi 在 numbers 中相邻。
+     * 题目数据保证所有由元素 numbers[i] 和 numbers[i+1] 组成的相邻元素对都存在于 adjacentPairs 中，
+     * 存在形式可能是 [numbers[i], numbers[i+1]] ，也可能是 [numbers[i+1], numbers[i]] 。这些相邻元素对可以 按任意顺序 出现。
+     * 返回 原始数组 numbers 。如果存在多种解答，返回 其中任意一个 即可。
+     *
+     * @param adjacentPairs 相邻元素 (2 <= n <= 10^5)
+     * @return 原数组
+     */
+    public int[] restoreArray(int[][] adjacentPairs) {
+        //1、哈希表：时间复杂度O(N)，空间复杂度O(N)
+        //因为元素都是唯一的，所以第一个元素和最后一个元素在相邻元素中只会出现一次，其余都是两次
+        int[] origin = new int[adjacentPairs.length+1];
+        //使用哈希表维护(元素，与该元素相邻的元素组成的列表)
+        Map<Integer,List<Integer>> map = new HashMap<>();
+        for(int[] adjacentPair : adjacentPairs){
+            map.computeIfAbsent(adjacentPair[0],k->new ArrayList<>()).add(adjacentPair[1]);
+            map.computeIfAbsent(adjacentPair[1],k->new ArrayList<>()).add(adjacentPair[0]);
+        }
+        //遍历哈希表找出现一次的元素
+        int first = 0;
+        for(Integer key : map.keySet()){
+            if(map.get(key).size()==1){
+                first = key;
+                break;
+            }
+        }
+        //使用Set去重，从第一个元素开始向后恢复原数组
+        Set<Integer> set = new HashSet<>();
+        origin[0] = first;
+        set.add(first);
+        for(int i=1;i<origin.length;i++){
+            for(Integer next : map.get(origin[i-1])){
+                if(set.contains(next)) continue;
+                origin[i] = next;
+                set.add(next);
+            }
+        }
+        return origin;
+    }
+
 }
