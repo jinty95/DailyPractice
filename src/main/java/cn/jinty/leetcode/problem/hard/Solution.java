@@ -1999,4 +1999,90 @@ public class Solution {
 
     }
 
+    /**
+     * 1713. 得到子序列的最少操作次数
+     * 给你一个数组 target ，包含若干 互不相同 的整数，以及另一个整数数组 arr ，arr 可能 包含重复元素。
+     * 每一次操作中，你可以在 arr 的任意位置插入任一整数。比方说，如果 arr = [1,4,1,2] ，那么你可以在中间添加 3 得到 [1,4,3,1,2] 。
+     * 请你返回 最少 操作次数，使得 target 成为 arr 的一个子序列。
+     *
+     * @param target 目标数组(不包含任何重复元素)(1 <= target.length <= 10^5)(1 <= target[i] <= 10^9)
+     * @param arr 数组(1 <= arr.length <= 10^5)(1 <= arr[i] <= 10^9)
+     * @return 最少操作次数
+     */
+    public int minOperations(int[] target, int[] arr) {
+
+        /*//1、求最长递增子序列：时间复杂度O(N^2)，N为arr的长度
+        //哈希表维护target数组的(值->索引)
+        Map<Integer,Integer> map = new HashMap<>();
+        for(int i=0; i<target.length; i++){
+            map.put(target[i], i);
+        }
+        //将arr的值转成对应target的值的索引，如果找不到，置为-1
+        for(int i=0; i<arr.length; i++){
+            Integer idx = map.get(arr[i]);
+            if(idx!=null) arr[i] = idx;
+            else arr[i] = -1;
+        }
+        //在arr中求最长递增子序列(动态规划)
+        int[] dp = new int[arr.length];
+        int max = 0;
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]==-1) dp[i]=0;
+            else{
+                dp[i] = 1;
+                for(int j=0; j<i; j++){
+                    if(arr[j]<arr[i]){
+                        dp[i] = Math.max(dp[j]+1,dp[i]);
+                    }
+                }
+            }
+            max = Math.max(max,dp[i]);
+        }
+        return target.length - max;*/
+
+        //另外，也可以直接求两个数组的最长公共子序列，时间复杂度为O(MN)
+
+        //上述这些做法都会超时，因为最高复杂度为10^10
+
+        //2、求最长递增子序列(贪心+二分)：时间复杂度O(NlogN)，N为arr的长度
+        //哈希表维护target数组的(值->索引)
+        Map<Integer,Integer> position = new HashMap<>();
+        for(int i=0; i<target.length; i++){
+            position.put(target[i], i);
+        }
+        //将arr的值转成对应target的值的索引，并维护一个有序的索引结构
+        //这个有序结构的每个元素表示“长度为i的最长递增子序列的末尾元素的最小值”
+        List<Integer> newArr = new ArrayList<>();
+        for(int a : arr){
+            Integer pos = position.get(a);
+            if(pos==null) continue;
+            //找第一个比pos小的索引位置
+            int idx = binarySearch(newArr, pos);
+            //如果在有序列表内则替换，否则在尾部追加
+            if(idx != newArr.size()){
+                newArr.set(idx,pos);
+            }else{
+                newArr.add(pos);
+            }
+        }
+        return target.length - newArr.size();
+
+    }
+    //在有序数组中进行二分查找
+    private int binarySearch(List<Integer> arr, Integer target){
+        if(arr.size()==0 || arr.get(arr.size()-1)<target){
+            return arr.size();
+        }
+        int left = 0, right = arr.size()-1;
+        while(left<right){
+            int mid = left+(right-left)/2;
+            if(arr.get(mid)<target){
+                left = mid+1;
+            }else{
+                right = mid;
+            }
+        }
+        return left;
+    }
+
 }

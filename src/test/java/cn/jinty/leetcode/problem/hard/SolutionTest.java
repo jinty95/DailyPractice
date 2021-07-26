@@ -319,4 +319,17 @@ public class SolutionTest {
         System.out.println(solution.longestValidParentheses("()(())"));
     }
 
+    @Test
+    public void testMinOperations(){
+        System.out.println(solution.minOperations(
+                new int[]{5,1,3}, new int[]{9,4,2,3,4}
+        ));
+        System.out.println(solution.minOperations(
+                new int[]{6,4,8,1,3,2}, new int[]{4,7,6,2,3,8,6,1}
+        ));
+        System.out.println(solution.minOperations(
+                new int[]{16,7,20,11,15,13,10,14,6,8}, new int[]{11,14,15,7,5,5,6,10,11,6}
+        ));
+    }
+
 }
