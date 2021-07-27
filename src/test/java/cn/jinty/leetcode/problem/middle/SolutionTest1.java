@@ -171,4 +171,13 @@ public class SolutionTest1 {
         )));
     }
 
+    @Test
+    public void testMaximalSquare(){
+        System.out.println(solution.maximalSquare(
+                new char[][]{
+                        {'1','1'},{'1','1'},{'1','1'}
+                }
+        ));
+    }
+
 }

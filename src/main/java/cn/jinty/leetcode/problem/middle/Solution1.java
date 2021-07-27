@@ -855,4 +855,52 @@ public class Solution1 {
         return origin;
     }
 
+    /**
+     * 221. 最大正方形
+     * 在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。
+     *
+     * @param matrix 矩阵(1 <= m, n <= 300)
+     * @return 最大正方形面积
+     */
+    public int maximalSquare(char[][] matrix) {
+        //1、前缀和
+        int maxSquare = 0;
+        int row = matrix.length, col = matrix[0].length;
+        //preSum[i][j]表示matrix[0][0]到matrix[i][j]的子矩阵中'1'的数量
+        int[][] preSum = new int[row][col];
+        preSum[0][0] = matrix[0][0] == '1' ? 1 : 0;
+        for(int i=1; i<row; i++){
+            preSum[i][0] = preSum[i-1][0] + (matrix[i][0] == '1' ? 1 : 0);
+        }
+        for(int j=1; j<col; j++){
+            preSum[0][j] = preSum[0][j-1] + (matrix[0][j] == '1' ? 1 : 0);
+        }
+        for(int i=1; i<row; i++){
+            for(int j=1; j<col; j++){
+                preSum[i][j] = preSum[i-1][j] + preSum[i][j-1] - preSum[i-1][j-1] + (matrix[i][j] == '1' ? 1 : 0);
+            }
+        }
+        //枚举起点(只有'1'作为起点才有意义)
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                if(matrix[i][j]=='1'){
+                    //正方形边长为1
+                    maxSquare = Math.max(maxSquare,1);
+                    //枚举正方形边长(大于1)
+                    for(int len=1; len<Math.min(row,col); len++){
+                        int ii = i+len, jj = j+len;
+                        if(ii>=row || jj>=col) break;
+                        //正方形中1的数量
+                        int num1 = preSum[ii][jj] - (j>0 ? preSum[ii][j-1] : 0) - (i>0 ? preSum[i-1][jj] : 0) + (i>0&&j>0 ? preSum[i-1][j-1] : 0);
+                        int numSquare = (len+1)*(len+1);
+                        if(num1 == numSquare){
+                            maxSquare = Math.max(maxSquare,numSquare);
+                        }
+                    }
+                }
+            }
+        }
+        return maxSquare;
+    }
+
 }
