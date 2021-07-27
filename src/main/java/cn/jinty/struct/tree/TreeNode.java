@@ -123,6 +123,7 @@ public class TreeNode {
     }
 
     //从字符串反序列化出二叉树
+    //字符串格式为：[1,2,3,4,...]
     public static TreeNode deserialize(String data) {
         if(data==null || data.length()==0) return null;
         //1、解析序列字符串

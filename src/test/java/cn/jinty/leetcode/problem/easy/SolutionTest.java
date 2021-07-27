@@ -337,4 +337,11 @@ public class SolutionTest {
         System.out.println(solution.maximumTime("?0:15"));
     }
 
+    @Test
+    public void testFindSecondMinimumValue(){
+        System.out.println(solution.findSecondMinimumValue(
+                TreeNode.deserialize("[1,1,3,null,null,3,7,null,null,null,null]")
+        ));
+    }
+
 }
