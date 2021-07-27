@@ -30,4 +30,11 @@ public class ListUtilTest {
         System.out.println(list2);
     }
 
+    @Test
+    public void testListToString(){
+        List<String> list = ListUtil.asList("A","B","C");
+        System.out.println(list.toString());
+        System.out.println(ListUtil.toString(list));
+    }
+
 }

@@ -76,4 +76,22 @@ public final class ListUtil {
         return ! isEmpty(list);
     }
 
+    /**
+     * 字符串列表合成一个指定格式的字符串(格式为["A","B","C"])
+     *
+     * @param list 字符串列表
+     * @return 字符串
+     */
+    public static String toString(List<String> list){
+        if(isEmpty(list)) return "";
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for(String one : list){
+            sb.append('"').append(one).append('"').append(',');
+        }
+        sb.deleteCharAt(sb.length()-1);
+        sb.append(']');
+        return sb.toString();
+    }
+
 }
