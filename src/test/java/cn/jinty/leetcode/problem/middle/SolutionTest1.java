@@ -1,5 +1,6 @@
 package cn.jinty.leetcode.problem.middle;
 
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
@@ -178,6 +179,14 @@ public class SolutionTest1 {
                         {'1','1'},{'1','1'},{'1','1'}
                 }
         ));
+    }
+
+    @Test
+    public void testDistanceK(){
+        TreeNode root = TreeNode.deserialize("[1,2,3,null,null,null,null]");
+        TreeNode target = root.left;
+        System.out.println(solution.distanceK(root,target,1));
+        System.out.println(solution.distanceK(root,target,2));
     }
 
 }

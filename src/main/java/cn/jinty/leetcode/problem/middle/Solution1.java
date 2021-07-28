@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.problem.middle;
 
+import cn.jinty.struct.tree.TreeNode;
+
 import java.util.*;
 
 /**
@@ -901,6 +903,73 @@ public class Solution1 {
             }
         }
         return maxSquare;
+    }
+
+    /**
+     * 863. 二叉树中所有距离为 K 的结点
+     * 给定一个二叉树（具有根结点 root）， 一个目标结点 target ，和一个整数值 K 。
+     * 返回到目标结点 target 距离为 K 的所有结点的值的列表。 答案可以以任何顺序返回。
+     *
+     * @param root 二叉树
+     * @param target 目标节点
+     * @param k 整数
+     * @return 二叉树中到目标节点距离为k的所有节点
+     */
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        List<Integer> list = new ArrayList<>();
+        if(k==0){
+            list.add(target.val);
+            return list;
+        }
+        //深度遍历：子节点映射父节点
+        Map<TreeNode,TreeNode> map = new HashMap<>();
+        nodeToParent(root,map);
+        //广度遍历：从target开始做图的广搜，统计第k层的节点数
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(target);
+        Set<TreeNode> set = new HashSet<>();
+        set.add(target);
+        int deep = 1;
+        while( ! queue.isEmpty() && deep<=k){
+            int size = queue.size();
+            while(size>0){
+                TreeNode node = queue.poll();
+                if(node==null) continue;
+                //父节点
+                TreeNode parent = map.get(node);
+                if(parent!=null && !set.contains(parent)){
+                   set.add(parent);
+                   if(deep==k) list.add(parent.val);
+                   queue.offer(parent);
+                }
+                //左节点
+                if(node.left!=null && !set.contains(node.left)){
+                    set.add(node.left);
+                    if(deep==k) list.add(node.left.val);
+                    queue.offer(node.left);
+                }
+                //右节点
+                if(node.right!=null && !set.contains(node.right)){
+                    set.add(node.right);
+                    if(deep==k) list.add(node.right.val);
+                    queue.offer(node.right);
+                }
+                size--;
+            }
+            deep++;
+        }
+        return list;
+    }
+    private void nodeToParent(TreeNode root, Map<TreeNode,TreeNode> map){
+        if(root==null) return;
+        if(root.left!=null){
+            map.put(root.left,root);
+            nodeToParent(root.left,map);
+        }
+        if(root.right!=null){
+            map.put(root.right,root);
+            nodeToParent(root.right,map);
+        }
     }
 
 }
