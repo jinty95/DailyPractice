@@ -189,4 +189,11 @@ public class SolutionTest1 {
         System.out.println(solution.distanceK(root,target,2));
     }
 
+    @Test
+    public void testPathInZigZagTree(){
+        System.out.println(solution.pathInZigZagTree(1));
+        System.out.println(solution.pathInZigZagTree(14));
+        System.out.println(solution.pathInZigZagTree(26));
+    }
+
 }

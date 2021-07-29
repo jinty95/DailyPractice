@@ -972,4 +972,28 @@ public class Solution1 {
         }
     }
 
+    /**
+     * 1104. 二叉树寻路
+     * 在一棵无限的二叉树上，每个节点都有两个子节点，树中的节点 逐行 依次按 “之” 字形进行标记。
+     * 在奇数行（即第一行、第三行、第五行……）中，按从左到右的顺序进行标记；
+     * 而偶数行（即第二行、第四行、第六行……）中，按从右到左的顺序进行标记。
+     * 给你树上某一个节点的标号 label，请你返回从根节点到该标号为 label 节点的路径，该路径是由途经的节点标号所组成的。
+     *
+     * @param label 标号
+     * @return 路径
+     */
+    public List<Integer> pathInZigZagTree(int label) {
+        //如果是正常标号的满二叉树，节点的父节点可以通过除2找到
+        //这里是之字形满二叉树，节点的父节点可以通过除2再求对称值找到
+        //将数字转为二进制形式，可以发现对称值的二进制存在规律：第一位保持，其它位翻转(100->111,101->110)
+        List<Integer> path = new ArrayList<>();
+        while(label>0){
+            path.add(label);
+            label /= 2;
+            label ^= Integer.highestOneBit(label)-1;
+        }
+        Collections.reverse(path);
+        return path;
+    }
+
 }
