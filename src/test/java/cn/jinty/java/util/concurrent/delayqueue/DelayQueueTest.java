@@ -31,7 +31,7 @@ public class DelayQueueTest {
             while( ! queue.isEmpty()){
                 //阻塞等待
                 Order order = queue.take();
-                System.out.println(order + " is cancel at " + DateUtil.YYYY_MM_DD_HH_MM_SS.format(new Date()));
+                System.out.println(order + " is cancel at " + DateUtil.format(new Date()));
             }
         } catch (InterruptedException e){
             e.printStackTrace();

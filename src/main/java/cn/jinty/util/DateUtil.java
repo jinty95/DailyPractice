@@ -26,10 +26,10 @@ public final class DateUtil {
     /**
      * 常用的时间格式
      */
-    public static final SimpleDateFormat YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static final SimpleDateFormat YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
-    public static final SimpleDateFormat YYYY_MM = new SimpleDateFormat("yyyy-MM");
-    public static final SimpleDateFormat YYYY = new SimpleDateFormat("yyyy");
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM = "yyyy-MM";
+    public static final String YYYY = "yyyy";
 
     /**
      * 解析时间字符串
@@ -38,7 +38,7 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr){
-        return parse(dateStr,YYYY_MM_DD_HH_MM_SS);
+        return parse(dateStr, new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS));
     }
 
     /**
@@ -65,7 +65,7 @@ public final class DateUtil {
      * @return 字符串
      */
     public static String format(Date date){
-        return format(date,YYYY_MM_DD_HH_MM_SS);
+        return format(date, new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS));
     }
 
     /**
@@ -234,8 +234,9 @@ public final class DateUtil {
      * @return 布尔
      */
     public static boolean isTheSameDate(Date date1,Date date2){
-        String date1Str = YYYY_MM_DD.format(date1);
-        String date2Str = YYYY_MM_DD.format(date2);
+        SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
+        String date1Str = sdf.format(date1);
+        String date2Str = sdf.format(date2);
         return date1Str.equals(date2Str);
     }
 

@@ -58,19 +58,15 @@ public class DateUtilTest {
 
     @Test
     public void testIsWithin24hAfter(){
-        try {
-            Date now = DateUtil.YYYY_MM_DD_HH_MM_SS.parse("2021-07-15 00:00:00");
-            Date begin1 = DateUtil.YYYY_MM_DD_HH_MM_SS.parse("2021-07-16 00:00:01");
-            Date begin2 = DateUtil.YYYY_MM_DD_HH_MM_SS.parse("2021-07-15 00:00:00");
-            Date begin3 = DateUtil.YYYY_MM_DD_HH_MM_SS.parse("2021-07-14 00:00:00");
-            Date begin4 = DateUtil.YYYY_MM_DD_HH_MM_SS.parse("2021-07-13 23:59:59");
-            System.out.println(DateUtil.isWithin24hAfter(now,begin1));
-            System.out.println(DateUtil.isWithin24hAfter(now,begin2));
-            System.out.println(DateUtil.isWithin24hAfter(now,begin3));
-            System.out.println(DateUtil.isWithin24hAfter(now,begin4));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Date now = DateUtil.parse("2021-07-15 00:00:00");
+        Date begin1 = DateUtil.parse("2021-07-16 00:00:01");
+        Date begin2 = DateUtil.parse("2021-07-15 00:00:00");
+        Date begin3 = DateUtil.parse("2021-07-14 00:00:00");
+        Date begin4 = DateUtil.parse("2021-07-13 23:59:59");
+        System.out.println(DateUtil.isWithin24hAfter(now,begin1));
+        System.out.println(DateUtil.isWithin24hAfter(now,begin2));
+        System.out.println(DateUtil.isWithin24hAfter(now,begin3));
+        System.out.println(DateUtil.isWithin24hAfter(now,begin4));
     }
 
     @Test

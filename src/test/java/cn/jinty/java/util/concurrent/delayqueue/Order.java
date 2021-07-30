@@ -33,8 +33,8 @@ public class Order implements Delayed {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", createTime=" + DateUtil.YYYY_MM_DD_HH_MM_SS.format(new Date(createTime)) +
-                ", cancelTime=" + DateUtil.YYYY_MM_DD_HH_MM_SS.format(new Date(cancelTime)) +
+                ", createTime=" + DateUtil.format(new Date(createTime)) +
+                ", cancelTime=" + DateUtil.format(new Date(cancelTime)) +
                 '}';
     }
 
