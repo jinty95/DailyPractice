@@ -344,4 +344,12 @@ public class SolutionTest {
         ));
     }
 
+    @Test
+    public void testKWeakestRows(){
+        System.out.println(Arrays.toString(solution.kWeakestRows(
+                new int[][]{{1,1,1,0},{1,1,0,0},{1,0,0,0},{0,0,0,0}},
+                3
+        )));
+    }
+
 }
