@@ -996,4 +996,90 @@ public class Solution1 {
         return path;
     }
 
+    /**
+     * 743. 网络延迟时间
+     * 有 n 个网络节点，标记为 1 到 n。给你一个列表 times，表示信号经过 有向 边的传递时间。
+     * times[i] = (ui, vi, wi)，其中 ui 是源节点，vi 是目标节点， wi 是一个信号从源节点传递到目标节点的时间。
+     * 现在，从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1 。
+     *
+     * @param times 网络节点传输时间
+     * @param n 节点数
+     * @param k 起点
+     * @return 延迟时间
+     */
+    public int networkDelayTime(int[][] times, int n, int k) {
+
+        /*//1、广度优先遍历
+        //使用哈希表保存(节点->后继节点集)
+        Map<Integer,Map<Integer,Integer>> timesMap = new HashMap<>();
+        for(int[] time : times){
+            Map<Integer,Integer> map = timesMap.computeIfAbsent(time[0],a->new HashMap<>());
+            map.put(time[1],time[2]);
+        }
+        int maxTime = 0;
+        //使用队列保存一个层级的节点集(节点值，当该节点的耗时)
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{k,0});
+        //保存已经被遍历的节点
+        Set<Integer> occurred = new HashSet<>();
+        occurred.add(k);
+        //进行层次遍历
+        while( ! queue.isEmpty()){
+            int size = queue.size();
+            for(int i=0;i<size;i++){
+                int[] node = queue.poll();
+                assert node != null;
+                //更新最长耗时
+                maxTime = Math.max(maxTime,node[1]);
+                //枚举当前节点的所有后继节点
+                Map<Integer,Integer> next = timesMap.get(node[0]);
+                if(next==null || next.size()==0) continue;
+                for(Integer key : next.keySet()){
+                    if(occurred.contains(key)) continue;
+                    queue.offer(new int[]{key,node[1]+next.get(key)});
+                    occurred.add(key);
+                }
+            }
+        }
+        //判断是否遍历了全部节点
+        return occurred.size()==n ? maxTime : -1;*/
+
+        //上述做法只能用于解决树型网络，对于图型网络会得到错误的结果
+
+        //2、Dijkstra算法
+        //求所有节点到 k 的最短路径，其中的最大值即为本题答案
+        final int INT_HALF = Integer.MAX_VALUE / 2;
+        //构建图
+        int[][] graph = new int[n][n];
+        for(int[] row : graph){
+            Arrays.fill(row, INT_HALF);
+        }
+        for(int[] time : times){
+            graph[time[0]-1][time[1]-1] = time[2];
+        }
+        //节点到 k 的最短路径
+        int[] distances = new int[n];
+        Arrays.fill(distances, INT_HALF);
+        distances[k-1] = 0;
+        boolean[] used = new boolean[n];
+        for (int i = 0; i < n; i++) {
+            //从未使用的节点中找到距离 k 最近的节点
+            int a = -1;
+            for (int b = 0; b < n; b++) {
+                if (!used[b] && (a == -1 || distances[b] < distances[a])) {
+                    a = b;
+                }
+            }
+            //将这个节点修改为已使用
+            used[a] = true;
+            //根据当前节点去更新其它的所有节点
+            for (int b = 0; b < n; b++) {
+                distances[b] = Math.min(distances[b], distances[a] + graph[a][b]);
+            }
+        }
+        int ans = Arrays.stream(distances).max().getAsInt();
+        return ans == INT_HALF ? -1 : ans;
+
+    }
+
 }
