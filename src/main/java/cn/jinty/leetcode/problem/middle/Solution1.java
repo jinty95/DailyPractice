@@ -1082,4 +1082,34 @@ public class Solution1 {
 
     }
 
+    /**
+     * 581. 最短无序连续子数组
+     * 给你一个整数数组 numbers ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
+     * 请你找出符合题意的 最短 子数组，并输出它的长度。
+     *
+     * @param numbers 数组
+     * @return 最短无序子数组
+     */
+    public int findUnsortedSubArray(int[] numbers) {
+        //双指针
+        //两次遍历寻找左右的两个有序区间，中间部分即为需要排序的子数组
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        int high = -1, low = -1;
+        //从左向右遍历，如果当前n[i]小于左边的最大值，那么这个n[i]肯定要重排序
+        for(int i=0;i<numbers.length;i++){
+            max = Math.max(max,numbers[i]);
+            if(max>numbers[i]){
+                high = i;
+            }
+        }
+        //从右向左遍历，如果当前n[i]大于右边的最小值，那么这个n[i]肯定要重排序
+        for(int i=numbers.length-1;i>=0;i--){
+            min = Math.min(min,numbers[i]);
+            if(min<numbers[i]){
+                low = i;
+            }
+        }
+        return high==low ? 0 : high-low+1;
+    }
+
 }

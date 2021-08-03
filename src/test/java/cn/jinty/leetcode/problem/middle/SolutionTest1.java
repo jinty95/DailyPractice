@@ -212,4 +212,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testFindUnsortedSubArray(){
+        System.out.println(solution.findUnsortedSubArray(new int[]{2,6,4,8,10,9,15}));
+        System.out.println(solution.findUnsortedSubArray(new int[]{1,2,3,4,5,6,7}));
+    }
+
 }
