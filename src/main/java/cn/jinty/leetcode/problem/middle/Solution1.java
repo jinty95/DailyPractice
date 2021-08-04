@@ -1112,4 +1112,62 @@ public class Solution1 {
         return high==low ? 0 : high-low+1;
     }
 
+    /**
+     * 611. 有效三角形的个数
+     * 给定一个包含非负整数的数组，你的任务是统计其中可以组成三角形三条边的三元组个数。
+     *
+     * @param numbers 边长数组(数组长度不超过1000)
+     * @return 组成三角形的三元组个数
+     */
+    public int triangleNumber(int[] numbers) {
+        /*//1、三层遍历：时间复杂度O(N^3)
+        int count = 0;
+        //排序
+        Arrays.sort(numbers);
+        //从小边开始枚举
+        for(int i=0;i<numbers.length-2;i++){
+            for(int j=i+1;j<numbers.length-1;j++){
+                for(int k=j+1;k<numbers.length;k++){
+                    //判断是否存在两边之和大于第三边，不满足则提前剪枝
+                    if(numbers[i]+numbers[j]>numbers[k]){
+                        //System.out.println(numbers[i]+" "+numbers[j]+" "+numbers[k]);
+                        count++;
+                    }else{
+                        break;
+                    }
+                }
+            }
+        }
+        return count;*/
+
+        //2、二分查找：时间复杂度O(N^2 * logN)
+        int count = 0;
+        //排序
+        Arrays.sort(numbers);
+        //从小边开始枚举
+        for(int i=0;i<numbers.length-2;i++){
+            for(int j=i+1;j<numbers.length-1;j++){
+                int idx = binarySearch(numbers, j+1, numbers.length-1, numbers[i]+numbers[j]);
+                if(idx>0){
+                    count += idx-j;
+                }
+            }
+        }
+        return count;
+    }
+    //在有序数组中二分查找，寻找第一个比target小的元素所在位置
+    private int binarySearch(int[] numbers, int left, int right, int target){
+        int idx = -1;
+        while(left<=right){
+            int mid = left + (right-left)/2;
+            if(target <= numbers[mid]){
+                right = mid - 1;
+            }else{
+                left = mid + 1;
+                idx = mid;
+            }
+        }
+        return idx;
+    }
+
 }

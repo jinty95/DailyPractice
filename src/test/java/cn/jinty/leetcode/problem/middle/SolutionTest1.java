@@ -218,4 +218,10 @@ public class SolutionTest1 {
         System.out.println(solution.findUnsortedSubArray(new int[]{1,2,3,4,5,6,7}));
     }
 
+    @Test
+    public void testTriangleNumber(){
+        System.out.println(solution.triangleNumber(new int[]{2,2,3,4}));
+        System.out.println(solution.triangleNumber(new int[]{1,2,3,4,5,6,7,8}));
+    }
+
 }
