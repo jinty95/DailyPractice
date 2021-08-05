@@ -1170,4 +1170,66 @@ public class Solution1 {
         return idx;
     }
 
+    /**
+     * 802. 找到最终的安全状态
+     * 在有向图中，以某个节点为起始节点，从该点出发，每一步沿着图中的一条有向边行走。如果到达的节点是终点（即它没有连出的有向边），则停止。
+     * 对于一个起始节点，如果从该节点出发，无论每一步选择沿哪条有向边行走，最后必然在有限步内到达终点，则将该起始节点称作是 安全 的。
+     * 返回一个由图中所有安全的起始节点组成的数组作为答案。答案数组中的元素应当按 升序 排列。
+     * 该有向图有 n 个节点，按 0 到 n - 1 编号，其中 n 是 graph 的节点数。
+     * 图以下述形式给出：graph[i] 是一个列表，graph[i][j] 是一个节点编号，(i,graph[i][j]) 是图的一条有向边。
+     *
+     * @param graph 图 (1 <= n <= 10^4)
+     * @return 安全点集
+     */
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        //1、循环标记，直到所有节点都被标记：时间复杂度最好为O(N)，最差为O(N^2)
+        //标记 i 是否为安全点：-1未知，0否，1是
+        int count = 0;
+        int[] isSafe = new int[graph.length];
+        //默认都标记为未知
+        Arrays.fill(isSafe, -1);
+        //一次循环如果没有任何点被标记，提前结束，避免死循环
+        boolean countChange = true;
+        while(countChange && count<graph.length){
+            countChange = false;
+            for(int i=0; i<isSafe.length; i++){
+                //节点已被标记则忽略
+                if(isSafe[i] != -1) continue;
+                if(graph[i].length==0){
+                    //节点没有后继
+                    isSafe[i] = 1;
+                    count++;
+                    countChange = true;
+                }else{
+                    //节点有后继，根据所有后继节点的标记判断当前节点的标记
+                    boolean flag = true;
+                    for(int j=0; j<graph[i].length; j++){
+                        if(isSafe[graph[i][j]]==-1){
+                            flag = false;
+                            break;
+                        }
+                        if(isSafe[graph[i][j]]==0){
+                            flag = false;
+                            isSafe[i] = 0;
+                            count++;
+                            countChange = true;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        isSafe[i] = 1;
+                        count++;
+                        countChange = true;
+                    }
+                }
+            }
+        }
+        //收集标记为安全的所有节点
+        List<Integer> ans = new ArrayList<>();
+        for(int i=0; i<isSafe.length; i++){
+            if(isSafe[i]==1) ans.add(i);
+        }
+        return ans;
+    }
+
 }

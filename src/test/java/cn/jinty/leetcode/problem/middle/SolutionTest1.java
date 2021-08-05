@@ -224,4 +224,13 @@ public class SolutionTest1 {
         System.out.println(solution.triangleNumber(new int[]{1,2,3,4,5,6,7,8}));
     }
 
+    @Test
+    public void testEventualSafeNodes(){
+        System.out.println(solution.eventualSafeNodes(
+                new int[][]{
+                        {1,2},{2,3},{5},{0},{5},{},{}
+                }
+        ));
+    }
+
 }
