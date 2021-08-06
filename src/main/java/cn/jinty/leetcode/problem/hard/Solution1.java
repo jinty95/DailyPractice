@@ -51,4 +51,47 @@ public class Solution1 {
         verticalTraversal(root.right, row+1, col+1, colMap);
     }
 
+    /**
+     * 847. 访问所有节点的最短路径
+     * 存在一个由 n 个节点组成的无向连通图，图中的节点按从 0 到 n - 1 编号。
+     * 给你一个数组 graph 表示这个图。其中，graph[i] 是一个列表，由所有与节点 i 直接相连的节点组成。
+     * 返回能够访问所有节点的最短路径的长度。你可以在任一节点开始和停止，也可以多次重访节点，并且可以重用边。
+     *
+     * @param graph 无向连通图 (1 <= n <= 12)
+     * @return 访问所有节点的最短路径
+     */
+    public int shortestPathLength(int[][] graph) {
+        //1、广度优先搜索
+        //定义三元组(cur,mask,len)，其中cur标识当前节点编号，mask标识已经过的节点列表，len标识累计路径长度
+        int n = graph.length;
+        //记录已经出现过的(cur,mask)，避免陷入重复计算与死循环
+        boolean[][] seen = new boolean[n][1<<n];
+        //默认情况下所有节点都为(i,2^i,0)
+        Queue<int[]> queue = new LinkedList<>();
+        for(int i=0; i<n; i++){
+            queue.offer(new int[]{i,1<<i,0});
+            seen[i][1<<i] = true;
+        }
+        //循环直到队列为空
+        int ans = 0;
+        while( ! queue.isEmpty()){
+            int[] triple = queue.poll();
+            //第一次出现所有节点都已被经过时，得到最短路径
+            if(triple[1]==(1<<n)-1){
+                ans = triple[2];
+                break;
+            }
+            //搜索相邻节点
+            for(int j : graph[triple[0]]){
+                //将mask的第j位置为1
+                int maskJ = triple[1] | (1<<j);
+                if( ! seen[j][maskJ]){
+                    queue.offer(new int[]{j,maskJ,triple[2]+1});
+                    seen[j][maskJ] = true;
+                }
+            }
+        }
+        return ans;
+    }
+
 }

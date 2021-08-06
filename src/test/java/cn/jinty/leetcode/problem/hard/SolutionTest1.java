@@ -21,4 +21,11 @@ public class SolutionTest1 {
         System.out.println(solution.verticalTraversal(root));
     }
 
+    @Test
+    public void testShortestPathLength(){
+        System.out.println(solution.shortestPathLength(
+                new int[][]{{1,2,3},{0},{0},{0}}
+        ));
+    }
+
 }
