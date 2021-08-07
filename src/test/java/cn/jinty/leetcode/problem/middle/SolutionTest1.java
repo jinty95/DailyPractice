@@ -233,4 +233,13 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testCircularArrayLoop(){
+        System.out.println(solution.circularArrayLoop(new int[]{1}));
+        System.out.println(solution.circularArrayLoop(new int[]{2,-1,1,2,2}));
+        System.out.println(solution.circularArrayLoop(new int[]{-1,-2,-3,-4,-5}));
+        System.out.println(solution.circularArrayLoop(new int[]{-2,-3,-9}));
+        System.out.println(solution.circularArrayLoop(new int[]{1,5,100}));
+    }
+
 }

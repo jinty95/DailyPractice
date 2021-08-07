@@ -407,7 +407,7 @@ public class Solution1 {
      * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
      * 必须 原地 修改，只允许使用额外常数空间。
      *
-     * @param numbers 数组 (1 <= nums.length <= 100)
+     * @param numbers 数组 (1 <= length <= 100)
      */
     public void nextPermutation(int[] numbers) {
         //从右向左，找到第一个下降点i
@@ -1230,6 +1230,90 @@ public class Solution1 {
             if(isSafe[i]==1) ans.add(i);
         }
         return ans;
+    }
+
+    /**
+     * 457. 环形数组是否存在循环
+     * 存在一个不含 0 的 环形 数组 numbers ，每个 numbers[i] 都表示位于下标 i 的角色应该向前或向后移动的下标个数：
+     * 如果 numbers[i] 是正数，向前 移动 numbers[i] 步
+     * 如果 numbers[i] 是负数，向后 移动 numbers[i] 步
+     * 因为数组是 环形 的，所以可以假设从最后一个元素向前移动一步会到达第一个元素，而第一个元素向后移动一步会到达最后一个元素。
+     * 数组中的 循环 由长度为 k 的下标序列 seq 组成：
+     * 1、遵循上述移动规则将导致重复下标序列 seq[0] -> seq[1] -> ... -> seq[k - 1] -> seq[0] -> ...
+     * 2、所有 numbers[seq[j]] 应当不是 全正 就是 全负
+     * 3、k > 1
+     *
+     * @param numbers 数组 (1 <= n <= 5000)
+     * @return 是否存在循环
+     */
+    public boolean circularArrayLoop(int[] numbers) {
+
+        /*//1、暴力搜索：时间复杂度O(N^2)
+        int n = numbers.length;
+        if(n==0 || n==1) return false;
+        //枚举起点
+        for(int i=0; i<n; i++){
+            //是否向前
+            boolean forward = numbers[i]>0;
+            //记录已经过的点
+            Set<Integer> seen = new HashSet<>();
+            seen.add(i);
+            //向下搜索
+            int j = i;
+            while(true){
+                //计算下一个点的位置
+                j = nextIndex(numbers, j);
+                //运行方向相反，直接终止
+                if(numbers[j]>0 != forward) break;
+                //判断是否出现重合
+                if(seen.contains(j)){
+                    if(seen.size()>1 && i==j) return true;
+                    break;
+                }else{
+                    seen.add(j);
+                }
+            }
+        }
+        return false;*/
+
+        //2、快慢指针：时间复杂度O(N)
+        //快指针走两步，慢指针走一步，如果存在环，那么两个指针最终一定会相遇
+        int n = numbers.length;
+        for(int i=0; i<n; i++){
+            //值为0直接忽略
+            if(numbers[i]==0) continue;
+            //定义快慢指针
+            int slow = i, fast = nextIndex(numbers,i);
+            //保证前进方向与初始方向一致，并且不会走到值为0的点
+            while(numbers[slow] * numbers[nextIndex(numbers,slow)]>0
+                    && numbers[fast] * numbers[nextIndex(numbers,fast)]>0
+                    && numbers[nextIndex(numbers,fast)] * numbers[nextIndex(numbers,nextIndex(numbers,fast))]>0){
+                //发现环
+                if(slow==fast){
+                    if(slow==nextIndex(numbers,slow)){
+                        break;
+                    }
+                    return true;
+                }
+                slow = nextIndex(numbers,slow);
+                fast = nextIndex(numbers,nextIndex(numbers,fast));
+            }
+            //将已访问过的不满足要求的节点对应的值置为0
+            int j=i;
+            while(numbers[j]*numbers[nextIndex(numbers,j)]>0){
+                //先通过j找到next，然后再把j对应的值置为0，顺序不能颠倒
+                int temp = j;
+                j = nextIndex(numbers,j);
+                numbers[temp] = 0;
+            }
+        }
+        return false;
+
+    }
+    //根据当前位置求下一个位置
+    private int nextIndex(int[] numbers, int cur){
+        int index = (cur + numbers[cur]) % numbers.length;
+        return index >= 0 ? index : index + numbers.length;
     }
 
 }
