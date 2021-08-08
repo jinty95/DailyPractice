@@ -352,4 +352,11 @@ public class SolutionTest {
         )));
     }
 
+    @Test
+    public void testTribonacci(){
+        System.out.println(solution.tribonacci(0));
+        System.out.println(solution.tribonacci(3));
+        System.out.println(solution.tribonacci(25));
+    }
+
 }
