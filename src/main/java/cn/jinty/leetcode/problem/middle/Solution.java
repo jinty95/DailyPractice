@@ -1872,6 +1872,38 @@ public class Solution {
     }
 
     /**
+     * 313. 超级丑数
+     * 超级丑数 是一个正整数，并满足其所有质因数都出现在质数数组 primes 中。
+     * 给你一个整数 n 和一个整数数组 primes ，返回第 n 个 超级丑数 。
+     * 题目数据保证第 n 个 超级丑数 在 32-bit 带符号整数范围内。
+     *
+     * @param n 序号(1 <= n <= 10^6)
+     * @param primes 质数数组(各不相同，按递增排序)
+     * @return 第n个超级丑数
+     */
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        //优先队列+哈希表
+        PriorityQueue<Long> queue = new PriorityQueue<>();
+        Set<Long> set = new HashSet<>();
+        //第一个丑数
+        queue.offer(1L);
+        set.add(1L);
+        long ugly = 1;
+        while(n>0){
+            ugly = queue.poll();
+            //每次弹出一个丑数，都与所有质数相乘再存回去
+            for(int prime : primes){
+                long nextUgly = ugly * prime;
+                if(set.add(nextUgly)){
+                    queue.offer(nextUgly);
+                }
+            }
+            n--;
+        }
+        return (int)ugly;
+    }
+
+    /**
      * 179. 最大数
      * 给定一组非负整数 nums，重新排列每个数的顺序（每个数不可拆分）使之组成一个最大的整数。
      * 注意：输出结果可能非常大，所以需要返回一个字符串而不是整数。

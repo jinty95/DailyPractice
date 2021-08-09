@@ -397,6 +397,12 @@ public class SolutionTest {
     }
 
     @Test
+    public void testNthSuperUglyNumber(){
+        System.out.println(solution.nthSuperUglyNumber(12,new int[]{2,7,13,19}));
+        System.out.println(solution.nthSuperUglyNumber(1,new int[]{2,3,5}));
+    }
+
+    @Test
     public void testLargestNumber(){
         int[] nums1 = {30,33,4,1,9,566};
         System.out.println(solution.largestNumber(nums1));
