@@ -242,4 +242,10 @@ public class SolutionTest1 {
         System.out.println(solution.circularArrayLoop(new int[]{1,5,100}));
     }
 
+    @Test
+    public void testNumberOfArithmeticSlices(){
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{1,2,3,4,5,6,7,8,9,10}));
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{1,2,3,4,5,6,7,8,10,12,14,16}));
+    }
+
 }
