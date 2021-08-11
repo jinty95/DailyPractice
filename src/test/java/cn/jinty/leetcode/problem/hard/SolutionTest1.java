@@ -28,4 +28,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testNumberOfArithmeticSlices(){
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{1,2,3}));
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{2,4,6,8,10}));
+    }
+
 }

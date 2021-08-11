@@ -94,4 +94,40 @@ public class Solution1 {
         return ans;
     }
 
+    /**
+     * 446. 等差数列划分 II - 子序列
+     * 给你一个整数数组 numbers ，返回 numbers 中 等差子序列 的数目。
+     * 如果一个序列中 至少有三个元素 ，并且任意两个相邻元素之差相同，则称该序列为等差序列。
+     * 数组中的子序列是从数组中删除一些元素（也可能不删除）得到的一个序列。
+     * 例如，[2,5,10] 是 [1,2,1,2,4,1,5,10] 的一个子序列。
+     * 题目数据保证答案是一个 32-bit 整数。
+     *
+     * @param numbers 数组
+     * @return 等差子序列数目
+     */
+    @SuppressWarnings("unchecked")
+    public int numberOfArithmeticSlices(int[] numbers) {
+        //动态规划
+        int ans = 0;
+        int n = numbers.length;
+        //dp[i][d]表示尾项为numbers[i]，公差为d的等差子序列的个数
+        Map<Long, Integer>[] dp = new Map[n];
+        for(int i = 0; i < n; i++){
+            dp[i] = new HashMap<>();
+        }
+        //双层循环：i为尾项，j为倒数第二项
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < i; j++){
+                long d = (long) numbers[i] - numbers[j];
+                //存在count个以j为尾项的等差子序列
+                int count = dp[j].getOrDefault(d, 0);
+                //等差子序列数量增加count
+                ans += count;
+                //以i为结尾的等差子序列与j对接后，以i为结尾的等差子序列数量增加count+1
+                dp[i].put(d, dp[i].getOrDefault(d, 0) + count + 1);
+            }
+        }
+        return ans;
+    }
+
 }
