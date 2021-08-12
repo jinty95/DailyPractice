@@ -248,4 +248,10 @@ public class SolutionTest1 {
         System.out.println(solution.numberOfArithmeticSlices(new int[]{1,2,3,4,5,6,7,8,10,12,14,16}));
     }
 
+    @Test
+    public void testLongestPalindromeSubSeq(){
+        System.out.println(solution.longestPalindromeSubSeq("hello"));
+        System.out.println(solution.longestPalindromeSubSeq("bbbab"));
+    }
+
 }

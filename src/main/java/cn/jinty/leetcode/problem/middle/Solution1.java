@@ -1348,4 +1348,44 @@ public class Solution1 {
         return count;
     }
 
+    /**
+     * 516. 最长回文子序列
+     * 给你一个字符串 s ，找出其中最长的回文子序列，并返回该序列的长度。
+     * 子序列定义为：不改变剩余字符顺序的情况下，删除某些字符或者不删除任何字符形成的一个序列。
+     *
+     * @param s 字符串
+     * @return 最长回文子序列长度
+     */
+    public int longestPalindromeSubSeq(String s) {
+        //1、动态规划：时间复杂度O(N^2)，空间复杂度O(N^2)
+        char[] arr = s.toCharArray();
+        //dp[i][j]表示s[i..j]的最长回文子序列长度
+        int[][] dp = new int[arr.length][arr.length];
+        //长度为1
+        for(int i=0; i<arr.length; i++){
+            dp[i][i] = 1;
+        }
+        //长度为2
+        for(int i=0; i<arr.length-1; i++){
+            if(arr[i]==arr[i+1]){
+                dp[i][i+1] = 2;
+            }else{
+                dp[i][i+1] = 1;
+            }
+        }
+        //长度大于2
+        for(int len=2; len<arr.length; len++){
+            for(int i=0; i<arr.length-len; i++){
+                int j=i+len;
+                //递推方程
+                if(arr[i]==arr[j]){
+                    dp[i][j] = dp[i+1][j-1] + 2;
+                }else{
+                    dp[i][j] = Math.max(dp[i][j-1],dp[i+1][j]);
+                }
+            }
+        }
+        return dp[0][arr.length-1];
+    }
+
 }
