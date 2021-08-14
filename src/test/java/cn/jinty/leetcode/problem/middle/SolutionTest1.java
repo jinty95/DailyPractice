@@ -254,4 +254,18 @@ public class SolutionTest1 {
         System.out.println(solution.longestPalindromeSubSeq("bbbab"));
     }
 
+    @Test
+    public void testUnhappyFriends(){
+        System.out.println(solution.unhappyFriends(
+                4,
+                new int[][]{{1, 2, 3},{3, 2, 0},{3, 1, 0},{1, 2, 0}},
+                new int[][]{{0, 1},{2, 3}}
+        ));
+        System.out.println(solution.unhappyFriends(
+                6,
+                new int[][]{{1,4,3,2,5},{0,5,4,3,2},{3,0,1,5,4},{2,1,4,0,5},{2,1,0,3,5},{3,4,2,0,1}},
+                new int[][]{{3,1},{2,0},{5,4}}
+        ));
+    }
+
 }
