@@ -268,4 +268,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testFindPaths(){
+        System.out.println(solution.findPaths(2,2,2,0,0));
+        System.out.println(solution.findPaths(1,3,3,0,1));
+        System.out.println(solution.findPaths(7,6,13,0,2));
+    }
 }

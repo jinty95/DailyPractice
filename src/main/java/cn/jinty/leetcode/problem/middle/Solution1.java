@@ -1442,4 +1442,77 @@ public class Solution1 {
         return unhappy;
     }
 
+    /**
+     * 576. 出界的路径数
+     * 给你一个大小为 m x n 的网格和一个球。球的起始坐标为 [startRow, startColumn] 。
+     * 你可以将球移到在四个方向上相邻的单元格内（可以穿过网格边界到达网格之外）。你 最多 可以移动 maxMove 次球。
+     * 给你五个整数 m、n、maxMove、startRow 以及 startColumn ，找出并返回可以将球移出边界的路径数量。
+     * 因为答案可能非常大，返回对 10^9 + 7 取余 后的结果。
+     *
+     * @param m 行 (1 <= m <= 50)
+     * @param n 列 (1 <= n <= 50)
+     * @param maxMove 最大移动次数 (0 <= maxMove <= 50)
+     * @param startRow 起始行
+     * @param startColumn 起始列
+     * @return 出界的路径数
+     */
+    public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+
+        /*//1、广度优先遍历：时间复杂度O(4 ^ maxMove)
+        final int MOD = 1000000007;
+        int count = 0;
+        int[] row = {-1,0,1,0};
+        int[] col = {0,-1,0,1};
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{startRow,startColumn});
+        while(maxMove>0){
+            int size = queue.size();
+            for(int i=0; i<size; i++){
+                int[] cur = queue.poll();
+                assert cur != null;
+                for(int j=0; j<row.length; j++){
+                    int nextRow = cur[0]+row[j];
+                    int nextCol = cur[1]+col[j];
+                    if(nextRow<0 || nextRow>=m || nextCol<0 || nextCol>=n){
+                        count = (count + 1) % MOD;
+                    }else{
+                        queue.offer(new int[]{nextRow,nextCol});
+                    }
+                }
+            }
+            maxMove--;
+        }
+        return count;*/
+
+        //上述做法复杂度太高，执行超时
+
+        //2、动态规划：时间复杂度O(m * n * maxMove)
+        final int MOD = 1000000007;
+        int count = 0;
+        //定义三维数组，dp[i][j][k]表示经过i次移动后，终点位于(j,k)的路径数
+        int[][][] dp = new int[maxMove+1][m][n];
+        //边界
+        dp[0][startRow][startColumn] = 1;
+        //移动方向
+        int[] row = new int[]{-1,0,1,0};
+        int[] col = new int[]{0,-1,0,1};
+        //三层遍历
+        for(int i=1; i<=maxMove; i++){
+            for(int j=0; j<m; j++){
+                for(int k=0; k<n; k++){
+                    for(int a=0; a<row.length; a++){
+                        int nextRow = j+row[a];
+                        int nextCol = k+col[a];
+                        if(nextRow<0 || nextRow==m || nextCol<0 || nextCol==n){
+                            count = (count + dp[i-1][j][k]) % MOD;
+                        }else{
+                            dp[i][nextRow][nextCol] = (dp[i][nextRow][nextCol] + dp[i-1][j][k]) % MOD;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
 }
