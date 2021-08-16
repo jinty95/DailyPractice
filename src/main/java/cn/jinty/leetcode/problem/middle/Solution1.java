@@ -1515,4 +1515,40 @@ public class Solution1 {
         return count;
     }
 
+    /**
+     * 526. 优美的排列
+     * 假设有从 1 到 N 的 N 个整数，如果从这 N 个数字中成功构造出一个数组，使得数组的第 i 位 (1 <= i <= N) 满足如下两个条件中的一个，我们就称这个数组为一个优美的排列。条件：
+     * 1、第 i 位的数字能被 i 整除
+     * 2、i 能被第 i 位上的数字整除
+     * 现在给定一个整数 N，请问可以构造多少个优美的排列？
+     *
+     * @param n 整数 (0<=n<=15)
+     * @return 优美排列的数量
+     */
+    public int countArrangement(int n) {
+        //递归回溯：时间复杂度O(N!)，通过剪枝降低复杂度
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = i+1;
+        }
+        countArrangement(arr, 0);
+        return arrangementCount;
+    }
+    //优美排列的数量
+    private int arrangementCount = 0;
+    //递归回溯：枚举所有的排列情况
+    private void countArrangement(int[] arr, int begin){
+        if(begin==arr.length){
+            arrangementCount++;
+        }
+        for(int i=begin; i<arr.length; i++){
+            //满足优美的条件，则交换元素，然后递归，回溯时将元素复原
+            if(arr[i]%(begin+1)==0 || (begin+1)%arr[i]==0){
+                swap(arr, begin, i);
+                countArrangement(arr, begin+1);
+                swap(arr, begin, i);
+            }
+        }
+    }
+
 }

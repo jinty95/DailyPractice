@@ -274,4 +274,11 @@ public class SolutionTest1 {
         System.out.println(solution.findPaths(1,3,3,0,1));
         System.out.println(solution.findPaths(7,6,13,0,2));
     }
+
+    @Test
+    public void testCountArrangement(){
+        System.out.println(solution.countArrangement(2));
+        System.out.println(solution.countArrangement(15));
+    }
+
 }
