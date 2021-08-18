@@ -34,4 +34,11 @@ public class SolutionTest1 {
         System.out.println(solution.numberOfArithmeticSlices(new int[]{2,4,6,8,10}));
     }
 
+    @Test
+    public void testCheckRecord(){
+        System.out.println(solution.checkRecord(1));
+        System.out.println(solution.checkRecord(2));
+        System.out.println(solution.checkRecord(10101));
+    }
+
 }
