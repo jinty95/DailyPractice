@@ -359,4 +359,11 @@ public class SolutionTest {
         System.out.println(solution.tribonacci(25));
     }
 
+    @Test
+    public void testReverseVowels(){
+        System.out.println(solution.reverseVowels("hello"));
+        System.out.println(solution.reverseVowels("leetcode"));
+        System.out.println(solution.reverseVowels("Aa"));
+    }
+
 }

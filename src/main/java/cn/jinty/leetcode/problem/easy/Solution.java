@@ -1423,4 +1423,40 @@ public class Solution {
         return tribonacci(result+a+b, result, a, n-1);
     }
 
+    /**
+     * 345. 反转字符串中的元音字母
+     * 编写一个函数，以字符串作为输入，反转该字符串中的元音字母。
+     *
+     * @param s 字符串
+     * @return 反转元音
+     */
+    public String reverseVowels(String s) {
+        //1、双指针：时间复杂度O(N)
+        char[] arr = s.toCharArray();
+        int left = 0, right = s.length()-1;
+        while(left<right){
+            if(isVowel(arr[left]) && isVowel(arr[right])){
+                swap(arr, left++, right--);
+            }else{
+                if( ! isVowel(arr[left])){
+                    left++;
+                }
+                if( ! isVowel(arr[right])){
+                    right--;
+                }
+            }
+        }
+        return new String(arr);
+    }
+    private boolean isVowel(char c){
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
+                || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
+    }
+    private void swap(char[] arr, int a, int b){
+        if(a==b) return;
+        arr[a] ^= arr[b];
+        arr[b] ^= arr[a];
+        arr[a] ^= arr[b];
+    }
+
 }
