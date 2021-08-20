@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class ColorFactory {
 
-    private static Map<String,Color> map = new HashMap<>();
+    private static final Map<String,Color> map = new HashMap<>();
 
     public static Color getColor(String name){
         Color color = map.get(name);

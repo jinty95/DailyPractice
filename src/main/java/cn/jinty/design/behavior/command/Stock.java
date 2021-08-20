@@ -1,7 +1,7 @@
 package cn.jinty.design.behavior.command;
 
 /**
- * 股票
+ * 股票 - 资源和动作
  *
  * @author Jinty
  * @date 2020/7/17.

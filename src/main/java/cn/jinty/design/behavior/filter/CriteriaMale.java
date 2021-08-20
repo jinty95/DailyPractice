@@ -23,4 +23,5 @@ public class CriteriaMale implements Criteria{
         }
         return list;
     }
+
 }

@@ -8,7 +8,7 @@ package cn.jinty.design.behavior.command;
  */
 public class StockBuy implements Order{
 
-    private Stock stock = new Stock();
+    private final Stock stock = new Stock();
 
     @Override
     public void execute() {

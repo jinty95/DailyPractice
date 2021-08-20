@@ -16,7 +16,7 @@ public class Test {
         List<Person> peoples = new ArrayList<>();
         peoples.add(new Person("Mike",20,"Male","Single"));
         peoples.add(new Person("Lucy",26,"Female","Married"));
-        peoples.add(new Person("Rebacca",23,"Female","Single"));
+        peoples.add(new Person("Rebecca",23,"Female","Single"));
 
         Criteria criteriaMale = new CriteriaMale();
         Criteria criteriaSingle = new CriteriaSingle();

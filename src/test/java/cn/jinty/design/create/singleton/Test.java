@@ -11,20 +11,21 @@ import java.lang.reflect.Constructor;
 public class Test {
 
     public static void main(String[] args) {
+
         //单例模式
-        Singleton s1 = Singleton.instance();
+        Singleton s1 = Singleton.getInstance();
         System.out.println(s1);
-        Singleton s2 = Singleton.instance();
+        Singleton s2 = Singleton.getInstance();
         System.out.println(s2);
-        Singleton s3 = Singleton.instance();
+        Singleton s3 = Singleton.getInstance();
         System.out.println(s3);
 
         //单例模式漏洞
         try{
-            Constructor<Singleton> c = Singleton.class.getDeclaredConstructor(null);
+            Constructor<Singleton> c = Singleton.class.getDeclaredConstructor((Class<?>) null);
             c.setAccessible(true);
-            Singleton singleton1 = (Singleton) c.newInstance();
-            Singleton singleton2 = (Singleton) c.newInstance();
+            Singleton singleton1 = c.newInstance();
+            Singleton singleton2 = c.newInstance();
             System.out.println(singleton1);
             System.out.println(singleton2);
         }catch (Exception e){

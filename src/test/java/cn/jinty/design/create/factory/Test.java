@@ -24,4 +24,5 @@ public class Test {
         Shape shape2 = factory2.getShape(Shape.SHAPE_SQUARE);
         shape2.draw();
     }
+
 }

@@ -7,5 +7,12 @@ package cn.jinty.design.behavior.observer;
  * @date 2020/7/17.
  */
 public interface Observer {
-    void update(String msg);
+
+    /**
+     * 观察者接收通知
+     *
+     * @param msg 通知
+     */
+    void notify(String msg);
+
 }

@@ -13,8 +13,8 @@ public class Test {
         Data data1 = new Data();
         data1.setId("111");
         data1.setName("我的数据");
-        Data data2 = (Data) data1.clone();
         System.out.println(data1);
+        Data data2 = (Data) data1.clone();
         System.out.println(data2);
     }
 

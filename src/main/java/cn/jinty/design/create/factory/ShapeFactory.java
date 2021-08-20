@@ -14,7 +14,7 @@ public class ShapeFactory extends AbstractFactory{
     /**
      * 获取形状对象
      * @param name 类路径
-     * @return
+     * @return 对象
      */
     public Shape getShape(String name){
         Shape s = null;

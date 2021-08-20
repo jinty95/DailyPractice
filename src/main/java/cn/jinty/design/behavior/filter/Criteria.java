@@ -10,6 +10,12 @@ import java.util.List;
  */
 public interface Criteria {
 
+    /**
+     * 过滤出符合标准的对象列表
+     *
+     * @param persons 输入列表
+     * @return 输出列表
+     */
     List<Person> meetCriteria(List<Person> persons);
 
 }

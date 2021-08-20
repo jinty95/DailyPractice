@@ -1,7 +1,7 @@
 package cn.jinty.design.behavior.strategy;
 
 /**
- * 运算 - 加
+ * 运算实现 - 加
  *
  * @author Jinty
  * @date 2020/7/17.
@@ -9,7 +9,8 @@ package cn.jinty.design.behavior.strategy;
 public class OperationAdd implements Operation{
 
     @Override
-    public int doOperation(int num1, int num2) {
+    public long doOperation(int num1, int num2) {
         return num1 + num2;
     }
+
 }

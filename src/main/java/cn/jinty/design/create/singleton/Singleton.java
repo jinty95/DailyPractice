@@ -19,7 +19,7 @@ public class Singleton {
     }
 
     //共有方法获取唯一实例
-    public static Singleton instance(){
+    public static Singleton getInstance(){
         //双检锁
         if(singleton ==null){
             //懒加载创建实例，加锁保证只创建一个

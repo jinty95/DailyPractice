@@ -6,6 +6,7 @@ package cn.jinty.design.behavior.filter;
  * @author Jinty
  * @date 2020/7/16.
  */
+@SuppressWarnings("unused")
 public class Person {
 
     private String name;

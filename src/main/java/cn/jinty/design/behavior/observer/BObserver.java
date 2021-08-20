@@ -8,11 +8,9 @@ package cn.jinty.design.behavior.observer;
  */
 public class BObserver implements Observer{
 
-    private String msg;
-
     @Override
-    public void update(String msg) {
-        this.msg = msg;
-        System.out.println(String.format("I am B Observer,I receive a new message [%s]",this.msg));
+    public void notify(String msg) {
+        System.out.printf("I am B Observer,I receive a new message [%s]%n", msg);
     }
+
 }

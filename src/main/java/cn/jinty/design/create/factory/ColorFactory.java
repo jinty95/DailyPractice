@@ -13,8 +13,8 @@ public class ColorFactory extends AbstractFactory{
 
     /**
      * 获取颜色对象
-     * @param name
-     * @return
+     * @param name 类路径
+     * @return 对象
      */
     public Color getColor(String name){
         Color color = null;

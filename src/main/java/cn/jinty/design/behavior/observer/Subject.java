@@ -11,30 +11,38 @@ import java.util.Set;
  */
 public class Subject {
 
+    //资源
     private String msg;
 
-    private Set<Observer> set;
+    //观察者集合
+    private Set<Observer> observerSet;
 
+    //构造器
     public Subject(){
-        set = new HashSet<>();
+        observerSet = new HashSet<>();
     }
 
+    //注册观察者
     public void subscribe(Observer observer){
-        set.add(observer);
+        observerSet.add(observer);
     }
 
+    //下线观察者
     public void unsubscribe(Observer observer){
-        set.remove(observer);
+        observerSet.remove(observer);
     }
 
+    //更新资源
     public void setMsg(String msg){
         this.msg = msg;
         notifyObserver();
     }
 
+    //发送通知
     private void notifyObserver(){
-        set.forEach(one -> {
-            one.update(this.msg);
+        observerSet.forEach(one -> {
+            one.notify(this.msg);
         });
     }
+
 }

@@ -23,4 +23,5 @@ public class CriteriaSingle implements Criteria{
         }
         return list;
     }
+
 }

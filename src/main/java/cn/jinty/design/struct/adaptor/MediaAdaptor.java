@@ -8,14 +8,13 @@ package cn.jinty.design.struct.adaptor;
  */
 public class MediaAdaptor implements MediaPlayer{
 
-    private AdvancedMediaPlayer advancedMediaPlayer;
-
     @Override
     public void play(String audioType, String fileName) {
-        if("Vlc".equalsIgnoreCase(audioType)){
+        AdvancedMediaPlayer advancedMediaPlayer;
+        if("VLC".equalsIgnoreCase(audioType)){
             advancedMediaPlayer = new VlcPlayer();
             advancedMediaPlayer.playVlc(fileName);
-        }else if("Mp4".equalsIgnoreCase(audioType)){
+        }else if("MP4".equalsIgnoreCase(audioType)){
             advancedMediaPlayer = new Mp4Player();
             advancedMediaPlayer.playMp4(fileName);
         }else{

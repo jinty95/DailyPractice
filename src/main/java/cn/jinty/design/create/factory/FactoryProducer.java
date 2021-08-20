@@ -10,8 +10,8 @@ public class FactoryProducer {
 
     /**
      * 生成工厂
-     * @param name
-     * @return
+     * @param name 类路径
+     * @return 工厂
      */
     public static AbstractFactory getFactory(String name){
         AbstractFactory factory = null;
@@ -22,4 +22,5 @@ public class FactoryProducer {
         }
         return factory;
     }
+
 }

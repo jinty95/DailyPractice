@@ -18,4 +18,5 @@ public class Test {
         subject.unsubscribe(B);
         subject.setMsg("今天是个好日子");
     }
+
 }
