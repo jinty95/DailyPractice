@@ -366,4 +366,10 @@ public class SolutionTest {
         System.out.println(solution.reverseVowels("Aa"));
     }
 
+    @Test
+    public void testReverseStr(){
+        System.out.println(solution.reverseStr("hello",2));
+        System.out.println(solution.reverseStr("congratulation",2));
+    }
+
 }

@@ -1459,4 +1459,38 @@ public class Solution {
         arr[a] ^= arr[b];
     }
 
+    /**
+     * 541. 反转字符串 II
+     * 给定一个字符串 s 和一个整数 k，从字符串开头算起，每 2k 个字符反转前 k 个字符。
+     * 如果剩余字符少于 k 个，则将剩余字符全部反转。
+     * 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+     *
+     * @param s 字符串
+     * @param k 整数
+     * @return 反转字符串
+     */
+    public String reverseStr(String s, int k) {
+        //1、双指针：时间复杂度O(N)
+        char[] arr = s.toCharArray();
+        int left = 0, right = k-1;
+        while(left<s.length()){
+            if(right>=s.length()){
+                right = s.length()-1;
+            }
+            reverse(arr, left, right);
+            left = left + k + k;
+            right = right + k + k;
+        }
+        return new String(arr);
+    }
+    private void reverse(char[] arr, int begin, int end){
+        while(begin<end){
+            arr[begin] ^= arr[end];
+            arr[end] ^= arr[begin];
+            arr[begin] ^= arr[end];
+            begin++;
+            end--;
+        }
+    }
+
 }
