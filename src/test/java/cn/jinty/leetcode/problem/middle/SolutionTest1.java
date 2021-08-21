@@ -281,4 +281,11 @@ public class SolutionTest1 {
         System.out.println(solution.countArrangement(15));
     }
 
+    @Test
+    public void testCompress(){
+        System.out.println(solution.compress(new char[]{'a','b','b','c','c'}));
+        System.out.println(solution.compress(new char[]{'a','b','b','b'}));
+        System.out.println(solution.compress(new char[]{'a','a','b','b','b','c','c','c','c','c','c'}));
+    }
+
 }

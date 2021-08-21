@@ -1551,4 +1551,53 @@ public class Solution1 {
         }
     }
 
+    /**
+     * 443. 压缩字符串
+     * 给你一个字符数组 chars ，请使用下述算法压缩：
+     * 从一个空字符串 s 开始。对于 chars 中的每组 连续重复字符 ：
+     * 如果这一组长度为 1 ，则将字符追加到 s 中。
+     * 否则，需要向 s 追加字符，后跟这一组的长度。
+     * 压缩后得到的字符串 s 不应该直接返回 ，需要转储到字符数组 chars 中。需要注意的是，如果组长度为 10 或 10 以上，则在 chars 数组中会被拆分为多个字符。
+     * 请在 修改完输入数组后 ，返回该数组的新长度。
+     * 你必须设计并实现一个只使用常量额外空间的算法来解决此问题。
+     *
+     * @param chars 字符数组
+     * @return 压缩后的长度
+     */
+    public int compress(char[] chars) {
+        //双指针：时间复杂度O(N)
+        int ans = 0;
+        //左指针标识可写位置，右指针用于扫描字符数组
+        int left = 0, right = 1;
+        //保留前一个字符及其数量
+        char pre = chars[0];
+        int count = 1;
+        while(right <= chars.length){
+            if(right == chars.length || chars[right]!=pre){
+                //字符
+                chars[left++] = pre;
+                //数量
+                if(count==1){
+                    ans += 1;
+                }else{
+                    String countStr = String.valueOf(count);
+                    count = 1;
+                    for(int i=0; i<countStr.length(); i++){
+                        chars[left++] = countStr.charAt(i);
+                    }
+                    ans += countStr.length() + 1;
+                }
+                //重置前一个字符
+                if(right != chars.length){
+                    pre = chars[right];
+                }
+            }else{
+                //相同字符，数量增一
+                count++;
+            }
+            right++;
+        }
+        return ans;
+    }
+
 }
