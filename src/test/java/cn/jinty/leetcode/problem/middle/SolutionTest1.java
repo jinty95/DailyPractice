@@ -288,4 +288,11 @@ public class SolutionTest1 {
         System.out.println(solution.compress(new char[]{'a','a','b','b','b','c','c','c','c','c','c'}));
     }
 
+    @Test
+    public void testEscapeGhosts(){
+        System.out.println(solution.escapeGhosts(
+                new int[][]{{1,0},{0,3}}, new int[]{0,1}
+        ));
+    }
+
 }
