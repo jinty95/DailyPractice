@@ -1629,4 +1629,63 @@ public class Solution1 {
         return Math.abs(start[0]-target[0]) + Math.abs(start[1]-target[1]);
     }
 
+    /**
+     * 787. K 站中转内最便宜的航班
+     * 有 n 个城市通过一些航班连接。给你一个数组 flights ，其中 flights[i] = [fromI, toI, priceI] ，
+     * 表示该航班都从城市 fromI 开始，以价格 priceI 抵达 toI。现在给定所有的城市和航班，以及出发城市 src 和目的地 dst，
+     * 你的任务是找到出一条最多经过 k 站中转的路线，使得从 src 到 dst 的 价格最便宜 ，并返回该价格。
+     * 如果不存在这样的路线，则输出 -1。
+     *
+     * @param n 城市数量
+     * @param flights 航班
+     * @param src 起点
+     * @param dst 终点
+     * @param k 中转次数
+     * @return 最低价格
+     */
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        //1、广度优先遍历
+        int minPrice = Integer.MAX_VALUE;
+        //收集终点站
+        Set<Integer> set = new HashSet<>();
+        //收集(起点->航班)映射
+        Map<Integer, List<int[]>> map = new HashMap<>();
+        for(int[] flight : flights){
+            List<int[]> list = map.computeIfAbsent(flight[0], a->new ArrayList<>());
+            list.add(flight);
+            set.add(flight[1]);
+        }
+        //判断是否能到终点
+        if( ! set.contains(dst)) return -1;
+        //通过队列做层次遍历，最多k层
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{src,0});
+        while( k>=0 && ! queue.isEmpty()){
+            int size = queue.size();
+            //System.out.println("k=" + k + ", queue.size="+size);
+            for(int i=0; i<size; i++){
+                //当前站
+                int[] cur = queue.poll();
+                //下一站集合
+                List<int[]> list = map.get(cur[0]);
+                if(list != null){
+                    for(int[] flight : list){
+                        //下一站及累计价格
+                        int[] next = new int[2];
+                        next[0] = flight[1];
+                        next[1] = cur[1] + flight[2];
+                        //判断是否到达目的地，如果未到达但是价格已超出当前已知最低价，则提前剪枝
+                        if(next[0]==dst){
+                            minPrice = Math.min(minPrice, next[1]);
+                        }else if(next[1] < minPrice){
+                            queue.offer(next);
+                        }
+                    }
+                }
+            }
+            k--;
+        }
+        return minPrice == Integer.MAX_VALUE ? -1 : minPrice;
+    }
+
 }
