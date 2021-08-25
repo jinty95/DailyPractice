@@ -327,4 +327,13 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testAllPathsSourceTarget(){
+        System.out.println(solution.allPathsSourceTarget(
+                new int[][]{
+                        {4,3,1},{3,2,4},{3},{4},{}
+                }
+        ));
+    }
+
 }

@@ -1688,4 +1688,53 @@ public class Solution1 {
         return minPrice == Integer.MAX_VALUE ? -1 : minPrice;
     }
 
+    /**
+     * 797. 所有可能的路径
+     * 给你一个有 n 个节点的 有向无环图（DAG），请你找出所有从节点 0 到节点 n-1 的路径并输出（不要求按特定顺序）
+     * 二维数组的第 i 个数组中的单元都表示有向图中 i 号节点所能到达的下一些节点，空就是没有下一个结点了。
+     * 译者注：有向图是有方向的，即规定了 a→b 你就不能从 b→a 。
+     *
+     * @param graph 图
+     * @return 路径
+     */
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        //1、广度优先搜索
+        List<List<Integer>> pathList = new ArrayList<>();
+        //将图转为(起点->下一个节点列表)映射
+        Map<Integer, int[]> map = new HashMap<>();
+        for(int i=0; i<graph.length; i++){
+            map.put(i,graph[i]);
+        }
+        //使用队列保存过程中的路径
+        Queue<List<Integer>> queue = new LinkedList<>();
+        //路径起点
+        List<Integer> start = new ArrayList<>();
+        start.add(0);
+        queue.add(start);
+        //层次遍历
+        while( ! queue.isEmpty()){
+            int size = queue.size();
+            for(int i=0; i<size; i++){
+                //当前路径
+                List<Integer> cur = queue.poll();
+                //所有下一个节点列表
+                int[] nextArr = map.get(cur.get(cur.size()-1));
+                if(nextArr!=null){
+                    for(int next : nextArr){
+                        //更新路径
+                        List<Integer> path = new ArrayList<>(cur);
+                        path.add(next);
+                        //到达终点则记录，否则入队列
+                        if(next==graph.length-1){
+                            pathList.add(path);
+                        }else{
+                            queue.offer(path);
+                        }
+                    }
+                }
+            }
+        }
+        return pathList;
+    }
+
 }
