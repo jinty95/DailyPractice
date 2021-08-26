@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.TreeNode;
+import cn.jinty.util.ArrayUtil;
 
 import java.util.*;
 
@@ -1735,6 +1736,82 @@ public class Solution1 {
             }
         }
         return pathList;
+    }
+
+    /**
+     * 881. 救生艇
+     * 第 i 个人的体重为 people[i]，每艘船可以承载的最大重量为 limit。
+     * 每艘船最多可同时载两人，但条件是这些人的重量之和最多为 limit。
+     * 返回载到每一个人所需的最小船数。(保证每个人都能被船载)。
+     *
+     * @param people 体重 (1 <= people.length <= 50000)
+     * @param limit 船的载重 (1 <= people[i] <= limit <= 30000)
+     * @return 最小船数
+     */
+    public int numRescueBoats(int[] people, int limit) {
+
+        /*//1、二分查找：时间复杂度O(N^2 * logN)
+        Arrays.sort(people);
+        //最大船数
+        int max = people.length;
+        //最小船数
+        int min = (people.length % 2 == 0) ? people.length / 2 : people.length / 2 + 1;
+        while(min < max){
+            int mid = min + (max-min)/2;
+            //根据mid只船能否完成载送任务，判断是增加船数还是减少船数
+            if(canRescue(people,limit,mid)){
+                max = mid;
+            }else{
+                min = mid + 1;
+            }
+        }
+        return min;*/
+
+        //上述做法由于判断船数能否符号要求这一步复杂度较高，执行超时
+
+        //2、贪心：时间复杂度O(NlogN)
+        Arrays.sort(people);
+        int count = 0;
+        int left = 0, right = people.length-1;
+        while(left<=right){
+            if(people[left]+people[right]<=limit){
+                //最重和最轻能够坐一艘船
+                count += 1;
+                left++;
+                right--;
+            }else{
+                //最重和最轻不能坐一艘船，那么最重只能自己坐一艘船
+                count += 1;
+                right--;
+            }
+        }
+        return count;
+
+    }
+    //使用boatNum只船能否完成载送任务
+    @SuppressWarnings("unused")
+    private boolean canRescue(int[] people, int limit, int boatNum){
+        //每只船最多载两人，承重limit
+        int[][] load = new int[boatNum][2];
+        for(int i=0; i<boatNum; i++){
+            load[i] = new int[2];
+        }
+        //为每个人分配船
+        for(int i=people.length-1; i>=0; i--){
+            boolean carry = false;
+            //寻找可用的船
+            for(int[] l : load){
+                if(l[0]<2 && l[1]+people[i]<=limit){
+                    carry = true;
+                    l[0] += 1;
+                    l[1] += people[i];
+                    break;
+                }
+            }
+            //当一个人不能被分配到船，说明无法完成载送任务，提前返回
+            if( ! carry) return false;
+        }
+        return true;
     }
 
 }

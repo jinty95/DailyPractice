@@ -336,4 +336,17 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testNumRescueBoats(){
+        System.out.println(solution.numRescueBoats(
+                new int[]{1,2}, 3
+        ));
+        System.out.println(solution.numRescueBoats(
+                new int[]{3,3,4,5}, 5
+        ));
+        System.out.println(solution.numRescueBoats(
+                new int[]{3,3,1,2}, 3
+        ));
+    }
+
 }
