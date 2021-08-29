@@ -372,4 +372,11 @@ public class SolutionTest {
         System.out.println(solution.reverseStr("congratulation",2));
     }
 
+    @Test
+    public void testSumOddLengthSubArrays(){
+        System.out.println(solution.sumOddLengthSubArrays(
+                new int[]{1,4,2,5,3}
+        ));
+    }
+
 }

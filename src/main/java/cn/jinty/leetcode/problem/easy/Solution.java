@@ -1493,4 +1493,32 @@ public class Solution {
         }
     }
 
+    /**
+     * 1588. 所有奇数长度子数组的和
+     * 给你一个正整数数组 arr ，请你计算所有可能的奇数长度子数组的和。
+     * 子数组 定义为原数组中的一个连续子序列。
+     * 请你返回 arr 中 所有奇数长度子数组的和 。
+     *
+     * @param arr 数组
+     * @return 奇数长度子数组的和
+     */
+    public int sumOddLengthSubArrays(int[] arr) {
+        //前缀和
+        if(arr==null || arr.length==0) return 0;
+        int[] preSum = new int[arr.length];
+        preSum[0] = arr[0];
+        for(int i=1; i<arr.length; i++){
+            preSum[i] = preSum[i-1] + arr[i];
+        }
+        //长度为1的子数组和
+        int oddSum = preSum[arr.length-1];
+        //长度为3及以上的子数组和
+        for(int len=3; len<=arr.length; len+=2){
+            for(int i=0; i+len<=arr.length; i++){
+                oddSum += preSum[i+len-1] - (i==0 ? 0 : preSum[i-1]);
+            }
+        }
+        return oddSum;
+    }
+
 }
