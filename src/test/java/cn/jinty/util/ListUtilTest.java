@@ -23,6 +23,17 @@ public class ListUtilTest {
     }
 
     @Test
+    public void testPage(){
+        List<Integer> list = ListUtil.asList(1,2,3,4,5,6,7,8,9);
+        System.out.println(ListUtil.page(list,1,3));
+        System.out.println(ListUtil.page(list,2,3));
+        System.out.println(ListUtil.page(list,3,3));
+        System.out.println(ListUtil.page(list,4,3));
+        System.out.println(ListUtil.page(list,1,6));
+        System.out.println(ListUtil.page(list,2,6));
+    }
+
+    @Test
     public void testAsList(){
         List<Integer> list1 = ListUtil.asList(1,2,3);
         System.out.println(list1);

@@ -19,7 +19,7 @@ public final class ListUtil {
      * @param <T> 泛型
      * @return 分组结果
      */
-    public static <T> List<List<T>> splitByNum(List<T> list,int num){
+    public static <T> List<List<T>> splitByNum(List<T> list, int num){
         List<List<T>> splitList = new ArrayList<>();
         if(list.isEmpty()){
             return splitList;
@@ -34,6 +34,36 @@ public final class ListUtil {
             splitList.add(oneList);
         }
         return splitList;
+    }
+
+    /**
+     * 列表分页
+     *
+     * @param list 列表
+     * @param pageNum 页码
+     * @param pageSize 页面大小
+     * @param <T> 泛型
+     * @return 单页数据
+     */
+    public static <T> List<T> page(List<T> list, int pageNum, int pageSize){
+        //输入校验
+        if(pageNum<0 || pageSize<0){
+            throw new IllegalArgumentException("pageNum or pageSize must great than 0");
+        }
+        if(isEmpty(list)){
+            return new ArrayList<>();
+        }
+        //起始索引
+        int pageStart = (pageNum - 1) * pageSize;
+        if(pageStart >= list.size()){
+            return new ArrayList<>();
+        }
+        //终止索引
+        int pageEnd = pageStart + pageSize;
+        if(pageEnd > list.size()){
+            pageEnd = list.size();
+        }
+        return list.subList(pageStart, pageEnd);
     }
 
     /**
