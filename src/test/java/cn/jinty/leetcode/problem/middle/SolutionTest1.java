@@ -349,4 +349,11 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testCorpFlightBookings(){
+        System.out.println(Arrays.toString(solution.corpFlightBookings(
+                new int[][]{{1, 2, 10}, {2, 3, 20}, {2, 5, 25}}, 5
+        )));
+    }
+
 }
