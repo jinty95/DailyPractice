@@ -356,4 +356,12 @@ public class SolutionTest1 {
         )));
     }
 
+    @Test
+    public void testCompareVersion(){
+        System.out.println(solution.compareVersion("1.0","1"));
+        System.out.println(solution.compareVersion("1.0.002","1.0.2"));
+        System.out.println(solution.compareVersion("1.0.0024","1.0.2"));
+        System.out.println(solution.compareVersion("0.0.001","0.1.001"));
+    }
+
 }
