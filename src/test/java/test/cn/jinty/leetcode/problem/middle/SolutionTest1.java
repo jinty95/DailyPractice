@@ -365,4 +365,13 @@ public class SolutionTest1 {
         System.out.println(solution.compareVersion("0.0.001","0.1.001"));
     }
 
+    @Test
+    public void testRand10(){
+        System.out.println(solution.rand10());
+        System.out.println(solution.rand10());
+        System.out.println(solution.rand10());
+        System.out.println(solution.rand10());
+        System.out.println(solution.rand10());
+    }
+
 }
