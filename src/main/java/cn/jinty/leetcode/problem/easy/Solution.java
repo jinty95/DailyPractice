@@ -399,7 +399,7 @@ public class Solution {
      * 返回转换后的单向链表的头节点。
      *
      * @param root 二叉搜索树
-     * @return 用二叉搜索树表示链表(left==null的二叉搜索树)
+     * @return 用二叉搜索树表示链表
      */
     public TreeNode convertBiNode(TreeNode root) {
         //节点空不处理
@@ -1519,6 +1519,37 @@ public class Solution {
             }
         }
         return oddSum;
+    }
+
+    /**
+     * 1221. 分割平衡字符串
+     * 在一个 平衡字符串 中，'L' 和 'R' 字符的数量是相同的。
+     * 给你一个平衡字符串 s，请你将它分割成尽可能多的平衡字符串。
+     * 注意：分割得到的每个字符串都必须是平衡字符串。
+     * 返回可以通过分割得到的平衡字符串的 最大数量 。
+     *
+     * @param s 字符串
+     * @return 最大分割数量
+     */
+    public int balancedStringSplit(String s) {
+        int ans = 0;
+        char pre = s.charAt(0);
+        int count = 1;
+        for(int i=1; i<s.length(); i++){
+            if(s.charAt(i)==pre){
+                count++;
+            }else{
+                count--;
+            }
+            if(count==0){
+                ans++;
+                if(i<s.length()-1){
+                    pre = s.charAt(++i);
+                    count = 1;
+                }
+            }
+        }
+        return ans;
     }
 
 }

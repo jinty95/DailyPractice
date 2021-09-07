@@ -144,12 +144,15 @@ public class SolutionTest {
     public void testGetLeastNumbers(){
         int[] arr = {9,8,7,6,5,4,3,2,1,0};
         System.out.println(Arrays.toString(solution.getLeastNumbers(arr,4)));
+        System.out.println(Arrays.toString(solution.getLeastNumbers(arr,1)));
     }
 
     @Test
     public void testHammingWeight(){
         System.out.println(Integer.bitCount(31));
         System.out.println(solution.hammingWeight(31));
+        System.out.println(Integer.bitCount(15));
+        System.out.println(solution.hammingWeight(15));
     }
 
     @Test
@@ -199,6 +202,7 @@ public class SolutionTest {
     public void testRemoveElement(){
         int[] arr = new int[]{1,1,1,1,1,4,5,6,8};
         System.out.println(solution.removeElement(arr,1));
+        System.out.println(solution.removeElement(arr,8));
     }
 
     @Test
@@ -251,6 +255,7 @@ public class SolutionTest {
         list.add(new Employee(3,7,null));
         list.add(new Employee(4,8,null));
         System.out.println(solution.getImportance(list,1));
+        System.out.println(solution.getImportance(list,2));
     }
 
     @Test
@@ -278,6 +283,7 @@ public class SolutionTest {
         root.left = new TreeNode(3);
         root.right = new TreeNode(7);
         System.out.println(solution.isCousins(root,3,7));
+        System.out.println(solution.isCousins(root,5,3));
     }
 
     @Test
@@ -289,6 +295,7 @@ public class SolutionTest {
     @Test
     public void testReadBinaryWatch(){
         System.out.println(solution.readBinaryWatch(1));
+        System.out.println(solution.readBinaryWatch(4));
     }
 
     @Test
@@ -347,9 +354,12 @@ public class SolutionTest {
 
     @Test
     public void testKWeakestRows(){
+        int[][] arr = new int[][]{{1,1,1,0},{1,1,0,0},{1,0,0,0},{0,0,0,0}};
         System.out.println(Arrays.toString(solution.kWeakestRows(
-                new int[][]{{1,1,1,0},{1,1,0,0},{1,0,0,0},{0,0,0,0}},
-                3
+                arr, 3
+        )));
+        System.out.println(Arrays.toString(solution.kWeakestRows(
+                arr, 1
         )));
     }
 
@@ -369,7 +379,7 @@ public class SolutionTest {
 
     @Test
     public void testReverseStr(){
-        System.out.println(solution.reverseStr("hello",2));
+        System.out.println(solution.reverseStr("hello",1));
         System.out.println(solution.reverseStr("congratulation",2));
     }
 
@@ -378,6 +388,12 @@ public class SolutionTest {
         System.out.println(solution.sumOddLengthSubArrays(
                 new int[]{1,4,2,5,3}
         ));
+    }
+
+    @Test
+    public void testBalancedStringSplit(){
+        System.out.println(solution.balancedStringSplit("RLRRLLRLRL"));
+        System.out.println(solution.balancedStringSplit("LR"));
     }
 
 }

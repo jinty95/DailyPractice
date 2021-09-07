@@ -11,9 +11,9 @@ import org.junit.Test;
 public class DeadLockTest {
 
     //对象锁1
-    public static final Object lock1 = new Object();
+    private static final Object lock1 = new Object();
     //对象锁2
-    public static final Object lock2 = new Object();
+    private static final Object lock2 = new Object();
 
     //由于锁嵌套及锁交替导致死锁
     @Test
