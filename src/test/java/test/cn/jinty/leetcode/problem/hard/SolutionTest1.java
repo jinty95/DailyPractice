@@ -42,4 +42,10 @@ public class SolutionTest1 {
         System.out.println(solution.checkRecord(10101));
     }
 
+    @Test
+    public void testFindMaximizedCapital(){
+        System.out.println(solution.findMaximizedCapital(2,0,new int[]{1,2,3},new int[]{0,1,1}));
+        System.out.println(solution.findMaximizedCapital(2,2,new int[]{1,2,3},new int[]{0,1,1}));
+    }
+
 }

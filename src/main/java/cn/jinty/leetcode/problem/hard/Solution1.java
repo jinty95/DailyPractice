@@ -176,4 +176,80 @@ public class Solution1 {
         return ans;
     }
 
+    /**
+     * 502. IPO
+     * 假设 力扣 即将开始 IPO 。为了以更高的价格将股票卖给风险投资公司，力扣 希望在 IPO 之前开展一些项目以增加其资本。
+     * 由于资源有限，它只能在 IPO 之前完成最多 k 个不同的项目。帮助 力扣 设计完成最多 k 个不同项目后得到最大总资本的方式。
+     * 给你 n 个项目。对于每个项目 i ，它都有一个纯利润 profits[i] ，和启动该项目需要的最小资本 capital[i] 。
+     * 最初，你的资本为 w 。当你完成一个项目时，你将获得纯利润，且利润将被添加到你的总资本中。
+     * 总而言之，从给定项目中选择 最多 k 个不同项目的列表，以 最大化最终资本 ，并输出最终的总资本。
+     * 答案保证在 32 位有符号整数范围内。
+     *
+     * @param k 最大项目数量
+     * @param w 启动资本
+     * @param profits 项目及其收益
+     * @param capital 项目及其成本
+     * @return 最终的总资本
+     */
+    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+
+        /*//1、贪心算法：时间复杂度O(kn)
+        //将成本和收益合在一起
+        int n = profits.length;
+        int[][] projects = new int[n][2];
+        for(int i=0; i<n; i++){
+            projects[i] = new int[]{capital[i],profits[i]};
+        }
+        //按收益降序，收益相同时按成本升序
+        Arrays.sort(projects, (o1,o2)->{
+            if(o1[1]==o2[1]) return o1[0]-o2[0];
+            return o2[1]-o1[1];
+        });
+        //记录已投项目
+        boolean[] invested = new boolean[n];
+        //从高收益开始投资，每完成一个投资，本金增大，重新从高收益开始投资，直到投够k个项目或者无法继续投资
+        boolean flag = true;
+        while(k>0 && flag){
+            flag = false;
+            for(int i=0; i<n; i++){
+                if(invested[i]) continue;
+                if(w < projects[i][0]) continue;
+                w += projects[i][1];
+                invested[i] = true;
+                flag = true;
+                k--;
+                break;
+            }
+        }
+        return w;*/
+
+        //上述做法时间复杂度很高，执行超时
+
+        //2、贪心算法+大根堆：时间复杂度(O(N*logN+K*logN))
+        int n = profits.length;
+        int[][] projects = new int[n][2];
+        for(int i=0; i<n; i++){
+            projects[i] = new int[]{capital[i],profits[i]};
+        }
+        //按成本升序
+        Arrays.sort(projects, Comparator.comparingInt(o -> o[0]));
+        //大根堆按利润降序
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2)->o2-o1);
+        //把所有能投的项目都放入大根堆，然后投利润最高的项目，更新本金，重复这个过程
+        int i=0;
+        while(k>0){
+            while(i<n && w>=projects[i][0]){
+                pq.offer(projects[i][1]);
+                i++;
+            }
+            if(pq.isEmpty()){
+                return w;
+            }
+            w += pq.poll();
+            k--;
+        }
+        return w;
+
+    }
+
 }
