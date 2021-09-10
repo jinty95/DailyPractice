@@ -252,4 +252,81 @@ public class Solution1 {
 
     }
 
+    /**
+     * 68. 文本左右对齐
+     * 给定一个单词数组和一个长度 maxWidth，重新排版单词，使其成为每行恰好有 maxWidth 个字符，且左右两端对齐的文本。
+     * 你应该使用“贪心算法”来放置给定的单词；也就是说，尽可能多地往每行中放置单词。必要时可用空格 ' ' 填充，使得每行恰好有 maxWidth 个字符。
+     * 要求尽可能均匀分配单词间的空格数量。如果某一行单词间的空格不能均匀分配，则左侧放置的空格数要多于右侧的空格数。
+     * 文本的最后一行应为左对齐，且单词之间不插入额外的空格。
+     * 说明:
+     * 单词是指由非空格字符组成的字符序列。
+     * 每个单词的长度大于 0，小于等于 maxWidth。
+     * 输入单词数组 words 至少包含一个单词。
+     *
+     * @param words 单词数组
+     * @param maxWidth 文本宽度
+     * @return 对齐结果(不改变原单词先后顺序)
+     */
+    public List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> list = new ArrayList<>();
+        //当前行宽
+        int curWidth = 0;
+        //当前行单词组
+        List<String> curList = new ArrayList<>();
+        for(int i = 0; i < words.length; i++){
+            //判断当前单词能否加入当前行
+            if(curWidth == 0 || curWidth + curList.size() + words[i].length() <= maxWidth){
+                //单词加入当前行
+                curList.add(words[i]);
+                curWidth += words[i].length();
+            }else{
+                //生成当前行对齐文本
+                StringBuilder sb = new StringBuilder();
+                if(curList.size() == 1){
+                    //单个单词，只须左对齐，右边补空格
+                    sb.append(curList.get(0));
+                    for(int k = 0; k < maxWidth - curWidth; k++){
+                        sb.append(' ');
+                    }
+                }else{
+                    //多个单词，须左右对齐，中间平均插入空格
+                    int blankNum = maxWidth - curWidth;
+                    int intervalNum = curList.size() - 1;
+                    int averageNum = blankNum / intervalNum;
+                    int remainNum = blankNum % intervalNum;
+                    for(int j = 0; j < curList.size(); j++){
+                        sb.append(curList.get(j));
+                        if(j < curList.size()-1){
+                            for(int k = 0; k < averageNum; k++){
+                                sb.append(' ');
+                            }
+                            if(remainNum>0){
+                                sb.append(' ');
+                                remainNum--;
+                            }
+                        }
+                    }
+                }
+                list.add(sb.toString());
+                //清空当前行数据
+                curWidth = 0;
+                curList.clear();
+                i--;
+            }
+        }
+        //最后一行
+        StringBuilder sb = new StringBuilder();
+        for(int j = 0; j < curList.size(); j++){
+            sb.append(curList.get(j));
+            if(j < curList.size()-1){
+                sb.append(' ');
+            }
+        }
+        for(int k = 0; k < maxWidth - curWidth - curList.size() + 1; k++){
+            sb.append(' ');
+        }
+        list.add(sb.toString());
+        return list;
+    }
+
 }
