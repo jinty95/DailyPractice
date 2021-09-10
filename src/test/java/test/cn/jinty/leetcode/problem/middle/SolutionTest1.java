@@ -374,4 +374,14 @@ public class SolutionTest1 {
         System.out.println(solution.rand10());
     }
 
+    @Test
+    public void testChalkReplacer(){
+        System.out.println(solution.chalkReplacer(
+                new int[]{5,1,5}, 22
+        ));
+        System.out.println(solution.chalkReplacer(
+                new int[]{3,4,1,2}, 25
+        ));
+    }
+
 }
