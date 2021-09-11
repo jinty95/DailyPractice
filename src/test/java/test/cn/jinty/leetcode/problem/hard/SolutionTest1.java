@@ -67,4 +67,10 @@ public class SolutionTest1 {
         }
     }
 
+    @Test
+    public void testFindIntegers(){
+        System.out.println(solution.findIntegers(5));
+        System.out.println(solution.findIntegers(100));
+    }
+
 }

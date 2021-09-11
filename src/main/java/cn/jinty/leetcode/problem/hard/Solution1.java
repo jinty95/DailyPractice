@@ -329,4 +329,57 @@ public class Solution1 {
         return list;
     }
 
+    /**
+     * 600. 不含连续1的非负整数
+     * 给定一个正整数 n，找出小于或等于 n 的非负整数中，其二进制表示不包含 连续的1 的个数。
+     *
+     * @param n 正整数 (1 <= n <= 10^9)
+     * @return 小于等于n且不含连续1的非负整数个数
+     */
+    public int findIntegers(int n) {
+
+        /*//1、枚举：时间复杂度O(n)
+        int count = 0;
+        for(int i = 0; i <= n; i++){
+            if((i & (i >> 1)) == 0){
+                count++;
+            }
+        }
+        return count;*/
+
+        //上述做法时间复杂度过高，执行超时
+
+        //2、动态规划：时间复杂度O(log(n))
+        //将小于等于 n 的所有数用 01 前缀树表示，n 即为前缀树的右轮廓
+        //定义 dp[i] 表示高度为 i 、根结点为 0 的满二叉树中，不包含连续 1 的从根结点到叶结点的路径数量
+        int[] dp = new int[31];
+        dp[0] = 1; dp[1] = 1;
+        for(int i = 2; i < 31; i++){
+            //根为0，左子0，右子10
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        int pre = 0; int ans = 0;
+        //遍历 n 的每一位
+        for(int i = 29; i >= 0; i--){
+            int val = 1 << i;
+            if((n & val) != 0){
+                //当前高度 n 的位为 1 ，则同样高度位为 0 的数都小于 n
+                ans += dp[i+1];
+                //发现连续 1 ，直接终止
+                if(pre==1){
+                    break;
+                }
+                pre = 1;
+            }else{
+                pre = 0;
+            }
+            //叶子节点没有子节点，单独处理
+            if(i == 0){
+                ans++;
+            }
+        }
+        return ans;
+
+    }
+
 }
