@@ -1952,4 +1952,42 @@ public class Solution1 {
         return -1;
     }
 
+    /**
+     * 524. 通过删除字母匹配到字典里最长单词
+     * 给你一个字符串 s 和一个字符串数组 dictionary 作为字典，
+     * 找出并返回字典中最长的字符串，该字符串可以通过删除 s 中的某些字符得到。
+     * 如果答案不止一个，返回长度最长且字典序最小的字符串。如果答案不存在，则返回空字符串。
+     *
+     * @param s 字符串 (1 <= s.length <= 1000)
+     * @param dictionary 字典 (1 <= dictionary.length <= 1000)
+     * @return 通过删除字母匹配到字典里最长单词
+     */
+    public String findLongestWord(String s, List<String> dictionary) {
+        if (s == null || dictionary == null || dictionary.isEmpty()) return "";
+        //字典内字符串排序
+        dictionary.sort(((o1, o2) -> {
+            if (o1.length() == o2.length()) return o1.compareTo(o2);
+            return o2.length() - o1.length();
+        }));
+        //遍历字典，判断字符串是否可由s删除字母获得
+        for (String one : dictionary) {
+            if (one.length() > s.length()) continue;
+            if (one.length() == s.length()) {
+                if (one.equals(s)) return one;
+                continue;
+            }
+            if (isSubSequence(one, s)) return one;
+        }
+        return "";
+    }
+    //判断sub是否为s的子序列
+    private boolean isSubSequence(String sub, String s){
+        int i = 0, j = 0;
+        while (i < sub.length() && j < s.length()) {
+            if (sub.charAt(i) == s.charAt(j)) i++;
+            j++;
+        }
+        return i == sub.length();
+    }
+
 }

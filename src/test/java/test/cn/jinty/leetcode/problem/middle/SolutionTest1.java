@@ -384,4 +384,14 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testFindLongestWord(){
+        System.out.println(solution.findLongestWord(
+                "abpcplea", ListUtil.asList("ale","apple","monkey","plea")
+        ));
+        System.out.println(solution.findLongestWord(
+                "abc", ListUtil.asList("a","b","c")
+        ));
+    }
+
 }
