@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.hard;
 
 import cn.jinty.struct.tree.TreeNode;
+import cn.jinty.struct.tree.Trie;
 
 import java.util.*;
 
@@ -380,6 +381,65 @@ public class Solution1 {
         }
         return ans;
 
+    }
+
+    /**
+     * 212. 单词搜索 II
+     * 给定一个 m x n 二维字符网格 board 和一个单词（字符串）列表 words，找出所有同时在二维网格和字典中出现的单词。
+     * 单词必须按照字母顺序，通过 相邻的单元格 内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。
+     * 同一个单元格内的字母在一个单词中不允许被重复使用。
+     *
+     * @param board 二维网格
+     * @param words 单词组(字典)
+     * @return 所有同时在二维网格和字典中出现的单词
+     */
+    public List<String> findWords(char[][] board, String[] words) {
+        //前缀树 + 回溯
+        Set<String> ans = new HashSet<>();
+        Set<Long> locates = new HashSet<>();
+        //1、根据words构建前缀树
+        Trie trie = new Trie();
+        for (String word : words) {
+            trie.insert(word);
+        }
+        //2、对board做回溯
+        for (int i = 0; i < board.length; i++){
+            for (int j = 0; j < board[0].length; j++){
+                backtrack(board, locates, i, j, trie, new StringBuilder(), ans);
+            }
+        }
+        return new ArrayList<>(ans);
+    }
+    //回溯
+    private void backtrack(char[][] board, Set<Long> locates, int i, int j, Trie trie, StringBuilder word, Set<String> ans) {
+        //超出边界
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return;
+        //保存坐标，防止重复
+        Long locate = (long)i << 32 | (long)j & 0xFFFFFFFFL;
+        if (locates.contains(locate)) return;
+        locates.add(locate);
+        //增加字符
+        word.append(board[i][j]);
+        //搜索前缀
+        Trie.TrieNode trieNode = trie.find(word.toString());
+        //前缀不存在，可提前剪枝
+        if (trieNode == null) {
+            word.deleteCharAt(word.length()-1);
+            locates.remove(locate);
+            return;
+        }
+        //前缀存在，判断是否命中单词
+        if (trieNode.flag) {
+            ans.add(word.toString());
+        }
+        //递归
+        backtrack(board, locates, i-1, j, trie, word, ans);
+        backtrack(board, locates, i, j-1, trie, word, ans);
+        backtrack(board, locates, i+1, j, trie, word, ans);
+        backtrack(board, locates, i, j+1, trie, word, ans);
+        //回溯
+        word.deleteCharAt(word.length()-1);
+        locates.remove(locate);
     }
 
 }
