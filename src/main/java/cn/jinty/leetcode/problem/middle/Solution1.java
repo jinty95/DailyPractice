@@ -2,6 +2,7 @@ package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.util.ArrayUtil;
+import cn.jinty.util.MathUtil;
 
 import java.util.*;
 
@@ -1988,6 +1989,25 @@ public class Solution1 {
             j++;
         }
         return i == sub.length();
+    }
+
+    /**
+     * 650. 只有两个键的键盘
+     * 最初记事本上只有一个字符 'A' 。你每次可以对这个记事本进行两种操作：
+     * Copy All（复制全部）：复制这个记事本中的所有字符（不允许仅复制部分字符）。
+     * Paste（粘贴）：粘贴 上一次 复制的字符。
+     * 给你一个数字 n ，你需要使用最少的操作次数，在记事本上输出 恰好 n 个 'A' 。
+     * 返回能够打印出 n 个 'A' 的最少操作次数。
+     *
+     * @param n 'A'的数量
+     * @return 最少操作次数
+     */
+    public int minSteps(int n) {
+        if (n < 2) return 0;
+        //分解最小质因数
+        int minPrimeFactor = MathUtil.minPrimeFactor(n);
+        //递归
+        return minSteps(n / minPrimeFactor) + minPrimeFactor;
     }
 
 }

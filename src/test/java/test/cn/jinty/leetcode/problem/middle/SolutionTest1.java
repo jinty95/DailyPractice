@@ -394,4 +394,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testMinSteps() {
+        System.out.println(solution.minSteps(5));
+        System.out.println(solution.minSteps(100));
+    }
+
 }

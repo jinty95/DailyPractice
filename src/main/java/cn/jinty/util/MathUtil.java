@@ -58,6 +58,27 @@ public final class MathUtil {
     }
 
     /**
+     * 获取最小质因数
+     *
+     * @param num 数字
+     * @return 最小质因数
+     */
+    public static int minPrimeFactor(int num) {
+        if (num < 2) {
+            throw new IllegalArgumentException("num must great than 1");
+        }
+        int i = 2;
+        while (i <= num) {
+            if (num % i == 0) {
+                return i;
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 用一个long存储两个int
      *
      * @param h 高位
