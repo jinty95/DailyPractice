@@ -396,4 +396,10 @@ public class SolutionTest {
         System.out.println(solution.balancedStringSplit("LR"));
     }
 
+    @Test
+    public void testLengthOfLastWord() {
+        System.out.println(solution.lengthOfLastWord("hello world "));
+        System.out.println(solution.lengthOfLastWord("good job"));
+    }
+
 }

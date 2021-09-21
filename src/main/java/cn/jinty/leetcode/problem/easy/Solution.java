@@ -1552,4 +1552,30 @@ public class Solution {
         return ans;
     }
 
+    /**
+     * 58. 最后一个单词的长度
+     * 给你一个字符串 s，由若干单词组成，单词前后用一些空格字符隔开。返回字符串中最后一个单词的长度。
+     * 单词 是指仅由字母组成、不包含任何空格字符的最大子字符串。
+     *
+     * @param s 字符串
+     * @return 最后一个单词的长度
+     */
+    public int lengthOfLastWord(String s) {
+        //双指针：从末尾向前遍历，用左右指针截取一个单词，然后跳出循环
+        int left = -1, right = -1;
+        boolean lastBlank = true;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i)==' ') {
+                if (lastBlank) continue;
+                break;
+            }
+            if (right == -1) {
+                lastBlank = false;
+                right = i;
+            }
+            left = i;
+        }
+        return right - left + 1;
+    }
+
 }
