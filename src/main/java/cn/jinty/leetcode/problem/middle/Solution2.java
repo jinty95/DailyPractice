@@ -50,4 +50,37 @@ public class Solution2 {
         return count;
     }
 
+    /**
+     * 583. 两个字符串的删除操作
+     * 给定两个单词 word1 和 word2，找到使得 word1 和 word2 相同所需的最小步数，
+     * 每步可以删除任意一个字符串中的一个字符。
+     *
+     * @param word1 单词1
+     * @param word2 单词2
+     * @return 最小步数
+     */
+    public int minDistance(String word1, String word2) {
+        // 求最大公共子序列
+        int maxCommonSubSeq = maxCommonSubSeq(word1, word2);
+        return word1.length() - maxCommonSubSeq + word2.length() - maxCommonSubSeq;
+    }
+    // 通过动态规划求最大公共子序列的长度
+    private int maxCommonSubSeq(String word1, String word2) {
+        if (word1 == null || word2 == null || word1.length() == 0 || word2.length() == 0) {
+            return 0;
+        }
+        // dp[i][j]表示word1[0...i-1]与word2[0...j-1]的最大公共子序列的长度
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
+        for (int i = 0; i < word1.length(); i++) {
+            for (int j = 0; j < word2.length(); j++) {
+                if (word1.charAt(i) == word2.charAt(j)) {
+                    dp[i + 1][j + 1] = dp[i][j] + 1;
+                } else {
+                    dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+                }
+            }
+        }
+        return dp[word1.length()][word2.length()];
+    }
+
 }

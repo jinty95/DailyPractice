@@ -20,4 +20,10 @@ public class SolutionTest2 {
         System.out.println(solution.findNumberOfLIS(new int[]{1,2,4,3,5,4,7,2}));
     }
 
+    @Test
+    public void testMinDistance() {
+        System.out.println(solution.minDistance("sea","eat"));
+        System.out.println(solution.minDistance("hello","hell"));
+    }
+
 }
