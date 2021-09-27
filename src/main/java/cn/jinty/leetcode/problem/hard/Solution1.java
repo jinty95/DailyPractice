@@ -3,6 +3,7 @@ package cn.jinty.leetcode.problem.hard;
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.struct.tree.Trie;
 
+import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -440,6 +441,69 @@ public class Solution1 {
         //回溯
         word.deleteCharAt(word.length()-1);
         locates.remove(locate);
+    }
+
+    /**
+     * 639. 解码方法 II
+     * 一条包含字母 A-Z 的消息通过以下的方式进行了编码：
+     * 'A' -> 1, 'B' -> 2, ..., 'Z' -> 26
+     * 除了上面描述的数字字母映射方案，编码消息中可能包含 '*' 字符，可以表示从 '1' 到 '9' 的任一数字(不包括 '0')。
+     * 给你一个字符串 s ，由数字和 '*' 字符组成，返回解码该字符串的方法数目。
+     * 由于答案数目可能非常大，返回对 10^9 + 7 取余的结果。
+     *
+     * @param s 字符串 (1 <= s.length <= 10^5)
+     * @return 解码方法
+     */
+    public int numDecoding(String s) {
+        // 动态规划：时间复杂度O(N)，空间复杂度O(N)
+        final int MOD = 1000000007;
+        // 定义：dp[i]表示s[0...i]的编码方式数量
+        int[] dp = new int[s.length()];
+        // 边界：dp[0]
+        if (s.charAt(0)=='0') return 0;
+        if (s.charAt(0)=='*') dp[0] = 9;
+        else dp[0] = 1;
+        // 递推：dp[i] = dp[i - 2] * a + dp[i - 1] * b
+        for (int i = 1; i < s.length(); i++) {
+            int dp_i_2 = i > 1 ? dp[i - 2] : 1;
+            int dp_i_1 = dp[i - 1];
+            // 讨论：cur单独编码，cur与pre一起编码
+            char cur = s.charAt(i);
+            char pre = s.charAt(i - 1);
+            if (cur == '0') {
+                if (pre == '*') dp[i] = multiplyAndMod(dp_i_2, 2, MOD);
+                else if (pre == '1' || pre == '2') dp[i] = dp_i_2;
+                else return 0;
+            } else if (cur == '*') {
+                if (pre == '*') dp[i] = (multiplyAndMod(dp_i_2, 15, MOD) + multiplyAndMod(dp_i_1, 9, MOD)) % MOD;
+                else if (pre == '1') dp[i] = (multiplyAndMod(dp_i_2, 9, MOD) + multiplyAndMod(dp_i_1, 9, MOD)) % MOD;
+                else if (pre == '2') dp[i] = (multiplyAndMod(dp_i_2, 6, MOD) + multiplyAndMod(dp_i_1, 9, MOD)) % MOD;
+                else dp[i] = multiplyAndMod(dp_i_1, 9, MOD);
+            } else {
+                if (pre == '*') dp[i] = (cur <= '6' ? multiplyAndMod(dp_i_2, 2, MOD) + dp_i_1 : (dp_i_2 + dp_i_1)) % MOD;
+                else if (pre == '1') dp[i] = (dp_i_2 + dp_i_1) % MOD;
+                else if (pre == '2') dp[i] = (cur <= '6' ? dp_i_2 + dp_i_1 : dp_i_1) % MOD;
+                else dp[i] = dp_i_1;
+            }
+        }
+        return dp[s.length() - 1];
+    }
+    /**
+     * 相乘并求模
+     * 两个int直接相乘后求模，会因为数值溢出导致结果错误，故采用分段相加求模
+     * 两个int相乘的结果可以用long存储，所以使用long型则可以直接相乘并求模
+     *
+     * @param a 乘数1
+     * @param b 乘数2
+     * @return 计算结果
+     */
+    @SuppressWarnings("SameParameterValue")
+    private int multiplyAndMod(int a, int b, int mod) {
+        int result = 0;
+        for (int i = 1; i <= b; i++) {
+            result = (result + a) % mod;
+        }
+        return result;
     }
 
 }

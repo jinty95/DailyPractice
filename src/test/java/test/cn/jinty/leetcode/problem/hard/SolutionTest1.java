@@ -85,4 +85,11 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testNumDecoding() {
+        System.out.println(solution.numDecoding("1*"));
+        System.out.println(solution.numDecoding("20**"));
+        System.out.println(solution.numDecoding("*************"));
+    }
+
 }
