@@ -1,5 +1,8 @@
 package cn.jinty.leetcode.problem.middle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * LeetCode - 中等题
  *
@@ -115,6 +118,56 @@ public class Solution2 {
         if (b1 >= a2 || a1 >= b2) return 0;
         // 重叠
         return Math.min(a2, b2) - Math.max(a1, b1);
+    }
+
+    /**
+     * 166. 分数到小数
+     * 给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以 字符串形式返回小数 。
+     * 如果小数部分为循环小数，则将循环的部分括在括号内。
+     * 如果存在多个答案，只需返回 任意一个 。
+     * 对于所有给定的输入，保证 答案字符串的长度小于 104 。
+     *
+     * @param numerator 被除数
+     * @param denominator 除数
+     * @return 小数形式的结果
+     */
+    public String fractionToDecimal(int numerator, int denominator) {
+        // 防止溢出
+        long num = numerator;
+        long den = denominator;
+        // 可整除
+        if (num % den == 0) return String.valueOf(num / den);
+        // 不可整除
+        StringBuilder sb = new StringBuilder();
+        // 处理负号
+        if (num < 0 && den < 0) {
+            num = -num;
+            den = -den;
+        } else if (num < 0) {
+            num = -num;
+            sb.append('-');
+        } else if (den < 0) {
+            den = -den;
+            sb.append('-');
+        }
+        // 整数部分
+        sb.append(num / den);
+        // 小数点
+        sb.append('.');
+        // 小数部分：借位相除，根据余数是否重复判断循环小数
+        Map<Long,Integer> seen = new HashMap<>();
+        num = (num % den) * 10;
+        seen.put(num, sb.length());
+        while (num != 0) {
+            sb.append(num / den);
+            num = (num % den) * 10;
+            if (seen.containsKey(num)) {
+                int index = seen.get(num);
+                return sb.substring(0,index) + "(" + sb.substring(index,sb.length()) + ")";
+            }
+            seen.put(num, sb.length());
+        }
+        return sb.toString();
     }
 
 }

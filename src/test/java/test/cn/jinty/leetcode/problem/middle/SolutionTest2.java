@@ -28,8 +28,18 @@ public class SolutionTest2 {
 
     @Test
     public void testComputeArea() {
-        System.out.println(solution.computeArea(-3,0,3,4,0,-1,9,2));
-        System.out.println(solution.computeArea(0,0,2,2,4,4,10,10));
+        System.out.println(solution.computeArea(-3, 0, 3, 4, 0, -1, 9, 2));
+        System.out.println(solution.computeArea(0, 0, 2, 2, 4, 4, 10, 10));
+    }
+
+    @Test
+    public void testFractionToDecimal() {
+        System.out.println(solution.fractionToDecimal(1, 2));
+        System.out.println(solution.fractionToDecimal(1, 3));
+        System.out.println(solution.fractionToDecimal(4, 333));
+        System.out.println(solution.fractionToDecimal(-50, 8));
+        System.out.println(solution.fractionToDecimal(-1, Integer.MIN_VALUE));
+        System.out.println(solution.fractionToDecimal(Integer.MIN_VALUE, -1));
     }
 
 }
