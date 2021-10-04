@@ -1578,4 +1578,42 @@ public class Solution {
         return right - left + 1;
     }
 
+    /**
+     * 482. 密钥格式化
+     * 有一个密钥字符串 S ，只包含字母，数字以及 '-'（破折号）。其中， N 个 '-' 将字符串分成了 N+1 组。
+     * 给你一个数字 K，请你重新格式化字符串，使每个分组恰好包含 K 个字符。
+     * 特别地，第一个分组包含的字符个数必须小于等于 K，但至少要包含 1 个字符。
+     * 两个分组之间需要用 '-'（破折号）隔开，并且将所有的小写字母转换为大写字母。
+     * 给定非空字符串 S 和数字 K，按照上面描述的规则进行格式化。
+     *
+     * @param s 字符串
+     * @param k 数字
+     * @return 格式化
+     */
+    public String licenseKeyFormatting(String s, int k) {
+        // 去除破折号并转大写
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == '-') continue;
+            if (c >= 'a' && c <= 'z') {
+                sb.append((char)(c - 32));
+            } else {
+                sb.append(c);
+            }
+        }
+        // 按规则进行格式化
+        int len = sb.length();
+        StringBuilder ans = new StringBuilder();
+        int first = len % k;
+        ans.append(sb.substring(0, first));
+        for (int i = 0; i < len / k; i++) {
+            if (ans.length() > 0){
+                ans.append('-');
+            }
+            ans.append(sb.substring(first, first + k));
+            first += k;
+        }
+        return ans.toString();
+    }
+
 }

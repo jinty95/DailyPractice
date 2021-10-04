@@ -402,4 +402,10 @@ public class SolutionTest {
         System.out.println(solution.lengthOfLastWord("good job"));
     }
 
+    @Test
+    public void testLicenseKeyFormatting() {
+        System.out.println(solution.licenseKeyFormatting("5F3Z-2e-9-w", 4));
+        System.out.println(solution.licenseKeyFormatting("2-5g-3-J", 2));
+    }
+
 }
