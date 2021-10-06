@@ -1616,4 +1616,32 @@ public class Solution {
         return ans.toString();
     }
 
+    /**
+     * 414. 第三大的数
+     * 给你一个非空数组，返回此数组中 第三大的数 。如果不存在，则返回数组中最大的数。
+     *
+     * @param numbers 数组
+     * @return 第三大的数
+     */
+    public int thirdMax(int[] numbers) {
+        //1、排序：时间复杂度O(N * logN)
+        Arrays.sort(numbers);
+        int n = numbers.length;
+        Integer max = numbers[n - 1], secondMax = null;
+        for (int i = n - 2; i >= 0; i--) {
+            if (max == numbers[i]) {
+                continue;
+            }
+            if (secondMax == null) {
+                secondMax = numbers[i];
+            } else {
+                if (secondMax == numbers[i]) {
+                    continue;
+                }
+                return numbers[i];
+            }
+        }
+        return max;
+    }
+
 }

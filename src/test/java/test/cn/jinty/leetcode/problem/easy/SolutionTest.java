@@ -408,4 +408,10 @@ public class SolutionTest {
         System.out.println(solution.licenseKeyFormatting("2-5g-3-J", 2));
     }
 
+    @Test
+    public void testThirdMax() {
+        System.out.println(solution.thirdMax(new int[]{1,2}));
+        System.out.println(solution.thirdMax(new int[]{1,2,2,2,3}));
+    }
+
 }
