@@ -3,7 +3,6 @@ package test.cn.jinty.util;
 import cn.jinty.util.DateUtil;
 import org.junit.Test;
 
-import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -15,13 +14,13 @@ import java.util.Date;
 public class DateUtilTest {
 
     @Test
-    public void testParseAndFormat(){
+    public void testParseAndFormat() {
         Date date = DateUtil.parse("2021-07-15 18:00:00");
         System.out.println(DateUtil.format(date));
     }
 
     @Test
-    public void testBuildDate(){
+    public void testBuildDate() {
         System.out.println(DateUtil.format(
                 DateUtil.buildDate(2021,7,15)
         ));
@@ -31,13 +30,19 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testAddHour(){
+    public void testAddDate() {
+        System.out.println(DateUtil.format(DateUtil.addDate(new Date(), 180)));
+        System.out.println(DateUtil.format(DateUtil.addDate(new Date(), 360)));
+    }
+
+    @Test
+    public void testAddHour() {
         System.out.println(DateUtil.format(DateUtil.addHour(new Date(),2)));
         System.out.println(DateUtil.format(DateUtil.addHour(new Date(),24)));
     }
 
     @Test
-    public void testCountInterval(){
+    public void testCountInterval() {
         Date d1 = DateUtil.parse("2021-07-14 19:00:00");
         Date d2 = DateUtil.parse("2021-07-15 18:00:00");
         System.out.println(DateUtil.countIntervalForDay(d1,d2));
@@ -46,19 +51,25 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testIsTarget(){
+    public void testIsFirstDayOfMonth() {
+        System.out.println(DateUtil.isFirstDayOfMonth(DateUtil.parse("2021-10-8 11:16:42")));
+        System.out.println(DateUtil.isFirstDayOfMonth(DateUtil.parse("2021-10-1 00:00:00")));
+    }
+
+    @Test
+    public void testIsTarget() {
         System.out.println(DateUtil.isTargetDayOfMonth(new Date(),15));
         System.out.println(DateUtil.isTargetHourOfDay(new Date(),18));
     }
 
     @Test
-    public void testIsToday(){
+    public void testIsToday() {
         System.out.println(DateUtil.isToday(new Date()));
         System.out.println(DateUtil.isToday(DateUtil.parse("2021-07-14 00:00:00")));
     }
 
     @Test
-    public void testIsWithin24hAfter(){
+    public void testIsWithin24hAfter() {
         Date now = DateUtil.parse("2021-07-15 00:00:00");
         Date begin1 = DateUtil.parse("2021-07-16 00:00:01");
         Date begin2 = DateUtil.parse("2021-07-15 00:00:00");
@@ -71,7 +82,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void getBeginAndEnd(){
+    public void getBeginAndEnd() {
         //年
         System.out.println(DateUtil.format(DateUtil.getBeginOfYear(2019)));
         System.out.println(DateUtil.format(DateUtil.getEndOfYear(2019)));
@@ -90,7 +101,7 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testGetCountDown(){
+    public void testGetCountDown() {
         System.out.println(DateUtil.getCountDown(DateUtil.parse("0-7-20 1:0:0")));
         System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-21 10:00:00")));
         System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-24 00:00:00")));
