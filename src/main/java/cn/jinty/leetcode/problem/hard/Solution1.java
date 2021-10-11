@@ -506,4 +506,79 @@ public class Solution1 {
         return result;
     }
 
+    /**
+     * 273. 整数转换英文表示
+     * 将非负整数 num 转换为其对应的英文表示。
+     *
+     * @param num 整数
+     * @return 英文表示
+     */
+    public String numberToWords(int num) {
+        // 英文表示字面量
+        String[] units = {"Zero ", "One ", "Two ", "Three ", "Four ", "Five ", "Six ", "Seven ", "Eight ", "Nine "};
+        String[] tens = {"", "Ten ", "Twenty ", "Thirty ", "Forty ", "Fifty ", "Sixty ", "Seventy ", "Eighty ", "Ninety "};
+        String[] fromTenToTwenty = {"", "Eleven ", "Twelve ", "Thirteen ", "Fourteen ", "Fifteen ", "Sixteen ", "Seventeen ", "Eighteen ", "Nineteen "};
+        String[] kilos = {"", "Thousand ", "Million ", "Billion "};
+        // 特殊处理 0
+        if (num == 0) {
+            return units[0].trim();
+        }
+        // 将输入转为十进制字符串，按三位一组从低位到高位处理
+        StringBuilder groups = new StringBuilder();
+        String numStr = new StringBuilder(num + "").reverse().toString();
+        int j = 0;
+        // 最多四组
+        for (int i = 0; i < 4; i++) {
+            // 每组三位
+            StringBuilder group = new StringBuilder(kilos[i]);
+            // 保证三位都不为 0
+            boolean notZero = false;
+            for (int k = 0; k < 3; k++) {
+                // 单个数字，忽略 0
+                int digit = numStr.charAt(j++) - '0';
+                if (digit > 0){
+                    notZero = true;
+                    if (k == 0) {
+                        // 个位，[11,19]特殊处理
+                        if (j < numStr.length() && numStr.charAt(j) == '1') {
+                            group.append(fromTenToTwenty[digit]);
+                            k++;
+                            j++;
+                        } else {
+                            group.append(units[digit]);
+                        }
+                    } else if (k == 1) {
+                        // 十位
+                        group.append(tens[digit]);
+                    } else {
+                        // 百位
+                        group.append("Hundred ").append(units[digit]);
+                    }
+                }
+                // 数字已读完
+                if (j == numStr.length()) {
+                    break;
+                }
+            }
+            // 汇总
+            if (notZero) {
+                groups.append(group);
+            }
+            // 数字已读完
+            if (j == numStr.length()) {
+                break;
+            }
+        }
+        // 以单词为单位翻转字符串
+        StringBuilder ans = new StringBuilder();
+        String[] arr = groups.toString().trim().split(" ");
+        for (int i = arr.length - 1; i >= 0; i--) {
+            ans.append(arr[i]);
+            if (i > 0) {
+                ans.append(" ");
+            }
+        }
+        return ans.toString();
+    }
+
 }

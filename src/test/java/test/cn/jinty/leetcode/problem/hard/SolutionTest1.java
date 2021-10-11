@@ -92,4 +92,13 @@ public class SolutionTest1 {
         System.out.println(solution.numDecoding("*************"));
     }
 
+    @Test
+    public void testNumberToWords() {
+        System.out.println(solution.numberToWords(123));
+        System.out.println(solution.numberToWords(12_345));
+        System.out.println(solution.numberToWords(1_234_567));
+        System.out.println(solution.numberToWords(123_456_789));
+        System.out.println(solution.numberToWords(123_000_789));
+    }
+
 }
