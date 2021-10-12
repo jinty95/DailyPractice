@@ -191,34 +191,34 @@ public final class BoshUtil {
      * @param title 标题
      * @return 文章
      */
-    public static String generate(String title){
-        return generate(title,800);
+    public static String generate(String title) {
+        return generate(title, 800);
     }
 
     /**
      * 生成随机文章
      *
-     * @param title 标题
+     * @param title   标题
      * @param wordNum 字数
      * @return 文章
      */
-    public static String generate(String title, Integer wordNum){
+    public static String generate(String title, Integer wordNum) {
         Random random = new Random();
         StringBuilder article = new StringBuilder();
         article.append(title).append("\r\n\r\n");
-        while(article.length()<wordNum){
+        while (article.length() < wordNum) {
             int rand = random.nextInt(4);
-            if(rand==0){
+            if (rand == 0) {
                 article.append("\r\n");
-            }else if(rand==1){
+            } else if (rand == 1) {
                 article.append(
                         famous[random.nextInt(famous.length)]
-                                .replace("a",before[random.nextInt(before.length)])
-                                .replace("b",after[random.nextInt(after.length)])
+                                .replace("a", before[random.nextInt(before.length)])
+                                .replace("b", after[random.nextInt(after.length)])
                 );
-            }else{
+            } else {
                 article.append(
-                        bosh[random.nextInt(bosh.length)].replace("x",title)
+                        bosh[random.nextInt(bosh.length)].replace("x", title)
                 );
             }
         }

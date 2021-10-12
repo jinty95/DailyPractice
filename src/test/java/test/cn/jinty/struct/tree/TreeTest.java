@@ -12,7 +12,7 @@ import org.junit.Test;
 public class TreeTest {
 
     @Test
-    public void test(){
+    public void test() {
         //构造
         TreeNode root = new TreeNode(5);
         TreeNode left = new TreeNode(3);

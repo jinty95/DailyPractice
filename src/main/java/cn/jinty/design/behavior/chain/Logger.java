@@ -16,17 +16,17 @@ public abstract class Logger {
 
     protected Logger nextLogger;
 
-    public void setNextLogger(Logger logger){
+    public void setNextLogger(Logger logger) {
         this.nextLogger = logger;
     }
 
-    public void log(int level,String msg){
+    public void log(int level, String msg) {
         //日志级别大于等于当前设置的级别才可以打印
-        if(this.level <= level){
+        if (this.level <= level) {
             write(level, msg);
         }
-        if(nextLogger!=null){
-            nextLogger.log(level,msg);
+        if (nextLogger != null) {
+            nextLogger.log(level, msg);
         }
     }
 

@@ -17,7 +17,7 @@ public class DeadLockTest {
 
     //由于锁嵌套及锁交替导致死锁
     @Test
-    public void deadLock(){
+    public void deadLock() {
         //线程1
         Thread t1 = new Thread(() -> {
             synchronized (lock1) {

@@ -10,13 +10,13 @@ import java.util.Map;
  * @author jinty
  * @date 2021/3/15
  **/
-public class LRUCache extends LinkedHashMap<Integer,Integer>{
+public class LRUCache extends LinkedHashMap<Integer, Integer> {
 
     private final int capacity;
 
     //初始化
     public LRUCache(int capacity) {
-        super(capacity,0.75f,true);
+        super(capacity, 0.75f, true);
         this.capacity = capacity;
     }
 
@@ -27,7 +27,7 @@ public class LRUCache extends LinkedHashMap<Integer,Integer>{
 
     //存入
     public void put(int key, int value) {
-        super.put(key,value);
+        super.put(key, value);
     }
 
     @Override

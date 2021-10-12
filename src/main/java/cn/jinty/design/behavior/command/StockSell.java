@@ -6,7 +6,7 @@ package cn.jinty.design.behavior.command;
  * @author Jinty
  * @date 2020/7/17.
  */
-public class StockSell implements Order{
+public class StockSell implements Order {
 
     private final Stock stock = new Stock();
 

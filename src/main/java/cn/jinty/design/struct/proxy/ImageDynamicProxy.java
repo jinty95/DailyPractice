@@ -9,11 +9,11 @@ import java.lang.reflect.Method;
  * @author Jinty
  * @date 2020/7/17.
  */
-public class ImageDynamicProxy implements InvocationHandler{
+public class ImageDynamicProxy implements InvocationHandler {
 
     private final Image img;
 
-    public ImageDynamicProxy(Image img){
+    public ImageDynamicProxy(Image img) {
         this.img = img;
     }
 
@@ -21,7 +21,7 @@ public class ImageDynamicProxy implements InvocationHandler{
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         System.out.println("--- I am dynamic proxy before ---");
-        Object obj = method.invoke(img,args);
+        Object obj = method.invoke(img, args);
         System.out.println("--- I am dynamic proxy after ---");
         return obj;
     }

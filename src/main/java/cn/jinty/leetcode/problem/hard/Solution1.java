@@ -26,31 +26,32 @@ public class Solution1 {
      */
     public List<List<Integer>> verticalTraversal(TreeNode root) {
         //(列号->(行号->节点值列表))
-        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> map = new TreeMap<>();
-        verticalTraversal(root,0,0,map);
+        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> map = new TreeMap<>();
+        verticalTraversal(root, 0, 0, map);
         //构建结果集
         List<List<Integer>> lists = new ArrayList<>();
-        for(Integer col : map.keySet()){
+        for (Integer col : map.keySet()) {
             List<Integer> list = new ArrayList<>();
             lists.add(list);
-            for(Integer row : map.get(col).keySet()){
+            for (Integer row : map.get(col).keySet()) {
                 PriorityQueue<Integer> value = map.get(col).get(row);
-                while( ! value.isEmpty()){
+                while (!value.isEmpty()) {
                     list.add(value.poll());
                 }
             }
         }
         return lists;
     }
+
     //深度搜索：先序遍历
     private void verticalTraversal(TreeNode root, int row, int col,
-                                   TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> colMap){
-        if(root==null) return;
-        TreeMap<Integer,PriorityQueue<Integer>> rowMap = colMap.computeIfAbsent(col, k -> new TreeMap<>());
+                                   TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> colMap) {
+        if (root == null) return;
+        TreeMap<Integer, PriorityQueue<Integer>> rowMap = colMap.computeIfAbsent(col, k -> new TreeMap<>());
         PriorityQueue<Integer> value = rowMap.computeIfAbsent(row, k -> new PriorityQueue<>());
         value.offer(root.val);
-        verticalTraversal(root.left, row+1, col-1, colMap);
-        verticalTraversal(root.right, row+1, col+1, colMap);
+        verticalTraversal(root.left, row + 1, col - 1, colMap);
+        verticalTraversal(root.right, row + 1, col + 1, colMap);
     }
 
     /**
@@ -67,28 +68,28 @@ public class Solution1 {
         //定义三元组(cur,mask,len)，其中cur标识当前节点编号，mask标识已经过的节点列表，len标识累计路径长度
         int n = graph.length;
         //记录已经出现过的(cur,mask)，避免陷入重复计算与死循环
-        boolean[][] seen = new boolean[n][1<<n];
+        boolean[][] seen = new boolean[n][1 << n];
         //默认情况下所有节点都为(i,2^i,0)
         Queue<int[]> queue = new LinkedList<>();
-        for(int i=0; i<n; i++){
-            queue.offer(new int[]{i,1<<i,0});
-            seen[i][1<<i] = true;
+        for (int i = 0; i < n; i++) {
+            queue.offer(new int[]{i, 1 << i, 0});
+            seen[i][1 << i] = true;
         }
         //循环直到队列为空
         int ans = 0;
-        while( ! queue.isEmpty()){
+        while (!queue.isEmpty()) {
             int[] triple = queue.poll();
             //第一次出现所有节点都已被经过时，得到最短路径
-            if(triple[1]==(1<<n)-1){
+            if (triple[1] == (1 << n) - 1) {
                 ans = triple[2];
                 break;
             }
             //搜索相邻节点
-            for(int j : graph[triple[0]]){
+            for (int j : graph[triple[0]]) {
                 //将mask的第j位置为1
-                int maskJ = triple[1] | (1<<j);
-                if( ! seen[j][maskJ]){
-                    queue.offer(new int[]{j,maskJ,triple[2]+1});
+                int maskJ = triple[1] | (1 << j);
+                if (!seen[j][maskJ]) {
+                    queue.offer(new int[]{j, maskJ, triple[2] + 1});
                     seen[j][maskJ] = true;
                 }
             }
@@ -114,12 +115,12 @@ public class Solution1 {
         int n = numbers.length;
         //dp[i][d]表示尾项为numbers[i]，公差为d的等差子序列的个数
         Map<Long, Integer>[] dp = new Map[n];
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             dp[i] = new HashMap<>();
         }
         //双层循环：i为尾项，j为倒数第二项
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < i; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
                 long d = (long) numbers[i] - numbers[j];
                 //存在count个以j为尾项的等差子序列
                 int count = dp[j].getOrDefault(d, 0);
@@ -149,29 +150,29 @@ public class Solution1 {
         //1、动态规划
         final int MOD = 1000000007;
         //定义三维dp，dp[i][j][k]表示记录为i，A有j个，最近连续L有k个时的记录情况数
-        int[][][] dp = new int[n+1][2][3];
+        int[][][] dp = new int[n + 1][2][3];
         //边界
         dp[0][0][0] = 1;
         //递推
-        for(int i=1; i<=n; i++){
-            for(int j=0; j<2; j++){
-                for(int k=0; k<3; k++){
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < 2; j++) {
+                for (int k = 0; k < 3; k++) {
                     //A
-                    if(j>0){
-                        dp[i][j][0] = (dp[i][j][0] + dp[i-1][j-1][k]) % MOD;
+                    if (j > 0) {
+                        dp[i][j][0] = (dp[i][j][0] + dp[i - 1][j - 1][k]) % MOD;
                     }
                     //L
-                    if(k>0){
-                        dp[i][j][k] = (dp[i][j][k] + dp[i-1][j][k-1]) % MOD;
+                    if (k > 0) {
+                        dp[i][j][k] = (dp[i][j][k] + dp[i - 1][j][k - 1]) % MOD;
                     }
                     //P
-                    dp[i][j][0] = (dp[i][j][0] + dp[i-1][j][k]) % MOD;
+                    dp[i][j][0] = (dp[i][j][0] + dp[i - 1][j][k]) % MOD;
                 }
             }
         }
         int ans = 0;
-        for(int j=0; j<2; j++){
-            for(int k=0; k<3; k++){
+        for (int j = 0; j < 2; j++) {
+            for (int k = 0; k < 3; k++) {
                 ans = (ans + dp[n][j][k]) % MOD;
             }
         }
@@ -187,8 +188,8 @@ public class Solution1 {
      * 总而言之，从给定项目中选择 最多 k 个不同项目的列表，以 最大化最终资本 ，并输出最终的总资本。
      * 答案保证在 32 位有符号整数范围内。
      *
-     * @param k 最大项目数量
-     * @param w 启动资本
+     * @param k       最大项目数量
+     * @param w       启动资本
      * @param profits 项目及其收益
      * @param capital 项目及其成本
      * @return 最终的总资本
@@ -230,21 +231,21 @@ public class Solution1 {
         //2、贪心算法+大根堆：时间复杂度(O(N*logN+K*logN))
         int n = profits.length;
         int[][] projects = new int[n][2];
-        for(int i=0; i<n; i++){
-            projects[i] = new int[]{capital[i],profits[i]};
+        for (int i = 0; i < n; i++) {
+            projects[i] = new int[]{capital[i], profits[i]};
         }
         //按成本升序
         Arrays.sort(projects, Comparator.comparingInt(o -> o[0]));
         //大根堆按利润降序
-        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2)->o2-o1);
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1);
         //把所有能投的项目都放入大根堆，然后投利润最高的项目，更新本金，重复这个过程
-        int i=0;
-        while(k>0){
-            while(i<n && w>=projects[i][0]){
+        int i = 0;
+        while (k > 0) {
+            while (i < n && w >= projects[i][0]) {
                 pq.offer(projects[i][1]);
                 i++;
             }
-            if(pq.isEmpty()){
+            if (pq.isEmpty()) {
                 return w;
             }
             w += pq.poll();
@@ -265,7 +266,7 @@ public class Solution1 {
      * 每个单词的长度大于 0，小于等于 maxWidth。
      * 输入单词数组 words 至少包含一个单词。
      *
-     * @param words 单词数组
+     * @param words    单词数组
      * @param maxWidth 文本宽度
      * @return 对齐结果(不改变原单词先后顺序)
      */
@@ -275,34 +276,34 @@ public class Solution1 {
         int curWidth = 0;
         //当前行单词组
         List<String> curList = new ArrayList<>();
-        for(int i = 0; i < words.length; i++){
+        for (int i = 0; i < words.length; i++) {
             //判断当前单词能否加入当前行
-            if(curWidth == 0 || curWidth + curList.size() + words[i].length() <= maxWidth){
+            if (curWidth == 0 || curWidth + curList.size() + words[i].length() <= maxWidth) {
                 //单词加入当前行
                 curList.add(words[i]);
                 curWidth += words[i].length();
-            }else{
+            } else {
                 //生成当前行对齐文本
                 StringBuilder sb = new StringBuilder();
-                if(curList.size() == 1){
+                if (curList.size() == 1) {
                     //单个单词，只须左对齐，右边补空格
                     sb.append(curList.get(0));
-                    for(int k = 0; k < maxWidth - curWidth; k++){
+                    for (int k = 0; k < maxWidth - curWidth; k++) {
                         sb.append(' ');
                     }
-                }else{
+                } else {
                     //多个单词，须左右对齐，中间平均插入空格
                     int blankNum = maxWidth - curWidth;
                     int intervalNum = curList.size() - 1;
                     int averageNum = blankNum / intervalNum;
                     int remainNum = blankNum % intervalNum;
-                    for(int j = 0; j < curList.size(); j++){
+                    for (int j = 0; j < curList.size(); j++) {
                         sb.append(curList.get(j));
-                        if(j < curList.size()-1){
-                            for(int k = 0; k < averageNum; k++){
+                        if (j < curList.size() - 1) {
+                            for (int k = 0; k < averageNum; k++) {
                                 sb.append(' ');
                             }
-                            if(remainNum>0){
+                            if (remainNum > 0) {
                                 sb.append(' ');
                                 remainNum--;
                             }
@@ -318,13 +319,13 @@ public class Solution1 {
         }
         //最后一行
         StringBuilder sb = new StringBuilder();
-        for(int j = 0; j < curList.size(); j++){
+        for (int j = 0; j < curList.size(); j++) {
             sb.append(curList.get(j));
-            if(j < curList.size()-1){
+            if (j < curList.size() - 1) {
                 sb.append(' ');
             }
         }
-        for(int k = 0; k < maxWidth - curWidth - curList.size() + 1; k++){
+        for (int k = 0; k < maxWidth - curWidth - curList.size() + 1; k++) {
             sb.append(' ');
         }
         list.add(sb.toString());
@@ -355,28 +356,30 @@ public class Solution1 {
         //将小于等于 n 的所有数用 01 前缀树表示，n 即为前缀树的右轮廓
         //定义 dp[i] 表示高度为 i 、根结点为 0 的满二叉树中，不包含连续 1 的从根结点到叶结点的路径数量
         int[] dp = new int[31];
-        dp[0] = 1; dp[1] = 1;
-        for(int i = 2; i < 31; i++){
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i < 31; i++) {
             //根为0，左子0，右子10
-            dp[i] = dp[i-1] + dp[i-2];
+            dp[i] = dp[i - 1] + dp[i - 2];
         }
-        int pre = 0; int ans = 0;
+        int pre = 0;
+        int ans = 0;
         //遍历 n 的每一位
-        for(int i = 29; i >= 0; i--){
+        for (int i = 29; i >= 0; i--) {
             int val = 1 << i;
-            if((n & val) != 0){
+            if ((n & val) != 0) {
                 //当前高度 n 的位为 1 ，则同样高度位为 0 的数都小于 n
-                ans += dp[i+1];
+                ans += dp[i + 1];
                 //发现连续 1 ，直接终止
-                if(pre==1){
+                if (pre == 1) {
                     break;
                 }
                 pre = 1;
-            }else{
+            } else {
                 pre = 0;
             }
             //叶子节点没有子节点，单独处理
-            if(i == 0){
+            if (i == 0) {
                 ans++;
             }
         }
@@ -404,19 +407,20 @@ public class Solution1 {
             trie.insert(word);
         }
         //2、对board做回溯
-        for (int i = 0; i < board.length; i++){
-            for (int j = 0; j < board[0].length; j++){
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
                 backtrack(board, locates, i, j, trie, new StringBuilder(), ans);
             }
         }
         return new ArrayList<>(ans);
     }
+
     //回溯
     private void backtrack(char[][] board, Set<Long> locates, int i, int j, Trie trie, StringBuilder word, Set<String> ans) {
         //超出边界
         if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) return;
         //保存坐标，防止重复
-        Long locate = (long)i << 32 | (long)j & 0xFFFFFFFFL;
+        Long locate = (long) i << 32 | (long) j & 0xFFFFFFFFL;
         if (locates.contains(locate)) return;
         locates.add(locate);
         //增加字符
@@ -425,7 +429,7 @@ public class Solution1 {
         Trie.TrieNode trieNode = trie.find(word.toString());
         //前缀不存在，可提前剪枝
         if (trieNode == null) {
-            word.deleteCharAt(word.length()-1);
+            word.deleteCharAt(word.length() - 1);
             locates.remove(locate);
             return;
         }
@@ -434,12 +438,12 @@ public class Solution1 {
             ans.add(word.toString());
         }
         //递归
-        backtrack(board, locates, i-1, j, trie, word, ans);
-        backtrack(board, locates, i, j-1, trie, word, ans);
-        backtrack(board, locates, i+1, j, trie, word, ans);
-        backtrack(board, locates, i, j+1, trie, word, ans);
+        backtrack(board, locates, i - 1, j, trie, word, ans);
+        backtrack(board, locates, i, j - 1, trie, word, ans);
+        backtrack(board, locates, i + 1, j, trie, word, ans);
+        backtrack(board, locates, i, j + 1, trie, word, ans);
         //回溯
-        word.deleteCharAt(word.length()-1);
+        word.deleteCharAt(word.length() - 1);
         locates.remove(locate);
     }
 
@@ -460,8 +464,8 @@ public class Solution1 {
         // 定义：dp[i]表示s[0...i]的编码方式数量
         int[] dp = new int[s.length()];
         // 边界：dp[0]
-        if (s.charAt(0)=='0') return 0;
-        if (s.charAt(0)=='*') dp[0] = 9;
+        if (s.charAt(0) == '0') return 0;
+        if (s.charAt(0) == '*') dp[0] = 9;
         else dp[0] = 1;
         // 递推：dp[i] = dp[i - 2] * a + dp[i - 1] * b
         for (int i = 1; i < s.length(); i++) {
@@ -480,7 +484,8 @@ public class Solution1 {
                 else if (pre == '2') dp[i] = (multiplyAndMod(dp_i_2, 6, MOD) + multiplyAndMod(dp_i_1, 9, MOD)) % MOD;
                 else dp[i] = multiplyAndMod(dp_i_1, 9, MOD);
             } else {
-                if (pre == '*') dp[i] = (cur <= '6' ? multiplyAndMod(dp_i_2, 2, MOD) + dp_i_1 : (dp_i_2 + dp_i_1)) % MOD;
+                if (pre == '*')
+                    dp[i] = (cur <= '6' ? multiplyAndMod(dp_i_2, 2, MOD) + dp_i_1 : (dp_i_2 + dp_i_1)) % MOD;
                 else if (pre == '1') dp[i] = (dp_i_2 + dp_i_1) % MOD;
                 else if (pre == '2') dp[i] = (cur <= '6' ? dp_i_2 + dp_i_1 : dp_i_1) % MOD;
                 else dp[i] = dp_i_1;
@@ -488,6 +493,7 @@ public class Solution1 {
         }
         return dp[s.length() - 1];
     }
+
     /**
      * 相乘并求模
      * 两个int直接相乘后求模，会因为数值溢出导致结果错误，故采用分段相加求模
@@ -536,7 +542,7 @@ public class Solution1 {
             for (int k = 0; k < 3; k++) {
                 // 单个数字，忽略 0
                 int digit = numStr.charAt(j++) - '0';
-                if (digit > 0){
+                if (digit > 0) {
                     notZero = true;
                     if (k == 0) {
                         // 个位，[11,19]特殊处理

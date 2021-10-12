@@ -45,7 +45,7 @@ public final class DateUtil {
      * 解析时间字符串
      *
      * @param dateStr 时间字符串
-     * @param sdf 时间格式
+     * @param sdf     时间格式
      * @return 时间对象
      */
     public static Date parse(String dateStr, SimpleDateFormat sdf) {
@@ -72,7 +72,7 @@ public final class DateUtil {
      * 格式化时间
      *
      * @param date 时间对象
-     * @param sdf 时间格式
+     * @param sdf  时间格式
      * @return 字符串
      */
     public static String format(Date date, SimpleDateFormat sdf) {
@@ -83,9 +83,9 @@ public final class DateUtil {
     /**
      * 根据输入数值构建时间对象
      *
-     * @param year 年
+     * @param year  年
      * @param month 月
-     * @param date 日
+     * @param date  日
      * @return 时间
      */
     public static Date buildDate(Integer year, Integer month, Integer date) {
@@ -102,10 +102,10 @@ public final class DateUtil {
     /**
      * 根据输入数值构建时间对象
      *
-     * @param year 年
-     * @param month 月
-     * @param date 日
-     * @param hour 时
+     * @param year   年
+     * @param month  月
+     * @param date   日
+     * @param hour   时
      * @param minute 分
      * @param second 秒
      * @return 时间
@@ -125,7 +125,7 @@ public final class DateUtil {
     /**
      * 时间增加指定天数
      *
-     * @param date 时间
+     * @param date   时间
      * @param dayNum 指定天数
      * @return 时间
      */
@@ -140,7 +140,7 @@ public final class DateUtil {
     /**
      * 时间增加指定小时数
      *
-     * @param date 时间
+     * @param date    时间
      * @param hourNum 指定小时数
      * @return 时间
      */
@@ -156,8 +156,8 @@ public final class DateUtil {
      * 计算时间间隔
      *
      * @param begin 起始时间
-     * @param end 结束时间
-     * @param unit 时间单位(毫秒数)
+     * @param end   结束时间
+     * @param unit  时间单位(毫秒数)
      * @return 间隔
      */
     public static Long countInterval(Date begin, Date end, long unit) {
@@ -170,7 +170,7 @@ public final class DateUtil {
      * 计算时间间隔(单位:天)
      *
      * @param begin 起始时间
-     * @param end 结束时间
+     * @param end   结束时间
      * @return 间隔
      */
     public static Long countIntervalForDay(Date begin, Date end) {
@@ -193,7 +193,7 @@ public final class DateUtil {
     /**
      * 判断时间是否为当月指定的天数
      *
-     * @param date 时间
+     * @param date      时间
      * @param targetDay 当月指定天数
      * @return 布尔
      */
@@ -206,7 +206,7 @@ public final class DateUtil {
     /**
      * 判断时间是否为当天指定的小时数
      *
-     * @param date 时间
+     * @param date       时间
      * @param targetHour 给定小时数
      * @return 布尔
      */
@@ -244,9 +244,9 @@ public final class DateUtil {
     /**
      * 判断时间是否在一个时间区间内
      *
-     * @param date 时间
+     * @param date  时间
      * @param begin 起始时间
-     * @param end 结束时间
+     * @param end   结束时间
      * @return 布尔
      */
     public static boolean isWithinInterval(Date date, Date begin, Date end) {
@@ -257,7 +257,7 @@ public final class DateUtil {
     /**
      * 当前时间是否在开始时间的后24小时内
      *
-     * @param now 当前时间
+     * @param now   当前时间
      * @param begin 开始时间
      * @return 是否
      */

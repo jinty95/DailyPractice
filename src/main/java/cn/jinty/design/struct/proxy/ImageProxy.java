@@ -6,7 +6,7 @@ package cn.jinty.design.struct.proxy;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class ImageProxy implements Image{
+public class ImageProxy implements Image {
 
     private final Image image;
 

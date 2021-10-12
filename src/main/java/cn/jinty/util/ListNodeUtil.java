@@ -16,11 +16,11 @@ public final class ListNodeUtil {
      * @param arr 数组
      * @return 链表
      */
-    public static ListNode fromArray(int[] arr){
+    public static ListNode fromArray(int[] arr) {
         ListNode head = new ListNode();
-        if(arr!=null && arr.length>0){
+        if (arr != null && arr.length > 0) {
             ListNode tmp = head;
-            for(int i:arr){
+            for (int i : arr) {
                 tmp.next = new ListNode(i);
                 tmp = tmp.next;
             }
@@ -37,18 +37,18 @@ public final class ListNodeUtil {
      */
     public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         //快慢指针：先计算两个链表长度，长链表先走，两个链表等长时一起走，第一个相遇点即为交点
-        if(headA==null || headB==null) return null;
+        if (headA == null || headB == null) return null;
         int lenA = headA.getLength();
         int lenB = headB.getLength();
         ListNode longer = lenA > lenB ? headA : headB;
         ListNode another = lenA > lenB ? headB : headA;
-        int diff = Math.abs(lenA-lenB);
-        while(diff>0){
+        int diff = Math.abs(lenA - lenB);
+        while (diff > 0) {
             longer = longer.next;
             diff--;
         }
-        while(longer!=null){
-            if(longer==another) return longer;
+        while (longer != null) {
+            if (longer == another) return longer;
             longer = longer.next;
             another = another.next;
         }
@@ -61,10 +61,10 @@ public final class ListNodeUtil {
      * @param head 原链表
      * @return 翻转链表
      */
-    public static ListNode reverse(ListNode head){
+    public static ListNode reverse(ListNode head) {
         ListNode pre = null;
         ListNode next = head.next;
-        while(next!=null){
+        while (next != null) {
             head.next = pre;
             pre = head;
             head = next;

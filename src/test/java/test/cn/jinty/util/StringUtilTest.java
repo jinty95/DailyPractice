@@ -12,21 +12,21 @@ import org.junit.Test;
 public class StringUtilTest {
 
     @Test
-    public void testRandom(){
+    public void testRandom() {
         System.out.println(StringUtil.randomNumber(10));
         System.out.println(StringUtil.randomLetter(10));
         System.out.println(StringUtil.random(10));
     }
 
     @Test
-    public void testSnakeToCamel(){
+    public void testSnakeToCamel() {
         System.out.println(StringUtil.snakeToCamel("hello_world_are_you_ok"));
         System.out.println(StringUtil.snakeToCamel("my_name"));
         System.out.println(StringUtil.snakeToCamel("_my_name_"));
     }
 
     @Test
-    public void testCamelToSnake(){
+    public void testCamelToSnake() {
         System.out.println(StringUtil.camelToSnake("helloWorldAreYouOk"));
         System.out.println(StringUtil.camelToSnake("myName"));
         System.out.println(StringUtil.camelToSnake("MyName"));

@@ -23,14 +23,14 @@ public class Test {
         System.out.println(s3);
 
         //单例模式漏洞
-        try{
+        try {
             Constructor<Singleton> c = Singleton.class.getDeclaredConstructor((Class<?>) null);
             c.setAccessible(true);
             Singleton singleton1 = c.newInstance();
             Singleton singleton2 = c.newInstance();
             System.out.println(singleton1);
             System.out.println(singleton2);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

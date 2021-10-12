@@ -15,6 +15,7 @@ public abstract class AbstractFactory {
     public static final String FACTORY_SHAPE = ShapeFactory.class.getName();
 
     public abstract Color getColor(String name);
+
     public abstract Shape getShape(String name);
 
 }

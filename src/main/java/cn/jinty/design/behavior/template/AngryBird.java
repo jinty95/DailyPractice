@@ -6,23 +6,23 @@ package cn.jinty.design.behavior.template;
  * @author jinty
  * @date 2021/7/8
  **/
-public class AngryBird extends Game{
+public class AngryBird extends Game {
 
     private final static String name = AngryBird.class.getSimpleName();
 
     @Override
     protected void startup() {
-        System.out.printf("[%s] startup %n",name);
+        System.out.printf("[%s] startup %n", name);
     }
 
     @Override
     protected void playing() {
-        System.out.printf("[%s] playing, so funny %n",name);
+        System.out.printf("[%s] playing, so funny %n", name);
     }
 
     @Override
     protected void shutdown() {
-        System.out.printf("[%s] shutdown %n",name);
+        System.out.printf("[%s] shutdown %n", name);
     }
 
 }

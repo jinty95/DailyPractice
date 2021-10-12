@@ -18,13 +18,13 @@ public final class PinYinUtil {
      * @param chinese 汉字
      * @return 拼音
      */
-    public static String chineseToPinYin(String chinese){
-        if(StringUtil.isBlank(chinese)) return null;
-        try{
+    public static String chineseToPinYin(String chinese) {
+        if (StringUtil.isBlank(chinese)) return null;
+        try {
             return PinyinHelper.convertToPinyinString(
-                    chinese," ", PinyinFormat.WITHOUT_TONE
+                    chinese, " ", PinyinFormat.WITHOUT_TONE
             );
-        } catch (PinyinException e){
+        } catch (PinyinException e) {
             e.printStackTrace();
         }
         return null;
@@ -36,11 +36,11 @@ public final class PinYinUtil {
      * @param chinese 汉字
      * @return 拼音首字母缩写
      */
-    public static String chineseToShortPinYin(String chinese){
-        if(StringUtil.isBlank(chinese)) return null;
-        try{
+    public static String chineseToShortPinYin(String chinese) {
+        if (StringUtil.isBlank(chinese)) return null;
+        try {
             return PinyinHelper.getShortPinyin(chinese);
-        } catch (PinyinException e){
+        } catch (PinyinException e) {
             e.printStackTrace();
         }
         return null;

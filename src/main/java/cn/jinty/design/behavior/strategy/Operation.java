@@ -15,6 +15,6 @@ public interface Operation {
      * @param num2 操作数2
      * @return 结果
      */
-    long doOperation(int num1,int num2);
+    long doOperation(int num1, int num2);
 
 }

@@ -12,17 +12,17 @@ public class Order {
     private String name;
     private Long price;
 
-    public Order id(String id){
+    public Order id(String id) {
         this.id = id;
         return this;
     }
 
-    public Order name(String name){
+    public Order name(String name) {
         this.name = name;
         return this;
     }
 
-    public Order price(Long price){
+    public Order price(Long price) {
         this.price = price;
         return this;
     }

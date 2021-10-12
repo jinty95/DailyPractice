@@ -18,28 +18,28 @@ public class Subject {
     private Set<Observer> observerSet;
 
     //构造器
-    public Subject(){
+    public Subject() {
         observerSet = new HashSet<>();
     }
 
     //注册观察者
-    public void subscribe(Observer observer){
+    public void subscribe(Observer observer) {
         observerSet.add(observer);
     }
 
     //下线观察者
-    public void unsubscribe(Observer observer){
+    public void unsubscribe(Observer observer) {
         observerSet.remove(observer);
     }
 
     //更新资源
-    public void setMsg(String msg){
+    public void setMsg(String msg) {
         this.msg = msg;
         notifyObserver();
     }
 
     //发送通知
-    private void notifyObserver(){
+    private void notifyObserver() {
         observerSet.forEach(one -> {
             one.notify(this.msg);
         });

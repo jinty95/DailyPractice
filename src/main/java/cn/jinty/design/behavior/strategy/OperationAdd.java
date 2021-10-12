@@ -6,7 +6,7 @@ package cn.jinty.design.behavior.strategy;
  * @author Jinty
  * @date 2020/7/17.
  */
-public class OperationAdd implements Operation{
+public class OperationAdd implements Operation {
 
     @Override
     public long doOperation(int num1, int num2) {

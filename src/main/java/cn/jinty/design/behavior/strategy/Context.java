@@ -12,7 +12,7 @@ public class Context {
     private Operation operation;
 
     //构造器
-    public Context(Operation operation){
+    public Context(Operation operation) {
         this.operation = operation;
     }
 
@@ -22,8 +22,8 @@ public class Context {
     }
 
     //执行运算
-    public long doAction(int num1, int num2){
-        return operation.doOperation(num1,num2);
+    public long doAction(int num1, int num2) {
+        return operation.doOperation(num1, num2);
     }
 
 }

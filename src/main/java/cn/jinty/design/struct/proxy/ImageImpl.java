@@ -6,7 +6,7 @@ package cn.jinty.design.struct.proxy;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class ImageImpl implements Image{
+public class ImageImpl implements Image {
 
     private final String name;
 
@@ -17,16 +17,16 @@ public class ImageImpl implements Image{
 
     @Override
     public void display() {
-        System.out.println("Display Image ["+name+"]");
+        System.out.println("Display Image [" + name + "]");
     }
 
     @Override
     public void dye() {
-        System.out.println("Dye Image ["+name+"]");
+        System.out.println("Dye Image [" + name + "]");
     }
 
-    private void load(){
-        System.out.println("Loading Image ["+name+"]");
+    private void load() {
+        System.out.println("Loading Image [" + name + "]");
     }
 
 }

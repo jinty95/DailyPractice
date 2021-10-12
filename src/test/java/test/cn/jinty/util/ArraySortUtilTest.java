@@ -14,72 +14,72 @@ import java.util.Arrays;
 public class ArraySortUtilTest {
 
     @Test
-    public void testBubbleSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testBubbleSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.bubbleSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testInsertSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testInsertSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.insertSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testSelectSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testSelectSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.selectSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testQuickSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testQuickSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.quickSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testMergeSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testMergeSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.mergeSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testHeapSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testHeapSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.heapSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testCountSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testCountSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.countSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testRadixSort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testRadixSort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.radixSort(arr);
         System.out.println(Arrays.toString(arr));
     }
 
     @Test
-    public void testMonkeySort(){
-        int[] arr = {3,5,7,8,9,1,3,4,6,7,8,0,3,4};
+    public void testMonkeySort() {
+        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.monkeySort(arr);
         System.out.println(Arrays.toString(arr));

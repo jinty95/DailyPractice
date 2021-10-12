@@ -6,17 +6,17 @@ package cn.jinty.design.create.prototype;
  * @author Jinty
  * @date 2020/7/15.
  */
-public class Data implements Cloneable{
+public class Data implements Cloneable {
 
     private String id;
     private String name;
 
     @Override
-    public Object clone(){
+    public Object clone() {
         Object obj = null;
-        try{
+        try {
             obj = super.clone();
-        }catch (CloneNotSupportedException e){
+        } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
         return obj;

@@ -18,7 +18,7 @@ public abstract class Game {
     protected abstract void shutdown();
 
     //模板方法
-    public final void play(){
+    public final void play() {
         startup();
         playing();
         shutdown();

@@ -16,18 +16,18 @@ public class Buffer {
     private int pointer = 0;
 
     //初始化容器，指定容量
-    public Buffer(int size){
+    public Buffer(int size) {
         this.messages = new Message[size];
     }
 
     //将消息存入容器
-    public synchronized void put(Message message){
-        try{
+    public synchronized void put(Message message) {
+        try {
             //容器满则阻塞等待，唤醒后继续判断容器是否已满，只有容器不满可以向下执行
             while (pointer == this.messages.length) {
                 this.wait();
             }
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         messages[pointer++] = message;
@@ -35,19 +35,19 @@ public class Buffer {
     }
 
     //从容器中取出消息
-    public synchronized Message take(){
-        try{
+    public synchronized Message take() {
+        try {
             //容器空则阻塞等待，唤醒后继续判断容器是否已空，只有容器不空可以向下执行
             while (pointer <= 0) {
                 this.wait();
             }
-        } catch (InterruptedException e){
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Message message = messages[0];
         //取出第一个消息后，后续消息前移一位，指针减一
-        for(int i=1;i<pointer;i++){
-            messages[i-1] = messages[i];
+        for (int i = 1; i < pointer; i++) {
+            messages[i - 1] = messages[i];
         }
         pointer -= 1;
         this.notifyAll();

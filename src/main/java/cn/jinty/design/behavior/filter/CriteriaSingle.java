@@ -9,14 +9,14 @@ import java.util.List;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class CriteriaSingle implements Criteria{
+public class CriteriaSingle implements Criteria {
 
     @Override
     public List<Person> meetCriteria(List<Person> persons) {
         List<Person> list = new ArrayList<>();
-        if(persons!=null){
+        if (persons != null) {
             for (Person person : persons) {
-                if("Single".equalsIgnoreCase(person.getMaritalStatus())){
+                if ("Single".equalsIgnoreCase(person.getMaritalStatus())) {
                     list.add(person);
                 }
             }

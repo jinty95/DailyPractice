@@ -12,14 +12,14 @@ import org.junit.Test;
 public class TimeMapTest {
 
     @Test
-    public void test(){
+    public void test() {
         TimeMap map = new TimeMap();
-        map.set("1","1",1);
-        map.set("1","2",2);
-        map.set("1","3",3);
-        System.out.println(map.get("1",0));
-        System.out.println(map.get("1",1));
-        System.out.println(map.get("1",3));
+        map.set("1", "1", 1);
+        map.set("1", "2", 2);
+        map.set("1", "3", 3);
+        System.out.println(map.get("1", 0));
+        System.out.println(map.get("1", 1));
+        System.out.println(map.get("1", 3));
     }
 
 }

@@ -19,8 +19,8 @@ public final class ArrayUtil {
      *
      * @param arr 二维数组
      */
-    public static void print2DArray(int[][] arr){
-        for(int[] one:arr){
+    public static void print2DArray(int[][] arr) {
+        for (int[] one : arr) {
             System.out.println(Arrays.toString(one));
         }
     }
@@ -30,8 +30,8 @@ public final class ArrayUtil {
      *
      * @param arr 二维数组
      */
-    public static void print2DArray(char[][] arr){
-        for(char[] one:arr){
+    public static void print2DArray(char[][] arr) {
+        for (char[] one : arr) {
             System.out.println(Arrays.toString(one));
         }
     }
@@ -41,9 +41,9 @@ public final class ArrayUtil {
      *
      * @param arr 三维数组
      */
-    public static void print3DArray(int[][][] arr){
-        for(int[][] two : arr){
-            for(int[] one : two){
+    public static void print3DArray(int[][][] arr) {
+        for (int[][] two : arr) {
+            for (int[] one : two) {
                 System.out.print(Arrays.toString(one));
             }
             System.out.println();
@@ -56,9 +56,9 @@ public final class ArrayUtil {
      * @param list 列表
      * @return 数组
      */
-    public static int[] list2Array(List<Integer> list){
+    public static int[] list2Array(List<Integer> list) {
         int[] ans = new int[list.size()];
-        for(int i=0 ;i<list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             ans[i] = list.get(i);
         }
         return ans;
@@ -68,11 +68,11 @@ public final class ArrayUtil {
      * 数组中元素交换
      *
      * @param nums 数组
-     * @param a 索引a
-     * @param b 索引b
+     * @param a    索引a
+     * @param b    索引b
      */
-    public static void swap(int[] nums, int a, int b){
-        if(a==b) return;
+    public static void swap(int[] nums, int a, int b) {
+        if (a == b) return;
         nums[a] ^= nums[b];
         nums[b] ^= nums[a];
         nums[a] ^= nums[b];
@@ -83,10 +83,10 @@ public final class ArrayUtil {
      *
      * @param nums 数组
      */
-    public static void reverse(int[] nums){
-        int i=0, j=nums.length-1;
-        while(i<j){
-            swap(nums,i,j);
+    public static void reverse(int[] nums) {
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            swap(nums, i, j);
             i++;
             j--;
         }
@@ -95,32 +95,32 @@ public final class ArrayUtil {
     /**
      * 有序数组中进行二分查找
      *
-     * @param nums 有序数组
+     * @param nums   有序数组
      * @param target 目标
      * @return 目标所在位置
      */
-    public static int binarySearch(int[] nums,int target){
-        return binarySearch(nums,0,nums.length-1,target);
+    public static int binarySearch(int[] nums, int target) {
+        return binarySearch(nums, 0, nums.length - 1, target);
     }
 
     /**
      * 有序数组中进行二分查找
      *
-     * @param nums 有序数组
-     * @param left 起点
-     * @param right 终点
+     * @param nums   有序数组
+     * @param left   起点
+     * @param right  终点
      * @param target 目标
      * @return 目标所在位置
      */
-    public static int binarySearch(int[] nums,int left,int right,int target){
-        while(left<=right){
-            int mid = left+(right-left)/2;
-            if(nums[mid]==target){
+    public static int binarySearch(int[] nums, int left, int right, int target) {
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
                 return mid;
-            }else if(nums[mid]>target){
-                right = mid-1;
-            }else{
-                left = mid+1;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
         return -1;
@@ -132,10 +132,10 @@ public final class ArrayUtil {
      * @param len 长度
      * @return 数组
      */
-    public static int[] generateArray(int len){
+    public static int[] generateArray(int len) {
         int[] arr = new int[len];
         Random random = new Random();
-        for(int i=0; i<arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = random.nextInt(10);
         }
         return arr;
@@ -146,13 +146,13 @@ public final class ArrayUtil {
      *
      * @return 数组
      */
-    public static int[] inputArray(){
+    public static int[] inputArray() {
         Scanner input = new Scanner(System.in);
         System.out.println("请输入数字数组，用英文的','号作为间隔:");
         String inputStr = input.nextLine();
         String[] inputArr = inputStr.split(",");
         int[] intArr = new int[inputArr.length];
-        for(int i=0;i<inputArr.length;i++) {
+        for (int i = 0; i < inputArr.length; i++) {
             intArr[i] = Integer.parseInt(inputArr[i]);
         }
         input.close();

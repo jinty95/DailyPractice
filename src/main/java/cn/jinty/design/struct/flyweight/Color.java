@@ -12,7 +12,7 @@ public class Color {
 
     public Color(String name) {
         this.name = name;
-        System.out.println("build a color : name="+name);
+        System.out.println("build a color : name=" + name);
     }
 
     public String getName() {

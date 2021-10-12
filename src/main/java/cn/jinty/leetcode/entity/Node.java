@@ -18,12 +18,12 @@ public class Node {
         this.val = val;
     }
 
-    public Node(int val, Node next){
+    public Node(int val, Node next) {
         this.val = val;
         this.next = next;
     }
 
-    public Node(int val, Node left, Node right){
+    public Node(int val, Node left, Node right) {
         this.val = val;
         this.left = left;
         this.right = right;
@@ -33,11 +33,11 @@ public class Node {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Node node = this;
-        while(node!=null){
+        while (node != null) {
             sb.append(node.val).append(',');
             node = node.next;
         }
-        return sb.substring(0,sb.length()-1);
+        return sb.substring(0, sb.length() - 1);
     }
 
 }

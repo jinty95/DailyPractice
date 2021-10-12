@@ -14,13 +14,13 @@ import java.util.List;
 public class SkipListTest {
 
     @Test
-    public void test(){
+    public void test() {
         SkipList skipList = new SkipList();
-        for(int i=1; i<=100; i++){
+        for (int i = 1; i <= 100; i++) {
             skipList.insert(i);
         }
         List<List<Integer>> lists = skipList.showList();
-        for(List<Integer> list : lists){
+        for (List<Integer> list : lists) {
             System.out.println(list);
         }
         System.out.println(skipList.search(50));

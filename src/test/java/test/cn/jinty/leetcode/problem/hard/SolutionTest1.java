@@ -17,7 +17,7 @@ public class SolutionTest1 {
     private final static Solution1 solution = new Solution1();
 
     @Test
-    public void testVerticalTraversal(){
+    public void testVerticalTraversal() {
         TreeNode root = TreeNode.deserialize(
                 "[1,2,3,4,6,5,7,null,null,null,null,null,null,null,null]"
         );
@@ -25,50 +25,50 @@ public class SolutionTest1 {
     }
 
     @Test
-    public void testShortestPathLength(){
+    public void testShortestPathLength() {
         System.out.println(solution.shortestPathLength(
-                new int[][]{{1,2,3},{0},{0},{0}}
+                new int[][]{{1, 2, 3}, {0}, {0}, {0}}
         ));
     }
 
     @Test
-    public void testNumberOfArithmeticSlices(){
-        System.out.println(solution.numberOfArithmeticSlices(new int[]{1,2,3}));
-        System.out.println(solution.numberOfArithmeticSlices(new int[]{2,4,6,8,10}));
+    public void testNumberOfArithmeticSlices() {
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{1, 2, 3}));
+        System.out.println(solution.numberOfArithmeticSlices(new int[]{2, 4, 6, 8, 10}));
     }
 
     @Test
-    public void testCheckRecord(){
+    public void testCheckRecord() {
         System.out.println(solution.checkRecord(1));
         System.out.println(solution.checkRecord(2));
         System.out.println(solution.checkRecord(10101));
     }
 
     @Test
-    public void testFindMaximizedCapital(){
-        System.out.println(solution.findMaximizedCapital(3,0,new int[]{1,2,3},new int[]{0,1,1}));
-        System.out.println(solution.findMaximizedCapital(2,2,new int[]{1,2,3},new int[]{0,1,1}));
+    public void testFindMaximizedCapital() {
+        System.out.println(solution.findMaximizedCapital(3, 0, new int[]{1, 2, 3}, new int[]{0, 1, 1}));
+        System.out.println(solution.findMaximizedCapital(2, 2, new int[]{1, 2, 3}, new int[]{0, 1, 1}));
     }
 
     @Test
-    public void testFullJustify(){
+    public void testFullJustify() {
         List<String> list1 = solution.fullJustify(
                 new String[]{"This", "is", "an", "example", "of", "text", "justification."}, 16
         );
-        for(String str : list1){
+        for (String str : list1) {
             System.out.println(str);
         }
         System.out.println();
         List<String> list2 = solution.fullJustify(
-                new String[]{"Science","is","what","we","understand","well","enough","to","explain", "to","a","computer.","Art","is","everything","else","we","do"}, 20
+                new String[]{"Science", "is", "what", "we", "understand", "well", "enough", "to", "explain", "to", "a", "computer.", "Art", "is", "everything", "else", "we", "do"}, 20
         );
-        for(String str : list2){
+        for (String str : list2) {
             System.out.println(str);
         }
     }
 
     @Test
-    public void testFindIntegers(){
+    public void testFindIntegers() {
         System.out.println(solution.findIntegers(5));
         System.out.println(solution.findIntegers(100));
     }
@@ -76,11 +76,11 @@ public class SolutionTest1 {
     @Test
     public void testFindWords() {
         System.out.println(solution.findWords(
-                new char[][]{{'o','a','a','n'},{'e','t','a','e'},{'i','h','k','r'},{'i','f','l','v'}},
-                new String[]{"oath","pea","eat","rain"}
+                new char[][]{{'o', 'a', 'a', 'n'}, {'e', 't', 'a', 'e'}, {'i', 'h', 'k', 'r'}, {'i', 'f', 'l', 'v'}},
+                new String[]{"oath", "pea", "eat", "rain"}
         ));
         System.out.println(solution.findWords(
-                new char[][]{{'a','a'}},
+                new char[][]{{'a', 'a'}},
                 new String[]{"aaa"}
         ));
     }

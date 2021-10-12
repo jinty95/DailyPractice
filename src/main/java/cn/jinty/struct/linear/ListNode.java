@@ -11,13 +11,17 @@ public class ListNode {
     public int val;
     public ListNode next;
 
-    public ListNode() {}
-    public ListNode(int x) { val = x; }
+    public ListNode() {
+    }
 
-    public int getLength(){
+    public ListNode(int x) {
+        val = x;
+    }
+
+    public int getLength() {
         ListNode node = this;
         int len = 0;
-        while(node!=null){
+        while (node != null) {
             len++;
             node = node.next;
         }
@@ -28,11 +32,11 @@ public class ListNode {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         ListNode node = this;
-        while(node!=null){
+        while (node != null) {
             sb.append(node.val).append(',');
             node = node.next;
         }
-        return sb.substring(0,sb.length()-1);
+        return sb.substring(0, sb.length() - 1);
     }
 
 }

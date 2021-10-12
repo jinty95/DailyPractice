@@ -11,16 +11,16 @@ public class ComputerStarter {
     private Computer cpu;
     private Computer ddr;
 
-    public ComputerStarter(){
+    public ComputerStarter() {
         cpu = new Cpu();
         ddr = new Ddr();
     }
 
-    public void bootCpu(){
+    public void bootCpu() {
         cpu.boot();
     }
 
-    public void bootDdr(){
+    public void bootDdr() {
         ddr.boot();
     }
 }

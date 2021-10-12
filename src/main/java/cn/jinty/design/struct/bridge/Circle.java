@@ -6,9 +6,9 @@ package cn.jinty.design.struct.bridge;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class Circle extends Shape{
+public class Circle extends Shape {
 
-    public Circle(DrawApi drawApi){
+    public Circle(DrawApi drawApi) {
         super(drawApi);
     }
 

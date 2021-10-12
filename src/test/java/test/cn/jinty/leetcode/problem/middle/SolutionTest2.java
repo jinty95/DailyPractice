@@ -15,15 +15,15 @@ public class SolutionTest2 {
 
     @Test
     public void testFindNumberOfLIS() {
-        System.out.println(solution.findNumberOfLIS(new int[]{1,3,5,4,7}));
-        System.out.println(solution.findNumberOfLIS(new int[]{2,2,2,2,2}));
-        System.out.println(solution.findNumberOfLIS(new int[]{1,2,4,3,5,4,7,2}));
+        System.out.println(solution.findNumberOfLIS(new int[]{1, 3, 5, 4, 7}));
+        System.out.println(solution.findNumberOfLIS(new int[]{2, 2, 2, 2, 2}));
+        System.out.println(solution.findNumberOfLIS(new int[]{1, 2, 4, 3, 5, 4, 7, 2}));
     }
 
     @Test
     public void testMinDistance() {
-        System.out.println(solution.minDistance("sea","eat"));
-        System.out.println(solution.minDistance("hello","hell"));
+        System.out.println(solution.minDistance("sea", "eat"));
+        System.out.println(solution.minDistance("hello", "hell"));
     }
 
     @Test

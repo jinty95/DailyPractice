@@ -12,7 +12,7 @@ import org.junit.Test;
 public class IpUtilTest {
 
     @Test
-    public void test(){
+    public void test() {
         String s1 = "192.168.0.1";
         String s2 = "256.256.0.0";
         System.out.println(IpUtil.ip2int(s1));

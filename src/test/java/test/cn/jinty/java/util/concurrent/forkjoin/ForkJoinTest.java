@@ -15,9 +15,9 @@ import java.util.concurrent.Future;
 public class ForkJoinTest {
 
     @Test
-    public void test(){
+    public void test() {
         ForkJoinPool pool = new ForkJoinPool();
-        Future<Long> future = pool.submit(new ComputeTask(1,100000));
+        Future<Long> future = pool.submit(new ComputeTask(1, 100000));
         try {
             System.out.println(future.get());
         } catch (InterruptedException | ExecutionException e) {

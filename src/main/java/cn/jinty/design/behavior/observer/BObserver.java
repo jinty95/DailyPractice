@@ -6,7 +6,7 @@ package cn.jinty.design.behavior.observer;
  * @author Jinty
  * @date 2020/7/17.
  */
-public class BObserver implements Observer{
+public class BObserver implements Observer {
 
     @Override
     public void notify(String msg) {

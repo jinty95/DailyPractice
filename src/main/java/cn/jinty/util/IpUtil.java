@@ -20,7 +20,7 @@ public final class IpUtil {
      * @param ip IP字符串
      * @return 是否
      */
-    private static boolean isIpFormat(String ip){
+    private static boolean isIpFormat(String ip) {
         return pattern.matcher(ip).matches();
     }
 
@@ -31,16 +31,16 @@ public final class IpUtil {
      * @param ip IP字符串
      * @return 整数
      */
-    public static int ip2int(String ip){
-        if(!isIpFormat(ip)){
-            throw new IllegalArgumentException(ip+"不是合法的IP地址");
+    public static int ip2int(String ip) {
+        if (!isIpFormat(ip)) {
+            throw new IllegalArgumentException(ip + "不是合法的IP地址");
         }
         String[] arr = ip.split("\\.");
         int result = 0;
-        for(int i=0;i<arr.length;i++){
+        for (int i = 0; i < arr.length; i++) {
             int j = Integer.parseInt(arr[i]);
-            if(j>255){
-                throw new IllegalArgumentException(ip+"不是合法的IP地址");
+            if (j > 255) {
+                throw new IllegalArgumentException(ip + "不是合法的IP地址");
             }
             result |= j << (arr.length - 1 - i) * 8;
         }
@@ -53,12 +53,12 @@ public final class IpUtil {
      * @param num 整数
      * @return IP字符串
      */
-    public static String int2ip(int num){
+    public static String int2ip(int num) {
         StringBuilder sb = new StringBuilder();
-        for(int i=3;i>=0;i--){
+        for (int i = 3; i >= 0; i--) {
             int j = (num >>> i * 8) & 255;
             sb.append(j);
-            if(i!=0){
+            if (i != 0) {
                 sb.append(".");
             }
         }

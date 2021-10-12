@@ -17,7 +17,7 @@ public class ComputeTask extends RecursiveTask<Long> {
     //最小计算区间
     private static final long minLen = 1000L;
 
-    public ComputeTask(long begin, long end){
+    public ComputeTask(long begin, long end) {
         this.begin = begin;
         this.end = end;
     }
@@ -26,22 +26,22 @@ public class ComputeTask extends RecursiveTask<Long> {
     protected Long compute() {
         long result = 0L;
         //不可继续切分
-        if(end-begin<=minLen){
-            for(long i=begin;i<=end;i++){
+        if (end - begin <= minLen) {
+            for (long i = begin; i <= end; i++) {
                 result += i;
             }
             return result;
         }
         //可继续切分
-        long mid = begin + (end-begin)/2;
+        long mid = begin + (end - begin) / 2;
         //二分
-        ComputeTask left = new ComputeTask(begin,mid);
-        ComputeTask right = new ComputeTask(mid+1,end);
+        ComputeTask left = new ComputeTask(begin, mid);
+        ComputeTask right = new ComputeTask(mid + 1, end);
         //分治递归
         left.fork();
         right.fork();
         //结果归并
-        return left.join()+right.join();
+        return left.join() + right.join();
     }
 
 }

@@ -12,7 +12,7 @@ import org.junit.Test;
 public class MaxQueueTest {
 
     @Test
-    public void test(){
+    public void test() {
         MaxQueue maxQueue = new MaxQueue();
         maxQueue.pushBack(1);
         maxQueue.pushBack(2);

@@ -22,12 +22,14 @@ public class Solution2 {
         // 动态规划：时间复杂度O(N^2)，N为数组长度
         // dp[i][0]表示以numbers[i]为结尾的最长递增子序列长度，dp[i][1]表示该长度的子序列有多少个
         int[][] dp = new int[numbers.length][2];
-        dp[0][0] = 1; dp[0][1] = 1;
+        dp[0][0] = 1;
+        dp[0][1] = 1;
         // 最长递增子序列的长度
         int lis = 1;
         // 枚举结尾元素
         for (int i = 1; i < numbers.length; i++) {
-            dp[i][0] = 1; dp[i][1] = 1;
+            dp[i][0] = 1;
+            dp[i][1] = 1;
             // 在当前元素的前区间寻找结尾比当前元素小的最长递增子序列
             for (int j = 0; j < i; j++) {
                 if (numbers[j] < numbers[i]) {
@@ -67,6 +69,7 @@ public class Solution2 {
         int maxCommonSubSeq = maxCommonSubSeq(word1, word2);
         return word1.length() - maxCommonSubSeq + word2.length() - maxCommonSubSeq;
     }
+
     // 通过动态规划求最大公共子序列的长度
     private int maxCommonSubSeq(String word1, String word2) {
         if (word1 == null || word2 == null || word1.length() == 0 || word2.length() == 0) {
@@ -112,6 +115,7 @@ public class Solution2 {
         // 并集面积
         return area1 + area2 - overlap;
     }
+
     // 求同向边的重叠长度
     private int getOverlapLength(int a1, int a2, int b1, int b2) {
         // 不重叠
@@ -127,7 +131,7 @@ public class Solution2 {
      * 如果存在多个答案，只需返回 任意一个 。
      * 对于所有给定的输入，保证 答案字符串的长度小于 104 。
      *
-     * @param numerator 被除数
+     * @param numerator   被除数
      * @param denominator 除数
      * @return 小数形式的结果
      */
@@ -155,7 +159,7 @@ public class Solution2 {
         // 小数点
         sb.append('.');
         // 小数部分：借位相除，根据余数是否重复判断循环小数
-        Map<Long,Integer> seen = new HashMap<>();
+        Map<Long, Integer> seen = new HashMap<>();
         num = (num % den) * 10;
         seen.put(num, sb.length());
         while (num != 0) {
@@ -163,7 +167,7 @@ public class Solution2 {
             num = (num % den) * 10;
             if (seen.containsKey(num)) {
                 int index = seen.get(num);
-                return sb.substring(0,index) + "(" + sb.substring(index,sb.length()) + ")";
+                return sb.substring(0, index) + "(" + sb.substring(index, sb.length()) + ")";
             }
             seen.put(num, sb.length());
         }

@@ -6,7 +6,7 @@ package cn.jinty.design.struct.adaptor;
  * @author Jinty
  * @date 2020/7/15.
  */
-public class Mp4Player implements AdvancedMediaPlayer{
+public class Mp4Player implements AdvancedMediaPlayer {
 
     @Override
     public void playVlc(String fileName) {
@@ -15,6 +15,6 @@ public class Mp4Player implements AdvancedMediaPlayer{
 
     @Override
     public void playMp4(String fileName) {
-        System.out.println("Mp4 is playing now: fileName="+fileName);
+        System.out.println("Mp4 is playing now: fileName=" + fileName);
     }
 }

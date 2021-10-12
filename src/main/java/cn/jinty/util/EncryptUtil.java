@@ -22,6 +22,7 @@ public final class EncryptUtil {
 
     //AES加密器
     private static Cipher cipher = null;
+
     static {
         try {
             cipher = Cipher.getInstance(AES_ALGORITHM);
@@ -35,17 +36,17 @@ public final class EncryptUtil {
      *
      * @return 秘钥字符串
      */
-    public static byte[] generateAesKey(){
-        try{
+    public static byte[] generateAesKey() {
+        try {
             //1.构造密钥生成器，指定为AES算法,不区分大小写
-            KeyGenerator keygen=KeyGenerator.getInstance("AES");
+            KeyGenerator keygen = KeyGenerator.getInstance("AES");
             //2.指定密钥为128比特
             keygen.init(128);
             //3.随机生成密钥
-            SecretKey originalKey=keygen.generateKey();
+            SecretKey originalKey = keygen.generateKey();
             //4.获得密钥的字节数组
             return originalKey.getEncoded();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -55,7 +56,7 @@ public final class EncryptUtil {
      * AES加密
      *
      * @param plaintext 明文
-     * @param key 密钥
+     * @param key       密钥
      * @return 密文
      * @throws Exception 异常
      */
@@ -72,7 +73,7 @@ public final class EncryptUtil {
      * AES解密
      *
      * @param ciphertext 密文
-     * @param key 密钥
+     * @param key        密钥
      * @return 明文
      * @throws Exception 异常
      */
@@ -90,12 +91,12 @@ public final class EncryptUtil {
      * 异或加密
      *
      * @param plaintext 明文
-     * @param key 数字密钥
+     * @param key       数字密钥
      * @return 密文
      */
-    public static String xorEncrypt(String plaintext, int key){
+    public static String xorEncrypt(String plaintext, int key) {
         byte[] textByte = plaintext.getBytes();
-        for(int i=0;i<textByte.length;i++){
+        for (int i = 0; i < textByte.length; i++) {
             textByte[i] ^= key;
         }
         return Base64.getEncoder().encodeToString(textByte);
@@ -105,12 +106,12 @@ public final class EncryptUtil {
      * 异或解密
      *
      * @param ciphertext 密文
-     * @param key 数字密钥
+     * @param key        数字密钥
      * @return 明文
      */
-    public static String xorDecrypt(String ciphertext, int key){
+    public static String xorDecrypt(String ciphertext, int key) {
         byte[] textByte = Base64.getDecoder().decode(ciphertext);
-        for(int i=0;i<textByte.length;i++){
+        for (int i = 0; i < textByte.length; i++) {
             textByte[i] ^= key;
         }
         return new String(textByte);
@@ -155,15 +156,15 @@ public final class EncryptUtil {
      * @param s 输入字符串
      * @return SHA1加密字节数组
      */
-    public static byte[] sha1(String s){
-        try{
+    public static byte[] sha1(String s) {
+        try {
             // 获得SHA1摘要算法对象
             MessageDigest mdInst = MessageDigest.getInstance("SHA1");
             // 使用指定的字节更新摘要
             mdInst.update(s.getBytes());
             // 获得密文
             return mdInst.digest();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -175,7 +176,7 @@ public final class EncryptUtil {
      * @param s 输入字符串
      * @return SHA1加密串
      */
-    public static String sha1Str(String s){
+    public static String sha1Str(String s) {
         // 获得密文
         byte[] md = sha1(s);
         // 把密文转换成十六进制的字符串形式

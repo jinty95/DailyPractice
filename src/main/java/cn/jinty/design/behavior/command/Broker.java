@@ -13,11 +13,11 @@ public class Broker {
 
     private final List<Order> list = new ArrayList<>();
 
-    public void addOrder(Order order){
+    public void addOrder(Order order) {
         list.add(order);
     }
 
-    public void executeOrder(){
+    public void executeOrder() {
         list.forEach(Order::execute);
         list.clear();
     }

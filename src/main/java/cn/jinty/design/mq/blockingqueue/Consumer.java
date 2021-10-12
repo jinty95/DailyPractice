@@ -10,24 +10,24 @@ import java.util.concurrent.BlockingQueue;
  * @author jinty
  * @date 2021/5/14
  **/
-public class Consumer implements Runnable{
+public class Consumer implements Runnable {
 
     private BlockingQueue<Message> queue;
 
-    public Consumer(BlockingQueue<Message> queue){
+    public Consumer(BlockingQueue<Message> queue) {
         this.queue = queue;
     }
 
     @Override
     public void run() {
-        while(true){
-            try{
+        while (true) {
+            try {
                 Message message = queue.take();
                 System.out.println(
-                        "["+Thread.currentThread().getName()+
-                        "]消费者消费消息: "+message
+                        "[" + Thread.currentThread().getName() +
+                                "]消费者消费消息: " + message
                 );
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

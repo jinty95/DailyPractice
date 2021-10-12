@@ -12,19 +12,19 @@ public class Singleton {
     private static volatile Singleton singleton;
 
     //私有构造器
-    private Singleton(){
-        if(singleton!=null){
+    private Singleton() {
+        if (singleton != null) {
             throw new RuntimeException("单例对象已经存在");
         }
     }
 
     //共有方法获取唯一实例
-    public static Singleton getInstance(){
+    public static Singleton getInstance() {
         //双检锁
-        if(singleton ==null){
+        if (singleton == null) {
             //懒加载创建实例，加锁保证只创建一个
-            synchronized (Singleton.class){
-                if(singleton ==null){
+            synchronized (Singleton.class) {
+                if (singleton == null) {
                     singleton = new Singleton();
                 }
             }

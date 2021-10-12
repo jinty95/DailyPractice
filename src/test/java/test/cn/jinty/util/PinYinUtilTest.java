@@ -12,7 +12,7 @@ import org.junit.Test;
 public class PinYinUtilTest {
 
     @Test
-    public void test(){
+    public void test() {
         System.out.println(PinYinUtil.chineseToPinYin("我是谁"));
         System.out.println(PinYinUtil.chineseToShortPinYin("我是谁"));
     }

@@ -48,7 +48,7 @@ public class Goods {
     }
 
     //建造器
-    public static class Builder{
+    public static class Builder {
 
         private int id;
 
@@ -56,22 +56,22 @@ public class Goods {
 
         private long price;
 
-        public Builder id(int id){
+        public Builder id(int id) {
             this.id = id;
             return this;
         }
 
-        public Builder name(String name){
+        public Builder name(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder price(long price){
+        public Builder price(long price) {
             this.price = price;
             return this;
         }
 
-        public Goods build(){
+        public Goods build() {
             Goods goods = new Goods();
             goods.setId(this.id);
             goods.setName(this.name);

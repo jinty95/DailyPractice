@@ -6,11 +6,11 @@ package cn.jinty.design.struct.adaptor;
  * @author Jinty
  * @date 2020/7/15.
  */
-public class VlcPlayer implements AdvancedMediaPlayer{
+public class VlcPlayer implements AdvancedMediaPlayer {
 
     @Override
     public void playVlc(String fileName) {
-        System.out.println("Vlc is playing now: fileName="+fileName);
+        System.out.println("Vlc is playing now: fileName=" + fileName);
     }
 
     @Override

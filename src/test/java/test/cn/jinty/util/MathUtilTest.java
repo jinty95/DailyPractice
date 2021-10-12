@@ -15,50 +15,50 @@ import java.math.BigInteger;
 public class MathUtilTest {
 
     @Test
-    public void testDoubleOperation(){
+    public void testDoubleOperation() {
 
         //Double
         Double d1 = 4.015;
         Double d2 = 1000.0;
-        System.out.println(d1+" + "+d2+" = "+(d1+d2));
-        System.out.println(d1+" - "+d2+" = "+(d1-d2));
-        System.out.println(d1+" * "+d2+" = "+(d1*d2));
-        System.out.println(d1+" / "+d2+" = "+(d1/d2));
+        System.out.println(d1 + " + " + d2 + " = " + (d1 + d2));
+        System.out.println(d1 + " - " + d2 + " = " + (d1 - d2));
+        System.out.println(d1 + " * " + d2 + " = " + (d1 * d2));
+        System.out.println(d1 + " / " + d2 + " = " + (d1 / d2));
         System.out.println();
 
         //BigDecimal
         BigDecimal b1 = new BigDecimal("4.015");
         BigDecimal b2 = new BigDecimal("1000.0");
-        System.out.println(b1+" + "+b2+" = "+(b1.add(b2)));
-        System.out.println(b1+" - "+b2+" = "+(b1.subtract(b2)));
-        System.out.println(b1+" * "+b2+" = "+(b1.multiply(b2)));
-        System.out.println(b1+" / "+b2+" = "+(b1.divide(b2)));
+        System.out.println(b1 + " + " + b2 + " = " + (b1.add(b2)));
+        System.out.println(b1 + " - " + b2 + " = " + (b1.subtract(b2)));
+        System.out.println(b1 + " * " + b2 + " = " + (b1.multiply(b2)));
+        System.out.println(b1 + " / " + b2 + " = " + (b1.divide(b2)));
         System.out.println();
 
         //MathUtil
-        System.out.println(d1+" + "+d2+" = "+ MathUtil.doubleAdd(d1,d2));
-        System.out.println(d1+" - "+d2+" = "+MathUtil.doubleSubtract(d1,d2));
-        System.out.println(d1+" * "+d2+" = "+MathUtil.doubleMultiply(d1,d2));
-        System.out.println(d1+" / "+d2+" = "+MathUtil.doubleDivide(d1,d2));
+        System.out.println(d1 + " + " + d2 + " = " + MathUtil.doubleAdd(d1, d2));
+        System.out.println(d1 + " - " + d2 + " = " + MathUtil.doubleSubtract(d1, d2));
+        System.out.println(d1 + " * " + d2 + " = " + MathUtil.doubleMultiply(d1, d2));
+        System.out.println(d1 + " / " + d2 + " = " + MathUtil.doubleDivide(d1, d2));
         System.out.println();
 
     }
 
     @Test
-    public void testLog(){
-        System.out.println(MathUtil.log(2.0,1024.0));
-        System.out.println(MathUtil.log(10.0,100000.0));
-        System.out.println(MathUtil.log(3.0,81.0));
+    public void testLog() {
+        System.out.println(MathUtil.log(2.0, 1024.0));
+        System.out.println(MathUtil.log(10.0, 100000.0));
+        System.out.println(MathUtil.log(3.0, 81.0));
     }
 
     @Test
-    public void testIntMultiply(){
+    public void testIntMultiply() {
         int i = Integer.MAX_VALUE;
-        int j = Integer.MAX_VALUE/2;
+        int j = Integer.MAX_VALUE / 2;
         //直接相乘溢出
-        System.out.println(i*j);
+        System.out.println(i * j);
         //使用long保证任何int相乘都不会溢出
-        System.out.println((long)i * (long)j);
+        System.out.println((long) i * (long) j);
         //使用大整数保证不会溢出
         BigInteger bigIntegerI = new BigInteger(String.valueOf(i));
         BigInteger bigIntegerJ = new BigInteger(String.valueOf(j));
@@ -70,7 +70,7 @@ public class MathUtilTest {
     }
 
     @Test
-    public void testFactorial(){
+    public void testFactorial() {
         System.out.println(MathUtil.factorial(4));
         System.out.println(MathUtil.factorial(5));
         System.out.println(MathUtil.factorial(6));
@@ -78,15 +78,15 @@ public class MathUtilTest {
     }
 
     @Test
-    public void testCombinationNum(){
-        System.out.println(MathUtil.combinationNum(3,1));
-        System.out.println(MathUtil.combinationNum(4,2));
-        System.out.println(MathUtil.combinationNum(6,5));
-        System.out.println(MathUtil.combinationNum(33,2)); //溢出得到错误结果
+    public void testCombinationNum() {
+        System.out.println(MathUtil.combinationNum(3, 1));
+        System.out.println(MathUtil.combinationNum(4, 2));
+        System.out.println(MathUtil.combinationNum(6, 5));
+        System.out.println(MathUtil.combinationNum(33, 2)); //溢出得到错误结果
     }
 
     @Test
-    public void testSumFromOneToN(){
+    public void testSumFromOneToN() {
         System.out.println(MathUtil.sumFromOneToN(1));
         System.out.println(MathUtil.sumFromOneToN(2));
         System.out.println(MathUtil.sumFromOneToN(100));
@@ -95,10 +95,10 @@ public class MathUtilTest {
     }
 
     @Test
-    public void testLowBit(){
+    public void testLowBit() {
         int num = 9999;
         System.out.println(Integer.toBinaryString(num));
-        while(num>0){
+        while (num > 0) {
             int lowBit = MathUtil.lowBit(num);
             System.out.println(Integer.toBinaryString(lowBit));
             num -= lowBit;
@@ -106,44 +106,44 @@ public class MathUtilTest {
     }
 
     @Test
-    public void testAdd(){
-        System.out.println(MathUtil.add(1,1));
-        System.out.println(MathUtil.add(7,8));
-        System.out.println(MathUtil.add(999,1001));
-        System.out.println(MathUtil.add(Integer.MAX_VALUE,Integer.MAX_VALUE));
+    public void testAdd() {
+        System.out.println(MathUtil.add(1, 1));
+        System.out.println(MathUtil.add(7, 8));
+        System.out.println(MathUtil.add(999, 1001));
+        System.out.println(MathUtil.add(Integer.MAX_VALUE, Integer.MAX_VALUE));
     }
 
     @Test
-    public void testMultiply(){
-        System.out.println(MathUtil.multiply(2,2));
-        System.out.println(MathUtil.multiply(20,25));
-        System.out.println(MathUtil.multiply(-2,2));
-        System.out.println(MathUtil.multiply(2,-30));
-        System.out.println(MathUtil.multiply(1000000000,3));
+    public void testMultiply() {
+        System.out.println(MathUtil.multiply(2, 2));
+        System.out.println(MathUtil.multiply(20, 25));
+        System.out.println(MathUtil.multiply(-2, 2));
+        System.out.println(MathUtil.multiply(2, -30));
+        System.out.println(MathUtil.multiply(1000000000, 3));
     }
 
     @Test
-    public void testDivide(){
-        System.out.println(MathUtil.divide(10,3));
-        System.out.println(MathUtil.divide(10,-3));
-        System.out.println(MathUtil.divide(10000000,2));
-        System.out.println(MathUtil.divide(Integer.MIN_VALUE,-1));
-        System.out.println(MathUtil.divide(Integer.MIN_VALUE,2));
-        System.out.println(MathUtil.divide(Integer.MIN_VALUE,1));
-        System.out.println(MathUtil.divide(Integer.MAX_VALUE,1));
+    public void testDivide() {
+        System.out.println(MathUtil.divide(10, 3));
+        System.out.println(MathUtil.divide(10, -3));
+        System.out.println(MathUtil.divide(10000000, 2));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE, -1));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE, 2));
+        System.out.println(MathUtil.divide(Integer.MIN_VALUE, 1));
+        System.out.println(MathUtil.divide(Integer.MAX_VALUE, 1));
     }
 
     @Test
-    public void testPow(){
-        System.out.println(Math.pow(10,-3));
-        System.out.println(MathUtil.pow(10,-3));
+    public void testPow() {
+        System.out.println(Math.pow(10, -3));
+        System.out.println(MathUtil.pow(10, -3));
     }
 
     @Test
-    public void testToString(){
+    public void testToString() {
         System.out.println(MathUtil.toBinaryString(15));
-        System.out.println(MathUtil.toString(36,36));
-        System.out.println(MathUtil.toString(36,1));
+        System.out.println(MathUtil.toString(36, 36));
+        System.out.println(MathUtil.toString(36, 1));
     }
 
 }

@@ -27,17 +27,17 @@ public class Solution {
         //动态规划
         int deepH = 0;
         //按宽度升序，如果宽度相同，高度倒序(目的是破坏这段宽度相同序列的高度递增)
-        Arrays.sort(envelopes, ((o1, o2) -> o1[0]!=o2[0] ? o1[0]-o2[0] : o2[1]-o1[1]));
+        Arrays.sort(envelopes, ((o1, o2) -> o1[0] != o2[0] ? o1[0] - o2[0] : o2[1] - o1[1]));
         //宽度有序后，求高度数组的最长递增子序列
         int[] dpH = new int[envelopes.length];
-        for(int i=0; i<envelopes.length; i++){
-            for(int j=0; j<i; j++){
-                if(envelopes[j][1] < envelopes[i][1]){
-                    dpH[i] = Math.max(dpH[j]+1,dpH[i]);
+        for (int i = 0; i < envelopes.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (envelopes[j][1] < envelopes[i][1]) {
+                    dpH[i] = Math.max(dpH[j] + 1, dpH[i]);
                 }
             }
-            if(dpH[i]==0) dpH[i] = 1;
-            deepH = Math.max(deepH,dpH[i]);
+            if (dpH[i] == 0) dpH[i] = 1;
+            deepH = Math.max(deepH, dpH[i]);
         }
         return deepH;
     }
@@ -85,16 +85,16 @@ public class Solution {
 
         //3、单调递增栈：当前点小于等于栈顶，则入栈(索引)，当前点大于栈顶，说明栈顶可以在当前点及栈中的前一个点之间蓄水
         Stack<Integer> stack = new Stack<>();
-        for(int i=0;i<height.length;i++){
-            if(stack.isEmpty()) stack.push(i);
-            else{
-                if(height[stack.peek()]>=height[i]){
+        for (int i = 0; i < height.length; i++) {
+            if (stack.isEmpty()) stack.push(i);
+            else {
+                if (height[stack.peek()] >= height[i]) {
                     stack.push(i);
-                }else{
+                } else {
                     Integer cur = stack.pop();
-                    if(!stack.isEmpty()){
+                    if (!stack.isEmpty()) {
                         Integer left = stack.peek();
-                        sum += (Math.min(height[left],height[i])-height[cur]) * (i-left-1);
+                        sum += (Math.min(height[left], height[i]) - height[cur]) * (i - left - 1);
                     }
                     i--;
                 }
@@ -117,28 +117,28 @@ public class Solution {
      */
     public int numDistinct(String s, String t) {
         //动态规划：时间复杂度O(MN)
-        if(s.length()<t.length()) return 0;
+        if (s.length() < t.length()) return 0;
         //dp[j]表示从s中有多少种t[0...j]的子序列
         int[] dp = new int[t.length()];
         //s[0...i]，i递增
-        for(int i=0; i<s.length(); i++){
+        for (int i = 0; i < s.length(); i++) {
             //t[0...j]，j递减，由于dp是滚动更新的数组，若j递增会丢失上一层的数据
-            for(int j=t.length()-1; j>=0; j--){
+            for (int j = t.length() - 1; j >= 0; j--) {
                 //尾部匹配，s[i]匹配t[j]
-                if(s.charAt(i)==t.charAt(j)){
+                if (s.charAt(i) == t.charAt(j)) {
                     //dp[j-1]是s[0...i-1]中t[0...j-1]的个数
-                    dp[j] += (j==0? 1 : dp[j-1]);
+                    dp[j] += (j == 0 ? 1 : dp[j - 1]);
                 }
             }
         }
-        return dp[t.length()-1];
+        return dp[t.length() - 1];
     }
 
     /**
      * 剑指 Offer 59 - I. 滑动窗口的最大值
      *
      * @param nums 数组
-     * @param k 窗口大小
+     * @param k    窗口大小
      * @return 每个窗内部的最大值
      */
     public int[] maxSlidingWindow(int[] nums, int k) {
@@ -173,27 +173,27 @@ public class Solution {
         return ans;*/
 
         //使用单调队列(从队头->队尾递减)
-        if(k<2) return nums;
-        int[] ans = new int[nums.length-k+1];
+        if (k < 2) return nums;
+        int[] ans = new int[nums.length - k + 1];
         //队列存放索引
         Deque<Integer> queue = new LinkedList<>();
         //left为窗口左边界，right为窗口右边界
-        for(int left=0;left<=nums.length-k;left++){
-            int right = left+k-1;
-            if(queue.isEmpty()){
+        for (int left = 0; left <= nums.length - k; left++) {
+            int right = left + k - 1;
+            if (queue.isEmpty()) {
                 //初始化队列
-                for(int i=left;i<=right;i++){
-                    while(!queue.isEmpty() && nums[queue.peekLast()]<nums[i]){
+                for (int i = left; i <= right; i++) {
+                    while (!queue.isEmpty() && nums[queue.peekLast()] < nums[i]) {
                         queue.pollLast();
                     }
                     queue.offerLast(i);
                 }
-            }else{
+            } else {
                 //窗口滑动时动态更新队列
                 //队头不在窗口内则移除队头
-                if(queue.peekFirst()==left-1) queue.pollFirst();
+                if (queue.peekFirst() == left - 1) queue.pollFirst();
                 //维持队列单调性
-                while(!queue.isEmpty() && nums[queue.peekLast()]<nums[right]){
+                while (!queue.isEmpty() && nums[queue.peekLast()] < nums[right]) {
                     queue.pollLast();
                 }
                 queue.offerLast(right);
@@ -217,12 +217,12 @@ public class Solution {
         //百位1：每1000个数有100个，1000个里面第101个-第200个。
         //故n具有m位1(设k=10^(m-1))的数量为：n/(k*10)*k+min(max(n%(k*10)-i+1,0),k)
         long count = 0;
-        for(long i=1;i<=n;i*=10){
+        for (long i = 1; i <= n; i *= 10) {
             long division = i * 10;
-            count += (n/division*i);
-            count += Math.min(Math.max(n%division-i+1,0),i);
+            count += (n / division * i);
+            count += Math.min(Math.max(n % division - i + 1, 0), i);
         }
-        return (int)count;
+        return (int) count;
     }
 
     /**
@@ -232,18 +232,18 @@ public class Solution {
      * @return 最小值
      */
     public int findMin(int[] nums) {
-        if(nums == null || nums.length==0) return -1;
+        if (nums == null || nums.length == 0) return -1;
         //定义双指针
-        int left = 0, right = nums.length-1;
-        while(left < right){
-            int mid = left + (right-left)/2;
-            if(nums[mid]>nums[right]){
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] > nums[right]) {
                 //中间值大于右边值，说明最小值在右区间，且不可能是当前中间值
-                left = mid+1;
-            }else if(nums[mid]<nums[right]){
+                left = mid + 1;
+            } else if (nums[mid] < nums[right]) {
                 //中间值小于右边值，说明最小值在左区间，且可能为当前中间值
                 right = mid;
-            }else{
+            } else {
                 //中间值等于右边值，说明可以把右边值去除，不会影响最小值判断
                 //在数组仅有一个值的情况下，导致时间复杂度从O(logN)退化为O(N)
                 right--;
@@ -301,12 +301,12 @@ public class Solution {
 
         //以上递归操作存在重复计算、可以用记忆搜索优化
         //定义int三维数组dp，dp[i][j][len]记录s1从i开始长度为len的子串与s2从j开始长度为len的子串是否互扰，0为未知，-1为否，1为是
-        if(s1.length()!=s2.length()) return false;
+        if (s1.length() != s2.length()) return false;
         int len = s1.length();
         scrambleS1 = s1;
         scrambleS2 = s2;
-        dp = new int[len][len][len+1];
-        return isScramble(0,0,len);
+        dp = new int[len][len][len + 1];
+        return isScramble(0, 0, len);
 
     }
 
@@ -315,27 +315,27 @@ public class Solution {
     private int[][][] dp;
 
     //s1从i开始，s2从j开始，长度为len的字符串，是否互相干扰
-    private boolean isScramble(int i,int j,int len){
+    private boolean isScramble(int i, int j, int len) {
 
         //命中记忆
-        if(dp[i][j][len]!=0){
-            return dp[i][j][len]==1;
+        if (dp[i][j][len] != 0) {
+            return dp[i][j][len] == 1;
         }
 
         //值相同
-        if(scrambleS1.substring(i,i+len).equals(scrambleS2.substring(j,j+len))){
+        if (scrambleS1.substring(i, i + len).equals(scrambleS2.substring(j, j + len))) {
             dp[i][j][len] = 1;
             return true;
         }
 
         //字符种类数量是否一致
         int[] map = new int[26];
-        for(int k=i;k<i+len;k++){
-            map[scrambleS1.charAt(k)-'a']++;
+        for (int k = i; k < i + len; k++) {
+            map[scrambleS1.charAt(k) - 'a']++;
         }
-        for(int k=j;k<j+len;k++){
-            int idx = scrambleS2.charAt(k)-'a';
-            if(map[idx]==0){
+        for (int k = j; k < j + len; k++) {
+            int idx = scrambleS2.charAt(k) - 'a';
+            if (map[idx] == 0) {
                 dp[i][j][len] = -1;
                 return false;
             }
@@ -343,14 +343,14 @@ public class Solution {
         }
 
         //枚举分割点
-        for(int k=1;k<len;k++){
+        for (int k = 1; k < len; k++) {
             //不交换
-            if(isScramble(i,j,k) && isScramble(i+k,j+k,len-k)){
+            if (isScramble(i, j, k) && isScramble(i + k, j + k, len - k)) {
                 dp[i][j][len] = 1;
                 return true;
             }
             //交换
-            if(isScramble(i,j+len-k,k) && isScramble(i+k,j,len-k)){
+            if (isScramble(i, j + len - k, k) && isScramble(i + k, j, len - k)) {
                 dp[i][j][len] = 1;
                 return true;
             }
@@ -405,45 +405,48 @@ public class Solution {
         return count;*/
 
         //3、归并排序：过程中计算逆序对，时间复杂度O(NlogN)
-        if(nums==null || nums.length==0) return 0;
-        mergeSort(nums,0,nums.length-1);
+        if (nums == null || nums.length == 0) return 0;
+        mergeSort(nums, 0, nums.length - 1);
         return reversePairCount;
 
     }
+
     //成员变量记录逆序对数量
     private int reversePairCount = 0;
+
     //归并排序
-    private void mergeSort(int[] arr,int begin,int end){
-        if(begin<end){
+    private void mergeSort(int[] arr, int begin, int end) {
+        if (begin < end) {
             //+的优先级比>>>高，所以要加括号
-            int mid = begin + ((end-begin)>>>1);
-            mergeSort(arr,begin,mid);
-            mergeSort(arr,mid+1,end);
-            merge(arr,begin,mid,end);
+            int mid = begin + ((end - begin) >>> 1);
+            mergeSort(arr, begin, mid);
+            mergeSort(arr, mid + 1, end);
+            merge(arr, begin, mid, end);
         }
     }
+
     //有序表的合并
-    private void merge(int[] arr,int begin,int mid,int end){
-        int[] temp = new int[end-begin+1];
-        int i=0;
+    private void merge(int[] arr, int begin, int mid, int end) {
+        int[] temp = new int[end - begin + 1];
+        int i = 0;
         int leftBgin = begin;
-        int rightBegin = mid+1;
-        while(leftBgin<=mid && rightBegin<=end){
-            if(arr[leftBgin]<=arr[rightBegin]){
+        int rightBegin = mid + 1;
+        while (leftBgin <= mid && rightBegin <= end) {
+            if (arr[leftBgin] <= arr[rightBegin]) {
                 temp[i++] = arr[leftBgin++];
-            }else{
+            } else {
                 temp[i++] = arr[rightBegin++];
                 reversePairCount += (mid - leftBgin + 1);
             }
         }
-        while(leftBgin<=mid){
+        while (leftBgin <= mid) {
             temp[i++] = arr[leftBgin++];
         }
-        while(rightBegin<=end){
+        while (rightBegin <= end) {
             temp[i++] = arr[rightBegin++];
         }
-        for(int j=begin;j<=end;j++){
-            arr[j] = temp[j-begin];
+        for (int j = begin; j <= end; j++) {
+            arr[j] = temp[j - begin];
         }
     }
 
@@ -453,11 +456,11 @@ public class Solution {
      * 题目数据保证总会存在一个数值和不超过 k 的矩形区域。
      *
      * @param matrix 矩阵
-     * @param k 整数
+     * @param k      整数
      * @return 不超过k的最大数值和
      */
     public int maxSumSubmatrix(int[][] matrix, int k) {
-        if(matrix==null || matrix.length==0) return -1;
+        if (matrix == null || matrix.length == 0) return -1;
         Integer ans = null;
         int row = matrix.length;
         int col = matrix[0].length;
@@ -465,34 +468,34 @@ public class Solution {
         int[][] sum = new int[row][col];
         sum[0][0] = matrix[0][0];
         //第一行
-        for(int i=1;i<col;i++){
-            sum[0][i] = sum[0][i-1] + matrix[0][i];
+        for (int i = 1; i < col; i++) {
+            sum[0][i] = sum[0][i - 1] + matrix[0][i];
         }
         //第一列
-        for(int i=1;i<row;i++){
-            sum[i][0] = sum[i-1][0] + matrix[i][0];
+        for (int i = 1; i < row; i++) {
+            sum[i][0] = sum[i - 1][0] + matrix[i][0];
         }
         //其它
-        for(int i=1;i<row;i++){
-            for(int j=1;j<col;j++){
-                sum[i][j] = sum[i-1][j] + sum[i][j-1] - sum[i-1][j-1] + matrix[i][j];
+        for (int i = 1; i < row; i++) {
+            for (int j = 1; j < col; j++) {
+                sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + matrix[i][j];
             }
         }
         //需要求任意点与matrix[i][j]组成的矩阵区域的数值和
-        for(int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
-                for(int m=i;m<row;m++){
-                    for(int n=j;n<col;n++){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                for (int m = i; m < row; m++) {
+                    for (int n = j; n < col; n++) {
                         int diff;
-                        if(i==0&&j==0) diff = sum[m][n];
-                        else if(i==0) diff = sum[m][n]-sum[m][j-1];
-                        else if(j==0) diff = sum[m][n]-sum[i-1][n];
-                        else diff = sum[m][n]-sum[m][j-1]-sum[i-1][n]+sum[i-1][j-1];
-                        if(diff<=k){
-                            if(ans==null) ans = diff;
-                            else ans = Math.max(ans,diff);
+                        if (i == 0 && j == 0) diff = sum[m][n];
+                        else if (i == 0) diff = sum[m][n] - sum[m][j - 1];
+                        else if (j == 0) diff = sum[m][n] - sum[i - 1][n];
+                        else diff = sum[m][n] - sum[m][j - 1] - sum[i - 1][n] + sum[i - 1][j - 1];
+                        if (diff <= k) {
+                            if (ans == null) ans = diff;
+                            else ans = Math.max(ans, diff);
                             //最大为k，可以提前剪枝
-                            if(ans==k) return ans;
+                            if (ans == k) return ans;
                         }
                     }
                 }
@@ -512,8 +515,8 @@ public class Solution {
      * @return 能否在最后一步跳至最后一块石子上
      */
     public boolean canCross(int[] stones) {
-        if(stones==null || stones.length==0) return false;
-        if(stones.length==1) return true;
+        if (stones == null || stones.length == 0) return false;
+        if (stones.length == 1) return true;
         //动态规划
         //对于每个石头，可以从之前的任意石头跳过来，上一步的跳跃单位有多种可能，收集所有可能情况，并推测下一步跳跃可选距离。
         //当前石头stones[i]->上一步跳跃单位[k1,k2,...]->下一步跳跃单位[k1-1,k1,k1+1,...]，可以用列表+集合的结构存储。
@@ -523,20 +526,20 @@ public class Solution {
         dp0.add(1);
         dp.add(dp0);
         //其余石头，下一步跳跃单位都由之前历史来推测
-        for(int i=1;i<stones.length;i++){
+        for (int i = 1; i < stones.length; i++) {
             Set<Integer> dpi = new HashSet<>();
-            for(int j=0;j<dp.size();j++){
+            for (int j = 0; j < dp.size(); j++) {
                 //从j跳到i的距离为dis，判断这个距离是否为j的下一步可选跳跃单位
-                int dis = stones[i]-stones[j];
-                if(dp.get(j).contains(dis)){
+                int dis = stones[i] - stones[j];
+                if (dp.get(j).contains(dis)) {
                     dpi.add(dis);
-                    dpi.add(dis-1);
-                    dpi.add(dis+1);
+                    dpi.add(dis - 1);
+                    dpi.add(dis + 1);
                 }
             }
             dp.add(dpi);
         }
-        return dp.get(dp.size()-1).size() != 0;
+        return dp.get(dp.size() - 1).size() != 0;
     }
 
     /**
@@ -545,44 +548,44 @@ public class Solution {
      * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
      *
      * @param head 链表
-     * @param k 正整数
+     * @param k    正整数
      * @return 翻转后的链表
      */
     public ListNode reverseKGroup(ListNode head, int k) {
         //1、收集节点后重构：时间复杂度O(N)，空间复杂度O(N)
-        if(k<2) return head;
+        if (k < 2) return head;
         //顺序收集节点
         List<ListNode> list = new ArrayList<>();
         ListNode tmp = head;
-        while(tmp!=null){
+        while (tmp != null) {
             list.add(tmp);
             tmp = tmp.next;
         }
         //k个一组反转
         ListNode newHead = null;
         ListNode newTail = null;
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             //不够k个
-            if(list.size()-i<k){
-                if(newHead==null) return head;
+            if (list.size() - i < k) {
+                if (newHead == null) return head;
                 newTail.next = list.get(i);
                 return newHead;
             }
             //小组内部反转
             int num = k;
-            while(num>1){
-                list.get(i+1).next = list.get(i);
+            while (num > 1) {
+                list.get(i + 1).next = list.get(i);
                 i++;
                 num--;
             }
-            if(newHead==null){
+            if (newHead == null) {
                 //确定新的头节点
                 newHead = list.get(i);
                 newTail = list.get(0);
-            }else{
+            } else {
                 //相邻小组的头尾连接
                 newTail.next = list.get(i);
-                newTail = list.get(i-(k-num));
+                newTail = list.get(i - (k - num));
             }
             //尾节点next置空，否则会产生环
             newTail.next = null;
@@ -596,9 +599,9 @@ public class Solution {
      * 我们将连续相同颜色尽可能多的房子称为一个街区。请你返回房子涂色方案的最小总花费，使得每个房子都被涂色后，恰好组成 target 个街区。如果没有可用的涂色方案，请返回 -1 。
      *
      * @param houses houses[i]是第 i 个房子的颜色，0 表示这个房子还没有被涂色。
-     * @param cost cost[i][j]是将第 i 个房子涂成颜色 j+1 的花费。
-     * @param m 房子数量
-     * @param n 颜色种类
+     * @param cost   cost[i][j]是将第 i 个房子涂成颜色 j+1 的花费。
+     * @param m      房子数量
+     * @param n      颜色种类
      * @param target 目标街区数量
      * @return 最小花费
      */
@@ -607,70 +610,70 @@ public class Solution {
         //dp[i][j][k]表示有i+1个房子，第i+1个房子被染成j+1颜色，且有k+1个街区时的最小花费
         int[][][] dp = new int[m][n][target];
         //第1个房子
-        if(houses[0]==0){
+        if (houses[0] == 0) {
             //未染色
-            for(int j=0;j<n;j++){
-                for(int k=0;k<target;k++){
-                    dp[0][j][k] = (k==0 ? cost[0][j] : -1);
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < target; k++) {
+                    dp[0][j][k] = (k == 0 ? cost[0][j] : -1);
                 }
             }
-        }else{
+        } else {
             //已染色
-            for(int j=0;j<n;j++){
-                for(int k=0;k<target;k++){
-                    dp[0][j][k] = (j+1==houses[0] && k==0 ? 0 : -1);
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < target; k++) {
+                    dp[0][j][k] = (j + 1 == houses[0] && k == 0 ? 0 : -1);
                 }
             }
         }
         //第2个房子到第m个房子
-        for(int i=1;i<m;i++){
-            if(houses[i]==0){
+        for (int i = 1; i < m; i++) {
+            if (houses[i] == 0) {
                 //未染色
-                for(int j=0;j<n;j++){
-                    for(int k=0;k<target;k++){
+                for (int j = 0; j < n; j++) {
+                    for (int k = 0; k < target; k++) {
                         dp[i][j][k] = Integer.MAX_VALUE;
-                        for(int color=0;color<n;color++){
-                            if(color==j){
+                        for (int color = 0; color < n; color++) {
+                            if (color == j) {
                                 //与上一个房子同色
-                                if(dp[i-1][color][k]!=-1){
+                                if (dp[i - 1][color][k] != -1) {
                                     //总花费 = 之前的花费 + 当前房子染j+1颜色的花费
-                                    dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k]+cost[i][j]);
+                                    dp[i][j][k] = Math.min(dp[i][j][k], dp[i - 1][color][k] + cost[i][j]);
                                 }
                             } else {
                                 //与上一个房子不同色
-                                if(k>0 && dp[i-1][color][k-1]!=-1){
+                                if (k > 0 && dp[i - 1][color][k - 1] != -1) {
                                     //总花费 = 之前的花费 + 当前房子染j+1颜色的花费
-                                    dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k-1]+cost[i][j]);
+                                    dp[i][j][k] = Math.min(dp[i][j][k], dp[i - 1][color][k - 1] + cost[i][j]);
                                 }
                             }
                         }
                         dp[i][j][k] = dp[i][j][k] == Integer.MAX_VALUE ? -1 : dp[i][j][k];
                     }
                 }
-            }else{
+            } else {
                 //已染色
-                for(int j=0;j<n;j++){
-                    for(int k=0;k<target;k++){
-                        if(j+1==houses[i]){
+                for (int j = 0; j < n; j++) {
+                    for (int k = 0; k < target; k++) {
+                        if (j + 1 == houses[i]) {
                             dp[i][j][k] = Integer.MAX_VALUE;
                             //只能染j+1的颜色
-                            for(int color=0;color<n;color++){
-                                if(color==j){
+                            for (int color = 0; color < n; color++) {
+                                if (color == j) {
                                     //与上一个房子同色
-                                    if(dp[i-1][color][k]!=-1){
+                                    if (dp[i - 1][color][k] != -1) {
                                         //总花费 = 之前的花费
-                                        dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k]);
+                                        dp[i][j][k] = Math.min(dp[i][j][k], dp[i - 1][color][k]);
                                     }
-                                }else{
+                                } else {
                                     //与上一个房子不同色
-                                    if(k>0 && dp[i-1][color][k-1]!=-1){
+                                    if (k > 0 && dp[i - 1][color][k - 1] != -1) {
                                         //总花费 = 之前的花费
-                                        dp[i][j][k] = Math.min(dp[i][j][k],dp[i-1][color][k-1]);
+                                        dp[i][j][k] = Math.min(dp[i][j][k], dp[i - 1][color][k - 1]);
                                     }
                                 }
                             }
                             dp[i][j][k] = dp[i][j][k] == Integer.MAX_VALUE ? -1 : dp[i][j][k];
-                        }else{
+                        } else {
                             //其余颜色都不能染
                             dp[i][j][k] = -1;
                         }
@@ -680,12 +683,12 @@ public class Solution {
         }
         //dp[m-1][j][target-1]中找最小值
         int minCost = Integer.MAX_VALUE;
-        for(int j=0;j<n;j++){
-            if(dp[m-1][j][target-1]!=-1){
-                minCost = Math.min(minCost,dp[m-1][j][target-1]);
+        for (int j = 0; j < n; j++) {
+            if (dp[m - 1][j][target - 1] != -1) {
+                minCost = Math.min(minCost, dp[m - 1][j][target - 1]);
             }
         }
-        return minCost==Integer.MAX_VALUE ? -1 : minCost;
+        return minCost == Integer.MAX_VALUE ? -1 : minCost;
     }
 
     /**
@@ -696,7 +699,7 @@ public class Solution {
      * 请你设计一套最佳的工作分配方案，使工人的 最大工作时间 得以 最小化 。
      *
      * @param jobs 每项工作需花费的时间
-     * @param k 工人数
+     * @param k    工人数
      * @return 完成所有工作的最短时间
      */
     public int minimumTimeRequired(int[] jobs, int k) {
@@ -705,8 +708,8 @@ public class Solution {
 
         //倒序排序，因为先分配大工作能更快找到一个可行的分配方案
         Arrays.sort(jobs);
-        int low = 0, high = jobs.length-1;
-        while(low<high){
+        int low = 0, high = jobs.length - 1;
+        while (low < high) {
             jobs[low] ^= jobs[high];
             jobs[high] ^= jobs[low];
             jobs[low] ^= jobs[high];
@@ -716,50 +719,52 @@ public class Solution {
         //求jobs的最大值及总和
         int max = jobs[0];
         int sum = jobs[0];
-        for(int job : jobs){
-            max = Math.max(max,job);
+        for (int job : jobs) {
+            max = Math.max(max, job);
             sum += job;
         }
         //当k>=jobs.length时，ans=max。当k=1时，ans=sum。
         int left = max, right = sum;
-        while(left<right){
-            int mid = left + (right-left)/2;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
             //判断在这个时间下k个工人能否完成工作
-            if(check(jobs,k,mid)){
+            if (check(jobs, k, mid)) {
                 //能完成工作，则缩短工时
                 right = mid;
-            }else{
+            } else {
                 //不能完成工作，则增加工时
-                left = mid+1;
+                left = mid + 1;
             }
         }
         return left;
 
     }
+
     //判断在limit时间限制内k个工人能否完成工作
-    private boolean check(int[] jobs,int k,int limit){
+    private boolean check(int[] jobs, int k, int limit) {
         //每个工人的负载
         int[] workerLoads = new int[k];
         //回溯
-        return backTrack(jobs,workerLoads,0,limit);
+        return backTrack(jobs, workerLoads, 0, limit);
     }
+
     //回溯算法，穷举所有分配情况
-    private boolean backTrack(int[] jobs,int[] workerLoads,int jobIndex,int limit){
-        if(jobIndex>=jobs.length){
+    private boolean backTrack(int[] jobs, int[] workerLoads, int jobIndex, int limit) {
+        if (jobIndex >= jobs.length) {
             return true;
         }
         //当前工作
         int job = jobs[jobIndex];
         //分配给任意工人
-        for(int i=0;i<workerLoads.length;i++){
-            if(workerLoads[i]+job<=limit){
+        for (int i = 0; i < workerLoads.length; i++) {
+            if (workerLoads[i] + job <= limit) {
                 workerLoads[i] += job;
-                boolean flag = backTrack(jobs,workerLoads,jobIndex+1,limit);
-                if(flag) return true;
+                boolean flag = backTrack(jobs, workerLoads, jobIndex + 1, limit);
+                if (flag) return true;
                 workerLoads[i] -= job;
             }
             //提前剪枝，如果i工人无法分配到工作(工作量为0)，那么显然i+1工人也无法分配到工作
-            if(workerLoads[i]==0){
+            if (workerLoads[i] == 0) {
                 break;
             }
         }
@@ -780,25 +785,26 @@ public class Solution {
     public boolean isMatch(String s, String p) {
         char[] sArr = s.toCharArray();
         char[] pArr = p.toCharArray();
-        return isMatch(sArr,pArr,0,0);
+        return isMatch(sArr, pArr, 0, 0);
     }
+
     //判断从si及pi开始的s和p能否匹配：关键在于*的处理，需要枚举*匹配零个或多个的所有情况
-    private boolean isMatch(char[] s,char[] p,int si,int pi){
-        if(pi==p.length) return si==s.length;
+    private boolean isMatch(char[] s, char[] p, int si, int pi) {
+        if (pi == p.length) return si == s.length;
         //1、当pi的后一位不是*
-        if(pi==p.length-1 || p[pi+1]!='*'){
-            return si!=s.length && (s[si]==p[pi] || p[pi]=='.') && isMatch(s,p,si+1,pi+1);
+        if (pi == p.length - 1 || p[pi + 1] != '*') {
+            return si != s.length && (s[si] == p[pi] || p[pi] == '.') && isMatch(s, p, si + 1, pi + 1);
         }
         //2、当pi的后一位是*
-        while(si!=s.length && p[pi+1]=='*' && (s[si]==p[pi] || p[pi]=='.')){
+        while (si != s.length && p[pi + 1] == '*' && (s[si] == p[pi] || p[pi] == '.')) {
             //si能匹配pi，枚举匹配零个或多个
-            if(isMatch(s,p,si,pi+2)){
+            if (isMatch(s, p, si, pi + 2)) {
                 return true;
             }
             si++;
         }
         //si不能匹配pi，直接跳过
-        return isMatch(s,p,si,pi+2);
+        return isMatch(s, p, si, pi + 2);
     }
 
     /**
@@ -825,42 +831,43 @@ public class Solution {
         char[] sArr = s.toCharArray();
         char[] pArr = p.toCharArray();
         //dp[i][j]表示p[0..i-1]与s[0..j-1]能否匹配
-        boolean[][] dp = new boolean[p.length()+1][s.length()+1];
+        boolean[][] dp = new boolean[p.length() + 1][s.length() + 1];
         //边界
         dp[0][0] = true;
-        for(int i=0;i<p.length();i++){
-            if(pArr[i]=='*') dp[i+1][0] = true;
+        for (int i = 0; i < p.length(); i++) {
+            if (pArr[i] == '*') dp[i + 1][0] = true;
             else break;
         }
         //递推
-        for(int i=0;i<p.length();i++){
-            for(int j=0;j<s.length();j++){
-                if(pArr[i]=='*'){
-                    dp[i+1][j+1] = dp[i][j] || dp[i][j+1] || dp[i+1][j];
-                }else if(pArr[i]==sArr[j] || pArr[i]=='?'){
-                    dp[i+1][j+1] = dp[i][j];
+        for (int i = 0; i < p.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (pArr[i] == '*') {
+                    dp[i + 1][j + 1] = dp[i][j] || dp[i][j + 1] || dp[i + 1][j];
+                } else if (pArr[i] == sArr[j] || pArr[i] == '?') {
+                    dp[i + 1][j + 1] = dp[i][j];
                 }
             }
         }
         return dp[p.length()][s.length()];
     }
+
     //判断从si及pi开始的s和p能否匹配：关键在于*的处理，需要枚举*匹配零个或多个的所有情况
     @SuppressWarnings("unused")
-    private boolean canMatch(char[] s, char[] p, int si, int pi){
-        if(pi==p.length) return si==s.length;
+    private boolean canMatch(char[] s, char[] p, int si, int pi) {
+        if (pi == p.length) return si == s.length;
         //1、pi不是*
-        if(p[pi]!='*'){
-            return si!=s.length && (s[si]==p[pi] || p[pi]=='?') && canMatch(s,p,si+1,pi+1);
+        if (p[pi] != '*') {
+            return si != s.length && (s[si] == p[pi] || p[pi] == '?') && canMatch(s, p, si + 1, pi + 1);
         }
         //2、pi是*
-        while(si!=s.length){
+        while (si != s.length) {
             //枚举*匹配0个或多个
-            if(canMatch(s,p,si,pi+1)){
+            if (canMatch(s, p, si, pi + 1)) {
                 return true;
             }
             si++;
         }
-        return canMatch(s,p,si,pi+1);
+        return canMatch(s, p, si, pi + 1);
     }
 
     /**
@@ -875,21 +882,21 @@ public class Solution {
 
         //1、排序+遍历：时间复杂度O(NlogN)，空间复杂度O(1)
         int[] ans = new int[2];
-        int max = nums.length+2;
+        int max = nums.length + 2;
         Arrays.sort(nums);
         int delta = 1;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]!=i+delta){
-                ans[delta-1] = i+delta;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i + delta) {
+                ans[delta - 1] = i + delta;
                 delta++;
-                if(delta>2) return ans;
+                if (delta > 2) return ans;
                 i--;
             }
         }
-        if(delta==1){
-            ans[0] = max-1;
+        if (delta == 1) {
+            ans[0] = max - 1;
             ans[1] = max;
-        }else if(delta==2){
+        } else if (delta == 2) {
             ans[1] = max;
         }
         return ans;
@@ -936,25 +943,25 @@ public class Solution {
         //3、原地哈希：时间复杂度O(N)，空间复杂度O(1)
         //第一个缺失的正数取值范围在[1,N+1]
         //原数组的负数和0是无用的，可以把它们换成N+1，使得数组都是正数
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]<=0) nums[i] = nums.length+1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] <= 0) nums[i] = nums.length + 1;
         }
         //对于[1,N]范围内的数，可以用原数组的下标表示，用负号来标识其出现
-        for(int i=0;i<nums.length;i++){
+        for (int i = 0; i < nums.length; i++) {
             //通过绝对值处理得到原数组的原值
             int val = Math.abs(nums[i]);
             //值在[1,N]范围且对应元素还未被标识
-            if(val<=nums.length && nums[val-1]>0){
-                nums[val-1] = -nums[val-1];
+            if (val <= nums.length && nums[val - 1] > 0) {
+                nums[val - 1] = -nums[val - 1];
             }
         }
         //找到第一个非负数，其下标加1即为答案，若找不到，则N+1为答案
-        for(int i=0;i<nums.length;i++){
-            if(nums[i]>0){
-                return i+1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                return i + 1;
             }
         }
-        return nums.length+1;
+        return nums.length + 1;
 
     }
 
@@ -983,40 +990,42 @@ public class Solution {
 
         //2、数学：时间复杂度O(N)
         //要么一开始异或结果为0，要么数组长度为偶数，二者满足其一，则先手必赢
-        if(nums.length%2 == 0){
+        if (nums.length % 2 == 0) {
             return true;
         }
         int sum = 0;
-        for(int num : nums){
+        for (int num : nums) {
             sum ^= num;
         }
         return sum == 0;
 
     }
+
     /**
      * 递归函数：在剩余的nums中player能否取胜
-     * @param nums 原数组
+     *
+     * @param nums       原数组
      * @param remainSize 剩余大小
-     * @param sum 所有剩余元素的异或结果
-     * @param rob 已删除的元素(值为1表示删除)
-     * @param player 当前玩家：0、 1
+     * @param sum        所有剩余元素的异或结果
+     * @param rob        已删除的元素(值为1表示删除)
+     * @param player     当前玩家：0、 1
      * @return 当前玩家能否取胜
      */
     @SuppressWarnings("unused")
-    private boolean xorGame(int[] nums, int remainSize, int sum, int[] rob, Integer player){
+    private boolean xorGame(int[] nums, int remainSize, int sum, int[] rob, Integer player) {
         //剩余异或结果为0，当前玩家获胜
-        if(remainSize==0 || sum==0){
+        if (remainSize == 0 || sum == 0) {
             return true;
         }
         //在剩余的数组中删除一个元素，如果导致对手必输，那么当前玩家必赢
-        for(int i=0;i<nums.length;i++){
-            if(rob[i] == 0){
+        for (int i = 0; i < nums.length; i++) {
+            if (rob[i] == 0) {
                 int nextSum = sum ^ nums[i];
-                if(nextSum != 0){
+                if (nextSum != 0) {
                     rob[i] = 1;
-                    boolean flag = ! xorGame(nums, remainSize-1, nextSum, rob, player==0 ? 1 : 0);
+                    boolean flag = !xorGame(nums, remainSize - 1, nextSum, rob, player == 0 ? 1 : 0);
                     rob[i] = 0;
-                    if(flag) return true;
+                    if (flag) return true;
                 }
             }
         }
@@ -1030,7 +1039,7 @@ public class Solution {
      * 换句话说，答案是 max(nums[j] XOR xi) ，其中所有 j 均满足 nums[j] <= mi 。如果 nums 中的所有元素都大于 mi，最终答案就是 -1 。
      * 返回一个整数数组 answer 作为查询的答案，其中 answer.length == queries.length 且 answer[i] 是第 i 个查询的答案。
      *
-     * @param nums 数组(非负整数)  1 <= nums.length <= 10^5
+     * @param nums    数组(非负整数)  1 <= nums.length <= 10^5
      * @param queries 查询(非负整数)  1 <= queries.length <= 10^5
      * @return 结果
      */
@@ -1058,25 +1067,25 @@ public class Solution {
         Arrays.sort(nums);
         //复制queries，为了排序后保存原索引
         int[][] copyQueries = new int[queries.length][3];
-        for(int i=0;i<queries.length;i++){
+        for (int i = 0; i < queries.length; i++) {
             copyQueries[i][0] = queries[i][0];
             copyQueries[i][1] = queries[i][1];
             copyQueries[i][2] = i;
         }
         //对copyQueries按照copyQueries[i][1]排序
-        Arrays.sort(copyQueries,(Comparator.comparingInt(o -> o[1])));
+        Arrays.sort(copyQueries, (Comparator.comparingInt(o -> o[1])));
         //遍历copyQueries，一边构建前缀树，一边查询最大值
         int j = 0;
         IntTrie trie = new IntTrie();
-        for(int i=0;i<copyQueries.length;i++){
+        for (int i = 0; i < copyQueries.length; i++) {
             //把所有小于copyQueries[i][1]的nums[j]都存入前缀树
-            while(j<nums.length && nums[j]<=copyQueries[i][1]){
+            while (j < nums.length && nums[j] <= copyQueries[i][1]) {
                 trie.insert(nums[j++]);
             }
-            if(j==0){
+            if (j == 0) {
                 //前缀树还没有存入整数
                 result[copyQueries[i][2]] = -1;
-            }else{
+            } else {
                 result[copyQueries[i][2]] = trie.getMaxXor(copyQueries[i][0]);
             }
         }
@@ -1099,26 +1108,26 @@ public class Solution {
         //dp[i][j]表示打印s[i...j]的最少次数
         int[][] dp = new int[s.length()][s.length()];
         //单个字符
-        for(int i=0;i<s.length();i++){
+        for (int i = 0; i < s.length(); i++) {
             dp[i][i] = 1;
         }
         //两个及以上字符
-        for(int len=1;len<s.length();len++){
-            for(int i=0;i+len<s.length();i++){
-                int j=i+len;
-                if(s.charAt(i)==s.charAt(j)){
+        for (int len = 1; len < s.length(); len++) {
+            for (int i = 0; i + len < s.length(); i++) {
+                int j = i + len;
+                if (s.charAt(i) == s.charAt(j)) {
                     //首尾相等，打第一个字符同时打最后一个字符
-                    dp[i][j] = dp[i][j-1];
-                }else{
+                    dp[i][j] = dp[i][j - 1];
+                } else {
                     //首尾不等，至少需要打印两次，任意切分为两部分分别打印，取次数最小的一种组合
-                    dp[i][j] = len+1;
-                    for(int k=0;k<len;k++){
-                        dp[i][j] = Math.min(dp[i][j],dp[i][i+k]+dp[i+k+1][j]);
+                    dp[i][j] = len + 1;
+                    for (int k = 0; k < len; k++) {
+                        dp[i][j] = Math.min(dp[i][j], dp[i][i + k] + dp[i + k + 1][j]);
                     }
                 }
             }
         }
-        return dp[0][s.length()-1];
+        return dp[0][s.length() - 1];
     }
 
     /**
@@ -1162,37 +1171,39 @@ public class Solution {
         return head.next;*/
 
         //2、分治法：两两合并，合并结果再两两合并
-        if(lists.length==0) return null;
-        return mergeKLists(lists,0,lists.length-1);
+        if (lists.length == 0) return null;
+        return mergeKLists(lists, 0, lists.length - 1);
 
     }
+
     //将数组按照区间中点二分，完成左右两个区间的内部合并后，再将这两个区间合并
-    private ListNode mergeKLists(ListNode[] lists, int left, int right){
-        if(left==right){
+    private ListNode mergeKLists(ListNode[] lists, int left, int right) {
+        if (left == right) {
             return lists[left];
         }
-        int mid = left+(right-left)/2;
-        ListNode l1 = mergeKLists(lists,left,mid);
-        ListNode l2 = mergeKLists(lists,mid+1,right);
-        return mergeTwoLists(l1,l2);
+        int mid = left + (right - left) / 2;
+        ListNode l1 = mergeKLists(lists, left, mid);
+        ListNode l2 = mergeKLists(lists, mid + 1, right);
+        return mergeTwoLists(l1, l2);
     }
+
     //合并两个链表
-    private ListNode mergeTwoLists(ListNode l1,ListNode l2){
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode head = new ListNode();
         ListNode temp = head;
-        while(l1!=null && l2!=null){
-            if(l1.val<l2.val){
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
                 temp.next = l1;
                 temp = temp.next;
                 l1 = l1.next;
-            }else{
+            } else {
                 temp.next = l2;
                 temp = temp.next;
                 l2 = l2.next;
             }
         }
-        if(l1!=null) temp.next = l1;
-        if(l2!=null) temp.next = l2;
+        if (l1 != null) temp.next = l1;
+        if (l2 != null) temp.next = l2;
         return head.next;
     }
 
@@ -1212,28 +1223,29 @@ public class Solution {
         int col = matrix[0].length;
         int[][] prefixSum = new int[row][col];
         prefixSum[0][0] = matrix[0][0];
-        for(int i=1;i<row;i++){
-            prefixSum[i][0] = prefixSum[i-1][0] + matrix[i][0];
+        for (int i = 1; i < row; i++) {
+            prefixSum[i][0] = prefixSum[i - 1][0] + matrix[i][0];
         }
-        for(int j=1;j<col;j++){
-            prefixSum[0][j] = prefixSum[0][j-1] + matrix[0][j];
+        for (int j = 1; j < col; j++) {
+            prefixSum[0][j] = prefixSum[0][j - 1] + matrix[0][j];
         }
-        for(int i=1;i<row;i++){
-            for(int j=1;j<col;j++){
-                prefixSum[i][j] = prefixSum[i-1][j] + prefixSum[i][j-1] - prefixSum[i-1][j-1] + matrix[i][j];
+        for (int i = 1; i < row; i++) {
+            for (int j = 1; j < col; j++) {
+                prefixSum[i][j] = prefixSum[i - 1][j] + prefixSum[i][j - 1] - prefixSum[i - 1][j - 1] + matrix[i][j];
             }
         }
         int count = 0;
-        for(int i=0;i<row;i++){
-            for(int j=0;j<col;j++){
-                for(int a=i;a<row;a++){
-                    for(int b=j;b<col;b++){
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                for (int a = i; a < row; a++) {
+                    for (int b = j; b < col; b++) {
                         int sum;
-                        if(i==0 && j==0) sum = prefixSum[a][b];
-                        else if(i==0) sum = prefixSum[a][b] - prefixSum[a][j-1];
-                        else if(j==0) sum = prefixSum[a][b] - prefixSum[i-1][b];
-                        else sum = prefixSum[a][b] - prefixSum[i-1][b] - prefixSum[a][j-1] + prefixSum[i-1][j-1];
-                        if(sum == target) count++;
+                        if (i == 0 && j == 0) sum = prefixSum[a][b];
+                        else if (i == 0) sum = prefixSum[a][b] - prefixSum[a][j - 1];
+                        else if (j == 0) sum = prefixSum[a][b] - prefixSum[i - 1][b];
+                        else
+                            sum = prefixSum[a][b] - prefixSum[i - 1][b] - prefixSum[a][j - 1] + prefixSum[i - 1][j - 1];
+                        if (sum == target) count++;
                     }
                 }
             }
@@ -1248,10 +1260,10 @@ public class Solution {
      * 工作的任何至少产生 minProfit 利润的子集称为 盈利计划 。并且工作的成员总数最多为 n 。
      * 有多少种计划可以选择？因为答案很大，所以 返回结果模 10^9 + 7 的值。
      *
-     * @param n 员工总数 (1 <= n <= 100)
+     * @param n         员工总数 (1 <= n <= 100)
      * @param minProfit 最低利润 (0 <= minProfit <= 100)
-     * @param group 工作人力列表 (1 <= group.length <= 100 && 1 <= group[i] <= 100)
-     * @param profit 工作利润列表 (profit.length == group.length && 0 <= profit[i] <= 100)
+     * @param group     工作人力列表 (1 <= group.length <= 100 && 1 <= group[i] <= 100)
+     * @param profit    工作利润列表 (profit.length == group.length && 0 <= profit[i] <= 100)
      * @return 盈利计划数
      */
     public int profitableSchemes(int n, int minProfit, int[] group, int[] profit) {
@@ -1300,15 +1312,15 @@ public class Solution {
         //2、动态规划：基于第一种做法优化dp数组的第三维
         int mod = 1000000007;
         //dp[i][j][k]表示完成[0...i-1]的任意工作，最多有j名员工，利润至少为k的方案数
-        int[][][] dp = new int[profit.length+1][n+1][minProfit+1];
-        for(int j=0;j<=n;j++) dp[0][j][0] = 1;
-        for(int i=1;i<=profit.length;i++){
-            for(int j=0;j<=n;j++){
-                for(int k=0;k<=minProfit;k++){
-                    if(j<group[i-1]){
-                        dp[i][j][k] = dp[i-1][j][k];
-                    }else{
-                        dp[i][j][k] = (dp[i-1][j][k] + dp[i-1][j-group[i-1]][Math.max(0,k-profit[i-1])]) % mod;
+        int[][][] dp = new int[profit.length + 1][n + 1][minProfit + 1];
+        for (int j = 0; j <= n; j++) dp[0][j][0] = 1;
+        for (int i = 1; i <= profit.length; i++) {
+            for (int j = 0; j <= n; j++) {
+                for (int k = 0; k <= minProfit; k++) {
+                    if (j < group[i - 1]) {
+                        dp[i][j][k] = dp[i - 1][j][k];
+                    } else {
+                        dp[i][j][k] = (dp[i - 1][j][k] + dp[i - 1][j - group[i - 1]][Math.max(0, k - profit[i - 1])]) % mod;
                     }
                 }
             }
@@ -1323,7 +1335,7 @@ public class Solution {
      * 给当前结果添加一个数位（i + 1）的成本为cost[i]（cost数组下标从0开始）。总成本必须恰好等于target。添加的数位中没有数字0。
      * 由于答案可能会很大，请你以字符串形式返回。如果按照上述要求无法得到任何整数，请你返回"0"。
      *
-     * @param cost 1~9的成本
+     * @param cost   1~9的成本
      * @param target 目标值
      * @return 最大数字
      */
@@ -1335,21 +1347,21 @@ public class Solution {
 
         //动态规划
         //dp[i]表示目标值为i时的最大数
-        String[] dp = new String[target+1];
-        Arrays.fill(dp,"");
+        String[] dp = new String[target + 1];
+        Arrays.fill(dp, "");
         //枚举目标值
-        for(int i=1;i<=target;i++){
+        for (int i = 1; i <= target; i++) {
             //枚举最后一个数位
-            for(int j=0;j<cost.length;j++){
-                if(i >= cost[j] && ! "0".equals(dp[i-cost[j]])){
-                    String temp = dp[i-cost[j]] + (j + 1);
-                    if(dp[i].length()<temp.length() || (dp[i].length()==temp.length() && dp[i].compareTo(temp)<0)){
+            for (int j = 0; j < cost.length; j++) {
+                if (i >= cost[j] && !"0".equals(dp[i - cost[j]])) {
+                    String temp = dp[i - cost[j]] + (j + 1);
+                    if (dp[i].length() < temp.length() || (dp[i].length() == temp.length() && dp[i].compareTo(temp) < 0)) {
                         dp[i] = temp;
                     }
                 }
             }
             //如果不能消耗完目标值，做一个标记
-            if("".equals(dp[i])) dp[i] = "0";
+            if ("".equals(dp[i])) dp[i] = "0";
         }
         return dp[target];
 
@@ -1372,18 +1384,18 @@ public class Solution {
         //动态规划
         char[] w1 = word1.toCharArray(), w2 = word2.toCharArray();
         //dp[i][j]表示w1[0...i-1]与w2[0...j-1]的最短编辑距离
-        int[][] dp = new int[w1.length+1][w2.length+1];
+        int[][] dp = new int[w1.length + 1][w2.length + 1];
         //边界
         dp[0][0] = 0;
-        for(int i=1;i<=w1.length;i++) dp[i][0] = i;
-        for(int j=1;j<=w2.length;j++) dp[0][j] = j;
+        for (int i = 1; i <= w1.length; i++) dp[i][0] = i;
+        for (int j = 1; j <= w2.length; j++) dp[0][j] = j;
         //递推
-        for(int i=1;i<=w1.length;i++){
-            for(int j=1;j<=w2.length;j++){
+        for (int i = 1; i <= w1.length; i++) {
+            for (int j = 1; j <= w2.length; j++) {
                 //最后字符相同，不需要编辑
-                if(w1[i-1]==w2[j-1]) dp[i][j] = dp[i-1][j-1];
-                //最后字符不同，枚举增、删、改，取最小值
-                else dp[i][j] = Math.min(dp[i-1][j-1]+1,Math.min(dp[i-1][j] + 1,dp[i][j-1] + 1));
+                if (w1[i - 1] == w2[j - 1]) dp[i][j] = dp[i - 1][j - 1];
+                    //最后字符不同，枚举增、删、改，取最小值
+                else dp[i][j] = Math.min(dp[i - 1][j - 1] + 1, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
             }
         }
         return dp[w1.length][w2.length];
@@ -1438,20 +1450,20 @@ public class Solution {
         //1、暴力破解：时间复杂度O(N^2)
         //求一个点到所有点的斜率，相同斜率代表在同一直线上
         int maxPoints = 1;
-        for(int i=0;i<points.length;i++){
+        for (int i = 0; i < points.length; i++) {
             //统计斜率出现次数：key表示斜率(小数)，value表示出现次数(整数)
-            Map<Double,Integer> slopeCount = new HashMap<>();
-            for(int j=0;j<points.length && j!=i;j++){
+            Map<Double, Integer> slopeCount = new HashMap<>();
+            for (int j = 0; j < points.length && j != i; j++) {
                 //注意斜率无穷大的情况
                 double slope = Double.MAX_VALUE;
-                if(points[i][0] != points[j][0]){
-                    slope = (points[i][1]-points[j][1]) * 1.0 / (points[i][0]-points[j][0]);
+                if (points[i][0] != points[j][0]) {
+                    slope = (points[i][1] - points[j][1]) * 1.0 / (points[i][0] - points[j][0]);
                 }
-                slopeCount.put(slope, slopeCount.getOrDefault(slope,0)+1);
+                slopeCount.put(slope, slopeCount.getOrDefault(slope, 0) + 1);
             }
             //取斜率最大出现次数
-            for(Double slope : slopeCount.keySet()){
-                maxPoints = Math.max(maxPoints,slopeCount.get(slope)+1);
+            for (Double slope : slopeCount.keySet()) {
+                maxPoints = Math.max(maxPoints, slopeCount.get(slope) + 1);
             }
         }
         return maxPoints;
@@ -1471,8 +1483,8 @@ public class Solution {
         //1、广度优先搜索：时间复杂度O(N!)，其中N为面板大小
         //从[[1,2,3],[4,5,0]]开始，求所有下一步的状态，并对下一步状态集重复以上过程，记录步数，直到找到目标排列或者所有可行排列都已经出现
         //起点
-        int[][] start = {{1,2,3},{4,5,0}};
-        if(equals(board,start)) return 0;
+        int[][] start = {{1, 2, 3}, {4, 5, 0}};
+        if (equals(board, start)) return 0;
         //已经出现过的排列
         Set<String> occurred = new HashSet<>();
         occurred.add(numArrToStr(start));
@@ -1481,69 +1493,74 @@ public class Solution {
         next.offer(start);
         //步数
         int count = 1;
-        while( ! next.isEmpty()){
+        while (!next.isEmpty()) {
             int size = next.size();
-            for(int i=0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 int[][] status = next.poll();
                 //找到0所在位置
-                int x=0, y=0;
-                for(int a=0;a<2;a++){
-                    for(int b=0;b<3;b++){
-                        if(status[a][b]==0){
-                            x=a; y=b;
+                int x = 0, y = 0;
+                for (int a = 0; a < 2; a++) {
+                    for (int b = 0; b < 3; b++) {
+                        if (status[a][b] == 0) {
+                            x = a;
+                            y = b;
                         }
                     }
                 }
                 //0向上下左右四个方向滑动
-                if(x==0 && sliding(status,x,y,x+1,y,board,occurred,next)) return count;
-                if(x==1 && sliding(status,x,y, 0,y,board,occurred,next)) return count;
-                if(y>0 && sliding(status,x,y,x,y-1,board,occurred,next)) return count;
-                if(y<2 && sliding(status,x,y,x,y+1,board,occurred,next)) return count;
+                if (x == 0 && sliding(status, x, y, x + 1, y, board, occurred, next)) return count;
+                if (x == 1 && sliding(status, x, y, 0, y, board, occurred, next)) return count;
+                if (y > 0 && sliding(status, x, y, x, y - 1, board, occurred, next)) return count;
+                if (y < 2 && sliding(status, x, y, x, y + 1, board, occurred, next)) return count;
             }
             count++;
         }
         return -1;
     }
+
     //比较两个二维数组是否相等
-    private boolean equals(int[][] a, int[][] b){
-        for(int i=0;i<a.length;i++){
-            for(int j=0;j<a[0].length;j++){
-                if(a[i][j] != b[i][j]) return false;
+    private boolean equals(int[][] a, int[][] b) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
+                if (a[i][j] != b[i][j]) return false;
             }
         }
         return true;
     }
+
     //二维数组转字符串
-    private String numArrToStr(int[][] arr){
+    private String numArrToStr(int[][] arr) {
         StringBuilder sb = new StringBuilder();
-        for(int i=0;i<arr.length;i++){
-            for(int j=0;j<arr[0].length;j++){
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
                 sb.append(arr[i][j]);
             }
         }
         return sb.toString();
     }
+
     //二维数组元素交换
-    private void swap(int[][] arr, int x1, int y1, int x2, int y2){
+    private void swap(int[][] arr, int x1, int y1, int x2, int y2) {
         int temp = arr[x1][y1];
         arr[x1][y1] = arr[x2][y2];
         arr[x2][y2] = temp;
     }
+
     //滑动并判断结果是否为目标值
     private boolean sliding(int[][] status, int x1, int y1, int x2, int y2,
-                            int[][] target, Set<String> occurred, Queue<int[][]> next){
-        swap(status,x1,y1,x2,y2);
-        if(equals(status,target)) return true;
+                            int[][] target, Set<String> occurred, Queue<int[][]> next) {
+        swap(status, x1, y1, x2, y2);
+        if (equals(status, target)) return true;
         String str = numArrToStr(status);
-        if( ! occurred.contains(str)){
+        if (!occurred.contains(str)) {
             occurred.add(str);
             int[][] nextStatus = new int[status.length][status[0].length];
-            for(int i=0;i<status.length;i++){
-                System.arraycopy(status[i],0,nextStatus[i],0,status[i].length);
+            for (int i = 0; i < status.length; i++) {
+                System.arraycopy(status[i], 0, nextStatus[i], 0, status[i].length);
             }
             next.offer(nextStatus);
         }
-        swap(status,x1,y1,x2,y2);
+        swap(status, x1, y1, x2, y2);
         return false;
     }
 
@@ -1562,11 +1579,11 @@ public class Solution {
     public int numBusesToDestination(int[][] routes, int source, int target) {
         //1、广度优先搜索
         //从起点站出发，枚举一趟车能够到达的所有站点，并对这个站点集合重复上述过程，记录车次数，直到到达目标站点或所有可达站点都已经出现
-        if(source==target) return 0;
+        if (source == target) return 0;
         //建立站点与所属线路的映射关系
-        Map<Integer,List<Integer>> map = new HashMap<>();
-        for(int i=0;i<routes.length;i++){
-            for(int j=0;j<routes[i].length;j++){
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < routes.length; i++) {
+            for (int j = 0; j < routes[i].length; j++) {
                 map.computeIfAbsent(routes[i][j], k -> new ArrayList<>()).add(i);
             }
         }
@@ -1582,18 +1599,18 @@ public class Solution {
         //车次
         int count = 1;
         //层次遍历
-        while( ! next.isEmpty()){
+        while (!next.isEmpty()) {
             //枚举本层所有站点
             int size = next.size();
-            for(int i=0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 int stop = next.poll();
                 //枚举站点的下一趟可达站点
-                for(int route : map.get(stop)){
-                    if(accessRoute.contains(route)) continue;
+                for (int route : map.get(stop)) {
+                    if (accessRoute.contains(route)) continue;
                     accessRoute.add(route);
-                    for(int a : routes[route]){
-                        if(a==target) return count;
-                        if( ! accessStop.contains(a)){
+                    for (int a : routes[route]) {
+                        if (a == target) return count;
+                        if (!accessStop.contains(a)) {
                             accessStop.add(a);
                             next.offer(a);
                         }
@@ -1623,44 +1640,45 @@ public class Solution {
         boolean[][] row = new boolean[9][9];
         boolean[][] col = new boolean[9][9];
         boolean[][] cell = new boolean[9][9];
-        for(int i=0;i<9;i++){
-            for(int j=0;j<9;j++){
-                if(board[i][j]=='.'){
-                    space.add(new int[]{i,j});
-                }else{
-                    int val = board[i][j]-'1';
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    space.add(new int[]{i, j});
+                } else {
+                    int val = board[i][j] - '1';
                     row[i][val] = true;
                     col[j][val] = true;
-                    cell[i/3*3+j/3][val] = true;
+                    cell[i / 3 * 3 + j / 3][val] = true;
                 }
             }
         }
         //递归回溯
-        solveSudoku(board,space,0,row,col,cell);
+        solveSudoku(board, space, 0, row, col, cell);
     }
+
     //递归回溯(深度优先搜索)：枚举空白格的可选数字，递归处理，若空白格无法填充，则回溯，重复过程直到空白格全部被填充为止
     private boolean solveSudoku(char[][] board, List<int[]> space, int pos,
-                        boolean[][] row, boolean[][] col, boolean[][] cell){
+                                boolean[][] row, boolean[][] col, boolean[][] cell) {
         //所有空白格都已填充
-        if(pos==space.size()) return true;
+        if (pos == space.size()) return true;
         //获取当前空白格坐标
         int[] coordinate = space.get(pos);
         int i = coordinate[0], j = coordinate[1];
         //枚举空白格可选数字
-        for(int n=0;n<9;n++){
+        for (int n = 0; n < 9; n++) {
             //数字不可选
-            if(row[i][n] || col[j][n] || cell[i/3*3+j/3][n]) continue;
+            if (row[i][n] || col[j][n] || cell[i / 3 * 3 + j / 3][n]) continue;
             //数字可选
-            board[i][j] = (char)(n+'1');
+            board[i][j] = (char) (n + '1');
             row[i][n] = true;
             col[j][n] = true;
-            cell[i/3*3+j/3][n] = true;
+            cell[i / 3 * 3 + j / 3][n] = true;
             //递归
-            if(solveSudoku(board,space,pos+1,row,col,cell)) return true;
+            if (solveSudoku(board, space, pos + 1, row, col, cell)) return true;
             //回溯
             row[i][n] = false;
             col[j][n] = false;
-            cell[i/3*3+j/3][n] = false;
+            cell[i / 3 * 3 + j / 3][n] = false;
         }
         return false;
     }
@@ -1679,62 +1697,73 @@ public class Solution {
         List<String> suffix = infixToSuffix(s);
         //计算后缀表达式
         Deque<Integer> stack = new LinkedList<>();
-        for(String a : suffix){
+        for (String a : suffix) {
             switch (a) {
-                case "+" : stack.push(stack.pop() + stack.pop());  break;
-                case "-" : stack.push(-1 * stack.pop() + stack.pop()); break;
-                case "*" : stack.push(stack.pop() * stack.pop()); break;
-                case "/" : Integer divisor = stack.pop(); stack.push(stack.pop() / divisor); break;
-                default : stack.push(Integer.parseInt(a));
+                case "+":
+                    stack.push(stack.pop() + stack.pop());
+                    break;
+                case "-":
+                    stack.push(-1 * stack.pop() + stack.pop());
+                    break;
+                case "*":
+                    stack.push(stack.pop() * stack.pop());
+                    break;
+                case "/":
+                    Integer divisor = stack.pop();
+                    stack.push(stack.pop() / divisor);
+                    break;
+                default:
+                    stack.push(Integer.parseInt(a));
             }
         }
         return stack.pop();
     }
+
     //中缀表达式转后缀表达式
-    private List<String> infixToSuffix(String infix){
+    private List<String> infixToSuffix(String infix) {
         //用列表存储后缀表达式
         List<String> suffix = new ArrayList<>();
         //用栈存储操作符及括号
         Deque<Character> stack = new LinkedList<>();
         //去除空格
         StringBuilder sb = new StringBuilder();
-        for(int i=0;i<infix.length();i++){
-            if(infix.charAt(i)==' ') continue;
+        for (int i = 0; i < infix.length(); i++) {
+            if (infix.charAt(i) == ' ') continue;
             sb.append(infix.charAt(i));
         }
         infix = sb.toString();
         //遍历表达式
-        for(int i=0;i<infix.length();i++){
+        for (int i = 0; i < infix.length(); i++) {
             char c = infix.charAt(i);
             //数字
-            if(Character.isDigit(c)){
-                int j=i+1;
-                while(j<infix.length() && Character.isDigit(infix.charAt(j))){
+            if (Character.isDigit(c)) {
+                int j = i + 1;
+                while (j < infix.length() && Character.isDigit(infix.charAt(j))) {
                     j++;
                 }
-                suffix.add(infix.substring(i,j));
-                i=j-1;
-            }else{
+                suffix.add(infix.substring(i, j));
+                i = j - 1;
+            } else {
                 //括号及操作符
-                if(c=='('){
+                if (c == '(') {
                     //左括号：直接入栈
                     stack.push(c);
-                }else if(c==')'){
+                } else if (c == ')') {
                     //右括号：出栈直到遇到左括号为止
-                    while(true){
-                        if(stack.peek()=='('){
+                    while (true) {
+                        if (stack.peek() == '(') {
                             stack.pop();
                             break;
                         }
                         suffix.add(String.valueOf(stack.pop()));
                     }
-                }else{
+                } else {
                     //操作符：前导正负号左侧补0
-                    if(i==0 || '('==infix.charAt(i-1) || isOperator(infix.charAt(i-1))){
+                    if (i == 0 || '(' == infix.charAt(i - 1) || isOperator(infix.charAt(i - 1))) {
                         suffix.add("0");
                     }
                     //操作符：栈非空，栈顶为操作符，且优先级不小于当前符号，则栈顶出栈，当前符号入栈；其余情况当前符号直接入栈
-                    while( ! stack.isEmpty() && isOperator(stack.peek()) && getPriority(stack.peek())>=getPriority(c)) {
+                    while (!stack.isEmpty() && isOperator(stack.peek()) && getPriority(stack.peek()) >= getPriority(c)) {
                         suffix.add(String.valueOf(stack.pop()));
                     }
                     stack.push(c);
@@ -1742,19 +1771,21 @@ public class Solution {
             }
         }
         //栈中剩余操作符全部出栈
-        while( ! stack.isEmpty()){
+        while (!stack.isEmpty()) {
             suffix.add(String.valueOf(stack.pop()));
         }
         System.out.println(suffix);
         return suffix;
     }
+
     //判断是否为操作符
-    private boolean isOperator(char c){
-        return c=='*' || c=='/' || c=='+' || c=='-';
+    private boolean isOperator(char c) {
+        return c == '*' || c == '/' || c == '+' || c == '-';
     }
+
     //获取操作符的优先级
-    private int getPriority(char c){
-        if(c=='*' || c=='/') return 1;
+    private int getPriority(char c) {
+        if (c == '*' || c == '/') return 1;
         return 0;
     }
 
@@ -1775,61 +1806,62 @@ public class Solution {
         //使用栈消除括号
         Deque<String> atoms = new LinkedList<>();
         Deque<Integer> counts = new LinkedList<>();
-        for(int i=0;i<formula.length();i++){
+        for (int i = 0; i < formula.length(); i++) {
             char c = formula.charAt(i);
-            if(c=='('){
+            if (c == '(') {
                 //左括号：单独入栈
                 atoms.push("(");
-            }else if(c==')'){
+            } else if (c == ')') {
                 //右括号：将上一个左括号到当前右括号范围内的所有原子数量乘上右括号后面的数字
-                int multi = getCount(formula,i+1);
+                int multi = getCount(formula, i + 1);
                 //出栈
                 List<String> tempAtoms = new ArrayList<>();
                 List<Integer> tempCounts = new ArrayList<>();
-                while( ! "(".equals(atoms.peek())){
+                while (!"(".equals(atoms.peek())) {
                     tempAtoms.add(atoms.pop());
-                    tempCounts.add(counts.pop()*multi);
+                    tempCounts.add(counts.pop() * multi);
                 }
                 atoms.pop();
                 //入栈
-                for(int k=tempAtoms.size()-1;k>=0;k--){
+                for (int k = tempAtoms.size() - 1; k >= 0; k--) {
                     atoms.push(tempAtoms.get(k));
                     counts.push(tempCounts.get(k));
                 }
-            }else if(c>='A' && c<='Z'){
+            } else if (c >= 'A' && c <= 'Z') {
                 //大写字母：新原子，将其完整名称和数量入栈
-                int j=i+1;
-                while(j<formula.length() && formula.charAt(j)>='a' && formula.charAt(j)<='z'){
+                int j = i + 1;
+                while (j < formula.length() && formula.charAt(j) >= 'a' && formula.charAt(j) <= 'z') {
                     j++;
                 }
-                atoms.push(formula.substring(i,j));
-                counts.push(getCount(formula,j));
+                atoms.push(formula.substring(i, j));
+                counts.push(getCount(formula, j));
             }
         }
         //收集原子及其数量
-        TreeMap<String,Integer> map = new TreeMap<>();
-        while( ! atoms.isEmpty()){
+        TreeMap<String, Integer> map = new TreeMap<>();
+        while (!atoms.isEmpty()) {
             String atom = atoms.pop();
             int count = counts.pop();
-            map.put(atom,map.getOrDefault(atom,0)+count);
+            map.put(atom, map.getOrDefault(atom, 0) + count);
         }
         //构建结果串
         StringBuilder result = new StringBuilder();
-        for(String atom : map.keySet()){
+        for (String atom : map.keySet()) {
             result.append(atom);
             int count = map.get(atom);
-            if(count>1) result.append(count);
+            if (count > 1) result.append(count);
         }
         return result.toString();
     }
+
     //解析数量
-    private int getCount(String formula, int begin){
+    private int getCount(String formula, int begin) {
         int count = 0;
-        while(begin<formula.length() && Character.isDigit(formula.charAt(begin))){
-            count = count * 10 + formula.charAt(begin)-'0';
+        while (begin < formula.length() && Character.isDigit(formula.charAt(begin))) {
+            count = count * 10 + formula.charAt(begin) - '0';
             begin++;
         }
-        return count==0 ? 1 : count;
+        return count == 0 ? 1 : count;
     }
 
     /**
@@ -1912,30 +1944,30 @@ public class Solution {
         List<List<Integer>> lists = new ArrayList<>();
         //收集所有边缘
         List<Integer> edges = new ArrayList<>();
-        for(int[] building : buildings){
+        for (int[] building : buildings) {
             edges.add(building[0]);
             edges.add(building[1]);
         }
         //边缘按横坐标升序排序
         Collections.sort(edges);
         //用优先队列保存区间右边缘及区间高度(倒序)
-        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o2[1]-o1[1]);
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o2[1] - o1[1]);
         //遍历边缘并求最高高度
         int preH = 0;
         int idx = 0, len = buildings.length;
-        for(Integer edge : edges){
+        for (Integer edge : edges) {
             //用队列维护当前边缘的所属区间，区间中的最高高度即为当前边缘的最高高度
-            while(idx < len && buildings[idx][0] <= edge){
+            while (idx < len && buildings[idx][0] <= edge) {
                 queue.offer(new int[]{buildings[idx][1], buildings[idx][2]});
                 idx++;
             }
             //只比较队头与当前边缘，因为其余队内元素不影响结果判定，所以可以延迟删除
-            while(!queue.isEmpty() && queue.peek()[0] <= edge){
+            while (!queue.isEmpty() && queue.peek()[0] <= edge) {
                 queue.poll();
             }
             //获取队头
             int maxH = queue.isEmpty() ? 0 : queue.peek()[1];
-            if(preH != maxH){
+            if (preH != maxH) {
                 lists.add(Arrays.asList(edge, maxH));
                 preH = maxH;
             }
@@ -1980,20 +2012,20 @@ public class Solution {
         //只有右括号可以做结尾，所有以左括号为结尾的最长有效括号子串长度恒为0
         int[] dp = new int[s.length()];
         int max = 0;
-        for(int i=1;i<s.length();i++){
-            if(s.charAt(i)==')'){
-                if(s.charAt(i-1)=='('){
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == ')') {
+                if (s.charAt(i - 1) == '(') {
                     //...()
-                    dp[i] = (i>1 ? dp[i-2] : 0) + 2;
-                }else{
+                    dp[i] = (i > 1 ? dp[i - 2] : 0) + 2;
+                } else {
                     //...))
-                    int left = i-dp[i-1]-1;
-                    if(left>=0 && s.charAt(left)=='('){
-                        dp[i] = dp[i-1] + 2 + (left>0 ? dp[left-1] : 0);
+                    int left = i - dp[i - 1] - 1;
+                    if (left >= 0 && s.charAt(left) == '(') {
+                        dp[i] = dp[i - 1] + 2 + (left > 0 ? dp[left - 1] : 0);
                     }
                 }
             }
-            max = Math.max(max,dp[i]);
+            max = Math.max(max, dp[i]);
         }
         return max;
 
@@ -2006,7 +2038,7 @@ public class Solution {
      * 请你返回 最少 操作次数，使得 target 成为 arr 的一个子序列。
      *
      * @param target 目标数组(不包含任何重复元素)(1 <= target.length <= 10^5)(1 <= target[i] <= 10^9)
-     * @param arr 数组(1 <= arr.length <= 10^5)(1 <= arr[i] <= 10^9)
+     * @param arr    数组(1 <= arr.length <= 10^5)(1 <= arr[i] <= 10^9)
      * @return 最少操作次数
      */
     public int minOperations(int[] target, int[] arr) {
@@ -2046,39 +2078,40 @@ public class Solution {
 
         //2、求最长递增子序列(贪心+二分)：时间复杂度O(NlogN)，N为arr的长度
         //哈希表维护target数组的(值->索引)
-        Map<Integer,Integer> position = new HashMap<>();
-        for(int i=0; i<target.length; i++){
+        Map<Integer, Integer> position = new HashMap<>();
+        for (int i = 0; i < target.length; i++) {
             position.put(target[i], i);
         }
         //将arr的值转成对应target的值的索引，并维护一个有序的索引结构
         //这个有序结构的每个元素表示“长度为i的最长递增子序列的末尾元素的最小值”
         List<Integer> newArr = new ArrayList<>();
-        for(int a : arr){
+        for (int a : arr) {
             Integer pos = position.get(a);
-            if(pos==null) continue;
+            if (pos == null) continue;
             //找第一个比pos小的索引位置
             int idx = binarySearch(newArr, pos);
             //如果在有序列表内则替换，否则在尾部追加
-            if(idx != newArr.size()){
-                newArr.set(idx,pos);
-            }else{
+            if (idx != newArr.size()) {
+                newArr.set(idx, pos);
+            } else {
                 newArr.add(pos);
             }
         }
         return target.length - newArr.size();
 
     }
+
     //在有序数组中进行二分查找
-    private int binarySearch(List<Integer> arr, Integer target){
-        if(arr.size()==0 || arr.get(arr.size()-1)<target){
+    private int binarySearch(List<Integer> arr, Integer target) {
+        if (arr.size() == 0 || arr.get(arr.size() - 1) < target) {
             return arr.size();
         }
-        int left = 0, right = arr.size()-1;
-        while(left<right){
-            int mid = left+(right-left)/2;
-            if(arr.get(mid)<target){
-                left = mid+1;
-            }else{
+        int left = 0, right = arr.size() - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (arr.get(mid) < target) {
+                left = mid + 1;
+            } else {
                 right = mid;
             }
         }

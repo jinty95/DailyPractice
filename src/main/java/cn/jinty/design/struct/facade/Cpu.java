@@ -6,7 +6,7 @@ package cn.jinty.design.struct.facade;
  * @author Jinty
  * @date 2020/7/16.
  */
-public class Cpu implements Computer{
+public class Cpu implements Computer {
 
     @Override
     public void boot() {

@@ -22,10 +22,10 @@ public class DateUtilTest {
     @Test
     public void testBuildDate() {
         System.out.println(DateUtil.format(
-                DateUtil.buildDate(2021,7,15)
+                DateUtil.buildDate(2021, 7, 15)
         ));
         System.out.println(DateUtil.format(
-                DateUtil.buildDate(2021,7,15,18,0,0)
+                DateUtil.buildDate(2021, 7, 15, 18, 0, 0)
         ));
     }
 
@@ -37,17 +37,17 @@ public class DateUtilTest {
 
     @Test
     public void testAddHour() {
-        System.out.println(DateUtil.format(DateUtil.addHour(new Date(),2)));
-        System.out.println(DateUtil.format(DateUtil.addHour(new Date(),24)));
+        System.out.println(DateUtil.format(DateUtil.addHour(new Date(), 2)));
+        System.out.println(DateUtil.format(DateUtil.addHour(new Date(), 24)));
     }
 
     @Test
     public void testCountInterval() {
         Date d1 = DateUtil.parse("2021-07-14 19:00:00");
         Date d2 = DateUtil.parse("2021-07-15 18:00:00");
-        System.out.println(DateUtil.countIntervalForDay(d1,d2));
-        System.out.println(DateUtil.countInterval(d1,d2,DateUtil.HOUR));
-        System.out.println(DateUtil.countInterval(d1,d2,DateUtil.MINUTE));
+        System.out.println(DateUtil.countIntervalForDay(d1, d2));
+        System.out.println(DateUtil.countInterval(d1, d2, DateUtil.HOUR));
+        System.out.println(DateUtil.countInterval(d1, d2, DateUtil.MINUTE));
     }
 
     @Test
@@ -58,8 +58,8 @@ public class DateUtilTest {
 
     @Test
     public void testIsTarget() {
-        System.out.println(DateUtil.isTargetDayOfMonth(new Date(),15));
-        System.out.println(DateUtil.isTargetHourOfDay(new Date(),18));
+        System.out.println(DateUtil.isTargetDayOfMonth(new Date(), 15));
+        System.out.println(DateUtil.isTargetHourOfDay(new Date(), 18));
     }
 
     @Test
@@ -75,10 +75,10 @@ public class DateUtilTest {
         Date begin2 = DateUtil.parse("2021-07-15 00:00:00");
         Date begin3 = DateUtil.parse("2021-07-14 00:00:00");
         Date begin4 = DateUtil.parse("2021-07-13 23:59:59");
-        System.out.println(DateUtil.isWithin24hAfter(now,begin1));
-        System.out.println(DateUtil.isWithin24hAfter(now,begin2));
-        System.out.println(DateUtil.isWithin24hAfter(now,begin3));
-        System.out.println(DateUtil.isWithin24hAfter(now,begin4));
+        System.out.println(DateUtil.isWithin24hAfter(now, begin1));
+        System.out.println(DateUtil.isWithin24hAfter(now, begin2));
+        System.out.println(DateUtil.isWithin24hAfter(now, begin3));
+        System.out.println(DateUtil.isWithin24hAfter(now, begin4));
     }
 
     @Test

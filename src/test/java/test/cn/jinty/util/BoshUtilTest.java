@@ -12,10 +12,10 @@ import org.junit.Test;
 public class BoshUtilTest {
 
     @Test
-    public void test(){
+    public void test() {
         System.out.println(
                 BoshUtil.generate(
-                        "狗屁不通生成器",1600
+                        "狗屁不通生成器", 1600
                 )
         );
     }
