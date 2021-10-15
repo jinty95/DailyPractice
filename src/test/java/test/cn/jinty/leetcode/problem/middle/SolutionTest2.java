@@ -42,4 +42,13 @@ public class SolutionTest2 {
         System.out.println(solution.fractionToDecimal(Integer.MIN_VALUE, -1));
     }
 
+    @Test
+    public void testCountAndSay() {
+        System.out.println(solution.countAndSay(1));
+        System.out.println(solution.countAndSay(2));
+        System.out.println(solution.countAndSay(3));
+        System.out.println(solution.countAndSay(5));
+        System.out.println(solution.countAndSay(30));
+    }
+
 }
