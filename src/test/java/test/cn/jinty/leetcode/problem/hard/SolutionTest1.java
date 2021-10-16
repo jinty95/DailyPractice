@@ -101,4 +101,10 @@ public class SolutionTest1 {
         System.out.println(solution.numberToWords(123_000_789));
     }
 
+    @Test
+    public void testAddOperators() {
+        System.out.println(solution.addOperators("105",5));
+        System.out.println(solution.addOperators("123",6));
+    }
+
 }

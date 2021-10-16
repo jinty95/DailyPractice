@@ -587,4 +587,54 @@ public class Solution1 {
         return ans.toString();
     }
 
+    /**
+     * 282. 给表达式添加运算符
+     * 给定一个仅包含数字 0-9 的字符串 num 和一个目标值整数 target ，
+     * 在 num 的数字之间添加 二元 运算符（不是一元）+、- 或 * ，返回所有能够得到目标值的表达式。
+     *
+     * @param num 数字字符串
+     * @param target 目标值
+     * @return 表达式集合
+     */
+    public List<String> addOperators(String num, int target) {
+        // 回溯
+        List<String> ans = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        backtrack(num, target, ans, sb, 0, 0, 0);
+        return ans;
+    }
+    private void backtrack(String num, int target, List<String> ans, StringBuilder sb, int i, long sum, long last) {
+        // 收集答案
+        if (i == num.length()) {
+            if (sum == target) {
+                ans.add(sb.toString());
+            }
+            return;
+        }
+        // 符号占位符
+        int signIdx = sb.length();
+        if (i > 0) {
+            sb.append(0);
+        }
+        // 枚举截取的数字长度(注意：数字可以是单个零但不能有前导零)
+        long val = 0;
+        for (int j = i; j < num.length() && (j == i || num.charAt(i) != '0'); j++) {
+            val = val * 10 + num.charAt(j) - '0';
+            sb.append(num.charAt(j));
+            if (i == 0) {
+                // 开头不能加符号
+                backtrack(num, target, ans, sb, j + 1, val, val);
+            } else {
+                // 枚举"+"、"-"、"*"
+                sb.setCharAt(signIdx, '+');
+                backtrack(num, target, ans, sb, j + 1, sum + val, val);
+                sb.setCharAt(signIdx, '-');
+                backtrack(num, target, ans, sb, j + 1, sum - val, -val);
+                sb.setCharAt(signIdx, '*');
+                backtrack(num, target, ans, sb, j + 1, sum - last + last * val, last * val);
+            }
+        }
+        sb.setLength(signIdx);
+    }
+
 }
