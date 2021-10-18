@@ -1663,4 +1663,33 @@ public class Solution {
         return max;
     }
 
+    /**
+     * 476. 数字的补数
+     * 给你一个正整数 num ，输出它的补数。补数是对该数的二进制表示取反(需要忽略二进制的前导零)。
+     *
+     * @param num 正整数
+     * @return 补数
+     */
+    public int findComplement(int num) {
+        // 位运算
+        int res = 0;
+        boolean start = false;
+        // 从高位到低位枚举二进制的每一位
+        for (int i = 31; i >= 0; i--) {
+            int bit = 1 << i;
+            if ((num & bit) == 0) {
+                // 当前位为0
+                if (start) {
+                    res |= bit;
+                }
+            } else {
+                // 当前位为1
+                if (!start) {
+                    start = true;
+                }
+            }
+        }
+        return res;
+    }
+
 }

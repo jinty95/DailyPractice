@@ -414,4 +414,10 @@ public class SolutionTest {
         System.out.println(solution.thirdMax(new int[]{1, 2, 2, 2, 3}));
     }
 
+    @Test
+    public void testFindComplement() {
+        System.out.println(solution.findComplement(5));
+        System.out.println(solution.findComplement(666));
+    }
+
 }
