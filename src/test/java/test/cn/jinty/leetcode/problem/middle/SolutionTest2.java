@@ -51,4 +51,10 @@ public class SolutionTest2 {
         System.out.println(solution.countAndSay(30));
     }
 
+    @Test
+    public void testMajorityElement() {
+        System.out.println(solution.majorityElement(new int[]{3, 2, 3}));
+        System.out.println(solution.majorityElement(new int[]{1, 2, 3, 4, 5, 6}));
+    }
+
 }

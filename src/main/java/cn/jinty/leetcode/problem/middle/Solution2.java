@@ -1,6 +1,8 @@
 package cn.jinty.leetcode.problem.middle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -205,6 +207,29 @@ public class Solution2 {
         }
         ans.append(count).append(c);
         return ans.toString();
+    }
+
+    /**
+     * 229. 求众数 II
+     * 给定一个大小为 n 的整数数组，找出其中所有出现超过 n/3 次的元素。
+     *
+     * @param numbers 整数数组
+     * @return 众数
+     */
+    public List<Integer> majorityElement(int[] numbers) {
+        // 1、哈希表：时间复杂度O(N)，空间复杂度O(N)
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int number : numbers) {
+            map.put(number, map.getOrDefault(number, 0) + 1);
+        }
+        List<Integer> ans = new ArrayList<>();
+        int limit = numbers.length / 3;
+        for (Integer key : map.keySet()) {
+            if (map.get(key) > limit) {
+                ans.add(key);
+            }
+        }
+        return ans;
     }
 
 }
