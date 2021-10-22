@@ -57,4 +57,14 @@ public class SolutionTest2 {
         System.out.println(solution.majorityElement(new int[]{1, 2, 3, 4, 5, 6}));
     }
 
+    @Test
+    public void testWordDictionary() {
+        Solution2.WordDictionary wd = new Solution2.WordDictionary();
+        System.out.println(wd.search("a"));
+        wd.addWord("a");
+        System.out.println(wd.search("a"));
+        wd.addWord("abc");
+        System.out.println(wd.search("a.c"));
+    }
+
 }

@@ -41,9 +41,7 @@ public class Trie {
         //从根往下按字符逐个存入
         TrieNode node = this.trieNode;
         for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            Map<Character, TrieNode> map = node.data;
-            node = map.computeIfAbsent(c, k -> new TrieNode(false, new HashMap<>()));
+            node = node.data.computeIfAbsent(word.charAt(i), k -> new TrieNode(false, new HashMap<>()));
         }
         //单词末尾添加标识
         node.flag = true;
@@ -68,15 +66,43 @@ public class Trie {
         if (word == null || word.length() == 0) return node;
         //从根往下逐个字符搜索
         for (int i = 0; i < word.length(); i++) {
-            char c = word.charAt(i);
-            Map<Character, TrieNode> map = node.data;
-            TrieNode nextNode = map.get(c);
+            node = node.data.get(word.charAt(i));
             //不能匹配，返回null
-            if (nextNode == null) return null;
-            node = nextNode;
+            if (node == null) {
+                return null;
+            }
         }
         //返回最后一个节点
         return node;
+    }
+
+    //查找单词，'.'可以匹配任何字符
+    public boolean findWithPoint(String word) {
+        return findWithPoint(word, 0, this.trieNode);
+    }
+
+    //查找单词，'.'可以匹配任何字符，递归函数
+    private boolean findWithPoint(String word, int idx, TrieNode node) {
+        if (word == null || idx == word.length()) {
+            return node != null && node.flag;
+        }
+        if (node == null) {
+            return false;
+        }
+        char c = word.charAt(idx);
+        if (c == '.') {
+            //'.'模糊匹配
+            for (Map.Entry<Character, TrieNode> entry : node.data.entrySet()) {
+                if (findWithPoint(word, idx + 1, entry.getValue())) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            //其余字符精确匹配
+            node = node.data.get(c);
+            return findWithPoint(word, idx + 1, node);
+        }
     }
 
 }

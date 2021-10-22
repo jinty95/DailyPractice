@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.problem.middle;
 
+import cn.jinty.struct.tree.Trie;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -230,6 +232,29 @@ public class Solution2 {
             }
         }
         return ans;
+    }
+
+    /**
+     * 211. 添加与搜索单词 - 数据结构设计
+     * 请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。
+     * 搜索时 word 中可能包含一些 '.' ，每个 . 都可以表示任何一个字母。
+     */
+    public static class WordDictionary {
+
+        private Trie trie;
+
+        public WordDictionary() {
+            trie = new Trie();
+        }
+
+        public void addWord(String word) {
+            trie.insert(word);
+        }
+
+        public boolean search(String word) {
+            return trie.findWithPoint(word);
+        }
+
     }
 
 }
