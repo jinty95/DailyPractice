@@ -1692,4 +1692,23 @@ public class Solution {
         return res;
     }
 
+    /**
+     * 453. 最小操作次数使数组元素相等
+     * 给你一个长度为 n 的整数数组，每次操作将会使 n - 1 个元素增加 1 。返回让数组所有元素相等的最小操作次数。
+     *
+     * @param numbers 数组
+     * @return 最小操作次数
+     */
+    public int minMoves(int[] numbers) {
+        // 贪心算法
+        // 每次都保留最大值不变，其余元素加1，在到达终点前，最小值每轮过后都不会成为最大值，故每轮都需要操作
+        // 根据分析，可以得到方程：(len - 1) * cnt + sum = (min + cnt) * len，化简得：cnt = sum - min * len
+        int sum = 0, min = Integer.MAX_VALUE;
+        for (int number : numbers) {
+            min = Math.min(min, number);
+            sum += number;
+        }
+        return sum - min * numbers.length;
+    }
+
 }

@@ -420,4 +420,11 @@ public class SolutionTest {
         System.out.println(solution.findComplement(666));
     }
 
+    @Test
+    public void testMinMoves() {
+        System.out.println(solution.minMoves(new int[]{1, 1, 1}));
+        System.out.println(solution.minMoves(new int[]{1, 2, 3}));
+        System.out.println(solution.minMoves(new int[]{1, 2, 3, 4}));
+    }
+
 }
