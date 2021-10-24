@@ -2,10 +2,7 @@ package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.Trie;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * LeetCode - 中等题
@@ -255,6 +252,75 @@ public class Solution2 {
             return trie.findWithPoint(word);
         }
 
+    }
+
+    /**
+     * 638. 大礼包
+     * 在 LeetCode 商店中， 有 n 件在售的物品。每件物品都有对应的价格。然而，也有一些大礼包，每个大礼包以优惠的价格捆绑销售一组物品。
+     * 给你一个整数数组 prices 表示物品价格，其中 prices[i] 是第 i 件物品的价格。另有一个整数数组 needs 表示购物清单，其中 needs[i] 是需要购买第 i 件物品的数量。
+     * 还有一个数组 specials 表示大礼包，specials[i] 的长度为 n + 1 ，其中 specials[i][j] 表示第 i 个大礼包中内含第 j 件物品的数量，且 specials[i][n] （也就是数组中的最后一个整数）为第 i 个大礼包的价格。
+     * 返回 确切 满足购物清单所需花费的最低价格，你可以充分利用大礼包的优惠活动。你不能购买超出购物清单指定数量的物品，即使那样会降低整体价格。任意大礼包可无限次购买。
+     *
+     * @param prices   价格
+     * @param specials 礼包
+     * @param needs    需求
+     * @return 最低价格
+     */
+    public int shoppingOffers(List<Integer> prices, List<List<Integer>> specials, List<Integer> needs) {
+        // 不买礼包时的总价格
+        int sum = 0;
+        for (int i = 0; i < needs.size(); i++) {
+            sum += needs.get(i) * prices.get(i);
+        }
+        // 去掉不可购买的礼包
+        specials.removeIf(special -> !canBuySpecial(special, needs, prices));
+        if (specials.size() == 0) {
+            return sum;
+        }
+        // 剩余礼包，枚举每个礼包买零个或多个
+        minPrice = sum;
+        backtrack(prices, specials, needs, 0, sum);
+        return minPrice;
+    }
+
+    // 最低价格
+    private int minPrice;
+
+    // 回溯算法
+    private void backtrack(List<Integer> prices, List<List<Integer>> specials, List<Integer> needs, int idx, int sum) {
+        if (idx == specials.size()) {
+            return;
+        }
+        for (int i = idx; i < specials.size(); i++) {
+            List<Integer> special = specials.get(i);
+            if (canBuySpecial(special, needs, prices)) {
+                // 总价减去优惠额度，并占用购物数量
+                int origin = 0;
+                for (int j = 0; j < needs.size(); j++) {
+                    origin += prices.get(j) * special.get(j);
+                    needs.set(j, needs.get(j) - special.get(j));
+                }
+                int discount = origin - special.get(needs.size());
+                minPrice = Math.min(minPrice, sum - discount);
+                backtrack(prices, specials, needs, i, sum - discount);
+                // 释放购物数量
+                for (int j = 0; j < needs.size(); j++) {
+                    needs.set(j, needs.get(j) + special.get(j));
+                }
+            }
+        }
+    }
+
+    // 礼包是否可购买：购物数量不超，且价格比原来更低
+    private boolean canBuySpecial(List<Integer> special, List<Integer> needs, List<Integer> prices) {
+        int origin = 0;
+        for (int i = 0; i < needs.size(); i++) {
+            if (special.get(i) > needs.get(i)) {
+                return false;
+            }
+            origin += special.get(i) * prices.get(i);
+        }
+        return special.get(special.size() - 1) < origin;
     }
 
 }

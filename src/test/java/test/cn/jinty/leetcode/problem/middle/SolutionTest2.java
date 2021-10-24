@@ -1,6 +1,7 @@
 package test.cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.leetcode.problem.middle.Solution2;
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
 /**
@@ -65,6 +66,20 @@ public class SolutionTest2 {
         System.out.println(wd.search("a"));
         wd.addWord("abc");
         System.out.println(wd.search("a.c"));
+    }
+
+    @Test
+    public void testShoppingOffers() {
+        System.out.println(solution.shoppingOffers(
+                ListUtil.asList(2, 5),
+                ListUtil.asList(ListUtil.asList(3, 0, 5), ListUtil.asList(1, 2, 10)),
+                ListUtil.asList(3, 2)
+        ));
+        System.out.println(solution.shoppingOffers(
+                ListUtil.asList(9, 9),
+                ListUtil.asList(ListUtil.asList(1, 1, 1)),
+                ListUtil.asList(2, 2)
+        ));
     }
 
 }
