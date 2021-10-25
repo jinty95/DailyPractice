@@ -1,6 +1,8 @@
 package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.Trie;
+import cn.jinty.util.ArrayUtil;
+import cn.jinty.util.MathUtil;
 
 import java.util.*;
 
@@ -321,6 +323,65 @@ public class Solution2 {
             origin += special.get(i) * prices.get(i);
         }
         return special.get(special.size() - 1) < origin;
+    }
+
+    /**
+     * 240. 搜索二维矩阵 II
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：
+     * 每行的元素从左到右升序排列。
+     * 每列的元素从上到下升序排列。
+     *
+     * @param matrix 矩阵
+     * @param target 目标
+     * @return 是否存在
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        /*// 1、二分查找：时间复杂度O(M * logN)
+        int row = matrix.length, col = matrix[0].length;
+        // 左上最小，右下最大
+        if (target < matrix[0][0] && target > matrix[row - 1][col - 1]) {
+            return false;
+        }
+        // 逐行进行二分查找
+        for (int[] arr : matrix) {
+            if (target < arr[0]) return false;
+            if (binarySearch(arr, target)) {
+                return true;
+            }
+        }
+        return false;*/
+
+        // 2、Z字形查找：时间复杂度O(M + N)
+        int row = matrix.length, col = matrix[0].length;
+        // 从右上往左下查找，每次查找可以去除一行或一列
+        int i = 0, j = col - 1;
+        while (i < row && j >= 0) {
+            if (matrix[i][j] == target) {
+                return true;
+            } else if (matrix[i][j] > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return false;
+    }
+
+    // 二分查找
+    @SuppressWarnings("unused")
+    private boolean binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr[mid] == target) {
+                return true;
+            } else if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return false;
     }
 
 }
