@@ -45,8 +45,11 @@ public class ListUtilTest {
     @Test
     public void testListToString() {
         List<String> list = ListUtil.asList("A", "B", "C");
-        System.out.println(list.toString());
+        System.out.println(list);
         System.out.println(ListUtil.toString(list));
+        System.out.println(ListUtil.toString(list, null, null, ", "));
+        System.out.println(ListUtil.toString(list, "(", ")", ", "));
+        System.out.println(ListUtil.toString(list, "[", "]", ", ", "\"", "\""));
     }
 
 }

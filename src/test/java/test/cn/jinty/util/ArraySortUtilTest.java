@@ -79,7 +79,7 @@ public class ArraySortUtilTest {
 
     @Test
     public void testMonkeySort() {
-        int[] arr = {3, 5, 7, 8, 9, 1, 3, 4, 6, 7, 8, 0, 3, 4};
+        int[] arr = {6, 5, 7, 8, 9, 1, 3, 4, 2};
         System.out.println(Arrays.toString(arr));
         ArraySortUtil.monkeySort(arr);
         System.out.println(Arrays.toString(arr));

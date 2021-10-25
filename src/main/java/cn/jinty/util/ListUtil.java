@@ -107,20 +107,65 @@ public final class ListUtil {
     }
 
     /**
-     * 字符串列表合成一个指定格式的字符串(格式为["A","B","C"])
+     * 列表 -> 字符串
      *
-     * @param list 字符串列表
+     * @param list 列表
+     * @param <T>  泛型
      * @return 字符串
      */
-    public static String toString(List<String> list) {
-        if (isEmpty(list)) return "";
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (String one : list) {
-            sb.append('"').append(one).append('"').append(',');
+    public static <T> String toString(List<T> list) {
+        return toString(list, "[", "]", ", ");
+    }
+
+    /**
+     * 列表 -> 字符串
+     *
+     * @param list     列表
+     * @param <T>      泛型
+     * @param open     全局起始符
+     * @param close    全局终止符
+     * @param separate 分隔符
+     * @return 字符串
+     */
+    public static <T> String toString(List<T> list, String open, String close, String separate) {
+        return toString(list, open, close, separate, null, null);
+    }
+
+    /**
+     * 列表 -> 字符串
+     *
+     * @param list     列表
+     * @param open     全局起始符
+     * @param close    全局终止符
+     * @param separate 分隔符
+     * @param before   元素前修饰符
+     * @param after    元素后修饰符
+     * @param <T>      泛型
+     * @return 字符串
+     */
+    public static <T> String toString(List<T> list, String open, String close, String separate, String before, String after) {
+        if (isEmpty(list)) {
+            return "";
         }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append(']');
+        StringBuilder sb = new StringBuilder();
+        if (open != null) {
+            sb.append(open);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (before != null) {
+                sb.append(before);
+            }
+            sb.append(list.get(i));
+            if (after != null) {
+                sb.append(after);
+            }
+            if (separate != null && i != list.size() - 1) {
+                sb.append(separate);
+            }
+        }
+        if (close != null) {
+            sb.append(close);
+        }
         return sb.toString();
     }
 
