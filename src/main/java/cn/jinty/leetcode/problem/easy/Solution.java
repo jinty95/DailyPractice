@@ -1711,4 +1711,56 @@ public class Solution {
         return sum - min * numbers.length;
     }
 
+    /**
+     * 496. 下一个更大元素 I
+     * 给你两个 没有重复元素 的数组 numbers1 和 numbers2 ，其中numbers1 是 numbers2 的子集。
+     * 请你找出 numbers1 中每个元素在 numbers2 中的下一个比其大的值。
+     * numbers1 中数字 x 的下一个更大元素是指 x 在 numbers2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出 -1 。
+     *
+     * @param numbers1 数组1
+     * @param numbers2 数组2
+     * @return 下一个更大元素
+     */
+    public int[] nextGreaterElement(int[] numbers1, int[] numbers2) {
+        /*// 1、暴力搜索：时间复杂度O(M * N)
+        int[] ans = new int[numbers1.length];
+        for (int i = 0; i < numbers1.length; i++) {
+            int temp = -1;
+            // 找到 1 在 2 中的位置
+            int k = 0;
+            while (numbers1[i] != numbers2[k]) {
+                k++;
+            }
+            // 向右边寻找
+            for (int j = k + 1; j < numbers2.length; j++) {
+                if (numbers2[j] > numbers1[i]) {
+                    temp = numbers2[j];
+                    break;
+                }
+            }
+            ans[i] = temp;
+        }
+        return ans;*/
+
+        // 2、单调栈 + 哈希表：时间复杂度O(N)
+        // 哈希表存元素与下一个更大元素的映射
+        Map<Integer, Integer> map = new HashMap<>();
+        // 栈内部存左侧元素，且栈底到栈顶递减
+        Deque<Integer> stack = new LinkedList<>();
+        for (int num : numbers2) {
+            while (!stack.isEmpty() && stack.peek() < num) {
+                map.put(stack.pop(), num);
+            }
+            stack.push(num);
+        }
+        while (!stack.isEmpty()) {
+            map.put(stack.pop(), -1);
+        }
+        int[] ans = new int[numbers1.length];
+        for (int i = 0; i < numbers1.length; i++) {
+            ans[i] = map.get(numbers1[i]);
+        }
+        return ans;
+    }
+
 }

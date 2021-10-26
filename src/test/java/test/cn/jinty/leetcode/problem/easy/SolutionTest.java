@@ -427,4 +427,11 @@ public class SolutionTest {
         System.out.println(solution.minMoves(new int[]{1, 2, 3, 4}));
     }
 
+    @Test
+    public void testNextGreaterElement() {
+        System.out.println(Arrays.toString(solution.nextGreaterElement(
+                new int[]{4, 1, 2}, new int[]{1, 3, 4, 2}
+        )));
+    }
+
 }
