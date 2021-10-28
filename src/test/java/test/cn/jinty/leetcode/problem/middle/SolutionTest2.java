@@ -95,4 +95,10 @@ public class SolutionTest2 {
         System.out.println(solution.searchMatrix(matrix, 99));
     }
 
+    @Test
+    public void testReorderedPowerOf2() {
+        System.out.println(solution.reorderedPowerOf2(46));
+        System.out.println(solution.reorderedPowerOf2(128));
+    }
+
 }

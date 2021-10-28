@@ -384,4 +384,32 @@ public class Solution2 {
         return false;
     }
 
+    /**
+     * 869. 重新排序得到 2 的幂
+     * 给定正整数 N ，我们按任何顺序（包括原始顺序）将数字重新排序，注意其前导数字不能为零。
+     * 如果我们可以通过上述方式得到 2 的幂，返回 true；否则，返回 false。
+     *
+     * @param n 正整数
+     * @return 能否重排得到 2 的幂
+     */
+    public boolean reorderedPowerOf2(int n) {
+        // 根据所有 2 的幂构建哈希表
+        Set<String> powerOf2s = new HashSet<>();
+        int num = 1;
+        powerOf2s.add(String.valueOf(num));
+        for (int i = 0; i < 30; i++) {
+            num *= 2;
+            powerOf2s.add(numberToStringAsc(num));
+        }
+        // 在哈希表中检索 n
+        return powerOf2s.contains(numberToStringAsc(n));
+    }
+
+    // 将数字转为字符串并升序
+    private String numberToStringAsc(int num) {
+        char[] arr = String.valueOf(num).toCharArray();
+        Arrays.sort(arr);
+        return new String(arr);
+    }
+
 }
