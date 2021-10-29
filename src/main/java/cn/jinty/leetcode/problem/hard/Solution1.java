@@ -3,7 +3,6 @@ package cn.jinty.leetcode.problem.hard;
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.struct.tree.Trie;
 
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -635,6 +634,39 @@ public class Solution1 {
             }
         }
         sb.setLength(signIdx);
+    }
+
+    /**
+     * 335. 路径交叉
+     * 给你一个整数数组 d 。从 X-Y 平面上的点 (0,0) 开始，先向北移动 d[0] 米，然后向西移动 d[1] 米，
+     * 向南移动 d[2] 米，向东移动 d[3] 米，持续移动。也就是说，每次移动后你的方位会发生逆时针变化。
+     * 判断你所经过的路径是否相交。如果相交，返回 true ；否则，返回 false 。
+     *
+     * @param d 移动距离
+     * @return 是否交叉
+     */
+    public boolean isSelfCrossing(int[] d) {
+        // 边的数量小于4则不可能交叉
+        if (d.length < 4) {
+            return false;
+        }
+        // 至少4条边为一组
+        for (int i = 3; i < d.length; i++) {
+            // 4边交叉
+            if (d[i] >= d[i - 2] && d[i - 1] <= d[i - 3]) {
+                return true;
+            }
+            // 5边交叉
+            if (i >= 4 && d[i - 1] == d[i - 3] && d[i] + d[i - 4] >= d[i - 2]) {
+                return true;
+            }
+            // 6边交叉
+            if (i >= 5 && d[i - 1] <= d[i - 3] && d[i - 2] > d[i - 4]
+                    && d[i] + d[i - 4] >= d[i - 2] && d[i - 1] + d[i - 5] >= d[i - 3]) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -103,8 +103,15 @@ public class SolutionTest1 {
 
     @Test
     public void testAddOperators() {
-        System.out.println(solution.addOperators("105",5));
-        System.out.println(solution.addOperators("123",6));
+        System.out.println(solution.addOperators("105", 5));
+        System.out.println(solution.addOperators("123", 6));
+    }
+
+    @Test
+    public void testIsSelfCrossing() {
+        System.out.println(solution.isSelfCrossing(new int[]{2, 1, 1, 2}));
+        System.out.println(solution.isSelfCrossing(new int[]{1, 2, 3, 4}));
+        System.out.println(solution.isSelfCrossing(new int[]{1000, 1000, 1000, 2000}));
     }
 
 }
