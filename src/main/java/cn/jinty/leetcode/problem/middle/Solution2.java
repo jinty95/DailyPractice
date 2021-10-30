@@ -412,4 +412,48 @@ public class Solution2 {
         return new String(arr);
     }
 
+    /**
+     * 260. 只出现一次的数字 III
+     * 给定一个整数数组 numbers，其中恰好有两个元素只出现一次，其余所有元素均出现两次。
+     * 找出只出现一次的那两个元素。你可以按 任意顺序 返回答案。
+     *
+     * @param numbers 数组
+     * @return 只出现一次的两个元素
+     */
+    public int[] singleNumber(int[] numbers) {
+        /*// 1、计数：时间复杂度O(N)，空间复杂度O(N)
+        if (numbers.length == 2) return numbers;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int number : numbers) {
+            map.put(number, map.getOrDefault(number, 0) + 1);
+        }
+        int[] ans = new int[2];
+        int i = 0;
+        for (int number : map.keySet()) {
+            if (map.get(number) == 1) {
+                ans[i++] = number;
+            }
+        }
+        return ans;*/
+
+        //2、异或：时间复杂度O(N)，空间复杂度O(1)
+        // 设只出现一次的两个数为 x1 和 x2，则 xor = x1 ^ x2
+        int xor = 0;
+        for (int number : numbers) {
+            xor ^= number;
+        }
+        // 求 xor 的最低位 1
+        int lowBit = (xor & -xor);
+        // 所有数与最低位 1 相与，根据是否得 0 划分两组，组内异或，剩下出现一次的数
+        int[] ans = new int[2];
+        for (int number : numbers) {
+            if ((number & lowBit) == 0) {
+                ans[0] ^= number;
+            } else {
+                ans[1] ^= number;
+            }
+        }
+        return ans;
+    }
+
 }

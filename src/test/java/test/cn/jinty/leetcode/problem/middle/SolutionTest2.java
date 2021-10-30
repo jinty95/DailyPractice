@@ -4,6 +4,8 @@ import cn.jinty.leetcode.problem.middle.Solution2;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode - 算法题 - 测试
  *
@@ -99,6 +101,12 @@ public class SolutionTest2 {
     public void testReorderedPowerOf2() {
         System.out.println(solution.reorderedPowerOf2(46));
         System.out.println(solution.reorderedPowerOf2(128));
+    }
+
+    @Test
+    public void testSingleNumber() {
+        System.out.println(Arrays.toString(solution.singleNumber(new int[]{0, 1})));
+        System.out.println(Arrays.toString(solution.singleNumber(new int[]{1, 2, 1, 3, 2, 5})));
     }
 
 }
