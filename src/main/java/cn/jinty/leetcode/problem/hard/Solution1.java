@@ -591,7 +591,7 @@ public class Solution1 {
      * 给定一个仅包含数字 0-9 的字符串 num 和一个目标值整数 target ，
      * 在 num 的数字之间添加 二元 运算符（不是一元）+、- 或 * ，返回所有能够得到目标值的表达式。
      *
-     * @param num 数字字符串
+     * @param num    数字字符串
      * @param target 目标值
      * @return 表达式集合
      */
@@ -602,6 +602,7 @@ public class Solution1 {
         backtrack(num, target, ans, sb, 0, 0, 0);
         return ans;
     }
+
     private void backtrack(String num, int target, List<String> ans, StringBuilder sb, int i, long sum, long last) {
         // 收集答案
         if (i == num.length()) {
@@ -667,6 +668,59 @@ public class Solution1 {
             }
         }
         return false;
+    }
+
+    /**
+     * 407. 接雨水 II
+     * 给你一个 m x n 的矩阵，其中的值均为非负整数，代表二维高度图每个单元的高度，请计算图中形状最多能接多少体积的雨水。
+     *
+     * @param heightMap 二维高度图 (最大200×200)
+     * @return 雨水总量
+     */
+    public int trapRainWater(int[][] heightMap) {
+
+        // 错误算法
+        // 一个格子的雨水量 = 东南西北四个最大高度中的最小高度 - 格子高度
+        // 上面等式只有四个最大高度都与当前格子相邻时才正确，否则只要中间出现一个缺口，水就会漏出去，所以雨水量会更低
+
+        // 正确算法
+        // 一个格子的雨水量 = 东南西北四个相邻格子接水后高度的最小高度 - 格子高度
+        // 最外层格子无法接水，所以接水后高度不变，其中，最低高度将决定内部的水量，其相邻格子的接水后高度可以确定，之后更新最外层，重复过程直到所有格子都遍历
+
+        int m = heightMap.length, n = heightMap[0].length;
+        boolean[][] visit = new boolean[m][n];
+        PriorityQueue<int[]> queue = new PriorityQueue<>(((o1, o2) -> o1[1] - o2[1]));
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    visit[i][j] = true;
+                    queue.offer(new int[]{i * n + j, heightMap[i][j]});
+                }
+            }
+        }
+
+        int ans = 0;
+        int[] dir = {-1, 0, 1, 0, -1};
+        while (!queue.isEmpty()) {
+            int[] cur = queue.poll();
+            for (int k = 0; k < 4; k++) {
+                int x = cur[0] / n + dir[k];
+                int y = cur[0] % n + dir[k + 1];
+                if (x < 0 || x == m || y < 0 || y == n) {
+                    continue;
+                }
+                if (!visit[x][y]) {
+                    if (cur[1] > heightMap[x][y]) {
+                        ans += cur[1] - heightMap[x][y];
+                    }
+                    visit[x][y] = true;
+                    queue.add(new int[]{x * n + y, Math.max(heightMap[x][y], cur[1])});
+                }
+            }
+        }
+        return ans;
+
     }
 
 }

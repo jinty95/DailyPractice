@@ -114,4 +114,15 @@ public class SolutionTest1 {
         System.out.println(solution.isSelfCrossing(new int[]{1000, 1000, 1000, 2000}));
     }
 
+    @Test
+    public void testTrapRainWater() {
+        System.out.println(solution.trapRainWater(new int[][]{
+                {12, 13, 1, 12},
+                {13, 4, 13, 12},
+                {13, 8, 6, 6},
+                {12, 13, 12, 3},
+                {13, 13, 13, 1}
+        }));
+    }
+
 }
