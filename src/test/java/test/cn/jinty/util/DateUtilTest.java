@@ -3,6 +3,7 @@ package test.cn.jinty.util;
 import cn.jinty.util.DateUtil;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -30,15 +31,9 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testAddDate() {
-        System.out.println(DateUtil.format(DateUtil.addDate(new Date(), 180)));
-        System.out.println(DateUtil.format(DateUtil.addDate(new Date(), 360)));
-    }
-
-    @Test
-    public void testAddHour() {
-        System.out.println(DateUtil.format(DateUtil.addHour(new Date(), 2)));
-        System.out.println(DateUtil.format(DateUtil.addHour(new Date(), 24)));
+    public void testAdd() {
+        System.out.println(DateUtil.format(DateUtil.add(new Date(), 180, Calendar.DATE)));
+        System.out.println(DateUtil.format(DateUtil.add(new Date(), 6, Calendar.MONTH)));
     }
 
     @Test
@@ -51,15 +46,10 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testIsFirstDayOfMonth() {
-        System.out.println(DateUtil.isFirstDayOfMonth(DateUtil.parse("2021-10-8 11:16:42")));
-        System.out.println(DateUtil.isFirstDayOfMonth(DateUtil.parse("2021-10-1 00:00:00")));
-    }
-
-    @Test
     public void testIsTarget() {
-        System.out.println(DateUtil.isTargetDayOfMonth(new Date(), 15));
-        System.out.println(DateUtil.isTargetHourOfDay(new Date(), 18));
+        System.out.println(DateUtil.isTarget(new Date(), 1, Calendar.DATE));
+        System.out.println(DateUtil.isTarget(new Date(), 11, Calendar.MONTH));
+        System.out.println(DateUtil.isTarget(new Date(), 2021, Calendar.YEAR));
     }
 
     @Test
@@ -69,16 +59,8 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testIsWithin24hAfter() {
-        Date now = DateUtil.parse("2021-07-15 00:00:00");
-        Date begin1 = DateUtil.parse("2021-07-16 00:00:01");
-        Date begin2 = DateUtil.parse("2021-07-15 00:00:00");
-        Date begin3 = DateUtil.parse("2021-07-14 00:00:00");
-        Date begin4 = DateUtil.parse("2021-07-13 23:59:59");
-        System.out.println(DateUtil.isWithin24hAfter(now, begin1));
-        System.out.println(DateUtil.isWithin24hAfter(now, begin2));
-        System.out.println(DateUtil.isWithin24hAfter(now, begin3));
-        System.out.println(DateUtil.isWithin24hAfter(now, begin4));
+    public void testIsBetween() {
+        System.out.println(DateUtil.isBetween(new Date(), DateUtil.getYesterdayBegin(), DateUtil.getTodayEnd()));
     }
 
     @Test
@@ -98,14 +80,6 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.getTodayEnd()));
         System.out.println(DateUtil.format(DateUtil.getYesterdayBegin()));
         System.out.println(DateUtil.format(DateUtil.getYesterdayEnd()));
-    }
-
-    @Test
-    public void testGetCountDown() {
-        System.out.println(DateUtil.getCountDown(DateUtil.parse("0-7-20 1:0:0")));
-        System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-21 10:00:00")));
-        System.out.println(DateUtil.getCountDown(DateUtil.parse("2021-7-24 00:00:00")));
-        System.out.println(DateUtil.getCountDown(DateUtil.parse("2022-07-20 00:00:00")));
     }
 
 }

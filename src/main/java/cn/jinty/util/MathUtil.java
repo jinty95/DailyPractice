@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 数字处理工具
+ * 数学 - 工具类
  *
  * @author jinty
  * @date 2021/3/5
@@ -79,14 +79,27 @@ public final class MathUtil {
     }
 
     /**
-     * 用一个long存储两个int
+     * 两个int转为一个long
      *
-     * @param h 高位
-     * @param l 低位
-     * @return long
+     * @param h 高位整数
+     * @param l 低位整数
+     * @return 长整数
      */
-    public static long combineInt2Long(int h, int l) {
+    public static long twoIntToLong(int h, int l) {
         return (long) h << 32 | (long) l & 0xFFFFFFFFL;
+    }
+
+    /**
+     * 一个long转为两个int
+     *
+     * @param l 长整数
+     * @return 两个整数
+     */
+    public static int[] longToTwoInt(long l) {
+        int[] res = new int[2];
+        res[0] = (int)((l >> 32) & 0xFFFFFFFFL);
+        res[1] = (int)(l & 0xFFFFFFFFL);
+        return res;
     }
 
     /**

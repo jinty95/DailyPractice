@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * 数组工具类
+ * 数组 - 工具类
  *
  * @author wangjintai
  * @date 2020/2/25.

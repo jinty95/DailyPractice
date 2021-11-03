@@ -3,7 +3,7 @@ package cn.jinty.util;
 import java.util.Random;
 
 /**
- * 数组排序工具
+ * 数组排序 - 工具类
  *
  * @author jinty
  * @date 2021/4/22

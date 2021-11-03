@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.util.Arrays;
 
 /**
  * 数学工具类测试
@@ -13,6 +15,29 @@ import java.math.BigInteger;
  * @date 2021/4/13
  **/
 public class MathUtilTest {
+
+    @Test
+    public void testIsPrime() {
+        System.out.println(MathUtil.isPrime(1));
+        System.out.println(MathUtil.isPrime(5));
+        System.out.println(MathUtil.isPrime(99));
+    }
+
+    @Test
+    public void testSplitPrimeFactor() {
+        System.out.println(MathUtil.splitPrimeFactor(5));
+        System.out.println(MathUtil.splitPrimeFactor(999));
+    }
+
+    @Test
+    public void testTwoIntToLong() {
+        long l1 = MathUtil.twoIntToLong(1, 1);
+        System.out.println(l1);
+        System.out.println(Arrays.toString(MathUtil.longToTwoInt(l1)));
+        long l2 = MathUtil.twoIntToLong(2021, 1103);
+        System.out.println(l2);
+        System.out.println(Arrays.toString(MathUtil.longToTwoInt(l2)));
+    }
 
     @Test
     public void testDoubleOperation() {

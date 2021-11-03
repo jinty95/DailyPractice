@@ -10,7 +10,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * 加密工具类
+ * 加密 - 工具类
  *
  * @author jinty
  * @date 2019/12/5.

@@ -18,18 +18,4 @@ public class StringUtilTest {
         System.out.println(StringUtil.random(10));
     }
 
-    @Test
-    public void testSnakeToCamel() {
-        System.out.println(StringUtil.snakeToCamel("hello_world_are_you_ok"));
-        System.out.println(StringUtil.snakeToCamel("my_name"));
-        System.out.println(StringUtil.snakeToCamel("_my_name_"));
-    }
-
-    @Test
-    public void testCamelToSnake() {
-        System.out.println(StringUtil.camelToSnake("helloWorldAreYouOk"));
-        System.out.println(StringUtil.camelToSnake("myName"));
-        System.out.println(StringUtil.camelToSnake("MyName"));
-    }
-
 }

@@ -11,8 +11,7 @@ import java.util.regex.Pattern;
 public final class IpUtil {
 
     //IP地址格式
-    private static Pattern pattern =
-            Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
+    private static final Pattern pattern = Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
 
     /**
      * 判断是否符合IP地址格式

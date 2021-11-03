@@ -6,16 +6,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * 日期时间 - 工具类
+ * 时间 - 工具类
  *
  * @author Jinty
  * @date 2020/3/25.
  */
-@SuppressWarnings("unused")
 public final class DateUtil {
 
     /**
-     * 时间单位(毫秒表示)
+     * 时间单位 (毫秒表示)
      */
     public static final long MILLISECOND = 1;
     public static final long SECOND = MILLISECOND * 1000;
@@ -28,8 +27,6 @@ public final class DateUtil {
      */
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
-    public static final String YYYY_MM = "yyyy-MM";
-    public static final String YYYY = "yyyy";
 
     /**
      * 解析时间字符串
@@ -49,7 +46,9 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr, SimpleDateFormat sdf) {
-        if (dateStr == null || sdf == null) return null;
+        if (dateStr == null || sdf == null) {
+            return null;
+        }
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
@@ -76,7 +75,9 @@ public final class DateUtil {
      * @return 字符串
      */
     public static String format(Date date, SimpleDateFormat sdf) {
-        if (date == null || sdf == null) return null;
+        if (date == null || sdf == null){
+            return null;
+        }
         return sdf.format(date);
     }
 
@@ -88,7 +89,7 @@ public final class DateUtil {
      * @param date  日
      * @return 时间
      */
-    public static Date buildDate(Integer year, Integer month, Integer date) {
+    public static Date buildDate(int year, int month, int date) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
@@ -110,8 +111,7 @@ public final class DateUtil {
      * @param second 秒
      * @return 时间
      */
-    public static Date buildDate(Integer year, Integer month, Integer date,
-                                 Integer hour, Integer minute, Integer second) {
+    public static Date buildDate(int year, int month, int date, int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
@@ -123,32 +123,20 @@ public final class DateUtil {
     }
 
     /**
-     * 时间增加指定天数
+     * 时间增加或减少
      *
-     * @param date   时间
-     * @param dayNum 指定天数
+     * @param date 时间
+     * @param num  增减数量 (正数增加，负数减少)
+     * @param unit 时间单位 (使用Calendar内置的时间单位)
      * @return 时间
      */
-    public static Date addDate(Date date, Integer dayNum) {
-        if (date == null) return null;
+    public static Date add(Date date, int num, int unit) {
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DATE, dayNum);
-        return calendar.getTime();
-    }
-
-    /**
-     * 时间增加指定小时数
-     *
-     * @param date    时间
-     * @param hourNum 指定小时数
-     * @return 时间
-     */
-    public static Date addHour(Date date, Integer hourNum) {
-        if (date == null) return null;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.HOUR_OF_DAY, hourNum);
+        calendar.add(unit, num);
         return calendar.getTime();
     }
 
@@ -157,17 +145,21 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @param unit  时间单位(毫秒数)
+     * @param unit  时间单位 (毫秒数)
      * @return 间隔
      */
     public static Long countInterval(Date begin, Date end, long unit) {
-        if (begin == null || end == null) return null;
-        if (unit < 1) throw new IllegalArgumentException("time unit cannot less than 1");
+        if (begin == null || end == null) {
+            return null;
+        }
+        if (unit < 1) {
+            throw new IllegalArgumentException("time unit cannot less than 1");
+        }
         return (begin.getTime() - end.getTime()) / unit;
     }
 
     /**
-     * 计算时间间隔(单位:天)
+     * 计算时间间隔 (单位:天)
      *
      * @param begin 起始时间
      * @param end   结束时间
@@ -178,42 +170,23 @@ public final class DateUtil {
     }
 
     /**
-     * 判断时间是否为当月第一天
+     * 判断时间的某个单位的值是否是目标值
      *
-     * @param date 时间
+     * @param date   时间
+     * @param target 目标值
+     * @param unit   时间单位 (使用Calendar内置的时间单位)
      * @return 布尔
      */
-    public static boolean isFirstDayOfMonth(Date date) {
+    public static boolean isTarget(Date date, int target, int unit) {
+        if (date == null) {
+            return false;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int day = calendar.get(Calendar.DATE);
-        return day == 1;
-    }
-
-    /**
-     * 判断时间是否为当月指定的天数
-     *
-     * @param date      时间
-     * @param targetDay 当月指定天数
-     * @return 布尔
-     */
-    public static boolean isTargetDayOfMonth(Date date, Integer targetDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.DATE) == targetDay;
-    }
-
-    /**
-     * 判断时间是否为当天指定的小时数
-     *
-     * @param date       时间
-     * @param targetHour 给定小时数
-     * @return 布尔
-     */
-    public static boolean isTargetHourOfDay(Date date, Integer targetHour) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.HOUR_OF_DAY) == targetHour;
+        if (Calendar.MONTH == unit) {
+            return calendar.get(unit) + 1 == target;
+        }
+        return calendar.get(unit) == target;
     }
 
     /**
@@ -224,7 +197,7 @@ public final class DateUtil {
      */
     public static boolean isToday(Date date) {
         Date now = new Date();
-        return isTheSameDate(now, date);
+        return isSameDate(now, date);
     }
 
     /**
@@ -234,7 +207,10 @@ public final class DateUtil {
      * @param date2 时间2
      * @return 布尔
      */
-    public static boolean isTheSameDate(Date date1, Date date2) {
+    public static boolean isSameDate(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            return false;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
         String date1Str = sdf.format(date1);
         String date2Str = sdf.format(date2);
@@ -249,22 +225,11 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 布尔
      */
-    public static boolean isWithinInterval(Date date, Date begin, Date end) {
-        if (date == null || begin == null || end == null) return false;
+    public static boolean isBetween(Date date, Date begin, Date end) {
+        if (date == null || begin == null || end == null) {
+            return false;
+        }
         return date.compareTo(begin) >= 0 && date.compareTo(end) <= 0;
-    }
-
-    /**
-     * 当前时间是否在开始时间的后24小时内
-     *
-     * @param now   当前时间
-     * @param begin 开始时间
-     * @return 是否
-     */
-    public static boolean isWithin24hAfter(Date now, Date begin) {
-        if (now == null || begin == null) return false;
-        Date end = addDate(begin, 1);
-        return isWithinInterval(now, begin, end);
     }
 
     /**
@@ -354,7 +319,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取一年的开始时刻
+     * 获取一年的开始时间
      *
      * @param year 年份
      * @return 时间
@@ -367,7 +332,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取一年的结束时刻
+     * 获取一年的结束时间
      *
      * @param year 年份
      * @return 时间
@@ -381,7 +346,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取今年的开始时刻
+     * 获取今年的开始时间
      *
      * @return 时间
      */
@@ -394,7 +359,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取今年的结束时刻
+     * 获取今年的结束时间
      *
      * @return 时间
      */
@@ -405,25 +370,6 @@ public final class DateUtil {
         calendar.set(Calendar.YEAR, year + 1);
         calendar.add(Calendar.SECOND, -1);
         return calendar.getTime();
-    }
-
-    /**
-     * 当前时间距离目标时间倒计时
-     *
-     * @param target 目标时间
-     * @return 倒计时文本提示
-     */
-    public static String getCountDown(Date target) {
-        if (target == null) return "";
-        Date now = new Date();
-        //大于一天时显示天数
-        long day = countIntervalForDay(target, now);
-        if (day < 0) return "";
-        if (day >= 1) return day + "天后截止";
-        //一天内显示小时与分钟
-        long minute = countInterval(target, now, MINUTE);
-        if (minute < 0) return "";
-        return (minute / 60) + "时" + (minute % 60) + "分后截止";
     }
 
 }

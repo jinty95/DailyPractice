@@ -3,7 +3,7 @@ package cn.jinty.util;
 import cn.jinty.struct.linear.ListNode;
 
 /**
- * 链表工具类
+ * 链表 - 工具类
  *
  * @author Jinty
  * @date 2020/4/8.
