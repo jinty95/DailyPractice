@@ -1,9 +1,10 @@
 package cn.jinty.util;
 
+import cn.jinty.entity.DateRange;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 /**
  * 时间 - 工具类
@@ -75,7 +76,7 @@ public final class DateUtil {
      * @return 字符串
      */
     public static String format(Date date, SimpleDateFormat sdf) {
-        if (date == null || sdf == null){
+        if (date == null || sdf == null) {
             return null;
         }
         return sdf.format(date);
@@ -91,12 +92,10 @@ public final class DateUtil {
      */
     public static Date buildDate(int year, int month, int date) {
         Calendar calendar = Calendar.getInstance();
+        calendar.clear();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DATE, date);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
         return calendar.getTime();
     }
 
@@ -113,6 +112,7 @@ public final class DateUtil {
      */
     public static Date buildDate(int year, int month, int date, int hour, int minute, int second) {
         Calendar calendar = Calendar.getInstance();
+        calendar.clear();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DATE, date);
@@ -233,143 +233,66 @@ public final class DateUtil {
     }
 
     /**
-     * 获取今天的开始时间
+     * 获取一天的开始时刻
      *
-     * @return 时间
+     * @param date 时间
+     * @return 一天的开始时刻
      */
-    public static Date getTodayBegin() {
+    public static Date getDayBegin(Date date) {
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }
 
     /**
-     * 获取今天的结束时间
+     * 获取一天的结束时刻
      *
-     * @return 时间
+     * @param date 时间
+     * @return 一天的结束时刻
      */
-    public static Date getTodayEnd() {
+    public static Date getDayEnd(Date date) {
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
         return calendar.getTime();
     }
 
     /**
-     * 获取昨天的开始时间
+     * 获取一年的所有星期
      *
-     * @return 时间
+     * @param year           年份
+     * @param firstDayOfWeek 星期的第一天
+     * @return 一年的所有星期
      */
-    public static Date getYesterdayBegin() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取昨天的结束时间
-     *
-     * @return 时间
-     */
-    public static Date getYesterdayEnd() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取上个月的开始时间
-     *
-     * @return 时间
-     */
-    public static Date getLastMonthBegin() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        calendar.set(Calendar.DATE, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取上个月的结束时间
-     *
-     * @return 时间
-     */
-    public static Date getLastMonthEnd() {
-        //先得到本月的开始时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DATE, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        //秒数减1
-        calendar.add(Calendar.SECOND, -1);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取一年的开始时间
-     *
-     * @param year 年份
-     * @return 时间
-     */
-    public static Date getBeginOfYear(int year) {
+    public static Map<Integer, DateRange> getAllWeekOfYear(int year, int firstDayOfWeek) {
+        Map<Integer, DateRange> map = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取一年的结束时间
-     *
-     * @param year 年份
-     * @return 时间
-     */
-    public static Date getEndOfYear(int year) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year + 1);
-        calendar.add(Calendar.SECOND, -1);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取今年的开始时间
-     *
-     * @return 时间
-     */
-    public static Date getBeginOfThisYear() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        return calendar.getTime();
-    }
-
-    /**
-     * 获取今年的结束时间
-     *
-     * @return 时间
-     */
-    public static Date getEndOfThisYear() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year + 1);
-        calendar.add(Calendar.SECOND, -1);
-        return calendar.getTime();
+        for (int i = 1; i <= 53; i++) {
+            calendar.setFirstDayOfWeek(firstDayOfWeek);
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.WEEK_OF_YEAR, i);
+            Date begin = calendar.getTime();
+            Date end = getDayEnd(add(begin, 6, Calendar.DATE));
+            if (isTarget(end, year, Calendar.YEAR)) {
+                map.put(i, new DateRange(begin, end));
+            }
+            calendar.clear();
+        }
+        return map;
     }
 
 }

@@ -1,10 +1,12 @@
 package test.cn.jinty.util;
 
+import cn.jinty.entity.DateRange;
 import cn.jinty.util.DateUtil;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 日期时间 - 工具类 - 测试
@@ -60,26 +62,28 @@ public class DateUtilTest {
 
     @Test
     public void testIsBetween() {
-        System.out.println(DateUtil.isBetween(new Date(), DateUtil.getYesterdayBegin(), DateUtil.getTodayEnd()));
+        Date rightNow = new Date();
+        System.out.println(DateUtil.isBetween(rightNow, DateUtil.getDayBegin(rightNow), DateUtil.getDayEnd(rightNow)));
     }
 
     @Test
-    public void getBeginAndEnd() {
-        //年
-        System.out.println(DateUtil.format(DateUtil.getBeginOfYear(2019)));
-        System.out.println(DateUtil.format(DateUtil.getEndOfYear(2019)));
-        System.out.println(DateUtil.format(DateUtil.getBeginOfThisYear()));
-        System.out.println(DateUtil.format(DateUtil.getEndOfThisYear()));
-        System.out.println();
-        //月
-        System.out.println(DateUtil.format(DateUtil.getLastMonthBegin()));
-        System.out.println(DateUtil.format(DateUtil.getLastMonthEnd()));
-        System.out.println();
-        //日
-        System.out.println(DateUtil.format(DateUtil.getTodayBegin()));
-        System.out.println(DateUtil.format(DateUtil.getTodayEnd()));
-        System.out.println(DateUtil.format(DateUtil.getYesterdayBegin()));
-        System.out.println(DateUtil.format(DateUtil.getYesterdayEnd()));
+    public void testGetDayBeginAndEnd() {
+        System.out.println(DateUtil.format(DateUtil.getDayBegin(DateUtil.add(new Date(), -1, Calendar.DATE))));
+        System.out.println(DateUtil.format(DateUtil.getDayEnd(DateUtil.add(new Date(), -1, Calendar.DATE))));
+        System.out.println(DateUtil.format(DateUtil.getDayBegin(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getDayEnd(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getDayBegin(DateUtil.add(new Date(), 1, Calendar.DATE))));
+        System.out.println(DateUtil.format(DateUtil.getDayEnd(DateUtil.add(new Date(), 1, Calendar.DATE))));
+        System.out.println(DateUtil.format(DateUtil.getDayBegin(DateUtil.buildDate(2021, 1, 1))));
+        System.out.println(DateUtil.format(DateUtil.getDayEnd(DateUtil.buildDate(2021, 1, 1))));
+    }
+
+    @Test
+    public void testGetWeekOfYear() {
+        Map<Integer, DateRange> map = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
+        for (Integer week : map.keySet()) {
+            System.out.printf("第%d周 : %s%n", week, map.get(week));
+        }
     }
 
 }
