@@ -147,6 +147,25 @@ public final class DateUtil {
     }
 
     /**
+     * 计算相差月份 (只考虑年月，其余忽略)
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 相差月份
+     */
+    public static Long getDiffMonth(Date begin, Date end) {
+        if (begin == null || end == null) {
+            return null;
+        }
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(begin);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(end);
+        return (c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12L
+                + (c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH));
+    }
+
+    /**
      * 计算相差天数
      *
      * @param begin 起始时间
