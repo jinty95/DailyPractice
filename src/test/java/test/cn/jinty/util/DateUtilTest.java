@@ -40,11 +40,13 @@ public class DateUtilTest {
 
     @Test
     public void testCountInterval() {
-        Date d1 = DateUtil.parse("2021-07-14 19:00:00");
-        Date d2 = DateUtil.parse("2021-07-15 18:00:00");
-        System.out.println(DateUtil.countIntervalForDay(d1, d2));
-        System.out.println(DateUtil.countInterval(d1, d2, DateUtil.HOUR));
-        System.out.println(DateUtil.countInterval(d1, d2, DateUtil.MINUTE));
+        Date d1 = DateUtil.parse("2021-11-04 14:00:00");
+        Date d2 = DateUtil.parse("2021-11-04 12:30:00");
+        System.out.println(DateUtil.getDiffDay(d1, d2));
+        System.out.println(DateUtil.getDiffHour(d1, d2));
+        System.out.println(DateUtil.getDiffMinute(d1, d2));
+        System.out.println(DateUtil.getDiffSecond(d1, d2));
+        System.out.println(DateUtil.getDiff(d1, d2));
     }
 
     @Test

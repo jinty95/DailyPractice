@@ -147,32 +147,58 @@ public final class DateUtil {
     }
 
     /**
-     * 计算时间间隔
+     * 计算相差天数
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @param unit  时间单位 (毫秒数)
-     * @return 间隔
+     * @return 相差天数
      */
-    public static Long countInterval(Date begin, Date end, long unit) {
-        if (begin == null || end == null) {
-            return null;
-        }
-        if (unit < 1) {
-            throw new IllegalArgumentException("time unit cannot less than 1");
-        }
-        return (begin.getTime() - end.getTime()) / unit;
+    public static Long getDiffDay(Date begin, Date end) {
+        return getDiff(begin, end, DAY);
     }
 
     /**
-     * 计算时间间隔 (单位:天)
+     * 计算相差小时数
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 间隔
+     * @return 相差小时数
      */
-    public static Long countIntervalForDay(Date begin, Date end) {
-        return countInterval(begin, end, DAY);
+    public static Long getDiffHour(Date begin, Date end) {
+        return getDiff(begin, end, HOUR);
+    }
+
+    /**
+     * 计算相差分钟数
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 相差分钟数
+     */
+    public static Long getDiffMinute(Date begin, Date end) {
+        return getDiff(begin, end, MINUTE);
+    }
+
+    /**
+     * 计算相差秒数
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 相差秒数
+     */
+    public static Long getDiffSecond(Date begin, Date end) {
+        return getDiff(begin, end, SECOND);
+    }
+
+    /**
+     * 计算相差毫秒数
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 相差毫秒数
+     */
+    public static Long getDiff(Date begin, Date end) {
+        return getDiff(begin, end, MILLISECOND);
     }
 
     /**
@@ -329,6 +355,26 @@ public final class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return cnDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    /* 以下为内部函数 */
+
+    /**
+     * 计算时间差
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @param unit  时间单位 (毫秒数)
+     * @return 时间差
+     */
+    private static Long getDiff(Date begin, Date end, long unit) {
+        if (begin == null || end == null) {
+            return null;
+        }
+        if (unit < 1) {
+            throw new IllegalArgumentException("time unit cannot less than 1");
+        }
+        return (begin.getTime() - end.getTime()) / unit;
     }
 
 }
