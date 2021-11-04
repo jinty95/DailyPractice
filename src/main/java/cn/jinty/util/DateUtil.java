@@ -17,11 +17,11 @@ public final class DateUtil {
     /**
      * 时间单位 (毫秒表示)
      */
-    public static final long MILLISECOND = 1;
-    public static final long SECOND = MILLISECOND * 1000;
-    public static final long MINUTE = SECOND * 60;
-    public static final long HOUR = MINUTE * 60;
-    public static final long DAY = HOUR * 24;
+    public static final long MILLISECOND = 1L;
+    public static final long SECOND = MILLISECOND * 1000L;
+    public static final long MINUTE = SECOND * 60L;
+    public static final long HOUR = MINUTE * 60L;
+    public static final long DAY = HOUR * 24L;
 
     /**
      * 常用的时间格式
@@ -355,6 +355,32 @@ public final class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return cnDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    /**
+     * 判断是否为闰年
+     *
+     * @param year 年份
+     * @return 是否为闰年
+     */
+    public static boolean isLeapYear(int year) {
+        // 四年一闰，百年不闰，四百年再闰
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    /**
+     * 判断是否为闰年
+     *
+     * @param date 时间
+     * @return 是否为闰年
+     */
+    public static boolean isLeapYear(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("date must not null!");
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return isLeapYear(calendar.get(Calendar.YEAR));
     }
 
     /* 以下为内部函数 */

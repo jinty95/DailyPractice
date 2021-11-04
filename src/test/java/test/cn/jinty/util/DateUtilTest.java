@@ -4,6 +4,7 @@ import cn.jinty.entity.DateRange;
 import cn.jinty.util.DateUtil;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -92,6 +93,14 @@ public class DateUtilTest {
     public void testGetDayOfWeek() {
         System.out.println(DateUtil.getEnDayOfWeek(new Date()));
         System.out.println(DateUtil.getCnDayOfWeek(new Date()));
+    }
+
+    @Test
+    public void testIsLeapYear() {
+        System.out.println("2000 is leap year ? " + DateUtil.isLeapYear(2000));
+        System.out.println("2004 is leap year ? " + DateUtil.isLeapYear(2004));
+        System.out.println("2100 is leap year ? " + DateUtil.isLeapYear(2100));
+        System.out.println("now is leap year ? " + DateUtil.isLeapYear(new Date()));
     }
 
 }
