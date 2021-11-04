@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 汉字转拼音 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/26
  **/
 public class PinYinUtilTest {

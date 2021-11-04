@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * 日期时间 - 工具类 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/18
  **/
 public class DateUtilTest {

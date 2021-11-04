@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * LeetCode - 中等题
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/25
  **/
 public class Solution1 {

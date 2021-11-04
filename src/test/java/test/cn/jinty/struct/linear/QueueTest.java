@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 队列 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/14
  **/
 public class QueueTest {

@@ -3,7 +3,7 @@ package cn.jinty.design.behavior.template;
 /**
  * 植物大战僵尸 - 游戏 - 实现类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/8
  **/
 public class PlantsVsZombies extends Game {

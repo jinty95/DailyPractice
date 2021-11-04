@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * 图 - 节点
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/3
  **/
 public class GraphNode {

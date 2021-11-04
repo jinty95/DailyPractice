@@ -3,7 +3,7 @@ package cn.jinty.leetcode.entity;
 /**
  * 节点
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/3/30
  **/
 public class Node {

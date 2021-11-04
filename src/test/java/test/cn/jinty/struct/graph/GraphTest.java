@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 图 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/3
  **/
 public class GraphTest {

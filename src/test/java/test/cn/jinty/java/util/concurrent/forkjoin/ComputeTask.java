@@ -5,7 +5,7 @@ import java.util.concurrent.RecursiveTask;
 /**
  * 计算任务 - 计算begin~end的和
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/9
  **/
 public class ComputeTask extends RecursiveTask<Long> {

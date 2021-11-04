@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 数学 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/3/5
  **/
 public final class MathUtil {

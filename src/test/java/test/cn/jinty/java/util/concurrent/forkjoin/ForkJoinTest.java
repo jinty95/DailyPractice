@@ -9,7 +9,7 @@ import java.util.concurrent.Future;
 /**
  * 分治归并线程池 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/9
  **/
 public class ForkJoinTest {

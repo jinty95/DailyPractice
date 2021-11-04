@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * 数组工具类 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/22
  **/
 public class ArrayUtilTest {

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 /**
  * 最大值队列
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/3/26
  **/
 public class MaxQueue {

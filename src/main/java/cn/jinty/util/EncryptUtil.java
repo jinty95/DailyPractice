@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * 加密 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2019/12/5.
  */
 public final class EncryptUtil {

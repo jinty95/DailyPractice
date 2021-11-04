@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * IP工具类 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/15
  */
 public class IpUtilTest {

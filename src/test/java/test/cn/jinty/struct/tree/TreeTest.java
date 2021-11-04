@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 二叉树 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/7
  **/
 public class TreeTest {

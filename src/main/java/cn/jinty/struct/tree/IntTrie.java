@@ -3,7 +3,7 @@ package cn.jinty.struct.tree;
 /**
  * 前缀树 - 基于01存储int型整数
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/23
  */
 public class IntTrie {

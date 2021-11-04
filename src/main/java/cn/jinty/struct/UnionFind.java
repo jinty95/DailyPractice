@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 并查集
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/2/26
  **/
 public class UnionFind {

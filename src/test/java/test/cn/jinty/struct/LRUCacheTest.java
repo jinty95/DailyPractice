@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * LRU缓存测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/26
  **/
 public class LRUCacheTest {

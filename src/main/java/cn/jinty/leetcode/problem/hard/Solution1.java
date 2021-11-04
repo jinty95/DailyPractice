@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * LeetCode - 困难题
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/31
  **/
 public class Solution1 {

@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * 数学工具类测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/13
  **/
 public class MathUtilTest {

@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 延时队列 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/25
  **/
 public class DelayQueueTest {

@@ -3,7 +3,7 @@ package cn.jinty.struct.linear;
 /**
  * 队列 - 基于数组(环形数组)实现
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/14
  **/
 public class Queue<T> {

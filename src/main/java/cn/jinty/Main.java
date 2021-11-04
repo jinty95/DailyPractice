@@ -3,7 +3,7 @@ package cn.jinty;
 /**
  * 主函数
  *
- * @author jinty
+ * @author Jinty
  * @date 2020/11/24
  **/
 public class Main {

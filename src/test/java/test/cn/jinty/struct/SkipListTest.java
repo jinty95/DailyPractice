@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 跳跃表 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/21
  **/
 public class SkipListTest {

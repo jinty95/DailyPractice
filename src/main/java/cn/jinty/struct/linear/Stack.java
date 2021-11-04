@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 栈 - 基于数组实现
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/11
  **/
 public class Stack<T> {

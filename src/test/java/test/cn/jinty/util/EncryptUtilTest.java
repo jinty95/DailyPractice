@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * 加密工具类测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/9
  **/
 public class EncryptUtilTest {

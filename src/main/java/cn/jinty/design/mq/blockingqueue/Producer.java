@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * 生产者
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/14
  **/
 public class Producer implements Runnable {

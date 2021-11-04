@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 栈 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/11
  **/
 public class StackTest {

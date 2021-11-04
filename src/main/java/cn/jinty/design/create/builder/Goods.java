@@ -3,7 +3,7 @@ package cn.jinty.design.create.builder;
 /**
  * 商品
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/8/20
  **/
 public class Goods {

@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * 跳跃表 - 基于多层索引实现快速检索的有序链表
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/21
  **/
 public class SkipList {

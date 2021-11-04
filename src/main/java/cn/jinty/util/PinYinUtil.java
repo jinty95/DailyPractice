@@ -7,7 +7,7 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 /**
  * 汉字转拼音 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/26
  **/
 public final class PinYinUtil {

@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * 死锁 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/6
  **/
 public class DeadLockTest {

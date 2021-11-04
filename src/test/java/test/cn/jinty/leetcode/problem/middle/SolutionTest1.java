@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * LeetCode - 算法题 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/25
  **/
 public class SolutionTest1 {

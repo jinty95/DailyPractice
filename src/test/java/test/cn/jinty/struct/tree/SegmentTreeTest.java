@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 线段树 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/31
  **/
 public class SegmentTreeTest {

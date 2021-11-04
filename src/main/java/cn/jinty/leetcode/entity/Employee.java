@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 员工
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/4
  */
 public class Employee {

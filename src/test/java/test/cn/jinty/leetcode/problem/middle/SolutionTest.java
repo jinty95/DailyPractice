@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * LeetCode - 中等题 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/10
  **/
 public class SolutionTest {

@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/14
  **/
 public class Test {

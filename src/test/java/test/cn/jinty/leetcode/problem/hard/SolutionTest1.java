@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * LeetCode - 困难题 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/31
  **/
 public class SolutionTest1 {

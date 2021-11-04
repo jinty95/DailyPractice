@@ -8,7 +8,7 @@ import java.util.Queue;
 /**
  * 树节点
  *
- * @author jinty
+ * @author Jinty
  * @date 2020/12/25
  **/
 public class TreeNode {

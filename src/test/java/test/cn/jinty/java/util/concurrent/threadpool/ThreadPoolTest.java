@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 /**
  * 多线程与线程池 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/25
  **/
 public class ThreadPoolTest {

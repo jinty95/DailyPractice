@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * 字符串 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/9
  **/
 public final class StringUtil {

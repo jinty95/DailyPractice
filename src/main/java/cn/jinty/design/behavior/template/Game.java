@@ -3,7 +3,7 @@ package cn.jinty.design.behavior.template;
 /**
  * 游戏 - 抽象类 - 模板方法模式
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/8
  **/
 public abstract class Game {

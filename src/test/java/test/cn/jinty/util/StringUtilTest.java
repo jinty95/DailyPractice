@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 字符串 - 工具类 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/3
  **/
 public class StringUtilTest {

@@ -4,7 +4,7 @@ package cn.jinty.struct.tree;
  * 线段树
  * O(logN)的时间复杂度内修改单个元素及查询区间信息
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/31
  **/
 public class SegmentTree {

@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * 二进制索引树 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/1
  **/
 public class BinaryIndexTreeTest {

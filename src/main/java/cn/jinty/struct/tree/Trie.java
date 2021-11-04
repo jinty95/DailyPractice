@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * 前缀树
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/14
  **/
 @SuppressWarnings("unused")

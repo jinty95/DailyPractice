@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * 数组排序 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/4/22
  **/
 public final class ArraySortUtil {

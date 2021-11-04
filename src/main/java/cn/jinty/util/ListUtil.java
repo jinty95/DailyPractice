@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 列表 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2020/12/8
  **/
 public final class ListUtil {

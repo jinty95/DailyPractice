@@ -4,7 +4,7 @@ package cn.jinty.struct.tree;
  * 二进制索引树 (树状数组、Fenwick树)
  * O(logN)的时间复杂度内修改单个元素及查询区间信息
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/6/1
  **/
 public class BinaryIndexTree {

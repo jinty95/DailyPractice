@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 /**
  * IP地址 - 工具类
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/14
  */
 public final class IpUtil {

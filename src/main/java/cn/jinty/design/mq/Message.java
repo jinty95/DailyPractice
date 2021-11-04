@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 消息
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/5/14
  **/
 public class Message {

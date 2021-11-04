@@ -7,7 +7,7 @@ import cn.jinty.design.behavior.template.PlantsVsZombies;
 /**
  * 模板方法模式 - 测试
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/8
  **/
 public class Test {

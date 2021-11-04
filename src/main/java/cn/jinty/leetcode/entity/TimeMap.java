@@ -7,7 +7,7 @@ import java.util.TreeMap;
 /**
  * 基于时间的键值存储
  *
- * @author jinty
+ * @author Jinty
  * @date 2021/7/10
  **/
 public class TimeMap {
