@@ -129,6 +129,79 @@ public final class DateUtil {
     }
 
     /**
+     * 获取下一个时间点 (指定时分秒)
+     *
+     * @param date   参考时间点
+     * @param hour   小时
+     * @param minute 分钟
+     * @param second 秒
+     * @return 下一个时间点
+     */
+    public static Date nextTime(Date date, int hour, int minute, int second) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int nowHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int nowMinute = calendar.get(Calendar.MINUTE);
+        int nowSecond = calendar.get(Calendar.SECOND);
+        if (nowHour > hour || (nowHour == hour && nowMinute > minute)
+                || (nowHour == hour && nowMinute == minute && nowSecond >= second)) {
+            calendar.add(Calendar.DATE, 1);
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取下一个时间点 (指定分秒)
+     *
+     * @param date   参考时间点
+     * @param minute 分钟
+     * @param second 秒
+     * @return 下一个时间点
+     */
+    public static Date nextTime(Date date, int minute, int second) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int nowMinute = calendar.get(Calendar.MINUTE);
+        int nowSecond = calendar.get(Calendar.SECOND);
+        if (nowMinute > minute || (nowMinute == minute && nowSecond >= second)) {
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+        }
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取下一个时间点 (指定秒)
+     *
+     * @param date   参考时间点
+     * @param second 秒
+     * @return 下一个时间点
+     */
+    public static Date nextTime(Date date, int second) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int nowSecond = calendar.get(Calendar.SECOND);
+        if (nowSecond >= second) {
+            calendar.add(Calendar.MINUTE, 1);
+        }
+        calendar.set(Calendar.SECOND, second);
+        return calendar.getTime();
+    }
+
+    /**
      * 时间增加或减少
      *
      * @param date 时间

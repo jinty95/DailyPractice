@@ -35,6 +35,25 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testNextTime() {
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:29:59"), 16, 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:00"), 16, 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:01"), 16, 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:29:59"), 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:00"), 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:01"), 30, 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:29:59"), 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:00"), 0)));
+        System.out.println(DateUtil.format(DateUtil.nextTime(DateUtil.parse("2021-11-4 16:30:01"), 0)));
+        System.out.println();
+        Date date = new Date();
+        for (int i = 0; i < 30; i++) {
+            date = DateUtil.nextTime(date, 9,0,0);
+            System.out.println(DateUtil.format(date));
+        }
+    }
+
+    @Test
     public void testAdd() {
         System.out.println(DateUtil.format(DateUtil.add(new Date(), 180, Calendar.DATE)));
         System.out.println(DateUtil.format(DateUtil.add(new Date(), 6, Calendar.MONTH)));
