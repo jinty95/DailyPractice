@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 时间范围 - 实体类
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/11/3
  **/
 public class DateRange {

@@ -383,6 +383,74 @@ public final class DateUtil {
         return isLeapYear(calendar.get(Calendar.YEAR));
     }
 
+    /**
+     * 获取最大时间
+     *
+     * @param d1 时间1
+     * @param d2 时间2
+     * @return 最大时间
+     */
+    public static Date max(Date d1, Date d2) {
+        if (d1 == null) {
+            return d2;
+        }
+        if (d2 == null) {
+            return d1;
+        }
+        return d1.after(d2) ? d1 : d2;
+    }
+
+    /**
+     * 获取最大时间
+     *
+     * @param dates 时间列表
+     * @return 最大时间
+     */
+    public static Date max(List<Date> dates) {
+        if (dates == null || dates.isEmpty()) {
+            return null;
+        }
+        Date res = dates.get(0);
+        for (int i = 1; i < dates.size(); i++) {
+            res = max(res, dates.get(i));
+        }
+        return res;
+    }
+
+    /**
+     * 获取最小时间
+     *
+     * @param d1 时间1
+     * @param d2 时间2
+     * @return 最小时间
+     */
+    public static Date min(Date d1, Date d2) {
+        if (d1 == null) {
+            return d2;
+        }
+        if (d2 == null) {
+            return d1;
+        }
+        return d1.before(d2) ? d1 : d2;
+    }
+
+    /**
+     * 获取最小时间
+     *
+     * @param dates 时间列表
+     * @return 最小时间
+     */
+    public static Date min(List<Date> dates) {
+        if (dates == null || dates.isEmpty()) {
+            return null;
+        }
+        Date res = dates.get(0);
+        for (int i = 1; i < dates.size(); i++) {
+            res = min(res, dates.get(i));
+        }
+        return res;
+    }
+
     /* 以下为内部函数 */
 
     /**

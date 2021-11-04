@@ -2,6 +2,7 @@ package test.cn.jinty.util;
 
 import cn.jinty.entity.DateRange;
 import cn.jinty.util.DateUtil;
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -101,6 +102,21 @@ public class DateUtilTest {
         System.out.println("2004 is leap year ? " + DateUtil.isLeapYear(2004));
         System.out.println("2100 is leap year ? " + DateUtil.isLeapYear(2100));
         System.out.println("now is leap year ? " + DateUtil.isLeapYear(new Date()));
+    }
+
+    @Test
+    public void testMaxAndMin() {
+        Date d1 = DateUtil.parse("2021-11-04 00:00:00");
+        Date d2 = DateUtil.parse("2021-11-05 00:00:00");
+        System.out.println(DateUtil.format(DateUtil.max(d1, d2)));
+        System.out.println(DateUtil.format(DateUtil.max(ListUtil.asList(null, null))));
+        System.out.println(DateUtil.format(DateUtil.max(ListUtil.asList(d2, null))));
+        System.out.println(DateUtil.format(DateUtil.max(ListUtil.asList(d1, d2))));
+        System.out.println();
+        System.out.println(DateUtil.format(DateUtil.min(d1, d2)));
+        System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(null, null))));
+        System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(d1, null))));
+        System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(d1, d2))));
     }
 
 }
