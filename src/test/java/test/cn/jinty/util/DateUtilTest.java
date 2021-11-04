@@ -86,4 +86,10 @@ public class DateUtilTest {
         }
     }
 
+    @Test
+    public void testGetDayOfWeek() {
+        System.out.println(DateUtil.getEnDayOfWeek(new Date()));
+        System.out.println(DateUtil.getCnDayOfWeek(new Date()));
+    }
+
 }

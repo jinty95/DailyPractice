@@ -30,6 +30,12 @@ public final class DateUtil {
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     /**
+     * 星期的每一天 (英文+中文)
+     */
+    public static String[] enDayOfWeek = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+    public static String[] cnDayOfWeek = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+
+    /**
      * 解析时间字符串
      *
      * @param dateStr 时间字符串
@@ -293,6 +299,36 @@ public final class DateUtil {
             calendar.clear();
         }
         return map;
+    }
+
+    /**
+     * 判断时间是星期几 (英文)
+     *
+     * @param date 时间
+     * @return 星期几 (英文)
+     */
+    public static String getEnDayOfWeek(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return enDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    /**
+     * 判断时间是星期几 (中文)
+     *
+     * @param date 时间
+     * @return 星期几 (中文)
+     */
+    public static String getCnDayOfWeek(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return cnDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
 }
