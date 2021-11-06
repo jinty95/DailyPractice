@@ -434,4 +434,11 @@ public class SolutionTest {
         )));
     }
 
+    @Test
+    public void testMissingNumber() {
+        System.out.println(solution.missingNumber(new int[]{0, 1, 2}));
+        System.out.println(solution.missingNumber(new int[]{0, 1, 2, 4}));
+        System.out.println(solution.missingNumber(new int[]{2, 0, 3}));
+    }
+
 }

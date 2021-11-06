@@ -1763,4 +1763,49 @@ public class Solution {
         return ans;
     }
 
+    /**
+     * 268. 丢失的数字
+     * 给定一个包含 [0, n] 中 n 个数的数组 numbers ，找出 [0, n] 这个范围内没有出现在数组中的那个数。
+     *
+     * @param numbers 数组
+     * @return 丢失的数字
+     */
+    public int missingNumber(int[] numbers) {
+        /*// 1、排序：时间复杂度O(N * logN)
+        Arrays.sort(numbers);
+        for (int i = 0; i < numbers.length; i++) {
+            if (i != numbers[i]) {
+                return i;
+            }
+        }
+        return numbers.length;*/
+
+        /*// 2、原地哈希表：时间复杂度O(N)
+        //用number[i]中的负号来表示i的出现
+        //由于0无关符号，所以把[0,n]提升为[1,n+1]
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] += 1;
+        }
+        for (int i = 0; i < numbers.length; i++) {
+            int abs = Math.abs(numbers[i]);
+            if (abs <= numbers.length) {
+                numbers[abs - 1] *= -1;
+            }
+        }
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] > 0) {
+                return i;
+            }
+        }
+        return numbers.length;*/
+
+        // 3、数学：时间复杂度O(N)
+        int n = numbers.length;
+        int sum = 0;
+        for (int number : numbers) {
+            sum += number;
+        }
+        return n * (n + 1) / 2 - sum;
+    }
+
 }
