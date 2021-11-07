@@ -441,4 +441,10 @@ public class SolutionTest {
         System.out.println(solution.missingNumber(new int[]{2, 0, 3}));
     }
 
+    @Test
+    public void testMaxCount() {
+        System.out.println(solution.maxCount(3, 3, new int[][]{{2, 2}, {3, 3}}));
+        System.out.println(solution.maxCount(4, 4, new int[][]{{1, 2}, {3, 1}}));
+    }
+
 }
