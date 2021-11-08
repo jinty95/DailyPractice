@@ -109,4 +109,10 @@ public class SolutionTest2 {
         System.out.println(Arrays.toString(solution.singleNumber(new int[]{1, 2, 1, 3, 2, 5})));
     }
 
+    @Test
+    public void testGetHint() {
+        System.out.println(solution.getHint("2021", "2020"));
+        System.out.println(solution.getHint("2020", "1919"));
+    }
+
 }
