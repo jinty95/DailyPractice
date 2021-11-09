@@ -125,4 +125,12 @@ public class SolutionTest1 {
         }));
     }
 
+    @Test
+    public void testFindMinStep() {
+        System.out.println(solution.findMinStep("R", "W"));
+        System.out.println(solution.findMinStep("RRWWYY", "RWY"));
+        System.out.println(solution.findMinStep("WBRRBBWW", "BR"));
+        System.out.println(solution.findMinStep("RRYGGYYRRYGGYYRR", "GGBBB"));
+    }
+
 }

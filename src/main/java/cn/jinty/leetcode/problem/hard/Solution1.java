@@ -723,4 +723,90 @@ public class Solution1 {
 
     }
 
+    /**
+     * 488. 祖玛游戏
+     * 在这个祖玛游戏中，桌面上有一排彩球，每个球的颜色可能是：红色 'R'、黄色 'Y'、蓝色 'B'、绿色 'G'、白色 'W'。你的手中也有一些彩球。
+     * 你的目标是清空桌面上所有的球。每一回合：
+     * 从你手上的彩球中选出任意一颗，然后将其插入桌面上那一排球中：两球之间或这一排球的任一端。
+     * 接着，如果有出现三个或者三个以上且颜色相同的球相连的话，就把它们移除掉。
+     * 如果这种移除操作同样导致出现三个或者三个以上且颜色相同的球相连，则继续移除这些球，直到不再满足移除条件。
+     * 请你按上述操作步骤移除掉桌上所有球，计算并返回所需的最少球数。如果不能移除桌上所有的球，返回 -1 。
+     *
+     * @param board 待处理的彩球 (1 <= board.length <= 16)
+     * @param hand  手头上的彩球 (1 <= hand.length <= 5)
+     * @return 消除彩球的最少球数
+     */
+    public int findMinStep(String board, String hand) {
+        minStep = -1;
+        if (board.length() + hand.length() < 3) {
+            return minStep;
+        }
+        char[] arr = hand.toCharArray();
+        Arrays.sort(arr);
+        dfsForFindMinStep(board, new String(arr), 0);
+        return minStep;
+    }
+
+    // 最少球数
+    private int minStep;
+
+    // 深度优先搜索：在任何位置放置任意一个球，消除后继续放球，直到球用完，记下一个可能解，最终取可能解中的最小值
+    private void dfsForFindMinStep(String board, String hand, int step) {
+        // 手上无球，桌上有球
+        if (hand.isEmpty() && !board.isEmpty()) {
+            return;
+        }
+        // 桌上无球
+        if (board.isEmpty()) {
+            minStep = (minStep == -1) ? step : Math.min(minStep, step);
+            return;
+        }
+        // 在桌上球的任意球左侧以及最右球的右侧放入任意手上球
+        for (int i = 0; i <= board.length(); i++) {
+            for (int j = 0; j < hand.length(); j++) {
+                // 剪枝1：桌上球与手上球同色，手上球放左放右都一样
+                if (i > 0 && hand.charAt(j) == board.charAt(i - 1)) {
+                    continue;
+                }
+                // 剪枝2：两个手上球同色时，拿哪个都一样
+                if (j > 0 && hand.charAt(j) == hand.charAt(j - 1)) {
+                    continue;
+                }
+                // 手上球移到桌上
+                String nextBoard = board.substring(0, i) + hand.charAt(j) + (i == board.length() ? "" : board.substring(i));
+                String nextHand = hand.substring(0, j) + (j == hand.length() - 1 ? "" : hand.substring(j + 1));
+                // 桌上球消除
+                nextBoard = removeBalls(nextBoard);
+                // 递归
+                dfsForFindMinStep(nextBoard, nextHand, step + 1);
+            }
+        }
+    }
+
+    // 消除三个或以上的连续同色球
+    public String removeBalls(String board) {
+        Deque<int[]> stack = new LinkedList<>();
+        for (char c : board.toCharArray()) {
+            while (!stack.isEmpty() && stack.peek()[0] != c && stack.peek()[1] >= 3) {
+                stack.pop();
+            }
+            if (!stack.isEmpty() && stack.peek()[0] == c) {
+                stack.peek()[1]++;
+            } else {
+                stack.push(new int[]{c, 1});
+            }
+        }
+        if (!stack.isEmpty() && stack.peek()[1] >= 3) {
+            stack.pop();
+        }
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) {
+            int[] arr = stack.pop();
+            for (int i = 0; i < arr[1]; i++) {
+                res.append((char) arr[0]);
+            }
+        }
+        return res.reverse().toString();
+    }
+
 }
