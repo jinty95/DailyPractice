@@ -18,7 +18,8 @@ public class DateRange {
     // 结束时间
     private Date end;
 
-    public DateRange() {}
+    public DateRange() {
+    }
 
     public DateRange(Date begin, Date end) {
         this.begin = begin;

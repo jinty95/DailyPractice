@@ -1,6 +1,7 @@
 package test.cn.jinty.util;
 
 import cn.jinty.entity.DateRange;
+import cn.jinty.entity.Week;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,9 +108,9 @@ public class DateUtilTest {
 
     @Test
     public void testGetWeekOfYear() {
-        Map<Integer, DateRange> map = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
-        for (Integer week : map.keySet()) {
-            System.out.printf("第%d周 : %s%n", week, map.get(week));
+        List<Week> weeks = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
+        for (Week week : weeks) {
+            System.out.println(week);
         }
     }
 

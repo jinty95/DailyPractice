@@ -1,10 +1,13 @@
 package cn.jinty.util;
 
-import cn.jinty.entity.DateRange;
+import cn.jinty.entity.Week;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 时间 - 工具类
@@ -401,22 +404,21 @@ public final class DateUtil {
      * @param firstDayOfWeek 星期的第一天
      * @return 一年的所有星期
      */
-    public static Map<Integer, DateRange> getAllWeekOfYear(int year, int firstDayOfWeek) {
-        Map<Integer, DateRange> map = new HashMap<>();
+    public static List<Week> getAllWeekOfYear(int year, int firstDayOfWeek) {
+        List<Week> weeks = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
-        calendar.clear();
         for (int i = 1; i <= 53; i++) {
+            calendar.clear();
             calendar.setFirstDayOfWeek(firstDayOfWeek);
             calendar.set(Calendar.YEAR, year);
             calendar.set(Calendar.WEEK_OF_YEAR, i);
             Date begin = calendar.getTime();
             Date end = getDayEnd(add(begin, 6, Calendar.DATE));
             if (isTarget(end, year, Calendar.YEAR)) {
-                map.put(i, new DateRange(begin, end));
+                weeks.add(new Week(i, String.format("第%d周", i), begin, end));
             }
-            calendar.clear();
         }
-        return map;
+        return weeks;
     }
 
     /**
