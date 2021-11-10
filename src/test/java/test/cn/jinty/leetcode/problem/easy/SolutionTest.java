@@ -447,4 +447,10 @@ public class SolutionTest {
         System.out.println(solution.maxCount(4, 4, new int[][]{{1, 2}, {3, 1}}));
     }
 
+    @Test
+    public void testFindPoisonedDuration() {
+        System.out.println(solution.findPoisonedDuration(new int[]{1, 2}, 2));
+        System.out.println(solution.findPoisonedDuration(new int[]{1, 4}, 2));
+    }
+
 }

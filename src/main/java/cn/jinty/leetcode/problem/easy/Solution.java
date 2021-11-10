@@ -1815,8 +1815,8 @@ public class Solution {
      * 含义是将所有符合 0 <= i < a 以及 0 <= j < b 的元素 M[i][j] 的值都增加 1。
      * 在执行给定的一系列操作后，你需要返回矩阵中含有最大整数的元素个数。
      *
-     * @param m 行
-     * @param n 列
+     * @param m   行
+     * @param n   列
      * @param ops 操作
      * @return 最大整数的元素个数
      */
@@ -1827,6 +1827,32 @@ public class Solution {
             col = Math.min(col, op[1]);
         }
         return row * col;
+    }
+
+    /**
+     * 495. 提莫攻击
+     * 在《英雄联盟》的世界中，有一个叫 “提莫” 的英雄。他的攻击可以让敌方英雄艾希进入中毒状态。
+     * 当提莫攻击艾希，艾希的中毒状态正好持续 duration 秒。
+     * 正式地讲，提莫在 t 发起发起攻击意味着艾希在时间区间 [t, t + duration - 1] 处于中毒状态。
+     * 如果提莫在中毒影响结束前再次攻击，中毒状态计时器将会重置，在新的攻击之后，中毒影响将会在 duration 秒后结束。
+     * 给你一个非递减的整数数组 timeSeries ，其中 timeSeries[i] 表示提莫在 timeSeries[i] 秒时对艾希发起攻击，
+     * 以及一个表示中毒持续时间的整数 duration 。返回艾希处于中毒状态的总秒数。
+     *
+     * @param timeSeries 攻击时刻
+     * @param duration   中毒持续时间
+     * @return 中毒的总时间
+     */
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        // 中毒的总时间
+        int total = 0;
+        // 下一个非中毒时刻
+        int next = -1;
+        // 遍历攻击时刻，交叉区间防止重复计时
+        for (int time : timeSeries) {
+            total += next <= time ? duration : time + duration - next;
+            next = time + duration;
+        }
+        return total;
     }
 
 }
