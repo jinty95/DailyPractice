@@ -56,6 +56,17 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testGet() {
+        System.out.println(DateUtil.get(new Date(), Calendar.YEAR));
+        System.out.println(DateUtil.get(new Date(), Calendar.MONTH));
+        System.out.println(DateUtil.get(new Date(), Calendar.DATE));
+        System.out.println(DateUtil.get(new Date(), Calendar.HOUR));
+        System.out.println(DateUtil.get(new Date(), Calendar.MINUTE));
+        System.out.println(DateUtil.get(new Date(), Calendar.SECOND));
+        System.out.println(DateUtil.get(new Date(), Calendar.MILLISECOND));
+    }
+
+    @Test
     public void testAdd() {
         System.out.println(DateUtil.format(DateUtil.add(new Date(), 180, Calendar.DATE)));
         System.out.println(DateUtil.format(DateUtil.add(new Date(), 6, Calendar.MONTH)));

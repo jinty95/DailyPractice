@@ -205,6 +205,25 @@ public final class DateUtil {
     }
 
     /**
+     * 获取时间的某个时间单位上的值
+     *
+     * @param date 时间
+     * @param unit 时间单位 (使用Calendar内置的时间单位)
+     * @return 整数数值
+     */
+    public static int get(Date date, int unit) {
+        if (date == null) {
+            throw new IllegalArgumentException("date must not null!");
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        if (Calendar.MONTH == unit) {
+            return calendar.get(unit) + 1;
+        }
+        return calendar.get(unit);
+    }
+
+    /**
      * 时间增加或减少
      *
      * @param date 时间
@@ -308,12 +327,7 @@ public final class DateUtil {
         if (date == null) {
             return false;
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        if (Calendar.MONTH == unit) {
-            return calendar.get(unit) + 1 == target;
-        }
-        return calendar.get(unit) == target;
+        return get(date, unit) == target;
     }
 
     /**
@@ -401,7 +415,7 @@ public final class DateUtil {
      * 获取一年的所有星期
      *
      * @param year           年份
-     * @param firstDayOfWeek 星期的第一天
+     * @param firstDayOfWeek 星期的第一天 (使用Calendar内置的星期)
      * @return 一年的所有星期
      */
     public static List<Week> getAllWeekOfYear(int year, int firstDayOfWeek) {
