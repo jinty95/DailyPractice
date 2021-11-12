@@ -46,11 +46,7 @@ public final class ListUtil {
      * @return 单页数据
      */
     public static <T> List<T> page(List<T> list, int pageNum, int pageSize) {
-        //输入校验
-        if (pageNum < 0 || pageSize < 0) {
-            throw new IllegalArgumentException("pageNum or pageSize must great than 0");
-        }
-        if (isEmpty(list)) {
+        if (pageNum <= 0 || pageSize <= 0 || isEmpty(list)) {
             return new ArrayList<>();
         }
         //起始索引

@@ -26,6 +26,7 @@ public class ListUtilTest {
     @Test
     public void testPage() {
         List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        System.out.println(ListUtil.page(list, 0, 0));
         System.out.println(ListUtil.page(list, 1, 3));
         System.out.println(ListUtil.page(list, 2, 3));
         System.out.println(ListUtil.page(list, 3, 3));
@@ -47,6 +48,7 @@ public class ListUtilTest {
         List<String> list = ListUtil.asList("A", "B", "C");
         System.out.println(list);
         System.out.println(ListUtil.toString(list));
+        System.out.println(ListUtil.toString(list, null, null, null));
         System.out.println(ListUtil.toString(list, null, null, ", "));
         System.out.println(ListUtil.toString(list, "(", ")", ", "));
         System.out.println(ListUtil.toString(list, "[", "]", ", ", "\"", "\""));

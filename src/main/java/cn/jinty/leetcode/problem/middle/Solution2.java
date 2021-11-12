@@ -467,7 +467,7 @@ public class Solution2 {
      * 请注意秘密数字和朋友猜测的数字都可能含有重复数字。
      *
      * @param secret 秘密数字
-     * @param guess 猜测数字 (secret.length == guess.length)
+     * @param guess  猜测数字 (secret.length == guess.length)
      * @return 结果
      */
     public String getHint(String secret, String guess) {
@@ -498,6 +498,40 @@ public class Solution2 {
             }
         }
         return bulls + "A" + cows + "B";
+    }
+
+    /**
+     * 375. 猜数字大小 II
+     * 我们正在玩一个猜数游戏，游戏规则如下：
+     * 我从 1 到 n 之间选择一个数字。你来猜我选了哪个数字。如果你猜到正确的数字，就会 赢得游戏 。
+     * 如果你猜错了，那么我会告诉你，我选的数字比你的 更大或者更小 ，并且你需要继续猜数。
+     * 每当你猜了数字 x 并且猜错了的时候，你需要支付金额为 x 的现金。
+     * 给你一个特定的数字 n ，返回能够 确保你获胜 的最小现金数，不管我选择那个数字 。
+     *
+     * @param n 数字 (1 <= n <= 200)
+     * @return 确保获胜的最小现金数
+     */
+    public int getMoneyAmount(int n) {
+        // 动态规划：时间复杂度O(n^3)，空间复杂度O(n^2)
+        // 定义：dp[i][j]表示在[i + 1 ... j + 1]范围内保证获胜的最小现金数
+        // 递推：dp[i][j] = Min(k + 1 + Max(dp[i][k - 1], dp[k + 1][j]) (i <= k <= j)
+        int[][] dp = new int[n][n];
+        // 枚举区间长度
+        for (int len = 1; len < n; len++) {
+            // 枚举区间起点
+            for (int i = 0; i + len < n; i++) {
+                int j = i + len;
+                dp[i][i + len] = Integer.MAX_VALUE;
+                // 枚举区间内选中数字
+                for (int k = i; k <= j; k++) {
+                    dp[i][i + len] = Math.min(
+                            dp[i][i + len],
+                            k + 1 + Math.max(k == i ? 0 : dp[i][k - 1], k == j ? 0 : dp[k + 1][j])
+                    );
+                }
+            }
+        }
+        return dp[0][n-1];
     }
 
 }

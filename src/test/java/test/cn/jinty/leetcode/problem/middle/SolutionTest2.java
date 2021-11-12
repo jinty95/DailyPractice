@@ -115,4 +115,11 @@ public class SolutionTest2 {
         System.out.println(solution.getHint("2020", "1919"));
     }
 
+    @Test
+    public void testGetMoneyAmount() {
+        System.out.println(solution.getMoneyAmount(2)); // 1
+        System.out.println(solution.getMoneyAmount(10)); // 16
+        System.out.println(solution.getMoneyAmount(100)); // 400
+    }
+
 }
