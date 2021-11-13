@@ -453,4 +453,11 @@ public class SolutionTest {
         System.out.println(solution.findPoisonedDuration(new int[]{1, 4}, 2));
     }
 
+    @Test
+    public void testDetectCapitalUse() {
+        System.out.println(solution.detectCapitalUse("China"));
+        System.out.println(solution.detectCapitalUse("USA"));
+        System.out.println(solution.detectCapitalUse("HellO"));
+    }
+
 }

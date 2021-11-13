@@ -1855,4 +1855,47 @@ public class Solution {
         return total;
     }
 
+    /**
+     * 520. 检测大写字母
+     * 我们定义，在以下情况时，单词的大写用法是正确的：
+     * 全部字母都是大写，比如 "USA" 。
+     * 单词中所有字母都不是大写，比如 "leetcode" 。
+     * 如果单词不只含有一个字母，只有首字母大写， 比如 "Google" 。
+     * 给你一个字符串 word 。如果大写用法正确，返回 true ；否则，返回 false 。
+     *
+     * @param word 单词 (由小写和大写英文字母组成)
+     * @return 是否合法
+     */
+    public boolean detectCapitalUse(String word) {
+        if (word.length() < 2) {
+            return true;
+        }
+        char first = word.charAt(0);
+        // 首字母大写，其余全大写或全小写
+        if (Character.isUpperCase(first)) {
+            char second = word.charAt(1);
+            if (Character.isUpperCase(second)) {
+                for (int i = 2; i < word.length(); i++) {
+                    if (Character.isLowerCase(word.charAt(i))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            for (int i = 2; i < word.length(); i++) {
+                if (Character.isUpperCase(word.charAt(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        // 首字母小写，其余全小写
+        for (int i = 1; i < word.length(); i++) {
+            if (Character.isUpperCase(word.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
