@@ -122,4 +122,12 @@ public class SolutionTest2 {
         System.out.println(solution.getMoneyAmount(100)); // 400
     }
 
+    @Test
+    public void testBulbSwitch() {
+        System.out.println(solution.bulbSwitch(1));
+        System.out.println(solution.bulbSwitch(3));
+        System.out.println(solution.bulbSwitch(100));
+        System.out.println(solution.bulbSwitch(99999));
+    }
+
 }

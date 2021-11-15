@@ -531,7 +531,40 @@ public class Solution2 {
                 }
             }
         }
-        return dp[0][n-1];
+        return dp[0][n - 1];
+    }
+
+    /**
+     * 319. 灯泡开关
+     * 初始时有 n 个灯泡处于关闭状态。第 i 轮，你每 i 个灯泡就切换一个灯泡的开关。直到第 n 轮，你只需要切换最后一个灯泡的开关。
+     * 找出并返回 n 轮后有多少个亮着的灯泡。
+     *
+     * @param n 灯泡数量 (0 <= n <= 10^9)
+     * @return 亮灯数量
+     */
+    public int bulbSwitch(int n) {
+
+        /*// 1、暴力破解：时间复杂度O(n^2)
+        int count = 0;
+        for (int i = 1; i <= n; i++) {
+            int switchCount = 0;
+            for (int j = 1; j <= i; j++) {
+                if (i % j == 0) {
+                    switchCount++;
+                }
+            }
+            if (switchCount % 2 != 0) {
+                count++;
+            }
+        }
+        return count;*/
+
+        // 2、数学分析：时间复杂度O(1)
+        // 对于第 k 个灯泡，它被切换的次数恰好就是 k 的约数个数。对于 k 而言，如果它有约数 x，那么一定有约数 k/x。
+        // 因此当 x^2 = k 时，约数都是成对出现的。这就说明，只有当 k 是完全平方数时，它才会有奇数个约数，否则一定有偶数个约数。
+        // 所以题目转变为求 1...n 的完全平方数数量，答案即为 n^(1/2)
+        return (int) Math.sqrt(n);
+
     }
 
 }
