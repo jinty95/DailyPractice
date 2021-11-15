@@ -1,16 +1,14 @@
 package test.cn.jinty.util;
 
-import cn.jinty.entity.DateRange;
 import cn.jinty.entity.Week;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * 日期时间 - 工具类 - 测试
@@ -152,6 +150,17 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(null, null))));
         System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(d1, null))));
         System.out.println(DateUtil.format(DateUtil.min(ListUtil.asList(d1, d2))));
+    }
+
+    @Test
+    public void testRangeOfDate() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GTM+0"));
+        Date d1 = new Date(-1L);
+        System.out.println(DateUtil.format(d1));
+        Date d2 = new Date(0L);
+        System.out.println(DateUtil.format(d2));
+        Date d3 = new Date(Long.MAX_VALUE);
+        System.out.println(DateUtil.format(d3));
     }
 
 }
