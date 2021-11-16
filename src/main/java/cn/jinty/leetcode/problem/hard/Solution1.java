@@ -809,4 +809,67 @@ public class Solution1 {
         return res.reverse().toString();
     }
 
+    /**
+     * 391. 完美矩形
+     * 给你一个数组 rectangles ，其中 rectangles[i] = [xi, yi, ai, bi] 表示一个坐标轴平行的矩形。
+     * 这个矩形的左下顶点是 (xi, yi) ，右上顶点是 (ai, bi) 。
+     * 如果所有矩形一起精确覆盖了某个矩形区域，则返回 true ，否则返回 false 。
+     *
+     * @param rectangles 矩形
+     * @return 是否完美矩形
+     */
+    public boolean isRectangleCover(int[][] rectangles) {
+        // 完美矩形需要同时满足以下两个条件，缺一不可
+        // 1、上下左右四个点只出现一次，其余点都成对出现 2、大矩形面积等于所有小矩形面积之和
+        int bottom = Integer.MAX_VALUE, top = Integer.MIN_VALUE;
+        int left = Integer.MAX_VALUE, right = Integer.MIN_VALUE;
+        int areaSum = 0;
+        Map<Long, Integer> count = new HashMap<>();
+        for (int[] rec : rectangles) {
+            // 求小矩形总面积
+            areaSum += (rec[3] - rec[1]) * (rec[2] - rec[0]);
+            // 求大矩形边界
+            bottom = Math.min(bottom, rec[1]);
+            top = Math.max(top, rec[3]);
+            left = Math.min(left, rec[0]);
+            right = Math.max(right, rec[2]);
+            // 求顶点出现次数
+            countPoint(count, rec[0], rec[3]);
+            countPoint(count, rec[0], rec[1]);
+            countPoint(count, rec[2], rec[1]);
+            countPoint(count, rec[2], rec[3]);
+        }
+        // 四个顶点坐标
+        Set<Long> border = new HashSet<>();
+        border.add(int2long(left, top));
+        border.add(int2long(right, top));
+        border.add(int2long(left, bottom));
+        border.add(int2long(right, bottom));
+        // 判断顶点对应数量是否符合要求
+        for (Long point : count.keySet()) {
+            if (border.contains(point)) {
+                if (count.get(point) != 1) {
+                    return false;
+                }
+            } else {
+                if (count.get(point) % 2 != 0) {
+                    return false;
+                }
+            }
+        }
+        // 判断面积是否符合要求
+        return areaSum == (top - bottom) * (right - left);
+    }
+
+    // 使用 long 存储 int 二维坐标
+    private long int2long(int a, int b) {
+        return (long) a << 32 | (long) b & 0xFFFFFFFFL;
+    }
+
+    // 顶点坐标计数
+    private void countPoint(Map<Long, Integer> count, int a, int b) {
+        long point = int2long(a, b);
+        count.put(point, count.getOrDefault(point, 0) + 1);
+    }
+
 }
