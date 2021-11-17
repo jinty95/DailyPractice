@@ -544,7 +544,7 @@ public class Solution2 {
      */
     public int bulbSwitch(int n) {
 
-        /*// 1、暴力破解：时间复杂度O(n^2)
+        /*// 1、暴力搜索：时间复杂度O(n^2)
         int count = 0;
         for (int i = 1; i <= n; i++) {
             int switchCount = 0;
@@ -565,6 +565,51 @@ public class Solution2 {
         // 所以题目转变为求 1...n 的完全平方数数量，答案即为 n^(1/2)
         return (int) Math.sqrt(n);
 
+    }
+
+    /**
+     * 318. 最大单词长度乘积
+     * 给定一个字符串数组 words，找到 length(word[i]) * length(word[j]) 的最大值，并且这两个单词不含有公共字母。
+     * 你可以认为每个单词只包含小写字母。如果不存在这样的两个单词，返回 0。
+     *
+     * @param words 单词数组
+     * @return 最大单词长度乘积
+     */
+    public int maxProduct(String[] words) {
+        // 1、暴力搜索 + 剪枝 ：时间复杂度O(n^2)
+        int max = 0;
+        // 按长度倒序
+        Arrays.sort(words, ((o1, o2) -> o2.length() - o1.length()));
+        // 两层遍历
+        for (int i = 0; i < words.length; i++) {
+            boolean[] letter = new boolean[26];
+            for (char c : words[i].toCharArray()) {
+                letter[c - 'a'] = true;
+            }
+            for (int j = 0; j < words.length; j++) {
+                if (i == j) {
+                    continue;
+                }
+                // 剪枝：当前单词长度乘积比 max 小，后续的单词肯定更小
+                int product = words[i].length() * words[j].length();
+                if (max > product) {
+                    break;
+                }
+                // 判断是否不含公共字母
+                boolean flag = true;
+                for (char c : words[j].toCharArray()) {
+                    if (letter[c - 'a']) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    max = product;
+                    break;
+                }
+            }
+        }
+        return max;
     }
 
 }

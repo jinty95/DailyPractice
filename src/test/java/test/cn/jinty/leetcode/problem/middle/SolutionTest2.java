@@ -130,4 +130,10 @@ public class SolutionTest2 {
         System.out.println(solution.bulbSwitch(99999));
     }
 
+    @Test
+    public void testMaxProduct() {
+        System.out.println(solution.maxProduct(new String[]{"a", "aaa", "aa"}));
+        System.out.println(solution.maxProduct(new String[]{"abcw", "baz", "foo", "bar", "xtfn", "abcdef"}));
+    }
+
 }
