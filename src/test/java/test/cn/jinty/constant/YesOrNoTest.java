@@ -12,16 +12,33 @@ import org.junit.Test;
 public class YesOrNoTest {
 
     @Test
-    public void test() {
-        System.out.println(YesOrNo.parse("YES"));
-        System.out.println(YesOrNo.parseToDesc("YES"));
-        System.out.println(YesOrNo.parse("NO"));
-        System.out.println(YesOrNo.parseToDesc("NO"));
-        System.out.println(YesOrNo.parse("OK"));
-        System.out.println(YesOrNo.parseToDesc("OK"));
-        System.out.println(YesOrNo.contains("YES"));
-        System.out.println(YesOrNo.contains("NO"));
-        System.out.println(YesOrNo.contains("OK"));
+    public void test1() {
+        System.out.println(YesOrNo.parseByName("YES"));
+        System.out.println(YesOrNo.parseByName("NO"));
+        System.out.println(YesOrNo.parseByName("OK"));
+        System.out.println(YesOrNo.parseByDesc("是"));
+        System.out.println(YesOrNo.parseByDesc("否"));
+        System.out.println(YesOrNo.parseByDesc("什么"));
+    }
+
+    @Test
+    public void test2() {
+        System.out.println(YesOrNo.nameToDesc("YES"));
+        System.out.println(YesOrNo.nameToDesc("NO"));
+        System.out.println(YesOrNo.nameToDesc("OK"));
+        System.out.println(YesOrNo.descToName("是"));
+        System.out.println(YesOrNo.descToName("否"));
+        System.out.println(YesOrNo.descToName("什么"));
+    }
+
+    @Test
+    public void test3() {
+        System.out.println(YesOrNo.containsName("YES"));
+        System.out.println(YesOrNo.containsName("NO"));
+        System.out.println(YesOrNo.containsName("OK"));
+        System.out.println(YesOrNo.containsDesc("是"));
+        System.out.println(YesOrNo.containsDesc("否"));
+        System.out.println(YesOrNo.containsDesc("什么"));
     }
 
 }

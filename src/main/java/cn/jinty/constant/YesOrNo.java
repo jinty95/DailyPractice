@@ -28,31 +28,53 @@ public enum YesOrNo {
     }
 
     // 枚举静态化
-    private final static Map<String, YesOrNo> map;
+    private final static Map<String, YesOrNo> nameMap;
+    private final static Map<String, YesOrNo> descMap;
     static {
-        map = new HashMap<>();
+        nameMap = new HashMap<>();
+        descMap = new HashMap<>();
         for (YesOrNo one : YesOrNo.values()) {
-            map.put(one.name(), one);
+            nameMap.put(one.name(), one);
+            descMap.put(one.getDesc(), one);
         }
     }
 
-    // 根据名称解析为枚举
-    public static YesOrNo parse(String name) {
-        return map.get(name);
+    // 根据名称解析为枚举对象
+    public static YesOrNo parseByName(String name) {
+        return nameMap.get(name);
     }
 
-    // 根据名称解析为描述
-    public static String parseToDesc(String name) {
-        YesOrNo res = parse(name);
+    // 根据描述解析为枚举对象
+    public static YesOrNo parseByDesc(String desc) {
+        return descMap.get(desc);
+    }
+
+    // 名称转为描述
+    public static String nameToDesc(String name) {
+        YesOrNo res = parseByName(name);
         if (res == null) {
             return null;
         }
         return res.getDesc();
     }
 
+    // 描述转为名称
+    public static String descToName(String desc) {
+        YesOrNo res = parseByDesc(desc);
+        if (res == null) {
+            return null;
+        }
+        return res.name();
+    }
+
     // 判断名称是否在枚举范围内
-    public static boolean contains(String name) {
-        return parse(name) != null;
+    public static boolean containsName(String name) {
+        return parseByName(name) != null;
+    }
+
+    // 判断描述是否在枚举范围内
+    public static boolean containsDesc(String desc) {
+        return parseByDesc(desc) != null;
     }
 
 }
