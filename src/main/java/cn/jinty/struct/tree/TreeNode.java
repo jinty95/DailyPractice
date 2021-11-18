@@ -6,11 +6,12 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * 树节点
+ * 二叉树 - 节点
  *
  * @author Jinty
  * @date 2020/12/25
  **/
+@SuppressWarnings("unused")
 public class TreeNode {
 
     //值
@@ -133,8 +134,7 @@ public class TreeNode {
         return bfs(root).toString();
     }
 
-    //从字符串反序列化出二叉树
-    //字符串格式为：[1,2,3,4,...]
+    //从字符串反序列化出二叉树：字符串格式为[1,2,3,4,...]，空节点必须填写且值为"null"
     public static TreeNode deserialize(String data) {
         if (data == null || data.length() == 0) return null;
         //1、解析序列字符串
@@ -156,6 +156,7 @@ public class TreeNode {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
+                assert node != null;
                 String leftVal = arr[idx++];
                 String rightVal = arr[idx++];
                 if (!leftVal.equals("null")) {

@@ -460,4 +460,9 @@ public class SolutionTest {
         System.out.println(solution.detectCapitalUse("HellO"));
     }
 
+    @Test
+    public void testFindTilt() {
+        System.out.println(solution.findTilt(TreeNode.deserialize("[1,2,3,null,null,null,null]")));
+    }
+
 }
