@@ -612,4 +612,31 @@ public class Solution2 {
         return max;
     }
 
+    /**
+     * 397. 整数替换
+     * 给定一个正整数 n ，你可以做如下操作：
+     * 如果 n 是偶数，则用 n / 2 替换 n 。
+     * 如果 n 是奇数，则可以用 n + 1 或 n - 1替换 n 。
+     * n 变为 1 所需的最小替换次数是多少？
+     *
+     * @param n 正整数 (1 <= n <= 2^31 - 1)
+     * @return n 变为 1 所需的最小替换次数
+     */
+    public int integerReplacement(int n) {
+        // 最小正整数：不需处理
+        if (n == 1) {
+            return 0;
+        }
+        // 最大正整数：1次加1，31次除2
+        if (n == Integer.MAX_VALUE) {
+            return 32;
+        }
+        // 偶数：除2
+        if (n % 2 == 0) {
+            return 1 + integerReplacement(n / 2);
+        }
+        // 奇数：枚举加1或减1
+        return 1 + Math.min(integerReplacement(n + 1), integerReplacement(n - 1));
+    }
+
 }

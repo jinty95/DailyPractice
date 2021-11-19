@@ -136,4 +136,11 @@ public class SolutionTest2 {
         System.out.println(solution.maxProduct(new String[]{"abcw", "baz", "foo", "bar", "xtfn", "abcdef"}));
     }
 
+    @Test
+    public void testIntegerReplacement() {
+        System.out.println(solution.integerReplacement(8));
+        System.out.println(solution.integerReplacement(7));
+        System.out.println(solution.integerReplacement(2147483647));
+    }
+
 }
