@@ -10,18 +10,18 @@ import java.util.Random;
  **/
 public final class StringUtil {
 
-    //十六进制字符集
+    // 十六进制字符集
     private static final char[] hex = {
             '0', '1', '2', '3', '4', '5', '6', '7',
             '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
-    //数字
+    // 数字
     private static final char[] digit = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     };
 
-    //字母
+    // 字母
     private static final char[] letter = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
             'H', 'I', 'J', 'K', 'L', 'M', 'N',
@@ -47,6 +47,20 @@ public final class StringUtil {
      */
     public static boolean isBlank(String s) {
         return isEmpty(s) || s.trim().length() == 0;
+    }
+
+    /**
+     * 字符串判等
+     *
+     * @param a 字符串
+     * @param b 字符串
+     * @return 是否相等
+     */
+    public static boolean equals(String a, String b) {
+        if (a == null) {
+            return b == null;
+        }
+        return a.equals(b);
     }
 
     /**
@@ -177,17 +191,57 @@ public final class StringUtil {
      * @return 十六进制字符串
      */
     public static String byteToHexString(byte[] bytes) {
-        //空数组
-        if (bytes == null || bytes.length == 0) return null;
-        //字符串拼接
+        if (bytes == null || bytes.length == 0) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
-            //高4位
+            // 高4位
             sb.append(hex[(b >>> 4) & 15]);
-            //低4位
+            // 低4位
             sb.append(hex[b & 15]);
         }
         return sb.toString();
+    }
+
+    /**
+     * 字符串连接
+     *
+     * @param separate 分隔符
+     * @param arr      字符串数组
+     * @return 字符串
+     */
+    public static String concat(String separate, String... arr) {
+        if (arr == null || arr.length == 0) {
+            return "";
+        }
+        StringBuilder res = new StringBuilder(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            res.append(separate).append(arr[i]);
+        }
+        return res.toString();
+    }
+
+    /**
+     * 字符串复制
+     * repeat("a", 3) => "aaa"
+     *
+     * @param s     字符串
+     * @param times 复制次数
+     * @return 字符串
+     */
+    public static String repeat(String s, int times) {
+        if (isEmpty(s)) {
+            return s;
+        }
+        if (times <= 0) {
+            return "";
+        }
+        StringBuilder res = new StringBuilder(s);
+        for (int i = 1; i < times; i++) {
+            res.append(s);
+        }
+        return res.toString();
     }
 
 }

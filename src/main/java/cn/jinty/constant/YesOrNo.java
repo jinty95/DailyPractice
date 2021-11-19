@@ -39,6 +39,16 @@ public enum YesOrNo {
         }
     }
 
+    // 判断名称是否在枚举范围内
+    public static boolean containsName(String name) {
+        return nameMap.containsKey(name);
+    }
+
+    // 判断描述是否在枚举范围内
+    public static boolean containsDesc(String desc) {
+        return descMap.containsKey(desc);
+    }
+
     // 根据名称解析为枚举对象
     public static YesOrNo parseByName(String name) {
         return nameMap.get(name);
@@ -65,16 +75,6 @@ public enum YesOrNo {
             return null;
         }
         return res.name();
-    }
-
-    // 判断名称是否在枚举范围内
-    public static boolean containsName(String name) {
-        return parseByName(name) != null;
-    }
-
-    // 判断描述是否在枚举范围内
-    public static boolean containsDesc(String desc) {
-        return parseByDesc(desc) != null;
     }
 
 }

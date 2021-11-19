@@ -9,6 +9,7 @@ import org.junit.Test;
  * @author Jinty
  * @date 2021/6/3
  **/
+@SuppressWarnings("all")
 public class StringUtilTest {
 
     @Test
@@ -23,6 +24,14 @@ public class StringUtilTest {
         System.out.println(StringUtil.isBlank(null));
         System.out.println(StringUtil.isBlank(""));
         System.out.println(StringUtil.isBlank("    "));
+    }
+
+    @Test
+    public void testEquals() {
+        System.out.println(StringUtil.equals(null, null));
+        System.out.println(StringUtil.equals(null, ""));
+        System.out.println(StringUtil.equals("", ""));
+        System.out.println(StringUtil.equals("a", "b"));
     }
 
     @Test
@@ -59,6 +68,23 @@ public class StringUtilTest {
         System.out.println(StringUtil.randomDigit(12));
         System.out.println(StringUtil.randomLetter(12));
         System.out.println(StringUtil.random(12));
+    }
+
+    @Test
+    public void testConcat() {
+        System.out.println(StringUtil.concat(","));
+        System.out.println(StringUtil.concat(",", "A", "B", "C"));
+        System.out.println(StringUtil.concat("_", "A", "B", "C"));
+    }
+
+    @Test
+    public void testRepeat() {
+        System.out.println(StringUtil.repeat(null, 0));
+        System.out.println(StringUtil.repeat("abc", 0));
+        System.out.println(StringUtil.repeat("", 1));
+        System.out.println(StringUtil.repeat("aa", 5));
+        System.out.println(StringUtil.repeat("ok", 10));
+        System.out.println(StringUtil.repeat("hello", 5));
     }
 
 }
