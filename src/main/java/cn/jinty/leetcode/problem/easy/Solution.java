@@ -1927,4 +1927,48 @@ public class Solution {
         return leftSum + rightSum + root.val;
     }
 
+    /**
+     * 594. 最长和谐子序列
+     * 和谐数组是指一个数组里元素的最大值和最小值之间的差别 正好是 1 。
+     * 现在，给你一个整数数组 nums ，请你在所有可能的子序列中找到最长的和谐子序列的长度。
+     * 数组的子序列是一个由数组派生出来的序列，它可以通过删除一些元素或不删除元素、且不改变其余元素的顺序而得到。
+     *
+     * @param nums 数组
+     * @return 最长和谐子序列的长度
+     */
+    public int findLHS(int[] nums) {
+
+        // 统计每个数的出现次数，相邻数字次数相加，其中最大值为答案
+
+        /*// 1、TreeMap
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int res = 0;
+        Integer pre = null;
+        for (int num : map.keySet()) {
+            if (pre != null) {
+                if (num - pre == 1) {
+                    res = Math.max(res, map.get(pre) + map.get(num));
+                }
+            }
+            pre = num;
+        }
+        return res;*/
+
+        // 2、HashMap
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        int res = 0;
+        for (int num : map.keySet()) {
+            if (map.containsKey(num + 1)) {
+                res = Math.max(res, map.get(num) + map.get(num + 1));
+            }
+        }
+        return res;
+    }
+
 }

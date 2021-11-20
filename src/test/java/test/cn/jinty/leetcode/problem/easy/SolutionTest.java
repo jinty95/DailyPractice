@@ -465,4 +465,11 @@ public class SolutionTest {
         System.out.println(solution.findTilt(TreeNode.deserialize("[1,2,3,null,null,null,null]")));
     }
 
+    @Test
+    public void testFindLHS() {
+        System.out.println(solution.findLHS(new int[]{1, 1, 1, 1, 1}));
+        System.out.println(solution.findLHS(new int[]{1, 2, 2, 1, 3, 1, 2, 3, 2, 1}));
+        System.out.println(solution.findLHS(new int[]{1, 3, 2, 2, 5, 2, 3, 7}));
+    }
+
 }
