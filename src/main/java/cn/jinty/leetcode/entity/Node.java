@@ -1,5 +1,7 @@
 package cn.jinty.leetcode.entity;
 
+import java.util.List;
+
 /**
  * 节点
  *
@@ -13,6 +15,7 @@ public class Node {
     public Node random;
     public Node left;
     public Node right;
+    public List<Node> children;
 
     public Node(int val) {
         this.val = val;
@@ -29,15 +32,9 @@ public class Node {
         this.right = right;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node node = this;
-        while (node != null) {
-            sb.append(node.val).append(',');
-            node = node.next;
-        }
-        return sb.substring(0, sb.length() - 1);
+    public Node(int val, List<Node> children) {
+        this.val = val;
+        this.children = children;
     }
 
 }

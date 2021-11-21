@@ -1,11 +1,13 @@
 package test.cn.jinty.leetcode.problem.easy;
 
 import cn.jinty.leetcode.entity.Employee;
+import cn.jinty.leetcode.entity.Node;
 import cn.jinty.leetcode.problem.easy.Solution;
 import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.ListNodeUtil;
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -470,6 +472,16 @@ public class SolutionTest {
         System.out.println(solution.findLHS(new int[]{1, 1, 1, 1, 1}));
         System.out.println(solution.findLHS(new int[]{1, 2, 2, 1, 3, 1, 2, 3, 2, 1}));
         System.out.println(solution.findLHS(new int[]{1, 3, 2, 2, 5, 2, 3, 7}));
+    }
+
+    @Test
+    public void testMaxDepth() {
+        Node root = new Node(1);
+        Node child1 = new Node(2);
+        Node child2 = new Node(3);
+        root.children = ListUtil.asList(child1, child2);
+        System.out.println(solution.maxDepth(root));
+        System.out.println(solution.maxDepth(null));
     }
 
 }

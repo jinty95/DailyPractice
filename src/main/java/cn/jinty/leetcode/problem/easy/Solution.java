@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.easy;
 
 import cn.jinty.leetcode.entity.Employee;
+import cn.jinty.leetcode.entity.Node;
 import cn.jinty.struct.linear.ListNode;
 import cn.jinty.struct.tree.TreeNode;
 
@@ -1969,6 +1970,29 @@ public class Solution {
             }
         }
         return res;
+    }
+
+    /**
+     * 559. N 叉树的最大深度
+     * 给定一个 N 叉树，找到其最大深度。
+     * 最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。
+     *
+     * @param root N叉树
+     * @return 最大深度
+     */
+    public int maxDepth(Node root) {
+        // 深度优先搜索
+        if (root == null) {
+            return 0;
+        }
+        if (root.children == null || root.children.size() == 0) {
+            return 1;
+        }
+        int depth = 0;
+        for (Node one : root.children) {
+            depth = Math.max(depth, maxDepth(one));
+        }
+        return depth + 1;
     }
 
 }
