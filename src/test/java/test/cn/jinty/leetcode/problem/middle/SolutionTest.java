@@ -226,13 +226,6 @@ public class SolutionTest {
     }
 
     @Test
-    public void testLengthOfLIS() {
-        System.out.println(solution.lengthOfLIS(
-                new int[]{1, 3, 1, 4, 5, 2, 3, 6, 8, 9, 10}
-        ));
-    }
-
-    @Test
     public void testSpiralOrder() {
         int[][] matrix = {
                 {1, 2, 3, 4},

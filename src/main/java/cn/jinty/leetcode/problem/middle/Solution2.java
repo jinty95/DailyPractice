@@ -69,27 +69,93 @@ public class Solution2 {
      */
     public int minDistance(String word1, String word2) {
         // 求最大公共子序列
-        int maxCommonSubSeq = maxCommonSubSeq(word1, word2);
-        return word1.length() - maxCommonSubSeq + word2.length() - maxCommonSubSeq;
+        int lcs = longestCommonSubsequence(word1, word2);
+        return word1.length() - lcs + word2.length() - lcs;
     }
 
-    // 通过动态规划求最大公共子序列的长度
-    private int maxCommonSubSeq(String word1, String word2) {
-        if (word1 == null || word2 == null || word1.length() == 0 || word2.length() == 0) {
+    /**
+     * 1143. 最长公共子序列
+     * 给定两个字符串 text1 和 text2，返回这两个字符串的最长公共子序列的长度。如果不存在公共子序列，返回 0。
+     * 一个字符串的子序列是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+     * 两个字符串的公共子序列是这两个字符串所共同拥有的子序列。
+     *
+     * @param text1 字符串
+     * @param text2 字符串
+     * @return 最长公共子序列的长度
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        // 动态规划 ：时间复杂度O(MN)，空间复杂度O(MN)
+        if (text1 == null || text2 == null || text1.length() == 0 || text2.length() == 0) {
             return 0;
         }
-        // dp[i][j]表示word1[0...i-1]与word2[0...j-1]的最大公共子序列的长度
-        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
-        for (int i = 0; i < word1.length(); i++) {
-            for (int j = 0; j < word2.length(); j++) {
-                if (word1.charAt(i) == word2.charAt(j)) {
+        // dp[i][j]表示text1[0...i-1]与text2[0...j-1]的最大公共子序列的长度
+        int[][] dp = new int[text1.length() + 1][text2.length() + 1];
+        for (int i = 0; i < text1.length(); i++) {
+            for (int j = 0; j < text2.length(); j++) {
+                if (text1.charAt(i) == text2.charAt(j)) {
                     dp[i + 1][j + 1] = dp[i][j] + 1;
                 } else {
                     dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
                 }
             }
         }
-        return dp[word1.length()][word2.length()];
+        return dp[text1.length()][text2.length()];
+    }
+
+    /**
+     * 300. 最长递增子序列
+     * 给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+     * 子序列是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+     *
+     * @param nums 数组
+     * @return 最长递增子序列长度
+     */
+    public int lengthOfLIS(int[] nums) {
+        /*// 1、动态规划 ：时间复杂度O(N^2)，空间复杂度O(N)
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        // dp[i]表示以nums[i]结尾的最长递增子序列长度
+        int[] dp = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            int max = 0;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) max = Math.max(max, dp[j]);
+            }
+            dp[i] = max + 1;
+        }
+        int maxLen = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (dp[i] > maxLen) maxLen = dp[i];
+        }
+        return maxLen;*/
+
+        // 2、贪心 + 二分查找 ：时间复杂度O(NlogN)，空间复杂度O(N)
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        // d[i]表示长度为i的递增子序列的末尾元素的最小值，d[i]关于i单调递增
+        int[] d = new int[nums.length + 1];
+        int len = 1;
+        d[len] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (d[len] < nums[i]) {
+                d[++len] = nums[i];
+            } else {
+                int left = 1, right = len, pos = 0;
+                while (left <= right) {
+                    int mid = (left + right) / 2;
+                    if (d[mid] < nums[i]) {
+                        pos = mid;
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+                d[pos + 1] = nums[i];
+            }
+        }
+        return len;
     }
 
     /**

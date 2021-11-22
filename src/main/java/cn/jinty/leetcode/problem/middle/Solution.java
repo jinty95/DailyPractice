@@ -1039,30 +1039,6 @@ public class Solution {
     }
 
     /**
-     * 300. 最长递增子序列
-     *
-     * @param nums 数组
-     * @return 最长递增子序列长度
-     */
-    public int lengthOfLIS(int[] nums) {
-        //动态规划
-        //dp[i]表示以nums[i]结尾的最长递增子序列长度
-        int[] dp = new int[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            int max = 0;
-            for (int j = 0; j < i; j++) {
-                if (nums[j] < nums[i]) max = Math.max(max, dp[j]);
-            }
-            dp[i] = max + 1;
-        }
-        int maxLen = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (dp[i] > maxLen) maxLen = dp[i];
-        }
-        return maxLen;
-    }
-
-    /**
      * 54. 螺旋矩阵
      * 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
      *

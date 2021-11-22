@@ -30,6 +30,22 @@ public class SolutionTest2 {
     }
 
     @Test
+    public void testLongestCommonSubsequence() {
+        System.out.println(solution.longestCommonSubsequence("sea", "eat"));
+        System.out.println(solution.longestCommonSubsequence("hello", "hell"));
+    }
+
+    @Test
+    public void testLengthOfLIS() {
+        System.out.println(solution.lengthOfLIS(
+                new int[]{1, 2, 3, 4, 5}
+        ));
+        System.out.println(solution.lengthOfLIS(
+                new int[]{1, 3, 1, 4, 5, 2, 3, 6, 8, 9, 10}
+        ));
+    }
+
+    @Test
     public void testComputeArea() {
         System.out.println(solution.computeArea(-3, 0, 3, 4, 0, -1, 9, 2));
         System.out.println(solution.computeArea(0, 0, 2, 2, 4, 4, 10, 10));
