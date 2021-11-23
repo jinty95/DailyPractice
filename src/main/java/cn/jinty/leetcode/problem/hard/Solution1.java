@@ -872,4 +872,53 @@ public class Solution1 {
         count.put(point, count.getOrDefault(point, 0) + 1);
     }
 
+    /**
+     * 30. 串联所有单词的子串
+     * 给定一个字符串 s 和一些 长度相同 的单词 words 。找出 s 中恰好可以由 words 中所有单词串联形成的子串的起始位置。
+     * 注意子串要与 words 中的单词完全匹配，中间不能有其他字符 ，但不需要考虑 words 中单词串联的顺序。
+     *
+     * @param s     字符串 (1 <= s.length <= 10^4 小写字母组成)
+     * @param words 单词数组 (1 <= words.length <= 5000 小写字母组成)
+     * @return 串联子串的起始位置
+     */
+    public List<Integer> findSubstring(String s, String[] words) {
+
+        // 注意利用单词长度相同这个条件
+
+        // 暴力搜索 + 哈希表
+        // 枚举s所有可能是答案的子串，这些子串与words分别通过哈希表计算单词数量，如果最终等到相等的哈希表，说明可以串联形成
+        List<Integer> res = new ArrayList<>();
+        int wordLen = words[0].length();
+        int wordTotalLen = words.length * wordLen;
+        if (s.length() < wordTotalLen) {
+            return res;
+        }
+        Map<String, Integer> wMap = new HashMap<>();
+        for (String word : words) {
+            wMap.put(word, wMap.getOrDefault(word, 0) + 1);
+        }
+        for (int i = 0; i <= s.length() - wordTotalLen; i++) {
+            Map<String, Integer> sMap = new HashMap<>();
+            String sub = s.substring(i, i + wordTotalLen);
+            for (int j = 0; j <= sub.length() - wordLen; j += wordLen) {
+                String wordOfSub = sub.substring(j, j + wordLen);
+                sMap.put(wordOfSub, sMap.getOrDefault(wordOfSub, 0) + 1);
+            }
+            if (sMap.size() == wMap.size()) {
+                boolean flag = true;
+                for (String word : wMap.keySet()) {
+                    if (!wMap.get(word).equals(sMap.get(word))) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    res.add(i);
+                }
+            }
+        }
+        return res;
+
+    }
+
 }

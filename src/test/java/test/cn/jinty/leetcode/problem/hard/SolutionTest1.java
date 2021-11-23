@@ -142,4 +142,10 @@ public class SolutionTest1 {
         ));
     }
 
+    @Test
+    public void testFindSubstring() {
+        System.out.println(solution.findSubstring("a", new String[]{"a", "b", "c"}));
+        System.out.println(solution.findSubstring("barfoothefoobarman", new String[]{"foo", "bar"}));
+    }
+
 }
