@@ -705,4 +705,63 @@ public class Solution2 {
         return 1 + Math.min(integerReplacement(n + 1), integerReplacement(n - 1));
     }
 
+    /**
+     * 1410. HTML 实体解析器
+     * HTML 实体解析器 是一种特殊的解析器，它将 HTML 代码作为输入，并用字符本身替换掉所有这些特殊的字符实体。
+     * HTML 里这些特殊字符和它们对应的字符实体包括：
+     * 双引号：字符实体为 &quot; ，对应的字符是 " 。
+     * 单引号：字符实体为 &apos; ，对应的字符是 ' 。
+     * 与符号：字符实体为 &amp; ，对应对的字符是 & 。
+     * 大于号：字符实体为 &gt; ，对应的字符是 > 。
+     * 小于号：字符实体为 &lt; ，对应的字符是 < 。
+     * 斜线号：字符实体为 &frasl; ，对应的字符是 / 。
+     * 给你输入字符串 text ，请你实现一个 HTML 实体解析器，返回解析器解析后的结果。
+     *
+     * @param text 文本
+     * @return 解析结果
+     */
+    public String entityParser(String text) {
+        /*// 1、使用String的replace方法
+        text = text.replace("&quot;", "\"");
+        text = text.replace("&apos;", "'");
+        text = text.replace("&gt;", ">");
+        text = text.replace("&lt;", "<");
+        text = text.replace("&frasl;", "/");
+        // 这个&会干扰解析，所以最后处理
+        text = text.replace("&amp;", "&");
+        return text;*/
+
+        // 2、遍历检索
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c != '&') {
+                res.append(c);
+            } else {
+                if (i + 3 < text.length() && text.startsWith("&gt;", i)) {
+                    res.append('>');
+                    i += 3;
+                } else if (i + 3 < text.length() && text.startsWith("&lt;", i)) {
+                    res.append('<');
+                    i += 3;
+                } else if (i + 4 < text.length() && text.startsWith("&amp;", i)) {
+                    res.append('&');
+                    i += 4;
+                } else if (i + 5 < text.length() && text.startsWith("&quot;", i)) {
+                    res.append('\"');
+                    i += 5;
+                } else if (i + 5 < text.length() && text.startsWith("&apos;", i)) {
+                    res.append('\'');
+                    i += 5;
+                } else if (i + 6 < text.length() && text.startsWith("&frasl;", i)) {
+                    res.append('/');
+                    i += 6;
+                } else {
+                    res.append(c);
+                }
+            }
+        }
+        return res.toString();
+    }
+
 }

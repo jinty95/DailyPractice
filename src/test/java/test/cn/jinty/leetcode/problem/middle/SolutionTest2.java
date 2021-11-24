@@ -159,4 +159,12 @@ public class SolutionTest2 {
         System.out.println(solution.integerReplacement(2147483647));
     }
 
+    @Test
+    public void testEntityParser() {
+        System.out.println(solution.entityParser("Stay home! Practice on Leetcode :)"));
+        System.out.println(solution.entityParser("x &gt; y &amp;&amp; x &lt; y is always false"));
+        System.out.println(solution.entityParser("&amp;gt;"));
+        System.out.println(solution.entityParser("&amp; is an HTML entity but &ambassador; is not."));
+    }
+
 }
