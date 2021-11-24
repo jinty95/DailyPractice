@@ -136,7 +136,7 @@ public class TreeNode {
 
     //从字符串反序列化出二叉树：字符串格式为[1,2,3,4,...]，空节点必须填写且值为"null"
     public static TreeNode deserialize(String data) {
-        if (data == null || data.length() == 0) return null;
+        if (data == null || data.length() == 0 || data.equals("[]")) return null;
         //1、解析序列字符串
         data = data.substring(1, data.length() - 1);
         String[] arr = data.split(",");
@@ -144,7 +144,7 @@ public class TreeNode {
             arr[i] = arr[i].trim();
         }
         //2、重构二叉树
-        if (arr[0].equals("null")) return null;
+        if (arr[0].equals("null") || arr[0].equals("")) return null;
         //根节点
         TreeNode root = new TreeNode(Integer.parseInt(arr[0]));
         //保存每一层的非空节点

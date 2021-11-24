@@ -31,6 +31,8 @@ public class TreeTest {
         System.out.println("序列化: " + root.serialize());
         //反序列化
         System.out.println("反序列化: " + TreeNode.deserialize("[5, 3, 7, null, null, 8, 10, null, null, null, null]"));
+        System.out.println("反序列化: " + TreeNode.deserialize("[]"));
+        System.out.println("反序列化: " + TreeNode.deserialize("[  ]"));
     }
 
 }
