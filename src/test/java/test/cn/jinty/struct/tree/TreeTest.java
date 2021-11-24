@@ -22,9 +22,9 @@ public class TreeTest {
         right.left = new TreeNode(8);
         right.right = new TreeNode(10);
         //DFS遍历
-        System.out.println("前序遍历: " + root.preOrder());
-        System.out.println("中序遍历: " + root.inOrder());
-        System.out.println("后序遍历: " + root.postOrder());
+        System.out.println("前序遍历: " + root.preorder());
+        System.out.println("中序遍历: " + root.inorder());
+        System.out.println("后序遍历: " + root.postorder());
         //BFS遍历
         System.out.println("层次遍历: " + root.bfs());
         //序列化

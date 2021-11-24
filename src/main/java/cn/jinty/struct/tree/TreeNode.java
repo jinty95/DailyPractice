@@ -36,64 +36,64 @@ public class TreeNode {
     }
 
     //前序遍历
-    public List<Integer> preOrder() {
-        return preOrder(this);
+    public List<Integer> preorder() {
+        return preorder(this);
     }
 
-    public static List<Integer> preOrder(TreeNode root) {
+    public static List<Integer> preorder(TreeNode root) {
         List<Integer> list = new ArrayList<>();
-        preOrder(root, list, true);
+        preorder(root, list, true);
         return list;
     }
 
-    public static void preOrder(TreeNode root, List<Integer> list, boolean containNull) {
+    public static void preorder(TreeNode root, List<Integer> list, boolean containNull) {
         if (root == null) {
             if (containNull) list.add(null);
         } else {
             list.add(root.val);
-            preOrder(root.left, list, containNull);
-            preOrder(root.right, list, containNull);
+            preorder(root.left, list, containNull);
+            preorder(root.right, list, containNull);
         }
     }
 
     //中序遍历
-    public List<Integer> inOrder() {
-        return inOrder(this);
+    public List<Integer> inorder() {
+        return inorder(this);
     }
 
-    public static List<Integer> inOrder(TreeNode root) {
+    public static List<Integer> inorder(TreeNode root) {
         List<Integer> list = new ArrayList<>();
-        inOrder(root, list, true);
+        inorder(root, list, true);
         return list;
     }
 
-    public static void inOrder(TreeNode root, List<Integer> list, boolean containNull) {
+    public static void inorder(TreeNode root, List<Integer> list, boolean containNull) {
         if (root == null) {
             if (containNull) list.add(null);
         } else {
-            inOrder(root.left, list, containNull);
+            inorder(root.left, list, containNull);
             list.add(root.val);
-            inOrder(root.right, list, containNull);
+            inorder(root.right, list, containNull);
         }
     }
 
     //后序遍历
-    public List<Integer> postOrder() {
-        return postOrder(this);
+    public List<Integer> postorder() {
+        return postorder(this);
     }
 
-    public static List<Integer> postOrder(TreeNode root) {
+    public static List<Integer> postorder(TreeNode root) {
         List<Integer> list = new ArrayList<>();
-        postOrder(root, list, true);
+        postorder(root, list, true);
         return list;
     }
 
-    public static void postOrder(TreeNode root, List<Integer> list, boolean containNull) {
+    public static void postorder(TreeNode root, List<Integer> list, boolean containNull) {
         if (root == null) {
             if (containNull) list.add(null);
         } else {
-            postOrder(root.left, list, containNull);
-            postOrder(root.right, list, containNull);
+            postorder(root.left, list, containNull);
+            postorder(root.right, list, containNull);
             list.add(root.val);
         }
     }

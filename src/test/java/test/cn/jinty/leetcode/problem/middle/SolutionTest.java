@@ -122,8 +122,8 @@ public class SolutionTest {
         int[] pre = {3, 9, 20, 15, 7};
         int[] in = {9, 3, 15, 20, 7};
         TreeNode treeNode = solution.buildTree1(pre, in);
-        System.out.println(treeNode.preOrder());
-        System.out.println(treeNode.inOrder());
+        System.out.println(treeNode.preorder());
+        System.out.println(treeNode.inorder());
     }
 
     @Test
@@ -131,8 +131,8 @@ public class SolutionTest {
         int[] inorder = {9, 3, 15, 20, 7};
         int[] postorder = {9, 15, 7, 20, 3};
         TreeNode root = solution.buildTree2(inorder, postorder);
-        System.out.println(root.inOrder());
-        System.out.println(root.postOrder());
+        System.out.println(root.inorder());
+        System.out.println(root.postorder());
     }
 
     @Test

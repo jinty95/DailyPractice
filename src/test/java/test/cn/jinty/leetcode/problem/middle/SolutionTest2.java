@@ -1,6 +1,7 @@
 package test.cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.leetcode.problem.middle.Solution2;
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
@@ -165,6 +166,14 @@ public class SolutionTest2 {
         System.out.println(solution.entityParser("x &gt; y &amp;&amp; x &lt; y is always false"));
         System.out.println(solution.entityParser("&amp;gt;"));
         System.out.println(solution.entityParser("&amp; is an HTML entity but &ambassador; is not."));
+    }
+
+    @Test
+    public void testGetAllElements() {
+        System.out.println(solution.getAllElements(
+                TreeNode.deserialize("[3,2,5,null,null,null,null]"),
+                TreeNode.deserialize("[4,1,6,null,null,null,null]")
+        ));
     }
 
 }

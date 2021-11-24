@@ -1,5 +1,6 @@
 package cn.jinty.leetcode.problem.middle;
 
+import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.struct.tree.Trie;
 import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.MathUtil;
@@ -762,6 +763,50 @@ public class Solution2 {
             }
         }
         return res.toString();
+    }
+
+    /**
+     * 1305. 两棵二叉搜索树中的所有元素
+     * 给你 root1 和 root2 这两棵二叉搜索树。
+     * 请你返回一个列表，其中包含 两棵树 中的所有整数并按 升序 排序。.
+     *
+     * @param root1 二叉树1
+     * @param root2 二叉树2
+     * @return 升序排序的所有整数
+     */
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        // 分别进行中序遍历
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        inorder(root1, list1);
+        inorder(root2, list2);
+        // 两个有序表合并
+        List<Integer> list = new ArrayList<>();
+        int i = 0, j = 0;
+        while (i < list1.size() && j < list2.size()) {
+            if (list1.get(i) < list2.get(j)) {
+                list.add(list1.get(i++));
+            } else {
+                list.add(list2.get(j++));
+            }
+        }
+        while (i < list1.size()) {
+            list.add(list1.get(i++));
+        }
+        while (j < list2.size()) {
+            list.add(list2.get(j++));
+        }
+        return list;
+    }
+
+    // 中序遍历
+    private void inorder(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left, list);
+        list.add(root.val);
+        inorder(root.right, list);
     }
 
 }
