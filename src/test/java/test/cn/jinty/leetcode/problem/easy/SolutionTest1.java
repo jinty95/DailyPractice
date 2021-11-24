@@ -20,4 +20,12 @@ public class SolutionTest1 {
         System.out.println(solution.buddyStrings("abc", "acb"));
     }
 
+    @Test
+    public void testMaximumScore() {
+        System.out.println(solution.maximumScore(new int[]{1, 2, 8, 9}, 3));
+        System.out.println(solution.maximumScore(new int[]{1, 2, 8, 7}, 2));
+        System.out.println(solution.maximumScore(new int[]{1, 3, 5}, 1));
+        System.out.println(solution.maximumScore(new int[]{1, 3, 4, 5}, 4));
+    }
+
 }

@@ -1,5 +1,9 @@
 package cn.jinty.leetcode.problem.easy;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * LeetCode - 简单题
  *
@@ -88,6 +92,62 @@ public class Solution1 {
             }
         }
         return true;
+    }
+
+    /**
+     * LCP 40. 心算挑战
+     * 「力扣挑战赛」心算项目的挑战比赛中，要求选手从 N 张卡牌中选出 cnt 张卡牌，若这 cnt 张卡牌数字总和为偶数，则选手成绩「有效」且得分为 cnt 张卡牌数字总和。
+     * 给定数组 cards 和 cnt，其中 cards[i] 表示第 i 张卡牌上的数字。 请帮参赛选手计算最大的有效得分。若不存在获取有效得分的卡牌方案，则返回 0。
+     *
+     * @param cards 卡牌数组 (1 <= cards.length <= 10^5)
+     * @param cnt   选取卡牌数 (1 <= cnt <= cards.length <= 10^5)
+     * @return 最大有效得分
+     */
+    public int maximumScore(int[] cards, int cnt) {
+        // 总和为偶数：取任意个偶数牌，取偶数个奇数牌
+        // 总和为最大：先将牌按奇偶划分，然后排序，先取数值大的
+        List<Integer> evens = new ArrayList<>();
+        List<Integer> odds = new ArrayList<>();
+        for (int card : cards) {
+            if (card % 2 == 0) {
+                evens.add(card);
+            } else {
+                odds.add(card);
+            }
+        }
+        evens.sort(((o1, o2) -> o2 - o1));
+        odds.sort(((o1, o2) -> o2 - o1));
+        int res = 0, i = 0, j = 0;
+        if (cnt % 2 != 0) {
+            if (evens.size() == 0) {
+                return res;
+            }
+            res += evens.get(i++);
+            cnt -= 1;
+        }
+        while (cnt > 0) {
+            if (i + 1 < evens.size() && j + 1 < odds.size()) {
+                int evenSum = evens.get(i) + evens.get(i + 1);
+                int oddSum = odds.get(j) + odds.get(j + 1);
+                if (evenSum > oddSum) {
+                    res += evenSum;
+                    i += 2;
+                } else {
+                    res += oddSum;
+                    j += 2;
+                }
+            } else if (i + 1 < evens.size()) {
+                res += evens.get(i) + evens.get(i + 1);
+                i += 2;
+            } else if (j + 1 < odds.size()) {
+                res += odds.get(j) + odds.get(j + 1);
+                j += 2;
+            } else {
+                break;
+            }
+            cnt -= 2;
+        }
+        return cnt == 0 ? res : 0;
     }
 
 }
