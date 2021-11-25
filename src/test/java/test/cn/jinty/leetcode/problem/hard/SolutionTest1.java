@@ -148,4 +148,12 @@ public class SolutionTest1 {
         System.out.println(solution.findSubstring("barfoothefoobarman", new String[]{"foo", "bar"}));
     }
 
+    @Test
+    public void testPoorPigs() {
+        System.out.println(solution.poorPigs(4, 10, 10));
+        System.out.println(solution.poorPigs(1000, 15, 60));
+        System.out.println(solution.poorPigs(1000, 15, 15));
+        System.out.println(solution.poorPigs(100000, 15, 60));
+    }
+
 }

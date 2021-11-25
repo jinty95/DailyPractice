@@ -168,7 +168,8 @@ public class MathUtilTest {
     public void testToString() {
         System.out.println(MathUtil.toBinaryString(15));
         System.out.println(MathUtil.toString(36, 36));
-        System.out.println(MathUtil.toString(36, 1));
+        System.out.println(MathUtil.toString(36, 2));
+        System.out.println(MathUtil.toString(1000, 5));
     }
 
 }
