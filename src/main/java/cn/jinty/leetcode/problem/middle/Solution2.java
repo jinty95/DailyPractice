@@ -6,6 +6,7 @@ import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.MathUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * LeetCode - 中等题
@@ -864,6 +865,71 @@ public class Solution2 {
             map.put(root.right.val, root);
             nodeToParent(root.right, map);
         }
+    }
+
+    /**
+     * 763. 划分字母区间
+     * 字符串 S 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。
+     * 返回一个表示每个字符串片段的长度的列表。
+     *
+     * @param s 字符串 (只包含小写字母 'a' 到 'z')
+     * @return 划分的各片段长度
+     */
+    public List<Integer> partitionLabels(String s) {
+        /*// 1、合并区间
+        // 记录每个字母的最左和最右位置
+        int[][] locations = new int[26][];
+        for (int i = 0; i < s.length(); i++) {
+            int k = s.charAt(i) - 'a';
+            if (locations[k] == null) {
+                locations[k] = new int[]{i, i};
+            } else {
+                locations[k][1] = i;
+            }
+        }
+        // 合并交叉区间，最后剩下的各区间长度即为答案
+        List<int[]> locationList = Arrays.stream(locations)
+                .filter(Objects::nonNull)
+                .sorted(Comparator.comparingInt(o -> o[0]))
+                .collect(Collectors.toList());
+        Deque<int[]> deque = new LinkedList<>();
+        for (int[] location : locationList) {
+            if (deque.isEmpty()) {
+                deque.offerLast(location);
+            } else {
+                if (deque.peekLast()[1] < location[0]) {
+                    deque.offerLast(location);
+                } else {
+                    int[] pre = deque.pollLast();
+                    int[] merge = new int[]{pre[0], Math.max(pre[1], location[1])};
+                    deque.offerLast(merge);
+                }
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        while (!deque.isEmpty()) {
+            int[] location = deque.pollFirst();
+            result.add(location[1] - location[0] + 1);
+        }
+        return result;*/
+
+        // 2、合并区间
+        List<Integer> result = new ArrayList<>();
+        // 记录每个字母的最右位置
+        int[] right = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            right[s.charAt(i) - 'a'] = i;
+        }
+        // 使用start和end界定区间，动态更新end模拟区间合并
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, right[s.charAt(i) - 'a']);
+            if (i == end) {
+                result.add(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return result;
     }
 
 }

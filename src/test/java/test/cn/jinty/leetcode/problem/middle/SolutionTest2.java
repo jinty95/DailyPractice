@@ -184,4 +184,10 @@ public class SolutionTest2 {
         ));
     }
 
+    @Test
+    public void testPartitionLabels() {
+        System.out.println(solution.partitionLabels("abc"));
+        System.out.println(solution.partitionLabels("ababcbacadefegdehijhklij"));
+    }
+
 }
