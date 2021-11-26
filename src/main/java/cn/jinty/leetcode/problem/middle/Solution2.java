@@ -932,4 +932,83 @@ public class Solution2 {
         return result;
     }
 
+    /**
+     * 373. 查找和最小的K对数字
+     * 给定两个以升序排列的整数数组 nums1 和 nums2 , 以及一个整数 k 。
+     * 定义一对值 (u,v)，其中第一个元素来自 nums1，第二个元素来自 nums2 。
+     * 请找到和最小的 k 个数对 (u1,v1),  (u2,v2)  ...  (uk,vk) 。
+     *
+     * @param nums1 升序数组1 (1 <= nums1.length <= 10^4)
+     * @param nums2 升序数组2 (1 <= nums2.length <= 10^4)
+     * @param k     数对个数 (1 <= k <= 1000)
+     * @return 最小的 k 对数字
+     */
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        /*// 1、枚举 + 优先队列 ：时间复杂度O(M * N * logK)，空间复杂度O(K)
+        PriorityQueue<int[]> queue = new PriorityQueue<>(
+                k, ((o1, o2) -> o2[0] + o2[1] - o1[0] - o1[1])
+        );
+        // 枚举所有的数对，存入长度为k的优先队列，最终队列内的数对即为答案
+        for (int num1 : nums1) {
+            for (int num2 : nums2) {
+                if (queue.size() < k) {
+                    queue.offer(new int[]{num1, num2});
+                } else {
+                    int[] peek = queue.peek();
+                    if (num1 + num2 < peek[0] + peek[1]) {
+                        queue.poll();
+                        queue.offer(new int[]{num1, num2});
+                    }
+                }
+            }
+        }
+        List<List<Integer>> result = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int[] num = queue.poll();
+            result.add(Arrays.asList(num[0], num[1]));
+        }
+        Collections.reverse(result);
+        return result;*/
+
+        /*// 2、双指针 ：时间复杂度O(K * M)，空间复杂度O(M)
+        // index[i]表示数组1的第i个元素对应数组2中可用的最小元素的索引
+        int[] index = new int[nums1.length];
+        List<List<Integer>> result = new ArrayList<>();
+        k = Math.min(nums1.length * nums2.length, k);
+        while (k-- > 0) {
+            int min = Integer.MAX_VALUE, a = -1;
+            // 枚举数组1的所有元素，分别与数组2中可用的最小元素相加，取和最小的一组
+            for (int i = 0; i < nums1.length; i++) {
+                if (index[i] < nums2.length) {
+                    int sum = nums1[i] + nums2[index[i]];
+                    if (sum < min) {
+                        min = sum;
+                        a = i;
+                    }
+                }
+            }
+            result.add(Arrays.asList(nums1[a], nums2[index[a]++]));
+        }
+        return result;*/
+
+        // 3、双指针 + 优先队列 ：时间复杂度O(K * logM)，空间复杂度O(M)
+        // 队列存放的元素为数组[i,j]，i为数组1的元素的索引，j为i对应数组2中可用的最小元素的索引
+        PriorityQueue<int[]> queue = new PriorityQueue<>(
+                nums1.length, (o1, o2) -> nums1[o1[0]] + nums2[o1[1]] - nums1[o2[0]] - nums2[o2[1]]
+        );
+        for (int i = 0; i < nums1.length; i++) {
+            queue.add(new int[]{i, 0});
+        }
+        List<List<Integer>> result = new ArrayList<>();
+        k = Math.min(nums1.length * nums2.length, k);
+        while (k-- > 0) {
+            int[] next = queue.poll();
+            if (next[1] + 1 < nums2.length) {
+                queue.offer(new int[]{next[0], next[1] + 1});
+            }
+            result.add(Arrays.asList(nums1[next[0]], nums2[next[1]]));
+        }
+        return result;
+    }
+
 }

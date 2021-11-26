@@ -190,4 +190,11 @@ public class SolutionTest2 {
         System.out.println(solution.partitionLabels("ababcbacadefegdehijhklij"));
     }
 
+    @Test
+    public void testKSmallestPairs() {
+        System.out.println(solution.kSmallestPairs(new int[]{1, 2, 3}, new int[]{4, 5, 6}, 3));
+        System.out.println(solution.kSmallestPairs(new int[]{1, 3, 5}, new int[]{2, 4, 6}, 6));
+        System.out.println(solution.kSmallestPairs(new int[]{1}, new int[]{1, 2}, 3));
+    }
+
 }
