@@ -809,4 +809,61 @@ public class Solution2 {
         inorder(root.right, list);
     }
 
+    /**
+     * 1110. 删点成林
+     * 给出二叉树的根节点 root，树上每个节点都有一个不同的值。
+     * 如果节点值在 delete 中出现，我们就把该节点从树上删去，最后得到一个森林（一些不相交的树构成的集合）。
+     * 返回森林中的每棵树。你可以按任意顺序组织答案。
+     *
+     * @param root   二叉树
+     * @param delete 需要删除的节点
+     * @return 森林
+     */
+    public List<TreeNode> delNodes(TreeNode root, int[] delete) {
+        // 构建节点值与父节点的映射
+        Map<Integer, TreeNode> map = new HashMap<>();
+        nodeToParent(root, map);
+        // 使用哈希表收集二叉树
+        Set<TreeNode> set = new HashSet<>();
+        set.add(root);
+        // 每删除一个节点，将它与父节点断开连接，同时它的两个子节点成为两棵新的二叉树
+        for (int del : delete) {
+            TreeNode parent = map.get(del);
+            TreeNode delNode;
+            // 只有根节点没有父节点
+            if (parent == null) {
+                delNode = root;
+            } else if (parent.left != null && parent.left.val == del) {
+                delNode = parent.left;
+                parent.left = null;
+            } else {
+                delNode = parent.right;
+                parent.right = null;
+            }
+            set.remove(delNode);
+            if (delNode.left != null) {
+                set.add(delNode.left);
+            }
+            if (delNode.right != null) {
+                set.add(delNode.right);
+            }
+        }
+        return new ArrayList<>(set);
+    }
+
+    // 构建节点值与父节点的映射
+    private void nodeToParent(TreeNode root, Map<Integer, TreeNode> map) {
+        if (root == null) {
+            return;
+        }
+        if (root.left != null) {
+            map.put(root.left.val, root);
+            nodeToParent(root.left, map);
+        }
+        if (root.right != null) {
+            map.put(root.right.val, root);
+            nodeToParent(root.right, map);
+        }
+    }
+
 }

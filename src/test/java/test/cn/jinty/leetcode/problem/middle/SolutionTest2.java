@@ -176,4 +176,12 @@ public class SolutionTest2 {
         ));
     }
 
+    @Test
+    public void testDelNodes() {
+        System.out.println(solution.delNodes(
+                TreeNode.deserialize("[2,1,3,null,null,null,null]"),
+                new int[]{2}
+        ));
+    }
+
 }
