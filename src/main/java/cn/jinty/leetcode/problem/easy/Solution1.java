@@ -1,7 +1,6 @@
 package cn.jinty.leetcode.problem.easy;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**

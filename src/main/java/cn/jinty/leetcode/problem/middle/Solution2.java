@@ -2,11 +2,8 @@ package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.TreeNode;
 import cn.jinty.struct.tree.Trie;
-import cn.jinty.util.ArrayUtil;
-import cn.jinty.util.MathUtil;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * LeetCode - 中等题
@@ -308,7 +305,7 @@ public class Solution2 {
      */
     public static class WordDictionary {
 
-        private Trie trie;
+        private final Trie trie;
 
         public WordDictionary() {
             trie = new Trie();
@@ -1007,6 +1004,33 @@ public class Solution2 {
                 queue.offer(new int[]{next[0], next[1] + 1});
             }
             result.add(Arrays.asList(nums1[next[0]], nums2[next[1]]));
+        }
+        return result;
+    }
+
+    /**
+     * 1695. 删除子数组的最大得分
+     * 给你一个正整数数组 nums ，请你从中删除一个含有 若干不同元素 的子数组。删除子数组的 得分 就是子数组各元素之 和 。
+     * 返回 只删除一个 子数组可获得的 最大得分 。
+     *
+     * @param nums 数组 (1 <= nums.length <= 10^5)
+     * @return 最大得分
+     */
+    public int maximumUniqueSubarray(int[] nums) {
+        // 双指针 + 哈希表 ：时间复杂度O(N)，空间复杂度O(N)
+        int result = 0, temp = 0;
+        // 双指针分别标识子数组的首尾下标
+        int i = 0, j = 0;
+        // 使用哈希表存放子数组中的数字
+        Set<Integer> set = new HashSet<>();
+        while (j < nums.length) {
+            while (i < j && set.contains(nums[j])) {
+                set.remove(nums[i]);
+                temp -= nums[i++];
+            }
+            set.add(nums[j]);
+            temp += nums[j++];
+            result = Math.max(result, temp);
         }
         return result;
     }

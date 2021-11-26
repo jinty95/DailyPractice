@@ -197,4 +197,10 @@ public class SolutionTest2 {
         System.out.println(solution.kSmallestPairs(new int[]{1}, new int[]{1, 2}, 3));
     }
 
+    @Test
+    public void testMaximumUniqueSubarray() {
+        System.out.println(solution.maximumUniqueSubarray(new int[]{4, 2, 4, 5, 6}));
+        System.out.println(solution.maximumUniqueSubarray(new int[]{5, 2, 1, 2, 5, 2, 1, 2, 5}));
+    }
+
 }
