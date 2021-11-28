@@ -1035,4 +1035,50 @@ public class Solution2 {
         return result;
     }
 
+    /**
+     * 438. 找到字符串中所有字母异位词
+     * 给定两个字符串 s 和 p，找到 s 中所有 p 的异位词的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
+     * 异位词指由相同字母重排列形成的字符串（包括相同的字符串）。
+     *
+     * @param s 字符串 (1 <= s.length <= 3 * 10^4 仅含小写字母)
+     * @param p 字符串 (1 <= p.length <= 3 * 10^4 仅含小写字母)
+     * @return 异位词子串的起始索引
+     */
+    public List<Integer> findAnagrams(String s, String p) {
+        // 滑动窗口：时间复杂度O(N)，空间复杂度O(1)
+        List<Integer> res = new ArrayList<>();
+        // arr1收集p的各字母数量
+        int[] arr1 = new int[26];
+        for (char c : p.toCharArray()) {
+            arr1[c - 'a']++;
+        }
+        // arr2收集s的子串的各字母数量
+        int[] arr2 = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            arr2[s.charAt(i) - 'a']++;
+            int start = i - p.length() + 1;
+            if (start < 0) {
+                continue;
+            }
+            if (equals(arr1, arr2)) {
+                res.add(start);
+            }
+            arr2[s.charAt(start) - 'a']--;
+        }
+        return res;
+    }
+
+    // 判断两个数组是否相等
+    private boolean equals(int[] arr1, int[] arr2) {
+        if (arr1.length != arr2.length) {
+            return false;
+        }
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] != arr2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

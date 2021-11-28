@@ -203,4 +203,10 @@ public class SolutionTest2 {
         System.out.println(solution.maximumUniqueSubarray(new int[]{5, 2, 1, 2, 5, 2, 1, 2, 5}));
     }
 
+    @Test
+    public void testFindAnagrams() {
+        System.out.println(solution.findAnagrams("cbaebabacd", "abc"));
+        System.out.println(solution.findAnagrams("banana", "an"));
+    }
+
 }
