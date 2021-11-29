@@ -209,4 +209,11 @@ public class SolutionTest2 {
         System.out.println(solution.findAnagrams("banana", "an"));
     }
 
+    @Test
+    public void testBalancedString() {
+        System.out.println(solution.balancedString("QWER"));
+        System.out.println(solution.balancedString("QQQQ"));
+        System.out.println(solution.balancedString("WQWRQQQW"));
+    }
+
 }

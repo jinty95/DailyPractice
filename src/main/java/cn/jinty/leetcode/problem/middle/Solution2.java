@@ -1082,4 +1082,72 @@ public class Solution2 {
         return true;
     }
 
+    /**
+     * 1234. 替换子串得到平衡字符串
+     * 有一个只含有 'Q', 'W', 'E', 'R' 四种字符，且长度为 n 的字符串。
+     * 假如在该字符串中，这四个字符都恰好出现 n/4 次，那么它就是一个「平衡字符串」。
+     * 给你一个这样的字符串 s，请通过「替换一个子串」的方式，使原字符串 s 变成一个「平衡字符串」。
+     * 你可以用和「待替换子串」长度相同的 任何 其他字符串来完成替换。
+     * 请返回待替换子串的最小可能长度。如果原字符串自身就是一个平衡字符串，则返回 0。
+     *
+     * @param s 字符串
+     * @return 替换子串的最小可能长度
+     */
+    public int balancedString(String s) {
+        // 滑动窗口 ：时间复杂度O(N)，空间复杂度O(1)
+        // 统计字符个数，然后将字符个数超过 n / 4 的字符通过滑动窗口找出来
+        // 因为少的字符必定是从多的字符修改过来的，那么我们只需要找到多出来的字符所构成的最短的子串即可
+        int avg = s.length() / 4;
+        int countQ = 0, countW = 0, countE = 0, countR = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'Q') {
+                countQ++;
+            } else if (c == 'W') {
+                countW++;
+            } else if (c == 'E') {
+                countE++;
+            } else {
+                countR++;
+            }
+        }
+        if (countQ == avg && countW == avg && countE == avg && countR == avg) {
+            return 0;
+        }
+        countQ = countQ > avg ? countQ - avg : 0;
+        countW = countW > avg ? countW - avg : 0;
+        countE = countE > avg ? countE - avg : 0;
+        countR = countR > avg ? countR - avg : 0;
+        int res = Integer.MAX_VALUE;
+        int i = 0, j = 0;
+        int tempQ = 0, tempW = 0, tempE = 0, tempR = 0;
+        while (j < s.length()) {
+            char c = s.charAt(j);
+            if (c == 'Q' && countQ != 0) {
+                tempQ++;
+            } else if (c == 'W' && countW != 0) {
+                tempW++;
+            } else if (c == 'E' && countE != 0) {
+                tempE++;
+            } else if (c == 'R' && countR != 0){
+                tempR++;
+            }
+            while (tempQ >= countQ && tempW >= countW && tempE >= countE && tempR >= countR) {
+                res = Math.min(res, j - i + 1);
+                char a = s.charAt(i);
+                if (a == 'Q' && countQ != 0) {
+                    tempQ--;
+                } else if (a == 'W' && countW != 0) {
+                    tempW--;
+                } else if (a == 'E' && countE != 0) {
+                    tempE--;
+                } else if (a == 'R' && countR != 0){
+                    tempR--;
+                }
+                i++;
+            }
+            j++;
+        }
+        return res;
+    }
+
 }
