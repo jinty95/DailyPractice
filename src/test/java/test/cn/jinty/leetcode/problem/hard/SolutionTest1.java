@@ -4,6 +4,7 @@ import cn.jinty.leetcode.problem.hard.Solution1;
 import cn.jinty.struct.tree.TreeNode;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -154,6 +155,12 @@ public class SolutionTest1 {
         System.out.println(solution.poorPigs(1000, 15, 60));
         System.out.println(solution.poorPigs(1000, 15, 15));
         System.out.println(solution.poorPigs(100000, 15, 60));
+    }
+
+    @Test
+    public void testKthSmallestPrimeFraction() {
+        System.out.println(Arrays.toString(solution.kthSmallestPrimeFraction(new int[]{1, 2, 3, 5}, 3)));
+        System.out.println(Arrays.toString(solution.kthSmallestPrimeFraction(new int[]{1, 2, 3, 5}, 5)));
     }
 
 }

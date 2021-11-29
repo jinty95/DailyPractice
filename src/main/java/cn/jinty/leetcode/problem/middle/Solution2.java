@@ -1060,6 +1060,7 @@ public class Solution2 {
             if (start < 0) {
                 continue;
             }
+            // 判断是否为异位词
             if (equals(arr1, arr2)) {
                 res.add(start);
             }

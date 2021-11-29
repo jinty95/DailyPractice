@@ -952,4 +952,53 @@ public class Solution1 {
         return pigs;
     }
 
+    /**
+     * 786. 第 K 个最小的素数分数
+     * 给你一个按递增顺序排序的数组 arr 和一个整数 k 。数组 arr 由 1 和若干素数组成，且其中所有整数互不相同。
+     * 对于每对满足 0 < i < j < arr.length 的 i 和 j ，可以得到分数 arr[i] / arr[j] 。
+     * 那么第 k 个最小的分数是多少呢?  以长度为 2 的整数数组返回你的答案, 这里 answer[0] == arr[i] 且 answer[1] == arr[j] 。
+     *
+     * @param arr 元素唯一且递增的素数数组 (2 <= arr.length <= 1000)
+     * @param k   整数 (1 <= k <= arr.length * (arr.length - 1) / 2)
+     * @return 第 K 小的素数分数
+     */
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        /*// 1、优先队列 ：时间复杂度O(N^2 * logK)，空间复杂度O(K)
+        // 优先队列存储前 K 小的素数分数，并且按照值倒序，比较分数时先通分然后比分子即可
+        PriorityQueue<int[]> pq = new PriorityQueue<>(k, (o1, o2) -> o2[0] * o1[1] - o1[0] * o2[1]);
+        // 枚举所有的素数分数，存入优先队列
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = arr.length - 1; j > i; j--) {
+                if (pq.size() < k) {
+                    pq.offer(new int[]{arr[i], arr[j]});
+                } else {
+                    int[] peek = pq.peek();
+                    if (peek[0] * arr[j] > arr[i] * peek[1]) {
+                        pq.poll();
+                        pq.offer(new int[]{arr[i], arr[j]});
+                    }
+                }
+            }
+        }
+        // 队头即为所求答案
+        return pq.poll();*/
+
+        // 2、优先队列 ：时间复杂度O(K * logN)，空间复杂度O(N)
+        // 优先队列存储素数分数的下标，并且按照值升序
+        PriorityQueue<int[]> pq = new PriorityQueue<>(k, (o1, o2) -> arr[o1[0]] * arr[o2[1]] - arr[o2[0]] * arr[o1[1]]);
+        // 分子确定，分母越大值越小，分母确定，分子越大值越大
+        for (int j = 1; j < arr.length; j++) {
+            pq.offer(new int[]{0, j});
+        }
+        // 每次都弹出最小的一个分数，并补充一个可能为下一个小的分数，第 K 次即可得到第 K 小的分数
+        while (k-- > 1) {
+            int[] min = pq.poll();
+            if (min[0] + 1 < min[1]) {
+                pq.offer(new int[]{min[0] + 1, min[1]});
+            }
+        }
+        int[] min = pq.poll();
+        return new int[]{arr[min[0]], arr[min[1]]};
+    }
+
 }
