@@ -8,7 +8,7 @@ import java.util.Arrays;
 /**
  * 打乱数组 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/11/22
  **/
 public class ArrayShuffleTest {

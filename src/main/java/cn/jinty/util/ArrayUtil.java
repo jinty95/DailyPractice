@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * 数组 - 工具类
  *
- * @author wangjintai
+ * @author Jinty
  * @date 2020/2/25.
  */
 @SuppressWarnings("unused")
