@@ -3,6 +3,8 @@ package test.cn.jinty.leetcode.problem.easy;
 import cn.jinty.leetcode.problem.easy.Solution1;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode - 简单题 - 测试
  *
@@ -26,6 +28,13 @@ public class SolutionTest1 {
         System.out.println(solution.maximumScore(new int[]{1, 2, 8, 7}, 2));
         System.out.println(solution.maximumScore(new int[]{1, 3, 5}, 1));
         System.out.println(solution.maximumScore(new int[]{1, 3, 4, 5}, 4));
+    }
+
+    @Test
+    public void testFindRelativeRanks() {
+        System.out.println(Arrays.toString(solution.findRelativeRanks(new int[]{1, 2})));
+        System.out.println(Arrays.toString(solution.findRelativeRanks(new int[]{5, 4, 3, 2, 1})));
+        System.out.println(Arrays.toString(solution.findRelativeRanks(new int[]{10, 1, 3, 5, 2, 9, 8, 6})));
     }
 
 }

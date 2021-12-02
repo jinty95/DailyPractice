@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.easy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -147,6 +148,42 @@ public class Solution1 {
             cnt -= 2;
         }
         return cnt == 0 ? res : 0;
+    }
+
+    /**
+     * 506. 相对名次
+     * 给你一个长度为 n 的整数数组 score ，其中 score[i] 是第 i 位运动员在比赛中的得分。所有得分都互不相同。
+     * 运动员将根据得分决定名次 ，其中名次第 1 的运动员得分最高，名次第 2 的运动员得分第 2 高，依此类推。运动员的名次决定了他们的获奖情况：
+     * 名次第 1 的运动员获金牌 "Gold Medal" 。名次第 2 的运动员获银牌 "Silver Medal" 。名次第 3 的运动员获铜牌 "Bronze Medal" 。
+     * 从名次第 4 到第 n 的运动员，只能获得他们的名次编号（即，名次第 x 的运动员获得编号 "x"）。
+     * 使用长度为 n 的数组 answer 返回获奖，其中 answer[i] 是第 i 位运动员的获奖情况。
+     *
+     * @param score 得分 (1 <= n <= 10^4 且 0 <= score[i] <= 10^6)
+     * @return 名次
+     */
+    public String[] findRelativeRanks(int[] score) {
+        // 排序：时间复杂度O(N * logN)，空间复杂度O(N)
+        int n = score.length;
+        if (n == 1) {
+            return new String[]{"Gold Medal"};
+        }
+        if (n == 2) {
+            return score[0] > score[1] ? new String[]{"Gold Medal", "Silver Medal"} : new String[]{"Silver Medal", "Gold Medal"};
+        }
+        // 按得分排序，排序后要保留原序号
+        int[][] scoreAndIndex = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            scoreAndIndex[i] = new int[]{score[i], i};
+        }
+        Arrays.sort(scoreAndIndex, ((o1, o2) -> o2[0] - o1[0]));
+        String[] res = new String[n];
+        res[scoreAndIndex[0][1]] = "Gold Medal";
+        res[scoreAndIndex[1][1]] = "Silver Medal";
+        res[scoreAndIndex[2][1]] = "Bronze Medal";
+        for (int i = 3; i < n; i++) {
+            res[scoreAndIndex[i][1]] = String.valueOf(i + 1);
+        }
+        return res;
     }
 
 }
