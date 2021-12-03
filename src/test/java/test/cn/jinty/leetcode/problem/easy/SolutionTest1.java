@@ -37,4 +37,12 @@ public class SolutionTest1 {
         System.out.println(Arrays.toString(solution.findRelativeRanks(new int[]{10, 1, 3, 5, 2, 9, 8, 6})));
     }
 
+    @Test
+    public void testLargestSumAfterKNegations() {
+        System.out.println(solution.largestSumAfterKNegations(new int[]{2, 3, 4}, 1));
+        System.out.println(solution.largestSumAfterKNegations(new int[]{-5, -4, 2, 3, 4}, 3));
+        System.out.println(solution.largestSumAfterKNegations(new int[]{-8, -5, -5, -3, -2, 3}, 6));
+        System.out.println(solution.largestSumAfterKNegations(new int[]{-8, -3, -2}, 4));
+    }
+
 }

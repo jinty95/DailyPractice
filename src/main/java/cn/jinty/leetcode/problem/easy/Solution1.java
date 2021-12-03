@@ -186,4 +186,36 @@ public class Solution1 {
         return res;
     }
 
+    /**
+     * 1005. K 次取反后最大化的数组和
+     * 给你一个整数数组 nums 和一个整数 k ，按以下方法修改该数组：
+     * 选择某个下标 i 并将 nums[i] 替换为 -nums[i] 。
+     * 重复这个过程恰好 k 次。可以多次选择同一个下标 i 。
+     * 以这种方式修改数组后，返回数组 可能的最大和 。
+     *
+     * @param nums 数组
+     * @param k 次数
+     * @return 数组和
+     */
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        // 贪心：时间复杂度O(N * logN)，空间复杂度O(1)
+        // 排序
+        Arrays.sort(nums);
+        // 从最小负数开始翻转，不翻转正数
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] < 0 && k > 0) {
+                nums[i] = -nums[i];
+                k--;
+            }
+            sum += nums[i];
+        }
+        if (k == 0) {
+            return sum;
+        }
+        // 如果 k 有剩余，说明负数都被翻转，数组全是正数，接下来可能需要翻转一个最小正数
+        Arrays.sort(nums);
+        return k % 2 == 0 ? sum : sum - nums[0] * 2;
+    }
+
 }
