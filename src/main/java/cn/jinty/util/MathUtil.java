@@ -97,8 +97,8 @@ public final class MathUtil {
      */
     public static int[] longToTwoInt(long l) {
         int[] res = new int[2];
-        res[0] = (int)((l >> 32) & 0xFFFFFFFFL);
-        res[1] = (int)(l & 0xFFFFFFFFL);
+        res[0] = (int) ((l >> 32) & 0xFFFFFFFFL);
+        res[1] = (int) (l & 0xFFFFFFFFL);
         return res;
     }
 
@@ -311,31 +311,23 @@ public final class MathUtil {
     }
 
     /**
-     * 指数运算
+     * 指数运算 (快速幂)
+     * 将次方拆分为2次幂的和：a^b = a^(2^0 + 2^1 + ...) = a^(2^0) * a^(2^1) * ...
      *
-     * @param a base 底数
-     * @param b exponent 指数
+     * @param base 底数 (正数)
+     * @param exponent 指数 (正数)
      * @return 结果
      */
-    public static double pow(double a, int b) {
-        double ans = 1;
-        //负数次：a^(-b)=(1/a)^b
-        if (b < 0) {
-            a = 1 / a;
-            b = -b;
-        }
-        double temp = a;
-        //将次方拆分为2次幂的和：a^b=a^(2^k1+2^k2...)=a^(2^k1)*a^(2^k2)*...
-        while (b > 0) {
-            //判断指数的每一位是否为1
-            if ((b & 1) == 1) {
-                ans *= temp;
+    public static long pow(int base, int exponent) {
+        long result = 1;
+        while (exponent > 0) {
+            if ((exponent & 1) == 1) {
+                result *= base;
             }
-            b >>= 1;
-            //底数倍增：temp=a^(2^k)
-            temp *= temp;
+            exponent >>= 1;
+            base *= base;
         }
-        return ans;
+        return result;
     }
 
     /**

@@ -160,8 +160,10 @@ public class MathUtilTest {
 
     @Test
     public void testPow() {
-        System.out.println(Math.pow(10, -3));
-        System.out.println(MathUtil.pow(10, -3));
+        System.out.println(Math.pow(10, 3));
+        System.out.println(MathUtil.pow(10, 3));
+        System.out.println(Math.pow(2, 10));
+        System.out.println(MathUtil.pow(2, 10));
     }
 
     @Test
