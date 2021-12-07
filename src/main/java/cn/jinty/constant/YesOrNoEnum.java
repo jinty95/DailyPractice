@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/11/16
  **/
-public enum YesOrNo {
+public enum YesOrNoEnum implements EnumInterface {
 
     NO("否"),
     YES("是");
@@ -18,22 +18,29 @@ public enum YesOrNo {
     private final String desc;
 
     // 构造器
-    YesOrNo(String desc) {
+    YesOrNoEnum(String desc) {
         this.desc = desc;
     }
 
     // getter
+    @Override
+    public String getName() {
+        return name();
+    }
+
+    @Override
     public String getDesc() {
         return desc;
     }
 
     // 枚举静态化
-    private final static Map<String, YesOrNo> nameMap;
-    private final static Map<String, YesOrNo> descMap;
+    private final static Map<String, YesOrNoEnum> nameMap;
+    private final static Map<String, YesOrNoEnum> descMap;
+
     static {
         nameMap = new HashMap<>();
         descMap = new HashMap<>();
-        for (YesOrNo one : YesOrNo.values()) {
+        for (YesOrNoEnum one : YesOrNoEnum.values()) {
             nameMap.put(one.name(), one);
             descMap.put(one.getDesc(), one);
         }
@@ -50,18 +57,18 @@ public enum YesOrNo {
     }
 
     // 根据名称解析为枚举对象
-    public static YesOrNo parseByName(String name) {
+    public static YesOrNoEnum parseByName(String name) {
         return nameMap.get(name);
     }
 
     // 根据描述解析为枚举对象
-    public static YesOrNo parseByDesc(String desc) {
+    public static YesOrNoEnum parseByDesc(String desc) {
         return descMap.get(desc);
     }
 
     // 名称转为描述
     public static String nameToDesc(String name) {
-        YesOrNo res = parseByName(name);
+        YesOrNoEnum res = parseByName(name);
         if (res == null) {
             return null;
         }
@@ -70,7 +77,7 @@ public enum YesOrNo {
 
     // 描述转为名称
     public static String descToName(String desc) {
-        YesOrNo res = parseByDesc(desc);
+        YesOrNoEnum res = parseByDesc(desc);
         if (res == null) {
             return null;
         }
