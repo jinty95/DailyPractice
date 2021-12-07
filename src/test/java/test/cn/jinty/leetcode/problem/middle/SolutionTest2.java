@@ -216,4 +216,14 @@ public class SolutionTest2 {
         System.out.println(solution.balancedString("WQWRQQQW"));
     }
 
+    @Test
+    public void testColorBorder() {
+        System.out.println(Arrays.deepToString(solution.colorBorder(
+                new int[][]{
+                        {1, 2, 2},
+                        {2, 3, 2}
+                }, 0, 1, 3
+        )));
+    }
+
 }

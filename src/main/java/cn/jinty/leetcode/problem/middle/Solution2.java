@@ -1128,7 +1128,7 @@ public class Solution2 {
                 tempW++;
             } else if (c == 'E' && countE != 0) {
                 tempE++;
-            } else if (c == 'R' && countR != 0){
+            } else if (c == 'R' && countR != 0) {
                 tempR++;
             }
             while (tempQ >= countQ && tempW >= countW && tempE >= countE && tempR >= countR) {
@@ -1140,7 +1140,7 @@ public class Solution2 {
                     tempW--;
                 } else if (a == 'E' && countE != 0) {
                     tempE--;
-                } else if (a == 'R' && countR != 0){
+                } else if (a == 'R' && countR != 0) {
                     tempR--;
                 }
                 i++;
@@ -1148,6 +1148,50 @@ public class Solution2 {
             j++;
         }
         return res;
+    }
+
+    /**
+     * 1034. 边界着色
+     * 给你一个大小为 m x n 的整数矩阵 grid ，表示一个网格。另给你三个整数 row、col 和 color 。网格中的每个值表示该位置处的网格块的颜色。
+     * 当两个网格块的颜色相同，而且在四个方向中任意一个方向上相邻时，它们属于同一连通分量。
+     * 连通分量的边界是指连通分量中的所有与不在分量中的网格块相邻（四个方向上）的所有网格块，或者在网格的边界上（第一行/列或最后一行/列）的所有网格块。
+     * 请你使用指定颜色 color 为所有包含网格块 grid[row][col] 的连通分量的边界进行着色，并返回最终的网格 grid 。
+     *
+     * @param grid  二维网格 (1 <= m, n <= 50)
+     * @param row   行号
+     * @param col   列号
+     * @param color 颜色
+     * @return 二维网格
+     */
+    public int[][] colorBorder(int[][] grid, int row, int col, int color) {
+        // 深度优先搜索
+        List<int[]> borders = new ArrayList<>();
+        Set<Long> seen = new HashSet<>();
+        colorBorder(grid, row, col, color, borders, seen);
+        for (int[] border : borders) {
+            grid[border[0]][border[1]] = color;
+        }
+        return grid;
+    }
+
+    // 递归函数
+    private void colorBorder(int[][] grid, int row, int col, int color, List<int[]> borders, Set<Long> seen) {
+        int m = grid.length, n = grid[0].length;
+        // 去重，保证每个坐标只被遍历一次
+        long locate = (long) row << 32 | (long) col & 0xFFFFFFFFL;
+        if (!seen.add(locate)) {
+            return;
+        }
+        // 需要染色的点满足的条件：在网格边界、或相邻的点存在不同色
+        if (row == 0 || row == m - 1 || col == 0 || col == n - 1
+                || grid[row - 1][col] != grid[row][col] || grid[row + 1][col] != grid[row][col]
+                || grid[row][col - 1] != grid[row][col] || grid[row][col + 1] != grid[row][col]) {
+            borders.add(new int[]{row, col});
+        }
+        if (row > 0 && grid[row - 1][col] == grid[row][col]) colorBorder(grid, row - 1, col, color, borders, seen);
+        if (row < m - 1 && grid[row + 1][col] == grid[row][col]) colorBorder(grid, row + 1, col, color, borders, seen);
+        if (col > 0 && grid[row][col - 1] == grid[row][col]) colorBorder(grid, row, col - 1, color, borders, seen);
+        if (col < n - 1 && grid[row][col + 1] == grid[row][col]) colorBorder(grid, row, col + 1, color, borders, seen);
     }
 
 }
