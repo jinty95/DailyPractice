@@ -163,4 +163,10 @@ public class SolutionTest1 {
         System.out.println(Arrays.toString(solution.kthSmallestPrimeFraction(new int[]{1, 2, 3, 5}, 5)));
     }
 
+    @Test
+    public void testMaxSumOfThreeSubarrays() {
+        System.out.println(Arrays.toString(solution.maxSumOfThreeSubarrays(new int[]{1, 2, 1, 2, 6, 7, 5, 1}, 2)));
+        System.out.println(Arrays.toString(solution.maxSumOfThreeSubarrays(new int[]{1, 2, 1, 2, 1, 2, 1, 2, 1}, 2)));
+    }
+
 }

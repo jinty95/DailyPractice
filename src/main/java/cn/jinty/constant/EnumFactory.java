@@ -16,7 +16,7 @@ import java.util.Map;
 public final class EnumFactory {
 
     // 存储所有的枚举映射
-    private static Map<String, List<KeyValue<String, String>>> map = new HashMap<>();
+    private static final Map<String, List<KeyValue<String, String>>> map = new HashMap<>();
 
     static {
         set(YesOrNoEnum.class.getSimpleName(), YesOrNoEnum.values());
