@@ -226,4 +226,10 @@ public class SolutionTest2 {
         )));
     }
 
+    @Test
+    public void testValidTicTacToe() {
+        System.out.println(solution.validTicTacToe(new String[]{"XXX","   ","OOO"}));
+        System.out.println(solution.validTicTacToe(new String[]{"XOX","O O","XOX"}));
+    }
+
 }

@@ -1194,4 +1194,66 @@ public class Solution2 {
         if (col < n - 1 && grid[row][col + 1] == grid[row][col]) colorBorder(grid, row, col + 1, color, borders, seen);
     }
 
+    /**
+     * 794. 有效的井字游戏
+     * 给你一个字符串数组 board 表示井字游戏的棋盘。当且仅当在井字游戏过程中，棋盘有可能达到 board 所显示的状态时，才返回 true 。
+     * 井字游戏的棋盘是一个 3 x 3 数组，由字符 ' '，'X' 和 'O' 组成。字符 ' ' 代表一个空位。以下是井字游戏的规则：
+     * 1、玩家轮流将字符放入空位（' '）中，玩家 1 先手。
+     * 2、玩家 1 总是放字符 'X' ，而玩家 2 总是放字符 'O' 。
+     * 3、'X' 和 'O' 只允许放置在空位中，不允许对已放有字符的位置进行填充。
+     * 4、当有 3 个相同（且非空）的字符填充任何行、列或对角线时，游戏结束。
+     * 5、当所有位置非空时，也算为游戏结束。
+     *
+     * @param board 3 x 3 数组
+     * @return 是否有效
+     */
+    public boolean validTicTacToe(String[] board) {
+        // 统计步数
+        int countX = 0, countO = 0;
+        for (String one : board) {
+            for (char c : one.toCharArray()) {
+                if (c == 'X') {
+                    countX++;
+                } else if (c == 'O') {
+                    countO++;
+                }
+            }
+        }
+        // 先手与后手要么步数一致，要先手多一步
+        if (!(countX == countO || countX == countO + 1)) {
+            return false;
+        }
+        // 如果先手获胜，先手多一步
+        if (win(board, 'X') && countX != countO + 1) {
+            return false;
+        }
+        // 如果后手获胜，步数相等
+        if (win(board, 'O') && countX != countO) {
+            return false;
+        }
+        return true;
+    }
+
+    // 是否能够获胜
+    private boolean win(String[] board, char c) {
+        for (int i = 0; i < 3; i++) {
+            // 行
+            if (c == board[i].charAt(0) && c == board[i].charAt(1) && c == board[i].charAt(2)) {
+                return true;
+            }
+            // 列
+            if (c == board[0].charAt(i) && c == board[1].charAt(i) && c == board[2].charAt(i)) {
+                return true;
+            }
+        }
+        // 对角线
+        if (c == board[0].charAt(0) && c == board[1].charAt(1) && c == board[2].charAt(2)) {
+            return true;
+        }
+        if (c == board[0].charAt(2) && c == board[1].charAt(1) && c == board[2].charAt(0)) {
+            return true;
+        }
+        return false;
+    }
+
 }
