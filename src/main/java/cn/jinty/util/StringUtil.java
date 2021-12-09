@@ -29,6 +29,9 @@ public final class StringUtil {
             'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
+    // 随机数
+    private static final Random random = new Random();
+
     /**
      * 字符串空判断
      *
@@ -143,7 +146,6 @@ public final class StringUtil {
      */
     public static String randomDigit(int length) {
         StringBuilder sb = new StringBuilder();
-        Random random = new Random();
         while (length-- > 0) {
             sb.append(digit[random.nextInt(digit.length)]);
         }
@@ -158,7 +160,6 @@ public final class StringUtil {
      */
     public static String randomLetter(int length) {
         StringBuilder sb = new StringBuilder();
-        Random random = new Random();
         while (length-- > 0) {
             sb.append(letter[random.nextInt(letter.length)]);
         }
@@ -173,7 +174,6 @@ public final class StringUtil {
      */
     public static String random(int length) {
         StringBuilder sb = new StringBuilder();
-        Random random = new Random();
         while (length-- > 0) {
             if (random.nextInt(36) < 10) {
                 sb.append(digit[random.nextInt(digit.length)]);

@@ -29,8 +29,11 @@ public final class DateUtil {
     /**
      * 常用的时间格式
      */
-    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
-    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String DATE = "yyyy-MM-dd";
+    public static final String TIME = "HH:mm:ss";
+    public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String WHOLE = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String COMPACT_WHOLE = "yyyyMMddHHmmssSSS";
 
     /**
      * 星期的每一天 (英文+中文)
@@ -45,22 +48,22 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr) {
-        return parse(dateStr, new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS));
+        return parse(dateStr, DATETIME);
     }
 
     /**
      * 解析时间字符串
      *
      * @param dateStr 时间字符串
-     * @param sdf     时间格式
+     * @param format  时间格式
      * @return 时间对象
      */
-    public static Date parse(String dateStr, SimpleDateFormat sdf) {
-        if (dateStr == null || sdf == null) {
+    public static Date parse(String dateStr, String format) {
+        if (dateStr == null || format == null) {
             return null;
         }
         try {
-            return sdf.parse(dateStr);
+            return new SimpleDateFormat(format).parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -74,21 +77,21 @@ public final class DateUtil {
      * @return 字符串
      */
     public static String format(Date date) {
-        return format(date, new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS));
+        return format(date, DATETIME);
     }
 
     /**
      * 格式化时间
      *
-     * @param date 时间对象
-     * @param sdf  时间格式
+     * @param date   时间对象
+     * @param format 时间格式
      * @return 字符串
      */
-    public static String format(Date date, SimpleDateFormat sdf) {
-        if (date == null || sdf == null) {
+    public static String format(Date date, String format) {
+        if (date == null || format == null) {
             return null;
         }
-        return sdf.format(date);
+        return new SimpleDateFormat(format).format(date);
     }
 
     /**
@@ -352,7 +355,7 @@ public final class DateUtil {
         if (date1 == null || date2 == null) {
             return false;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE);
         String date1Str = sdf.format(date1);
         String date2Str = sdf.format(date2);
         return date1Str.equals(date2Str);
