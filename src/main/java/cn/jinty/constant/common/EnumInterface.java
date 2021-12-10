@@ -1,4 +1,4 @@
-package cn.jinty.constant;
+package cn.jinty.constant.common;
 
 /**
  * 枚举 - 接口

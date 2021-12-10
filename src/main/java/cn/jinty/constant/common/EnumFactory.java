@@ -1,5 +1,9 @@
-package cn.jinty.constant;
+package cn.jinty.constant.common;
 
+import cn.jinty.constant.OperationEnum;
+import cn.jinty.constant.EntityEnum;
+import cn.jinty.constant.ResultEnum;
+import cn.jinty.constant.YesOrNoEnum;
 import cn.jinty.entity.KeyValue;
 
 import java.util.ArrayList;
@@ -20,6 +24,9 @@ public final class EnumFactory {
 
     static {
         set(YesOrNoEnum.class.getSimpleName(), YesOrNoEnum.values());
+        set(ResultEnum.class.getSimpleName(), ResultEnum.values());
+        set(OperationEnum.class.getSimpleName(), OperationEnum.values());
+        set(EntityEnum.class.getSimpleName(), EntityEnum.values());
     }
 
     /**

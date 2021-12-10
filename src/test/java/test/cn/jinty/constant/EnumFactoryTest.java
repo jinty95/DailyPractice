@@ -1,6 +1,6 @@
 package test.cn.jinty.constant;
 
-import cn.jinty.constant.EnumFactory;
+import cn.jinty.constant.common.EnumFactory;
 import org.junit.Test;
 
 /**
@@ -14,6 +14,9 @@ public class EnumFactoryTest {
     @Test
     public void testGet() {
         System.out.println(EnumFactory.get("YesOrNoEnum"));
+        System.out.println(EnumFactory.get("ResultEnum"));
+        System.out.println(EnumFactory.get("CRUDEnum"));
+        System.out.println(EnumFactory.get("EntityEnum"));
     }
 
 }

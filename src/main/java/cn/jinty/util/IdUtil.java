@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * ID - 工具类
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/12/9
  **/
 public final class IdUtil {
@@ -17,7 +17,7 @@ public final class IdUtil {
     private static final AtomicLong timestamp = new AtomicLong(0);
 
     /**
-     * ID - UUID
+     * ID - UUID(无序)
      *
      * @return UUID
      */
@@ -27,7 +27,7 @@ public final class IdUtil {
     }
 
     /**
-     * ID - 数字(递增)
+     * ID - 数字(严格递增)
      *
      * @return 数字
      */
@@ -36,7 +36,7 @@ public final class IdUtil {
     }
 
     /**
-     * ID - 时间戳(递增)
+     * ID - 时间戳(严格递增)
      *
      * @return 时间戳
      */
@@ -53,15 +53,15 @@ public final class IdUtil {
     }
 
     /**
-     * ID - 时间加随机数
+     * ID - 时间加随机数(趋势递增)
      *
      * @return 时间加随机数
      */
     public static String timeAndRandom() {
         // 17位时间
         String date = DateUtil.format(new Date(), DateUtil.COMPACT_WHOLE);
-        // 3位随机数
-        String random = StringUtil.randomDigit(3);
+        // 5位随机数
+        String random = StringUtil.randomDigit(5);
         return date + random;
     }
 

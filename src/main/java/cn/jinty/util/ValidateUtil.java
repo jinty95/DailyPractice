@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * 校验 - 工具类
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/12/8
  **/
 public final class ValidateUtil {

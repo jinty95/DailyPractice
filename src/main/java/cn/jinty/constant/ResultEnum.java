@@ -6,21 +6,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 枚举 - 是否
+ * 枚举 - 结果
  *
  * @author Jinty
- * @date 2021/11/16
+ * @date 2021/12/10
  **/
-public enum YesOrNoEnum implements EnumInterface {
+public enum ResultEnum implements EnumInterface {
 
-    NO("否"),
-    YES("是");
+    SUCCESS("成功"),
+    FAIL("失败");
 
     // 描述
     private final String desc;
 
     // 构造器
-    YesOrNoEnum(String desc) {
+    ResultEnum(String desc) {
         this.desc = desc;
     }
 
@@ -36,13 +36,13 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 枚举静态化
-    private final static Map<String, YesOrNoEnum> nameMap;
-    private final static Map<String, YesOrNoEnum> descMap;
+    private final static Map<String, ResultEnum> nameMap;
+    private final static Map<String, ResultEnum> descMap;
 
     static {
         nameMap = new HashMap<>();
         descMap = new HashMap<>();
-        for (YesOrNoEnum one : YesOrNoEnum.values()) {
+        for (ResultEnum one : ResultEnum.values()) {
             nameMap.put(one.name(), one);
             descMap.put(one.getDesc(), one);
         }
@@ -59,18 +59,18 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 根据名称解析为枚举对象
-    public static YesOrNoEnum parseByName(String name) {
+    public static ResultEnum parseByName(String name) {
         return nameMap.get(name);
     }
 
     // 根据描述解析为枚举对象
-    public static YesOrNoEnum parseByDesc(String desc) {
+    public static ResultEnum parseByDesc(String desc) {
         return descMap.get(desc);
     }
 
     // 名称转为描述
     public static String nameToDesc(String name) {
-        YesOrNoEnum res = parseByName(name);
+        ResultEnum res = parseByName(name);
         if (res == null) {
             return null;
         }
@@ -79,7 +79,7 @@ public enum YesOrNoEnum implements EnumInterface {
 
     // 描述转为名称
     public static String descToName(String desc) {
-        YesOrNoEnum res = parseByDesc(desc);
+        ResultEnum res = parseByDesc(desc);
         if (res == null) {
             return null;
         }

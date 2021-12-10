@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * 校验 - 工具类 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/12/8
  **/
 public class ValidateUtilTest {

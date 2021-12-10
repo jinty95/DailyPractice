@@ -3,10 +3,13 @@ package test.cn.jinty.util;
 import cn.jinty.util.IdUtil;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * ID - 工具类 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/12/9
  **/
 public class IdUtilTest {
@@ -64,14 +67,17 @@ public class IdUtilTest {
 
     @Test
     public void testTimeAndRandom() {
-        try {
-            for (int i = 0; i < 100; i++) {
-                Thread.sleep(1L);
-                System.out.println(IdUtil.timeAndRandom());
+        Set<String> set = new HashSet<>();
+        int repeatCount = 0;
+        for (int i = 0; i < 1000; i++) {
+            String id = IdUtil.timeAndRandom();
+            System.out.println(id);
+            if (!set.add(id)) {
+                repeatCount++;
+                System.out.printf("生成重复的ID [%s] %n", id);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+        System.out.printf("生成重复的ID一共有 %d 个 %n", repeatCount);
     }
 
 }
