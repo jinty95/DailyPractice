@@ -1256,4 +1256,35 @@ public class Solution2 {
         return false;
     }
 
+    /**
+     * 807. 保持城市天际线
+     * 在二维数组grid中，grid[i][j]代表位于某处的建筑物的高度。
+     * 我们被允许增加任何数量（不同建筑物的数量可能不同）的建筑物的高度。高度 0 也被认为是建筑物。
+     * 最后，从新数组的所有四个方向（即顶部，底部，左侧和右侧）观看的“天际线”必须与原始数组的天际线相同。
+     * 城市的天际线是从远处观看时，由所有建筑物形成的矩形的外部轮廓。 请看下面的例子。
+     * 建筑物高度可以增加的最大总和是多少？
+     *
+     * @param grid 二维数组
+     * @return 增加的最大总和
+     */
+    public int maxIncreaseKeepingSkyline(int[][] grid) {
+        // 先求垂直方向和水平方向的天际线，对于每个点求两个方向上分别可以增大的数值，取其中小值，求和即为答案。
+        int m = grid.length, n = grid[0].length;
+        int[] row = new int[m];
+        int[] col = new int[n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                row[i] = Math.max(row[i], grid[i][j]);
+                col[j] = Math.max(col[j], grid[i][j]);
+            }
+        }
+        int sum = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                sum += Math.min(row[i] - grid[i][j], col[j] - grid[i][j]);
+            }
+        }
+        return sum;
+    }
+
 }

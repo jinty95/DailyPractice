@@ -228,8 +228,18 @@ public class SolutionTest2 {
 
     @Test
     public void testValidTicTacToe() {
-        System.out.println(solution.validTicTacToe(new String[]{"XXX","   ","OOO"}));
-        System.out.println(solution.validTicTacToe(new String[]{"XOX","O O","XOX"}));
+        System.out.println(solution.validTicTacToe(new String[]{"XXX", "   ", "OOO"}));
+        System.out.println(solution.validTicTacToe(new String[]{"XOX", "O O", "XOX"}));
+    }
+
+    @Test
+    public void testMaxIncreaseKeepingSkyline() {
+        System.out.println(solution.maxIncreaseKeepingSkyline(new int[][]{
+                {3, 0, 8, 4},
+                {2, 4, 5, 7},
+                {9, 2, 6, 3},
+                {0, 3, 1, 0}
+        }));
     }
 
 }
