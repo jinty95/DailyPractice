@@ -87,4 +87,21 @@ public class StringUtilTest {
         System.out.println(StringUtil.repeat("hello", 5));
     }
 
+    @Test
+    public void testFind() {
+        System.out.println(StringUtil.find("ABC", "B"));
+        System.out.println(StringUtil.find("Hello You Guys", "^H\\w+"));
+        System.out.println(StringUtil.find("Hello You Guys", "Guys$"));
+        System.out.println(StringUtil.find("Hello You Guys", "^H\\w+ Guys$"));
+    }
+
+    @Test
+    public void testMatches() {
+        System.out.println(StringUtil.matches("ABC", "B"));
+        System.out.println(StringUtil.matches("ABC", "ABC"));
+        System.out.println(StringUtil.matches("Hello You Guys", "^H\\w+"));
+        System.out.println(StringUtil.matches("Hello You Guys", "Guys$"));
+        System.out.println(StringUtil.matches("Hello You Guys", ".+\\s+.+\\s+.+"));
+    }
+
 }
