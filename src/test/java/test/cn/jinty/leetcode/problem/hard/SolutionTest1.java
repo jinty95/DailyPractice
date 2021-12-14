@@ -169,4 +169,11 @@ public class SolutionTest1 {
         System.out.println(Arrays.toString(solution.maxSumOfThreeSubarrays(new int[]{1, 2, 1, 2, 1, 2, 1, 2, 1}, 2)));
     }
 
+    @Test
+    public void testScheduleCourse() {
+        System.out.println(solution.scheduleCourse(new int[][]{
+                {100, 200}, {200, 1300}, {1000, 1250}, {2000, 3200}
+        }));
+    }
+
 }

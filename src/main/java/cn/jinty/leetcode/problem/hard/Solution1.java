@@ -1075,4 +1075,34 @@ public class Solution1 {
         return res;
     }
 
+    /**
+     * 630. 课程表 III
+     * 这里有 n 门不同的在线课程，按从 1 到 n 编号。给你一个数组 courses ，
+     * 其中 courses[i] = [a, b] 表示第 i 门课将会持续上 a 天课，并且必须在不晚于 b 的时候完成。
+     * 你的学期从第 1 天开始，且不能同时修读两门及两门以上的课程，返回你最多可以修读的课程数目。
+     *
+     * @param courses 课程
+     * @return 最多可以修读的课程数目
+     */
+    public int scheduleCourse(int[][] courses) {
+        // 以结束时间升序
+        Arrays.sort(courses, (c1, c2) -> c1[1] - c2[1]);
+        // 储存已选择的课程，按照持续时间降序
+        PriorityQueue<int[]> pq = new PriorityQueue<>((c1, c2) -> c2[0] - c1[0]);
+        int day = 0;
+        for (int[] c : courses) {
+            if (day + c[0] <= c[1]) {
+                // 如果当前课程可以保证在期限前学完，将该课程加入队列
+                day += c[0];
+                pq.offer(c);
+            } else if (!pq.isEmpty() && pq.peek()[0] > c[0]) {
+                // 当前课程不能保证在期限前学完，且之前有选过其他课，这时我们找到最长时间的课程，用当前的短课替换
+                // 课程变短了，day会前移，这样我们相当于变相给后面的课程增加了选择的区间，以达到选更多课的目的
+                day -= pq.poll()[0] - c[0];
+                pq.offer(c);
+            }
+        }
+        return pq.size();
+    }
+
 }
