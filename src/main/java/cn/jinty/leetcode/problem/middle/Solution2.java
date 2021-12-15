@@ -1287,4 +1287,54 @@ public class Solution2 {
         return sum;
     }
 
+    /**
+     * 851. 喧闹和富有
+     * 有一组 n 个人作为实验对象，从 0 到 n - 1 编号，其中每个人都有不同数目的钱，以及不同程度的安静值（quietness）。为了方便起见，我们将编号为 x 的人简称为 "person x "。
+     * 给你一个数组 richer ，其中 richer[i] = [ai, bi] 表示 person ai 比 person bi 更有钱。另给你一个整数数组 quiet ，其中 quiet[i] 是 person i 的安静值。
+     * richer 中所给出的数据 逻辑自恰（也就是说，在 person x 比 person y 更有钱的同时，不会出现 person y 比 person x 更有钱的情况 ）。
+     * 现在，返回一个整数数组 answer 作为答案，其中 answer[x] = y 的前提是，在所有拥有的钱肯定不少于 person x 的人中，person y 是最安静的人（也就是安静值 quiet[y] 最小的人）。
+     *
+     * @param richer 财富比较
+     * @param quiet  安静值
+     * @return 钱不比"我"少的最安静的人
+     */
+    public int[] loudAndRich(int[][] richer, int[] quiet) {
+        // 1、深度优先搜索
+        // 记录每个人对应的已知比他更有钱的人
+        List<List<Integer>> richers = new ArrayList<>();
+        for (int i = 0; i < quiet.length; i++) {
+            richers.add(new ArrayList<>());
+        }
+        for (int i = 0; i < richer.length; i++) {
+            richers.get(richer[i][1]).add(richer[i][0]);
+        }
+        // 记录答案，初始化为-1，表示待求解
+        int[] ans = new int[quiet.length];
+        for (int i = 0; i < quiet.length; i++) {
+            ans[i]--;
+        }
+        // 找到更有钱的人里面最安静的那个
+        for (int i = 0; i < quiet.length; i++) {
+            loudAndRich(ans, richers, quiet, i);
+        }
+        return ans;
+    }
+
+    private void loudAndRich(int[] ans, List<List<Integer>> richers, int[] quiet, int k) {
+        // 避免重复计算
+        if (ans[k] >= 0) {
+            return;
+        }
+        // 初始化为自己
+        ans[k] = k;
+        // 枚举已知的比 k 更有钱的人，比这些人更有钱的人肯定比 k 更有钱
+        for (int i = 0; i < richers.get(k).size(); i++) {
+            int p = richers.get(k).get(i);
+            loudAndRich(ans, richers, quiet, p);
+            if (quiet[ans[k]] > quiet[ans[p]]) {
+                ans[k] = ans[p];
+            }
+        }
+    }
+
 }

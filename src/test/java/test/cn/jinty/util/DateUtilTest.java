@@ -20,8 +20,10 @@ public class DateUtilTest {
 
     @Test
     public void testParseAndFormat() {
-        Date date = DateUtil.parse("2021-07-15 18:00:00");
-        System.out.println(DateUtil.format(date));
+        System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00")));
+        System.out.println(DateUtil.format(DateUtil.parse("0000-00-00 00:00:00")));
+        System.out.println(DateUtil.format(DateUtil.parse("0000-01-01 00:00:00")));
+        System.out.println(DateUtil.format(DateUtil.parse("0001-01-01 00:00:00")));
     }
 
     @Test
