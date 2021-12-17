@@ -121,13 +121,8 @@ public class ThreadPoolTest {
     public void test5() {
         ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(5);
         System.out.println("创建线程池");
-        ScheduledFuture sf = scheduledThreadPool.schedule(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        System.out.println(Thread.currentThread().getName() + " : do something");
-                    }
-                },
+        ScheduledFuture<?> sf = scheduledThreadPool.schedule(
+                () -> System.out.println(Thread.currentThread().getName() + " : do something"),
                 1L,
                 TimeUnit.SECONDS
         );
@@ -139,6 +134,33 @@ public class ThreadPoolTest {
         scheduledThreadPool.shutdown();
         while (true) {
             if (scheduledThreadPool.isTerminated()) {
+                System.out.println("关闭线程池");
+                return;
+            }
+        }
+    }
+
+    /**
+     * 基于线程池的多线程 - 自定义线程池
+     */
+    @Test
+    public void test6() {
+        ExecutorService threadPool = new ThreadPoolExecutor(
+                2, 4, 5L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(4)
+        );
+        System.out.println("创建线程池");
+        for (int i = 0; i < 20; i++) {
+            try {
+                threadPool.execute(() -> {
+                    System.out.println(Thread.currentThread().getName() + " : do something");
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        threadPool.shutdown();
+        while (true) {
+            if (threadPool.isTerminated()) {
                 System.out.println("关闭线程池");
                 return;
             }
