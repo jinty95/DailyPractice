@@ -24,6 +24,7 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.parse("0000-00-00 00:00:00")));
         System.out.println(DateUtil.format(DateUtil.parse("0000-01-01 00:00:00")));
         System.out.println(DateUtil.format(DateUtil.parse("0001-01-01 00:00:00")));
+        System.out.println(DateUtil.format(DateUtil.parse("20211218", "yyyyMMdd")));
     }
 
     @Test
