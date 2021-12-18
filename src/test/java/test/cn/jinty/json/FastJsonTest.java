@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * FastJson - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2021/12/18
  **/
 public class FastJsonTest {
