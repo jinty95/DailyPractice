@@ -250,4 +250,13 @@ public class SolutionTest2 {
         )));
     }
 
+    @Test
+    public void testCountBattleships() {
+        System.out.println(solution.countBattleships(new char[][]{
+                {'X', '.', '.', 'X'},
+                {'.', '.', '.', 'X'},
+                {'.', '.', '.', 'X'}
+        }));
+    }
+
 }
