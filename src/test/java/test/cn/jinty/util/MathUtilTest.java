@@ -41,7 +41,6 @@ public class MathUtilTest {
 
     @Test
     public void testDoubleOperation() {
-
         //Double
         Double d1 = 4.015;
         Double d2 = 1000.0;
@@ -50,7 +49,6 @@ public class MathUtilTest {
         System.out.println(d1 + " * " + d2 + " = " + (d1 * d2));
         System.out.println(d1 + " / " + d2 + " = " + (d1 / d2));
         System.out.println();
-
         //BigDecimal
         BigDecimal b1 = new BigDecimal("4.015");
         BigDecimal b2 = new BigDecimal("1000.0");
@@ -59,14 +57,6 @@ public class MathUtilTest {
         System.out.println(b1 + " * " + b2 + " = " + (b1.multiply(b2)));
         System.out.println(b1 + " / " + b2 + " = " + (b1.divide(b2)));
         System.out.println();
-
-        //MathUtil
-        System.out.println(d1 + " + " + d2 + " = " + MathUtil.doubleAdd(d1, d2));
-        System.out.println(d1 + " - " + d2 + " = " + MathUtil.doubleSubtract(d1, d2));
-        System.out.println(d1 + " * " + d2 + " = " + MathUtil.doubleMultiply(d1, d2));
-        System.out.println(d1 + " / " + d2 + " = " + MathUtil.doubleDivide(d1, d2));
-        System.out.println();
-
     }
 
     @Test
@@ -172,6 +162,22 @@ public class MathUtilTest {
         System.out.println(MathUtil.toString(36, 36));
         System.out.println(MathUtil.toString(36, 2));
         System.out.println(MathUtil.toString(1000, 5));
+    }
+
+    @Test
+    public void testDecimalToPercentage() {
+        System.out.println(MathUtil.decimalToPercentage(0.45454));
+        System.out.println(MathUtil.decimalToPercentage(0.45455));
+        System.out.println(MathUtil.decimalToPercentage(0.45456));
+        System.out.println(Math.round(45.4));
+        System.out.println(Math.round(45.5));
+        System.out.println(Math.round(45.6));
+        System.out.println(MathUtil.decimalToPercentage(-0.45454));
+        System.out.println(MathUtil.decimalToPercentage(-0.45455));
+        System.out.println(MathUtil.decimalToPercentage(-0.45456));
+        System.out.println(Math.round(-45.4));
+        System.out.println(Math.round(-45.5));
+        System.out.println(Math.round(-45.6));
     }
 
 }

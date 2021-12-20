@@ -1,6 +1,5 @@
 package cn.jinty.util;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
  **/
 public final class MathUtil {
 
-    //数字与字母
+    // 数字与字母
     public static final char[] numberAndLetter = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
@@ -100,58 +99,6 @@ public final class MathUtil {
         res[0] = (int) ((l >> 32) & 0xFFFFFFFFL);
         res[1] = (int) (l & 0xFFFFFFFFL);
         return res;
-    }
-
-    /**
-     * 浮点型的加法运算
-     *
-     * @param d1 浮点数1
-     * @param d2 浮点数2
-     * @return 结果
-     */
-    public static Double doubleAdd(Double d1, Double d2) {
-        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
-        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
-        return b1.add(b2).doubleValue();
-    }
-
-    /**
-     * 浮点型的减法运算
-     *
-     * @param d1 浮点数1
-     * @param d2 浮点数2
-     * @return 结果
-     */
-    public static Double doubleSubtract(Double d1, Double d2) {
-        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
-        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
-        return b1.subtract(b2).doubleValue();
-    }
-
-    /**
-     * 浮点型的乘法运算
-     *
-     * @param d1 浮点数1
-     * @param d2 浮点数2
-     * @return 结果
-     */
-    public static Double doubleMultiply(Double d1, Double d2) {
-        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
-        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
-        return b1.multiply(b2).doubleValue();
-    }
-
-    /**
-     * 浮点型的除法运算
-     *
-     * @param d1 浮点数1
-     * @param d2 浮点数2
-     * @return 结果
-     */
-    public static Double doubleDivide(Double d1, Double d2) {
-        BigDecimal b1 = new BigDecimal(String.valueOf(d1));
-        BigDecimal b2 = new BigDecimal(String.valueOf(d2));
-        return b1.divide(b2).doubleValue();
     }
 
     /**
@@ -358,6 +305,19 @@ public final class MathUtil {
             number /= radix;
         }
         return sb.reverse().toString();
+    }
+
+    /**
+     * 小数转为百分比
+     *
+     * @param decimal 小数
+     * @return 百分比
+     */
+    public static String decimalToPercentage(Double decimal) {
+        if (decimal == null) {
+            return "";
+        }
+        return String.format("%.2f", decimal * 100) + "%";
     }
 
 }
