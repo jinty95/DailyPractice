@@ -1,5 +1,8 @@
 package cn.jinty.leetcode.problem.easy;
 
+import cn.jinty.util.DateUtil;
+import cn.jinty.util.MathUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -216,6 +219,38 @@ public class Solution1 {
         // 如果 k 有剩余，说明负数都被翻转，数组全是正数，接下来可能需要翻转一个最小正数
         Arrays.sort(nums);
         return k % 2 == 0 ? sum : sum - nums[0] * 2;
+    }
+
+    /**
+     * 1154. 一年中的第几天
+     * 给你一个字符串 date ，按 YYYY-MM-DD 格式表示一个现行公元纪年法日期。请你计算并返回该日期是当年的第几天。
+     * 通常情况下，我们认为 1 月 1 日是每年的第 1 天，1 月 2 日是每年的第 2 天，依此类推。每个月的天数与现行公元纪年法（格里高利历）一致。
+     *
+     * @param date 日期字符串
+     * @return 当年的第几天
+     */
+    public int dayOfYear(String date) {
+        int[] days = new int[]{
+                31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+        };
+        int year = 0, month = 0, day = 0;
+        for (int i = 0; i < 4; i++) {
+            year = year * 10 + (date.charAt(i) - '0');
+        }
+        for (int i = 5; i < 7; i++) {
+            month = month * 10 + (date.charAt(i) - '0');
+        }
+        for (int i = 8; i < 10; i++) {
+            day = day * 10 + (date.charAt(i) - '0');
+        }
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            days[1]++;
+        }
+        int ans = day;
+        for (int i = 0; i < month - 1; i++) {
+            ans += days[i];
+        }
+        return ans;
     }
 
 }

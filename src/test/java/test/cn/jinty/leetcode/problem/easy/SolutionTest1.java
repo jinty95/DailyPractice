@@ -45,4 +45,10 @@ public class SolutionTest1 {
         System.out.println(solution.largestSumAfterKNegations(new int[]{-8, -3, -2}, 4));
     }
 
+    @Test
+    public void testDayOfYear() {
+        System.out.println(solution.dayOfYear("2021-02-05"));
+        System.out.println(solution.dayOfYear("2021-12-21"));
+    }
+
 }
