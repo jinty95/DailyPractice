@@ -110,36 +110,48 @@ public final class ListUtil {
      * @return 字符串
      */
     public static <T> String toString(List<T> list) {
-        return toString(list, "[", "]", ", ");
+        return toString(list, ",");
     }
 
     /**
      * 列表 -> 字符串
      *
      * @param list     列表
-     * @param <T>      泛型
-     * @param open     全局起始符
-     * @param close    全局终止符
      * @param separate 分隔符
+     * @param <T>      泛型
      * @return 字符串
      */
-    public static <T> String toString(List<T> list, String open, String close, String separate) {
-        return toString(list, open, close, separate, null, null);
+    public static <T> String toString(List<T> list, String separate) {
+        return toString(list, separate, null, null);
     }
 
     /**
      * 列表 -> 字符串
      *
      * @param list     列表
+     * @param separate 分隔符
      * @param open     全局起始符
      * @param close    全局终止符
+     * @param <T>      泛型
+     * @return 字符串
+     */
+    public static <T> String toString(List<T> list, String separate, String open, String close) {
+        return toString(list, separate, open, close, null, null);
+    }
+
+    /**
+     * 列表 -> 字符串
+     *
+     * @param list     列表
      * @param separate 分隔符
+     * @param open     全局起始符
+     * @param close    全局终止符
      * @param before   元素前修饰符
      * @param after    元素后修饰符
      * @param <T>      泛型
      * @return 字符串
      */
-    public static <T> String toString(List<T> list, String open, String close, String separate, String before, String after) {
+    public static <T> String toString(List<T> list, String separate, String open, String close, String before, String after) {
         if (isEmpty(list)) {
             return "";
         }
@@ -163,6 +175,19 @@ public final class ListUtil {
             sb.append(close);
         }
         return sb.toString();
+    }
+
+    /**
+     * 字符串 -> 列表
+     *
+     * @param s 字符串
+     * @return 列表
+     */
+    public static List<String> fromString(String s) {
+        if (StringUtil.isBlank(s)) {
+            return new ArrayList<>();
+        }
+        return asList(s.split(","));
     }
 
 }

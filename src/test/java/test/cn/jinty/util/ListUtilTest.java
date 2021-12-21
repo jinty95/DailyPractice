@@ -44,14 +44,19 @@ public class ListUtilTest {
     }
 
     @Test
-    public void testListToString() {
+    public void testToString() {
         List<String> list = ListUtil.asList("A", "B", "C");
-        System.out.println(list);
+        System.out.println(ListUtil.toString(null));
         System.out.println(ListUtil.toString(list));
-        System.out.println(ListUtil.toString(list, null, null, null));
-        System.out.println(ListUtil.toString(list, null, null, ", "));
-        System.out.println(ListUtil.toString(list, "(", ")", ", "));
-        System.out.println(ListUtil.toString(list, "[", "]", ", ", "\"", "\""));
+        System.out.println(ListUtil.toString(list, ", "));
+        System.out.println(ListUtil.toString(list, ", ", "(", ")"));
+        System.out.println(ListUtil.toString(list, ", ", "(", ")", "\"", "\""));
+    }
+
+    @Test
+    public void testFromString() {
+        System.out.println(ListUtil.fromString(""));
+        System.out.println(ListUtil.fromString("A,B,C"));
     }
 
 }
