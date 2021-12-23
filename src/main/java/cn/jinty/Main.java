@@ -12,6 +12,7 @@ public class Main {
 
         System.out.println(System.getenv());
         System.out.println(System.getenv("JAVA_HOME"));
+        System.out.println(System.getenv("ASGARD_PROFILE"));
 
     }
 

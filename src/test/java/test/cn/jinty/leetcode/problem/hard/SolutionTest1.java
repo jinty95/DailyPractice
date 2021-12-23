@@ -176,4 +176,11 @@ public class SolutionTest1 {
         }));
     }
 
+    @Test
+    public void testLongestDupSubstring() {
+        System.out.println(solution.longestDupSubstring("banana"));
+        System.out.println(solution.longestDupSubstring("kibana"));
+        System.out.println(solution.longestDupSubstring("ppyprwwynqfidzoroopgecnvdgupnlwxwjjpynpxvptmgmirzerrwlslshudljlkbanxbuidrhocsaadxcqgzleadrbsnspcxgfaimugpwyfhwfhhwhvxvpuyhixibaqpvsdigpofyeqyljekswxrckwdwyeatlulnglkuzuwmglcctjqgwwzvflayzqpqucdqzfpegmhcxuxqhxkamsxeczspgixgatcxjkfgtupiwdeicozvbackiwoxgyfrysgrlevolbmawccazzbiubipialpxmjyzrwtqtjznnunjkuujthcrmjuofaofyyviwfnxujdbmigzdbmdjwmqjddjjidzohgetthcrmsnzbxzgwicvhcsgeqvovwyikgiiaksgrrgktwhtowezzmxhbfbgktaamzeizwbcexckuejpgmgtckrgiwiopgaaaihvorfpjebsnxixmiqcfjqwqtlovqdywsibqwjuwehwguwdqnavpxltxtfowcobihawjpgtgwwmcwiftudksvhyykoskyuifgyipemyswgmusywztkobnuqrvvnxffrtwoijwpdaelhtlpweyupbvumalqaumiryikyijqpisgpgqpjwrvesforvcygzrjuwxiyewfezggvprbcfdyavzdwovgntyakcdhbunyumvzmljsktiyudvxygofyjhlvbqballbchamarhewmqwoaepq"));
+    }
+
 }

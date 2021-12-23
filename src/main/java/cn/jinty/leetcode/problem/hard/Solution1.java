@@ -1105,4 +1105,62 @@ public class Solution1 {
         return pq.size();
     }
 
+    /**
+     * 1044. 最长重复子串
+     * 给你一个字符串 s ，考虑其所有重复子串：即，s 的连续子串，在 s 中出现 2 次或更多次。这些出现之间可能存在重叠。
+     * 返回任意一个可能具有最长长度的重复子串。如果 s 不含重复子串，那么答案为 ""
+     *
+     * @param s 字符串
+     * @return 最长重复子串
+     */
+    public String longestDupSubstring(String s) {
+        /*// 1、暴力搜索：时间复杂度O(N^4)
+        // 枚举所有子串，判断每个子串在原串中的重复次数
+        String ans = "";
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = i; j < s.length(); j++) {
+                if (findDupCount(s, i, j) > 1) {
+                    if (ans.length() < j - i + 1) {
+                        ans = s.substring(i, j + 1);
+                    }
+                }
+            }
+        }
+        return ans;*/
+
+        // 2、暴力搜索(优化)：时间复杂度O(N^4)
+        // 先考虑长的子串，找到一个满足条件的就可以返回了
+        for (int len = s.length() - 1; len >= 0; len--) {
+            for (int i = 0; i + len < s.length(); i++) {
+                if (findDupCount(s, i, i + len) > 1) {
+                    return s.substring(i, i + len + 1);
+                }
+            }
+        }
+        return "";
+    }
+
+    // 找出s[i...j]这个子串在s中的重复次数
+    private int findDupCount(String s, int i, int j) {
+        int count = 0;
+        int k = i;
+        for (int a = 0; a < s.length() - (j - i); a++) {
+            if (s.charAt(a) != s.charAt(k)) {
+                continue;
+            }
+            boolean flag = true;
+            for (int b = a + 1; b <= a + j - i; b++) {
+                if (s.charAt(b) != s.charAt(++k)) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                count++;
+            }
+            k = i;
+        }
+        return count;
+    }
+
 }
