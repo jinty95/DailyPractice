@@ -64,7 +64,7 @@ public final class MathUtil {
      */
     public static int minPrimeFactor(int num) {
         if (num < 2) {
-            throw new IllegalArgumentException("num must great than 1");
+            throw new IllegalArgumentException("输入数字必须大于1");
         }
         int i = 2;
         while (i <= num) {
@@ -297,7 +297,7 @@ public final class MathUtil {
      */
     public static String toString(int number, int radix) {
         if (radix < 2 || radix > 36) {
-            throw new IllegalArgumentException("radix must in [2,36], illegal radix : " + radix);
+            throw new IllegalArgumentException("进制范围限制[2,36], 当前输入为" + radix);
         }
         StringBuilder sb = new StringBuilder();
         while (number != 0) {

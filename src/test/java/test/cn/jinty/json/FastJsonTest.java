@@ -27,6 +27,7 @@ public class FastJsonTest {
         System.out.println(json);
         System.out.println(json.toString());
         System.out.println(json.toJSONString());
+        System.out.println(JSONObject.toJSONString(new Object()));
     }
 
     @Test

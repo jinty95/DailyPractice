@@ -216,7 +216,7 @@ public final class DateUtil {
      */
     public static int get(Date date, int unit) {
         if (date == null) {
-            throw new IllegalArgumentException("date must not null!");
+            throw new IllegalArgumentException("输入时间不能为空");
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -487,7 +487,7 @@ public final class DateUtil {
      */
     public static boolean isLeapYear(Date date) {
         if (date == null) {
-            throw new IllegalArgumentException("date must not null!");
+            throw new IllegalArgumentException("输入时间不能为空");
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -577,7 +577,7 @@ public final class DateUtil {
             return null;
         }
         if (unit < 1) {
-            throw new IllegalArgumentException("time unit cannot less than 1");
+            throw new IllegalArgumentException("时间单位(毫秒数)不能小于1");
         }
         return (begin.getTime() - end.getTime()) / unit;
     }
