@@ -13,77 +13,29 @@ import java.util.Map;
  **/
 public enum ResultEnum implements EnumInterface {
 
-    SUCCESS("成功"),
-    FAIL("失败");
+    SUCCESS("SUCCESS", "成功"),
+    FAIL("FAIL", "失败");
 
+    // 编码
+    private final String code;
     // 描述
     private final String desc;
 
     // 构造器
-    ResultEnum(String desc) {
+    ResultEnum(String code, String desc) {
+        this.code = code;
         this.desc = desc;
     }
 
     // getter
     @Override
-    public String getName() {
-        return name();
+    public String getCode() {
+        return code;
     }
 
     @Override
     public String getDesc() {
         return desc;
-    }
-
-    // 枚举静态化
-    private final static Map<String, ResultEnum> nameMap;
-    private final static Map<String, ResultEnum> descMap;
-
-    static {
-        nameMap = new HashMap<>();
-        descMap = new HashMap<>();
-        for (ResultEnum one : ResultEnum.values()) {
-            nameMap.put(one.name(), one);
-            descMap.put(one.getDesc(), one);
-        }
-    }
-
-    // 判断名称是否在枚举范围内
-    public static boolean containsName(String name) {
-        return nameMap.containsKey(name);
-    }
-
-    // 判断描述是否在枚举范围内
-    public static boolean containsDesc(String desc) {
-        return descMap.containsKey(desc);
-    }
-
-    // 根据名称解析为枚举对象
-    public static ResultEnum parseByName(String name) {
-        return nameMap.get(name);
-    }
-
-    // 根据描述解析为枚举对象
-    public static ResultEnum parseByDesc(String desc) {
-        return descMap.get(desc);
-    }
-
-    // 名称转为描述
-    public static String nameToDesc(String name) {
-        ResultEnum res = parseByName(name);
-        if (res == null) {
-            return null;
-        }
-        return res.getDesc();
-    }
-
-    // 描述转为名称
-    public static String descToName(String desc) {
-        ResultEnum res = parseByDesc(desc);
-        if (res == null) {
-            return null;
-        }
-        return res.name();
     }
 
 }

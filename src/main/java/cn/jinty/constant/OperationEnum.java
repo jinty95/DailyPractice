@@ -13,79 +13,31 @@ import java.util.Map;
  **/
 public enum OperationEnum implements EnumInterface {
 
-    INSERT("新增"),
-    UPDATE("更新"),
-    DELETE("删除"),
-    SELECT("查询");
+    INSERT("INSERT", "新增"),
+    UPDATE("UPDATE", "更新"),
+    DELETE("DELETE", "删除"),
+    SELECT("SELECT", "查询");
 
+    // 编码
+    private final String code;
     // 描述
     private final String desc;
 
     // 构造器
-    OperationEnum(String desc) {
+    OperationEnum(String code, String desc) {
+        this.code = code;
         this.desc = desc;
     }
 
     // getter
     @Override
-    public String getName() {
-        return name();
+    public String getCode() {
+        return code;
     }
 
     @Override
     public String getDesc() {
         return desc;
-    }
-
-    // 枚举静态化
-    private final static Map<String, OperationEnum> nameMap;
-    private final static Map<String, OperationEnum> descMap;
-
-    static {
-        nameMap = new HashMap<>();
-        descMap = new HashMap<>();
-        for (OperationEnum one : OperationEnum.values()) {
-            nameMap.put(one.name(), one);
-            descMap.put(one.getDesc(), one);
-        }
-    }
-
-    // 判断名称是否在枚举范围内
-    public static boolean containsName(String name) {
-        return nameMap.containsKey(name);
-    }
-
-    // 判断描述是否在枚举范围内
-    public static boolean containsDesc(String desc) {
-        return descMap.containsKey(desc);
-    }
-
-    // 根据名称解析为枚举对象
-    public static OperationEnum parseByName(String name) {
-        return nameMap.get(name);
-    }
-
-    // 根据描述解析为枚举对象
-    public static OperationEnum parseByDesc(String desc) {
-        return descMap.get(desc);
-    }
-
-    // 名称转为描述
-    public static String nameToDesc(String name) {
-        OperationEnum res = parseByName(name);
-        if (res == null) {
-            return null;
-        }
-        return res.getDesc();
-    }
-
-    // 描述转为名称
-    public static String descToName(String desc) {
-        OperationEnum res = parseByDesc(desc);
-        if (res == null) {
-            return null;
-        }
-        return res.name();
     }
 
 }

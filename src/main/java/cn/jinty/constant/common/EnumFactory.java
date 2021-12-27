@@ -38,7 +38,7 @@ public final class EnumFactory {
     private static void set(String key, EnumInterface[] value) {
         List<KeyValue<String, String>> list = new ArrayList<>();
         for (EnumInterface one : value) {
-            list.add(new KeyValue<>(one.getName(), one.getDesc()));
+            list.add(new KeyValue<>(one.getCode(), one.getDesc()));
         }
         map.put(key, list);
     }

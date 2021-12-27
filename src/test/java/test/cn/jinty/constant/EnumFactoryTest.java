@@ -15,7 +15,7 @@ public class EnumFactoryTest {
     public void testGet() {
         System.out.println(EnumFactory.get("YesOrNoEnum"));
         System.out.println(EnumFactory.get("ResultEnum"));
-        System.out.println(EnumFactory.get("CRUDEnum"));
+        System.out.println(EnumFactory.get("OperationEnum"));
         System.out.println(EnumFactory.get("EntityEnum"));
     }
 

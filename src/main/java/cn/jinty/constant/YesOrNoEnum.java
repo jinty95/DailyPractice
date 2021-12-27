@@ -13,21 +13,24 @@ import java.util.Map;
  **/
 public enum YesOrNoEnum implements EnumInterface {
 
-    NO("否"),
-    YES("是");
+    NO("N", "否"),
+    YES("Y", "是");
 
+    // 编码
+    private final String code;
     // 描述
     private final String desc;
 
     // 构造器
-    YesOrNoEnum(String desc) {
+    YesOrNoEnum(String code, String desc) {
+        this.code = code;
         this.desc = desc;
     }
 
     // getter
     @Override
-    public String getName() {
-        return name();
+    public String getCode() {
+        return code;
     }
 
     @Override
@@ -36,21 +39,21 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 枚举静态化
-    private final static Map<String, YesOrNoEnum> nameMap;
+    private final static Map<String, YesOrNoEnum> codeMap;
     private final static Map<String, YesOrNoEnum> descMap;
 
     static {
-        nameMap = new HashMap<>();
+        codeMap = new HashMap<>();
         descMap = new HashMap<>();
         for (YesOrNoEnum one : YesOrNoEnum.values()) {
-            nameMap.put(one.name(), one);
+            codeMap.put(one.getCode(), one);
             descMap.put(one.getDesc(), one);
         }
     }
 
-    // 判断名称是否在枚举范围内
-    public static boolean containsName(String name) {
-        return nameMap.containsKey(name);
+    // 判断编码是否在枚举范围内
+    public static boolean containsCode(String code) {
+        return codeMap.containsKey(code);
     }
 
     // 判断描述是否在枚举范围内
@@ -58,9 +61,9 @@ public enum YesOrNoEnum implements EnumInterface {
         return descMap.containsKey(desc);
     }
 
-    // 根据名称解析为枚举对象
-    public static YesOrNoEnum parseByName(String name) {
-        return nameMap.get(name);
+    // 根据编码解析为枚举对象
+    public static YesOrNoEnum parseByCode(String code) {
+        return codeMap.get(code);
     }
 
     // 根据描述解析为枚举对象
@@ -68,22 +71,22 @@ public enum YesOrNoEnum implements EnumInterface {
         return descMap.get(desc);
     }
 
-    // 名称转为描述
-    public static String nameToDesc(String name) {
-        YesOrNoEnum res = parseByName(name);
+    // 编码转为描述
+    public static String codeToDesc(String code) {
+        YesOrNoEnum res = parseByCode(code);
         if (res == null) {
             return null;
         }
         return res.getDesc();
     }
 
-    // 描述转为名称
-    public static String descToName(String desc) {
+    // 描述转为编码
+    public static String descToCode(String desc) {
         YesOrNoEnum res = parseByDesc(desc);
         if (res == null) {
             return null;
         }
-        return res.name();
+        return res.getCode();
     }
 
 }

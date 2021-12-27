@@ -9,11 +9,11 @@ package cn.jinty.constant.common;
 public interface EnumInterface {
 
     /**
-     * 获取名称
+     * 获取编码
      *
-     * @return 名称
+     * @return 编码
      */
-    String getName();
+    String getCode();
 
     /**
      * 获取描述
