@@ -37,32 +37,6 @@ public final class ListUtil {
     }
 
     /**
-     * 列表分页
-     *
-     * @param list     列表
-     * @param pageNum  页码
-     * @param pageSize 页面大小
-     * @param <T>      泛型
-     * @return 单页数据
-     */
-    public static <T> List<T> page(List<T> list, int pageNum, int pageSize) {
-        if (pageNum <= 0 || pageSize <= 0 || isEmpty(list)) {
-            return new ArrayList<>();
-        }
-        //起始索引
-        int pageStart = (pageNum - 1) * pageSize;
-        if (pageStart >= list.size()) {
-            return new ArrayList<>();
-        }
-        //终止索引
-        int pageEnd = pageStart + pageSize;
-        if (pageEnd > list.size()) {
-            pageEnd = list.size();
-        }
-        return list.subList(pageStart, pageEnd);
-    }
-
-    /**
      * 数组转列表
      *
      * @param array 数组
