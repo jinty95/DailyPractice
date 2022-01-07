@@ -1,8 +1,5 @@
 package cn.jinty.leetcode.problem.easy;
 
-import cn.jinty.util.DateUtil;
-import cn.jinty.util.MathUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -197,7 +194,7 @@ public class Solution1 {
      * 以这种方式修改数组后，返回数组 可能的最大和 。
      *
      * @param nums 数组
-     * @param k 次数
+     * @param k    次数
      * @return 数组和
      */
     public int largestSumAfterKNegations(int[] nums, int k) {
@@ -230,9 +227,7 @@ public class Solution1 {
      * @return 当年的第几天
      */
     public int dayOfYear(String date) {
-        int[] days = new int[]{
-                31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-        };
+        int[] days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int year = 0, month = 0, day = 0;
         for (int i = 0; i < 4; i++) {
             year = year * 10 + (date.charAt(i) - '0');
@@ -243,7 +238,7 @@ public class Solution1 {
         for (int i = 8; i < 10; i++) {
             day = day * 10 + (date.charAt(i) - '0');
         }
-        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+        if (isLeapYear(year)) {
             days[1]++;
         }
         int ans = day;
@@ -251,6 +246,48 @@ public class Solution1 {
             ans += days[i];
         }
         return ans;
+    }
+
+    /**
+     * 1185. 一周中的第几天
+     * 给你一个日期，请你设计一个算法来判断它是对应一周中的哪一天。
+     * 输入为三个整数：day、month 和 year，分别表示日、月、年。
+     * 您返回的结果必须是这几个值中的一个 {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}。
+     * 注意：
+     * 1、给出的日期一定是在 1971 到 2100 年之间的有效日期。
+     * 2、1970-12-31是星期四，1971-01-01是星期五。
+     *
+     * @param day   日
+     * @param month 月
+     * @param year  年
+     * @return 星期
+     */
+    public String dayOfTheWeek(int day, int month, int year) {
+        // 计算从1971-01-01到当天一共有多少天(闭区间)
+        int[] days = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        String[] weeks = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        int count = 0;
+        // 整年
+        for (int i = 1971; i < year; i++) {
+            count += isLeapYear(i) ? 366 : 365;
+        }
+        // 整月
+        if (isLeapYear(year)) {
+            days[1]++;
+        }
+        for (int i = 0; i < month - 1; i++) {
+            count += days[i];
+        }
+        // 整天
+        count += day;
+        // 七天为一周
+        return weeks[(count + 4) % 7];
+    }
+
+    // 是否为闰年
+    private boolean isLeapYear(int year) {
+        // 四年一闰，百年不闰，四百年再闰
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
 }

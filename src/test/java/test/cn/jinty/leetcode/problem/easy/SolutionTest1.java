@@ -51,4 +51,11 @@ public class SolutionTest1 {
         System.out.println(solution.dayOfYear("2021-12-21"));
     }
 
+    @Test
+    public void testDayOfTheWeek() {
+        System.out.println(solution.dayOfTheWeek(1, 1, 1971));
+        System.out.println(solution.dayOfTheWeek(7, 1, 2022));
+        System.out.println(solution.dayOfTheWeek(1, 2, 2022));
+    }
+
 }
