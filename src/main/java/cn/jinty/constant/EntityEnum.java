@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/12/10
  **/
-public enum EntityEnum implements EnumInterface {
+public enum EntityEnum implements EnumInterface<String> {
 
     USER("USER", "用户"),
     ROLE("ROLE", "角色"),

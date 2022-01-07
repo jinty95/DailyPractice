@@ -13,9 +13,9 @@ public class YesOrNoEnumTest {
 
     @Test
     public void test1() {
-        System.out.println(YesOrNoEnum.parseByCode("Y"));
-        System.out.println(YesOrNoEnum.parseByCode("N"));
-        System.out.println(YesOrNoEnum.parseByCode("OK"));
+        System.out.println(YesOrNoEnum.parseByCode((byte) 1));
+        System.out.println(YesOrNoEnum.parseByCode((byte) 0));
+        System.out.println(YesOrNoEnum.parseByCode((byte) -1));
         System.out.println(YesOrNoEnum.parseByDesc("是"));
         System.out.println(YesOrNoEnum.parseByDesc("否"));
         System.out.println(YesOrNoEnum.parseByDesc("什么"));
@@ -23,9 +23,9 @@ public class YesOrNoEnumTest {
 
     @Test
     public void test2() {
-        System.out.println(YesOrNoEnum.codeToDesc("Y"));
-        System.out.println(YesOrNoEnum.codeToDesc("N"));
-        System.out.println(YesOrNoEnum.codeToDesc("OK"));
+        System.out.println(YesOrNoEnum.codeToDesc((byte) 1));
+        System.out.println(YesOrNoEnum.codeToDesc((byte) 0));
+        System.out.println(YesOrNoEnum.codeToDesc((byte) -1));
         System.out.println(YesOrNoEnum.descToCode("是"));
         System.out.println(YesOrNoEnum.descToCode("否"));
         System.out.println(YesOrNoEnum.descToCode("什么"));
@@ -33,9 +33,9 @@ public class YesOrNoEnumTest {
 
     @Test
     public void test3() {
-        System.out.println(YesOrNoEnum.containsCode("Y"));
-        System.out.println(YesOrNoEnum.containsCode("N"));
-        System.out.println(YesOrNoEnum.containsCode("OK"));
+        System.out.println(YesOrNoEnum.containsCode((byte) 1));
+        System.out.println(YesOrNoEnum.containsCode((byte) 0));
+        System.out.println(YesOrNoEnum.containsCode((byte) -1));
         System.out.println(YesOrNoEnum.containsDesc("是"));
         System.out.println(YesOrNoEnum.containsDesc("否"));
         System.out.println(YesOrNoEnum.containsDesc("什么"));

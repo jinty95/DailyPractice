@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/12/10
  **/
-public enum ResultEnum implements EnumInterface {
+public enum ResultEnum implements EnumInterface<String> {
 
     SUCCESS("SUCCESS", "成功"),
     FAIL("FAIL", "失败");

@@ -35,10 +35,10 @@ public final class EnumFactory {
      * @param key   枚举类型
      * @param value 键值对列表
      */
-    private static void set(String key, EnumInterface[] value) {
+    private static <T> void set(String key, EnumInterface<T>[] value) {
         List<KeyValue<String, String>> list = new ArrayList<>();
-        for (EnumInterface one : value) {
-            list.add(new KeyValue<>(one.getCode(), one.getDesc()));
+        for (EnumInterface<T> one : value) {
+            list.add(new KeyValue<>(String.valueOf(one.getCode()), one.getDesc()));
         }
         map.put(key, list);
     }

@@ -6,14 +6,14 @@ package cn.jinty.constant.common;
  * @author Jinty
  * @date 2021/12/7
  */
-public interface EnumInterface {
+public interface EnumInterface<T> {
 
     /**
-     * 获取编码
+     * 获取编码 (类型可以是String、Integer、Byte等)
      *
      * @return 编码
      */
-    String getCode();
+    T getCode();
 
     /**
      * 获取描述

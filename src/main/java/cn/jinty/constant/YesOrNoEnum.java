@@ -11,25 +11,25 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/11/16
  **/
-public enum YesOrNoEnum implements EnumInterface {
+public enum YesOrNoEnum implements EnumInterface<Byte> {
 
-    NO("N", "否"),
-    YES("Y", "是");
+    NO((byte) 0, "否"),
+    YES((byte) 1, "是");
 
     // 编码
-    private final String code;
+    private final Byte code;
     // 描述
     private final String desc;
 
     // 构造器
-    YesOrNoEnum(String code, String desc) {
+    YesOrNoEnum(Byte code, String desc) {
         this.code = code;
         this.desc = desc;
     }
 
     // getter
     @Override
-    public String getCode() {
+    public Byte getCode() {
         return code;
     }
 
@@ -39,7 +39,7 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 枚举静态化
-    private final static Map<String, YesOrNoEnum> codeMap;
+    private final static Map<Byte, YesOrNoEnum> codeMap;
     private final static Map<String, YesOrNoEnum> descMap;
 
     static {
@@ -52,7 +52,7 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 判断编码是否在枚举范围内
-    public static boolean containsCode(String code) {
+    public static boolean containsCode(Byte code) {
         return codeMap.containsKey(code);
     }
 
@@ -62,7 +62,7 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 根据编码解析为枚举对象
-    public static YesOrNoEnum parseByCode(String code) {
+    public static YesOrNoEnum parseByCode(Byte code) {
         return codeMap.get(code);
     }
 
@@ -72,7 +72,7 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 编码转为描述
-    public static String codeToDesc(String code) {
+    public static String codeToDesc(Byte code) {
         YesOrNoEnum res = parseByCode(code);
         if (res == null) {
             return null;
@@ -81,7 +81,7 @@ public enum YesOrNoEnum implements EnumInterface {
     }
 
     // 描述转为编码
-    public static String descToCode(String desc) {
+    public static Byte descToCode(String desc) {
         YesOrNoEnum res = parseByDesc(desc);
         if (res == null) {
             return null;

@@ -11,7 +11,7 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/12/10
  **/
-public enum OperationEnum implements EnumInterface {
+public enum OperationEnum implements EnumInterface<String> {
 
     INSERT("INSERT", "新增"),
     UPDATE("UPDATE", "更新"),
