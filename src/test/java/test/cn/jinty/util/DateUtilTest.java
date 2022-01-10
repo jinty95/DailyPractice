@@ -51,7 +51,7 @@ public class DateUtilTest {
         System.out.println();
         Date date = new Date();
         for (int i = 0; i < 30; i++) {
-            date = DateUtil.nextTime(date, 9,0,0);
+            date = DateUtil.nextTime(date, 9, 0, 0);
             System.out.println(DateUtil.format(date));
         }
     }
@@ -101,6 +101,12 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testIsSameDate() {
+        System.out.println(DateUtil.isSameDate(DateUtil.buildDate(2022, 1, 10), DateUtil.buildDate(2022, 1, 10)));
+        System.out.println(DateUtil.isSameDate(DateUtil.buildDate(2022, 1, 10), DateUtil.buildDate(2022, 1, 11)));
+    }
+
+    @Test
     public void testIsBetween() {
         Date rightNow = new Date();
         System.out.println(DateUtil.isBetween(rightNow, DateUtil.getDayBegin(rightNow), DateUtil.getDayEnd(rightNow)));
@@ -119,6 +125,14 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testGetMonthBeginAndEnd() {
+        System.out.println(DateUtil.format(DateUtil.getMonthBegin(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getMonthEnd(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getMonthBegin(DateUtil.buildDate(2022, 2, 1))));
+        System.out.println(DateUtil.format(DateUtil.getMonthEnd(DateUtil.buildDate(2022, 2, 1))));
+    }
+
+    @Test
     public void testGetWeekOfYear() {
         List<Week> weeks = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
         for (Week week : weeks) {
@@ -128,8 +142,8 @@ public class DateUtilTest {
 
     @Test
     public void testGetDayOfWeek() {
-        System.out.println(DateUtil.getEnDayOfWeek(new Date()));
-        System.out.println(DateUtil.getCnDayOfWeek(new Date()));
+        System.out.println(DateUtil.getDayOfWeekEn(new Date()));
+        System.out.println(DateUtil.getDayOfWeekCn(new Date()));
     }
 
     @Test

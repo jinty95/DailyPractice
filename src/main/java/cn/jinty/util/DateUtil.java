@@ -38,8 +38,8 @@ public final class DateUtil {
     /**
      * 星期的每一天 (英文+中文)
      */
-    public static String[] enDayOfWeek = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-    public static String[] cnDayOfWeek = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    public static String[] dayOfWeekEn = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+    public static String[] dayOfWeekCn = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**
      * 解析时间字符串
@@ -135,7 +135,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取下一个时间点 (指定时分秒)
+     * 获取下一个时间点 (满足指定的时分秒)
      *
      * @param date   参考时间点
      * @param hour   小时
@@ -163,7 +163,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取下一个时间点 (指定分秒)
+     * 获取下一个时间点 (满足指定的分秒)
      *
      * @param date   参考时间点
      * @param minute 分钟
@@ -187,7 +187,7 @@ public final class DateUtil {
     }
 
     /**
-     * 获取下一个时间点 (指定秒)
+     * 获取下一个时间点 (满足指定的秒)
      *
      * @param date   参考时间点
      * @param second 秒
@@ -355,10 +355,13 @@ public final class DateUtil {
         if (date1 == null || date2 == null) {
             return false;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE);
-        String date1Str = sdf.format(date1);
-        String date2Str = sdf.format(date2);
-        return date1Str.equals(date2Str);
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(date1);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(date2);
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+                && c1.get(Calendar.MONTH) == c2.get(Calendar.MONTH)
+                && c1.get(Calendar.DATE) == c2.get(Calendar.DATE);
     }
 
     /**
@@ -380,7 +383,7 @@ public final class DateUtil {
      * 获取一天的开始时刻
      *
      * @param date 时间
-     * @return 一天的开始时刻
+     * @return 开始时刻
      */
     public static Date getDayBegin(Date date) {
         if (date == null) {
@@ -399,7 +402,7 @@ public final class DateUtil {
      * 获取一天的结束时刻
      *
      * @param date 时间
-     * @return 一天的结束时刻
+     * @return 结束时刻
      */
     public static Date getDayEnd(Date date) {
         if (date == null) {
@@ -411,6 +414,50 @@ public final class DateUtil {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一个月份的开始时刻
+     *
+     * @param date 时间
+     * @return 开始时刻
+     */
+    public static Date getMonthBegin(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DATE, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一个月份的结束时刻
+     *
+     * @param date 时间
+     * @return 结束时刻
+     */
+    public static Date getMonthEnd(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        // 先获取下个月的开始时刻
+        calendar.set(Calendar.DATE, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.add(Calendar.MONTH, 1);
+        // 然后减1秒
+        calendar.add(Calendar.SECOND, -1);
         return calendar.getTime();
     }
 
@@ -444,13 +491,13 @@ public final class DateUtil {
      * @param date 时间
      * @return 星期几 (英文)
      */
-    public static String getEnDayOfWeek(Date date) {
+    public static String getDayOfWeekEn(Date date) {
         if (date == null) {
             return null;
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return enDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return dayOfWeekEn[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**
@@ -459,13 +506,13 @@ public final class DateUtil {
      * @param date 时间
      * @return 星期几 (中文)
      */
-    public static String getCnDayOfWeek(Date date) {
+    public static String getDayOfWeekCn(Date date) {
         if (date == null) {
             return null;
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return cnDayOfWeek[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return dayOfWeekCn[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**
