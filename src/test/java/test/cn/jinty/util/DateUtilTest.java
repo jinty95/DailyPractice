@@ -133,6 +133,26 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testSplit() {
+        Date[] arr = DateUtil.split(DateUtil.parse("2022-1-11 00:00:00"), DateUtil.parse("2022-1-13 23:59:59"), DateUtil.parse("2022-1-13 00:00:00"));
+        for (Date a : arr) {
+            System.out.println(DateUtil.format(a));
+        }
+        arr = DateUtil.split(DateUtil.parse("2022-1-15 00:00:00"), DateUtil.parse("2022-1-13 23:59:59"), DateUtil.parse("2022-1-13 00:00:00"));
+        for (Date a : arr) {
+            System.out.println(DateUtil.format(a));
+        }
+        arr = DateUtil.split(DateUtil.parse("2022-1-11 00:00:00"), DateUtil.parse("2022-1-13 23:59:59"), DateUtil.parse("2022-1-13 23:59:59"));
+        for (Date a : arr) {
+            System.out.println(DateUtil.format(a));
+        }
+        arr = DateUtil.split(DateUtil.parse("2022-1-11 00:00:00"), DateUtil.parse("2022-1-13 23:59:59"), DateUtil.parse("2022-1-11 00:00:00"));
+        for (Date a : arr) {
+            System.out.println(DateUtil.format(a));
+        }
+    }
+
+    @Test
     public void testGetWeekOfYear() {
         List<Week> weeks = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
         for (Week week : weeks) {

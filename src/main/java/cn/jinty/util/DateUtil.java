@@ -413,7 +413,7 @@ public final class DateUtil {
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 999);
         return calendar.getTime();
     }
 
@@ -456,9 +456,37 @@ public final class DateUtil {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.add(Calendar.MONTH, 1);
-        // 然后减1秒
-        calendar.add(Calendar.SECOND, -1);
+        // 然后减1毫秒
+        calendar.add(Calendar.MILLISECOND, -1);
         return calendar.getTime();
+    }
+
+    /**
+     * 时间分割
+     *
+     * @param begin      开始时间
+     * @param end        结束时间
+     * @param splitPoint 分割点
+     * @return 长度为4的数组，前两个表示位于分割点前的一段时间，后两个表示位于分割点后的一段时间
+     */
+    public static Date[] split(Date begin, Date end, Date splitPoint) {
+        Date[] result = new Date[4];
+        if (begin == null || end == null || splitPoint == null || begin.after(end)) {
+            return result;
+        }
+        if (end.compareTo(splitPoint) <= 0) {
+            result[0] = begin;
+            result[1] = end;
+        } else if (begin.compareTo(splitPoint) >= 0) {
+            result[2] = begin;
+            result[3] = end;
+        } else {
+            result[0] = begin;
+            result[1] = DateUtil.add(splitPoint, -1, Calendar.MILLISECOND);
+            result[2] = splitPoint;
+            result[3] = end;
+        }
+        return result;
     }
 
     /**
