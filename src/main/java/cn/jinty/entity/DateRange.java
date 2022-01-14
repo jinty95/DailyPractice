@@ -1,6 +1,8 @@
 package cn.jinty.entity;
 
-import cn.jinty.util.DateUtil;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,6 +12,9 @@ import java.util.Date;
  * @author Jinty
  * @date 2021/11/3
  **/
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DateRange {
 
     // 起始时间
@@ -17,37 +22,5 @@ public class DateRange {
 
     // 结束时间
     private Date end;
-
-    public DateRange() {
-    }
-
-    public DateRange(Date begin, Date end) {
-        this.begin = begin;
-        this.end = end;
-    }
-
-    public Date getBegin() {
-        return begin;
-    }
-
-    public void setBegin(Date begin) {
-        this.begin = begin;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
-    }
-
-    @Override
-    public String toString() {
-        return "DateRange{" +
-                "begin=" + DateUtil.format(begin) +
-                ", end=" + DateUtil.format(end) +
-                '}';
-    }
 
 }

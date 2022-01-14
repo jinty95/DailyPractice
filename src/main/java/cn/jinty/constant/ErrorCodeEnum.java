@@ -2,19 +2,16 @@ package cn.jinty.constant;
 
 import cn.jinty.constant.common.EnumInterface;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * 枚举 - 结果
+ * 枚举 - 错误码
  *
  * @author Jinty
  * @date 2021/12/10
  **/
-public enum ResultEnum implements EnumInterface<String> {
+public enum ErrorCodeEnum implements EnumInterface<String> {
 
-    SUCCESS("0", "成功"),
-    FAIL("1", "失败");
+    NOT_FOUND("404", "数据不存在"),
+    INTERNAL_SERVER_ERROR("500", "内部错误");
 
     // 编码
     private final String code;
@@ -22,7 +19,7 @@ public enum ResultEnum implements EnumInterface<String> {
     private final String desc;
 
     // 构造器
-    ResultEnum(String code, String desc) {
+    ErrorCodeEnum(String code, String desc) {
         this.code = code;
         this.desc = desc;
     }

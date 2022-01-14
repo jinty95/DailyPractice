@@ -1,6 +1,6 @@
 package cn.jinty.entity;
 
-import cn.jinty.util.DateUtil;
+import lombok.*;
 
 import java.util.Date;
 
@@ -10,6 +10,11 @@ import java.util.Date;
  * @author Jinty
  * @date 2021/11/10
  **/
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Week extends DateRange {
 
     // 序号 (年的第几周，从 1 开始)
@@ -18,39 +23,18 @@ public class Week extends DateRange {
     // 描述 (中文描述，从 第1周 开始)
     private String description;
 
-    public Week() {
-    }
-
+    /**
+     * 构造器
+     *
+     * @param sequence    序号
+     * @param description 描述
+     * @param begin       开始时间
+     * @param end         结束时间
+     */
     public Week(int sequence, String description, Date begin, Date end) {
         super(begin, end);
         this.sequence = sequence;
         this.description = description;
-    }
-
-    public int getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(int sequence) {
-        this.sequence = sequence;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return "Week{" +
-                "sequence=" + sequence +
-                ", description=" + description +
-                ", begin=" + DateUtil.format(getBegin()) +
-                ", end=" + DateUtil.format(getEnd()) +
-                '}';
     }
 
 }

@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 字符串 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/1/11
  **/
 public class StringTest {
