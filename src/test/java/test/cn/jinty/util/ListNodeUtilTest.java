@@ -13,7 +13,7 @@ import org.junit.Test;
 public class ListNodeUtilTest {
 
     @Test
-    public void testGetIntersectionNode() {
+    public void testGetIntersection() {
         ListNode a = new ListNode(1);
         ListNode b = new ListNode(2);
         ListNode c = new ListNode(3);
@@ -21,7 +21,7 @@ public class ListNodeUtilTest {
         b.next = c;
         System.out.println(a);
         System.out.println(b);
-        System.out.println(ListNodeUtil.getIntersectionNode(a, b));
+        System.out.println(ListNodeUtil.getIntersection(a, b));
     }
 
     @Test
@@ -29,6 +29,14 @@ public class ListNodeUtilTest {
         ListNode a = ListNodeUtil.fromArray(new int[]{1, 2, 3, 4, 5, 6, 7});
         System.out.println(a);
         System.out.println(ListNodeUtil.reverse(a));
+    }
+
+    @Test
+    public void testRandom() {
+        ListNode head = ListNodeUtil.fromArray(new int[]{1,2,3,4,5,6,7,8});
+        for (int i = 0; i < 8; i++) {
+            System.out.println(ListNodeUtil.random(head).val);
+        }
     }
 
 }
