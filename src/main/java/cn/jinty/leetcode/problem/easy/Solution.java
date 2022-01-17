@@ -141,17 +141,22 @@ public class Solution {
      * @return 总额
      */
     public int totalMoney(int n) {
-        int sum = 0;
-        int monday = 1;
-        int tmp = monday;
+        /*// 1、暴力搜索：时间复杂度O(N)
+        int sum = 0, week = 0, day = 1;
         for (int i = 1; i <= n; i++) {
-            sum += tmp++;
-            if (i % 7 == 0) {
-                monday++;
-                tmp = monday;
+            sum += week + day++;
+            if (day == 8) {
+                week++;
+                day = 1;
             }
         }
-        return sum;
+        return sum;*/
+
+        // 2、等差数列：时间复杂度O(1)
+        // 第一周4*7，第二周5*7，第三周6*7，...
+        int weekNum = n / 7;
+        int remainNum = n % 7;
+        return (4 * 7 + (weekNum + 3) * 7) * weekNum / 2 + (weekNum + 1 + weekNum + remainNum) * remainNum / 2;
     }
 
     /**

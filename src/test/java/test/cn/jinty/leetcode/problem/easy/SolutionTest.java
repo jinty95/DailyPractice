@@ -68,8 +68,9 @@ public class SolutionTest {
 
     @Test
     public void testTotalMoney() {
-        System.out.println(solution.totalMoney(10));
-        System.out.println(solution.totalMoney(14));
+        System.out.println(solution.totalMoney(7));
+        System.out.println(solution.totalMoney(12));
+        System.out.println(solution.totalMoney(30));
     }
 
     @Test
