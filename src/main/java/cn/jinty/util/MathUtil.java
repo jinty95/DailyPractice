@@ -1,7 +1,9 @@
 package cn.jinty.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 数学 - 工具类
@@ -261,7 +263,7 @@ public final class MathUtil {
      * 指数运算 (快速幂)
      * 将次方拆分为2次幂的和：a^b = a^(2^0 + 2^1 + ...) = a^(2^0) * a^(2^1) * ...
      *
-     * @param base 底数 (正数)
+     * @param base     底数 (正数)
      * @param exponent 指数 (正数)
      * @return 结果
      */
@@ -318,6 +320,39 @@ public final class MathUtil {
             return "";
         }
         return String.format("%.2f", decimal * 100) + "%";
+    }
+
+    /**
+     * 将一个数额随机切分为几个部分 (最小切分为1)
+     *
+     * @param amount 数额
+     * @param n      个数
+     * @return 结果
+     */
+    public static int[] split(int amount, int n) {
+        // 校验入参
+        if (n < 1) {
+            throw new IllegalArgumentException("n不能小于1");
+        }
+        if (amount < 1) {
+            throw new IllegalArgumentException("amount不能小于1");
+        }
+        if (amount < n) {
+            throw new IllegalArgumentException("amount不能小于n");
+        }
+        // 随机切分
+        Random random = new Random();
+        int max = amount - (n - 1);
+        int[] result = new int[n];
+        // 前n-1个随机生成
+        for (int i = 1; i < n; i++) {
+            result[i - 1] = random.nextInt(max) + 1;
+            amount -= result[i - 1];
+            max = amount - (n - i - 1);
+        }
+        // 第n个直接取剩余数额
+        result[n - 1] = amount;
+        return result;
     }
 
 }

@@ -180,4 +180,11 @@ public class MathUtilTest {
         System.out.println(Math.round(-45.6));
     }
 
+    @Test
+    public void testSplit() {
+        System.out.println(Arrays.toString(MathUtil.split(100, 2)));
+        System.out.println(Arrays.toString(MathUtil.split(100, 3)));
+        System.out.println(Arrays.toString(MathUtil.split(100, 5)));
+    }
+
 }
