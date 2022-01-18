@@ -1378,4 +1378,32 @@ public class Solution2 {
         }
     }
 
+    /**
+     * 539. 最小时间差
+     * 给定一个 24 小时制（小时:分钟 "HH:MM"）的时间列表，找出列表中任意两个时间的最小时间差并以分钟数表示。
+     *
+     * @param timePoints 时间列表
+     * @return 最小时间差(分钟数)
+     */
+    public int findMinDifference(List<String> timePoints) {
+        // 时间转为分钟数，倒序，遍历，两两求差，取最小
+        // 注意：两个时间相差不会超过12小时，所以将最小时间加24小时作为最大时间，形成一个环
+        List<Integer> minutes = new ArrayList<>();
+        timePoints.forEach(timePoint -> minutes.add(getMinute(timePoint)));
+        minutes.sort(((o1, o2) -> o2 - o1));
+        minutes.add(0, minutes.get(minutes.size() - 1) + 1440);
+        int res = Integer.MAX_VALUE;
+        for (int i = 1; i < minutes.size(); i++) {
+            int diff = minutes.get(i - 1) - minutes.get(i);
+            res = Math.min(res, Math.min(diff, 1440 - diff));
+        }
+        return res;
+    }
+
+    // 将时间转为对应的分钟数
+    private int getMinute(String timePoint) {
+        return ((timePoint.charAt(0) - '0') * 10 + timePoint.charAt(1) - '0') * 60
+                + (timePoint.charAt(3) - '0') * 10 + timePoint.charAt(4) - '0';
+    }
+
 }

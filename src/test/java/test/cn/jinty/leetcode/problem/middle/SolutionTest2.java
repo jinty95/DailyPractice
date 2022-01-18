@@ -259,4 +259,11 @@ public class SolutionTest2 {
         }));
     }
 
+    @Test
+    public void testFindMinDifference() {
+        System.out.println(solution.findMinDifference(Arrays.asList("23:59", "00:00")));
+        System.out.println(solution.findMinDifference(Arrays.asList("23:59", "00:00", "00:00")));
+        System.out.println(solution.findMinDifference(Arrays.asList("00:00", "04:00", "22:00")));
+    }
+
 }
