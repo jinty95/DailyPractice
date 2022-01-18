@@ -296,28 +296,21 @@ public final class ArraySortUtil {
 
     /**
      * 猴子排序
-     * 打乱数组，直到有序，时间复杂度随缘
+     * 打乱数组，直到有序，时间复杂度无穷大
      *
      * @param arr 数组
      */
     public static void monkeySort(int[] arr) {
         if (arr == null) return;
+        long begin = System.currentTimeMillis();
         Random random = new Random();
         int count = 0;
         while (!isOrdered(arr, true)) {
-            int len = arr.length;
-            while (len > 0) {
-                int idx1 = random.nextInt(arr.length);
-                int idx2 = random.nextInt(arr.length);
-                while (idx2 == idx1) {
-                    idx2 = random.nextInt(arr.length);
-                }
-                swap(arr, idx1, idx2);
-                len--;
-            }
+            swap(arr, random.nextInt(arr.length), random.nextInt(arr.length));
             count++;
         }
-        System.out.println("打乱次数=" + count);
+        long end = System.currentTimeMillis();
+        System.out.println("打乱次数=" + count + ", 耗时=" + (end - begin) + "ms");
     }
 
     /**
