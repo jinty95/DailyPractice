@@ -58,4 +58,10 @@ public class SolutionTest1 {
         System.out.println(solution.dayOfTheWeek(1, 2, 2022));
     }
 
+    @Test
+    public void testContainsNearbyDuplicate() {
+        System.out.println(solution.containsNearbyDuplicate(new int[]{1, 0, 1, 2}, 1));
+        System.out.println(solution.containsNearbyDuplicate(new int[]{1, 0, 1, 2}, 2));
+    }
+
 }

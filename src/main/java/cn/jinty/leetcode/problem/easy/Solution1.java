@@ -1,8 +1,6 @@
 package cn.jinty.leetcode.problem.easy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * LeetCode - 简单题
@@ -288,6 +286,30 @@ public class Solution1 {
     private boolean isLeapYear(int year) {
         // 四年一闰，百年不闰，四百年再闰
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    /**
+     * 219. 存在重复元素 II
+     * 给你一个整数数组 arr 和一个整数 k ，判断数组中是否存在两个不同的索引 i 和 j ，满足 arr[i] == arr[j] 且 abs(i - j) <= k 。
+     * 如果存在，返回 true ；否则，返回 false 。
+     *
+     * @param arr 数组
+     * @param k 整数
+     * @return 是否存在邻近的重复元素
+     */
+    public boolean containsNearbyDuplicate(int[] arr, int k) {
+        // 滑动窗口：时间复杂度O(N)，空间复杂度O(K)
+        Set<Integer> set = new HashSet<>();
+        int i = 0, j = 0;
+        while (j < arr.length) {
+            if (!set.add(arr[j++])) {
+                return true;
+            }
+            if (set.size() == k + 1) {
+                set.remove(arr[i++]);
+            }
+        }
+        return false;
     }
 
 }
