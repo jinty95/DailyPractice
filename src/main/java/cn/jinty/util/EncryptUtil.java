@@ -147,7 +147,7 @@ public final class EncryptUtil {
         // 获得密文
         byte[] md = md5(s);
         // 把密文转换成十六进制的字符串形式
-        return StringUtil.byteToHexString(md);
+        return StringUtil.byteArrToHex(md);
     }
 
     /**
@@ -180,7 +180,7 @@ public final class EncryptUtil {
         // 获得密文
         byte[] md = sha1(s);
         // 把密文转换成十六进制的字符串形式
-        return StringUtil.byteToHexString(md);
+        return StringUtil.byteArrToHex(md);
     }
 
 }

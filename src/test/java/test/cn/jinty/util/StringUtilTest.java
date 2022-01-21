@@ -27,6 +27,14 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testToString() {
+        System.out.println(StringUtil.toString(null));
+        System.out.println(StringUtil.toString("ABC"));
+        System.out.println(StringUtil.toString(Integer.valueOf(1)));
+        System.out.println(StringUtil.toString(Double.valueOf(1.0)));
+    }
+
+    @Test
     public void testEquals() {
         System.out.println(StringUtil.equals(null, null));
         System.out.println(StringUtil.equals(null, ""));

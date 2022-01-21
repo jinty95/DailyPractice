@@ -33,6 +33,9 @@ public final class StringUtil {
     // 随机数
     private static final Random random = new Random();
 
+    // 空串
+    public static final String EMPTY = "";
+
     /**
      * 字符串空判断
      *
@@ -51,6 +54,19 @@ public final class StringUtil {
      */
     public static boolean isBlank(String s) {
         return isEmpty(s) || s.trim().length() == 0;
+    }
+
+    /**
+     * 任意对象转字符串
+     *
+     * @param obj 任意对象
+     * @return 字符串
+     */
+    public static String toString(Object obj) {
+        if (obj == null) {
+            return EMPTY;
+        }
+        return obj.toString();
     }
 
     /**
@@ -191,7 +207,7 @@ public final class StringUtil {
      * @param bytes 字节数组
      * @return 十六进制字符串
      */
-    public static String byteToHexString(byte[] bytes) {
+    public static String byteArrToHex(byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
             return "";
         }

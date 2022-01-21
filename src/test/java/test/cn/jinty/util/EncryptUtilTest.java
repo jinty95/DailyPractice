@@ -24,7 +24,7 @@ public class EncryptUtilTest {
         //生成AES密钥
         byte[] bytes = EncryptUtil.generateAesKey();
         //转为字符串显示
-        String aesKeyHex = StringUtil.byteToHexString(bytes);
+        String aesKeyHex = StringUtil.byteArrToHex(bytes);
         String aeskeyBase64 = base64Encoder.encode(bytes);
         System.out.println("AesKey[hex] : " + aesKeyHex);
         System.out.println("AesKey[base64] : " + aeskeyBase64);
@@ -32,7 +32,7 @@ public class EncryptUtilTest {
         //进行SHA1处理并取前16位
         byte[] newBytes = Arrays.copyOf(Objects.requireNonNull(EncryptUtil.sha1(aesKeyHex)), 16);
         //转为字符串显示
-        System.out.println("NewAesKey[hex] : " + StringUtil.byteToHexString(newBytes));
+        System.out.println("NewAesKey[hex] : " + StringUtil.byteArrToHex(newBytes));
         System.out.println("NewAesKey[base64] : " + base64Encoder.encode(newBytes));
 
     }
