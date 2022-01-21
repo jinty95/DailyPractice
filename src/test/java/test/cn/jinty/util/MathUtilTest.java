@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
@@ -121,11 +120,12 @@ public class MathUtilTest {
     }
 
     @Test
+    @SuppressWarnings("all")
     public void testAdd() {
-        System.out.println(MathUtil.add(1, 1));
-        System.out.println(MathUtil.add(7, 8));
-        System.out.println(MathUtil.add(999, 1001));
-        System.out.println(MathUtil.add(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        System.out.println(MathUtil.add(1, 1) + " " + (1 + 1));
+        System.out.println(MathUtil.add(7, 8) + " " + (7 + 8));
+        System.out.println(MathUtil.add(999, 1001) + " " + (999 + 1001));
+        System.out.println(MathUtil.add(Integer.MAX_VALUE, Integer.MAX_VALUE) + " " + (Integer.MAX_VALUE + Integer.MAX_VALUE));
     }
 
     @Test
@@ -185,6 +185,24 @@ public class MathUtilTest {
         System.out.println(Arrays.toString(MathUtil.split(100, 2)));
         System.out.println(Arrays.toString(MathUtil.split(100, 3)));
         System.out.println(Arrays.toString(MathUtil.split(100, 5)));
+    }
+
+    @Test
+    public void testIntegerAdd() {
+        Integer a = null, b = null;
+        System.out.println(MathUtil.add(a, b));
+        System.out.println(MathUtil.add(null, 1));
+        System.out.println(MathUtil.add(1, null));
+        System.out.println(MathUtil.add(1, 1));
+    }
+
+    @Test
+    public void testLongAdd() {
+        Long a = null, b = null;
+        System.out.println(MathUtil.add(a, b));
+        System.out.println(MathUtil.add(null, 1L));
+        System.out.println(MathUtil.add(1L, null));
+        System.out.println(MathUtil.add(1L, 1L));
     }
 
 }

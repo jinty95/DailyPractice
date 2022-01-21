@@ -1,6 +1,5 @@
 package cn.jinty.util;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -120,8 +119,8 @@ public final class MathUtil {
      * @param n 阶乘值
      * @return 阶乘结果
      */
-    public static long factorial(int n) {
-        long result = 1;
+    public static int factorial(int n) {
+        int result = 1;
         for (int i = 1; i <= n; i++) {
             result *= i;
         }
@@ -136,7 +135,7 @@ public final class MathUtil {
      * @param m C的上标
      * @return 组合数
      */
-    public static long combinationNum(int n, int m) {
+    public static int combinationNum(int n, int m) {
         if (n < 0 || m < 0) {
             throw new IllegalArgumentException("n值与m值不能为负数");
         }
@@ -152,11 +151,11 @@ public final class MathUtil {
      * @param n 正整数
      * @return 累加和
      */
-    public static long sumFromOneToN(int n) {
+    public static int sumFromOneToN(int n) {
         if (n < 1) {
             throw new IllegalArgumentException("n不能小于1");
         }
-        return (1L + n) * n / 2;
+        return (1 + n) * n / 2;
     }
 
     /**
@@ -178,14 +177,14 @@ public final class MathUtil {
      * @param b 整数
      * @return 和
      */
-    public static long add(int a, int b) {
+    public static int add(int a, int b) {
         //无进位和
-        long sum = a;
+        int sum = a;
         //进位
-        long carry = b;
+        int carry = b;
         //循环直到进位等于0
         while (carry != 0) {
-            long temp = sum ^ carry;
+            int temp = sum ^ carry;
             carry = (sum & carry) << 1;
             sum = temp;
         }
@@ -200,17 +199,17 @@ public final class MathUtil {
      * @param b 整数
      * @return 乘积
      */
-    public static long multiply(int a, int b) {
+    public static int multiply(int a, int b) {
         //乘0得0
-        if (a == 0 || b == 0) return 0L;
+        if (a == 0 || b == 0) return 0;
         //负负得正
         if (a < 0 && b < 0) return multiply(-a, -b);
         //正数
-        long positive = a > 0 ? a : b;
+        int positive = a > 0 ? a : b;
         //另一个数
-        long another = a > 0 ? b : a;
+        int another = a > 0 ? b : a;
         //乘积
-        long sum = 0;
+        int sum = 0;
         //按位分解正数
         for (int k = 0; k < 32; k++) {
             if (((positive >> k) & 1) == 1) {
@@ -267,8 +266,8 @@ public final class MathUtil {
      * @param exponent 指数 (正数)
      * @return 结果
      */
-    public static long pow(int base, int exponent) {
-        long result = 1;
+    public static int pow(int base, int exponent) {
+        int result = 1;
         while (exponent > 0) {
             if ((exponent & 1) == 1) {
                 result *= base;
@@ -353,6 +352,40 @@ public final class MathUtil {
         // 第n个直接取剩余数额
         result[n - 1] = amount;
         return result;
+    }
+
+    /**
+     * 包装类加法 - Integer
+     *
+     * @param a 操作数1
+     * @param b 操作数2
+     * @return 和
+     */
+    public static Integer add(Integer a, Integer b) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        return a + b;
+    }
+
+    /**
+     * 包装类加法 - Long
+     *
+     * @param a 操作数1
+     * @param b 操作数2
+     * @return 和
+     */
+    public static Long add(Long a, Long b) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        return a + b;
     }
 
 }
