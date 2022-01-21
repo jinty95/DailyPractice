@@ -388,4 +388,34 @@ public final class MathUtil {
         return a + b;
     }
 
+    /**
+     * 整数相除，结果四舍五入
+     *
+     * @param a 被除数
+     * @param b 除数
+     * @return 结果
+     */
+    public static int divideAndRound(int a, int b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("除数不能为0");
+        }
+        double res = a * 1.0 / b;
+        return (int) Math.round(res);
+    }
+
+    /**
+     * 整数相除，结果四舍五入
+     *
+     * @param a 被除数
+     * @param b 除数
+     * @return 结果
+     */
+    public static long divideAndRound(long a, long b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("除数不能为0");
+        }
+        double res = a * 1.0 / b;
+        return Math.round(res);
+    }
+
 }

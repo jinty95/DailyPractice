@@ -206,4 +206,16 @@ public class MathUtilTest {
         System.out.println(MathUtil.add(1L, 1L));
     }
 
+    @Test
+    public void testDivideAndRound() {
+        System.out.println(MathUtil.divideAndRound(3, 2)); // 1.5
+        System.out.println(MathUtil.divideAndRound(5, 3)); // 1.6
+        System.out.println(MathUtil.divideAndRound(3, 5)); // 0.6
+        System.out.println(MathUtil.divideAndRound(2, 5)); // 0.4
+        System.out.println(MathUtil.divideAndRound(3L, 2L)); // 1.5
+        System.out.println(MathUtil.divideAndRound(5L, 3L)); // 1.6
+        System.out.println(MathUtil.divideAndRound(3L, 5L)); // 0.6
+        System.out.println(MathUtil.divideAndRound(2L, 5L)); // 0.4
+    }
+
 }
