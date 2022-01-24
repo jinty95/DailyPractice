@@ -312,4 +312,35 @@ public class Solution1 {
         return false;
     }
 
+    /**
+     * 1332. 删除回文子序列
+     * 给你一个字符串 s，它仅由字母 'a' 和 'b' 组成。每一次删除操作都可以从 s 中删除一个回文子序列。
+     * 返回删除给定字符串中所有字符（字符串为空）的最小删除次数。
+     * 「子序列」定义：如果一个字符串可以通过删除原字符串某些字符而不改变原字符顺序得到，那么这个字符串就是原字符串的一个子序列。
+     * 「回文」定义：如果一个字符串向后和向前读是一致的，那么这个字符串就是一个回文。
+     *
+     * @param s 字符串
+     * @return 最小删除字符
+     */
+    public int removePalindromeSub(String s) {
+        // 如果s是回文串，那么一次就可以删除，否则，先删a后删b，两次就可以删除
+        if (isPalindrome(s)) {
+            return 1;
+        }
+        return 2;
+    }
+
+    // 判断是否为回文串
+    private boolean isPalindrome(String s) {
+        int i = 0, j = s.length() - 1;
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+
 }

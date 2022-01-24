@@ -64,4 +64,11 @@ public class SolutionTest1 {
         System.out.println(solution.containsNearbyDuplicate(new int[]{1, 0, 1, 2}, 2));
     }
 
+    @Test
+    public void testRemovePalindromeSub() {
+        System.out.println(solution.removePalindromeSub("aba")); // 1
+        System.out.println(solution.removePalindromeSub("aabb")); // 2
+        System.out.println(solution.removePalindromeSub("ababaabb")); // 2
+    }
+
 }
