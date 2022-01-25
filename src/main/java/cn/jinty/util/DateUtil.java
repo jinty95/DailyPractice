@@ -54,6 +54,17 @@ public final class DateUtil {
     private static final String[] dayOfWeekCn = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**
+     * 十二星座
+     */
+    private static final int[] constellationDays = {20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22};
+    private static final String[] constellations = {"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
+
+    /**
+     * 十二生肖
+     */
+    private static final String[] chineseZodiacs = {"鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"};
+
+    /**
      * 解析时间
      *
      * @param dateStr 时间字符串
@@ -695,6 +706,36 @@ public final class DateUtil {
             res = min(res, dates.get(i));
         }
         return res;
+    }
+
+    /**
+     * 根据时间判断星座
+     *
+     * @param date 时间
+     * @return 星座
+     */
+    public static String getConstellation(Date date) {
+        if (date == null) {
+            return null;
+        }
+        int month = get(date, Calendar.MONTH);
+        int day = get(date, Calendar.DATE);
+        return day < constellationDays[month - 1] ? constellations[month - 1] : constellations[month];
+    }
+
+    /**
+     * 根据时间判断生肖
+     *
+     * @param date 时间
+     * @return 生肖
+     */
+    public static String getChineseZodiac(Date date) {
+        if (date == null) {
+            return null;
+        }
+        int year = get(date, Calendar.YEAR);
+        // 已知2022为虎年，以此为基准判断
+        return year >= 2022 ? chineseZodiacs[(year - 2022 + 2) % 12] : chineseZodiacs[(12 - (2022 - year) % 12 + 2) % 12];
     }
 
     /* 以下为内部函数 */

@@ -216,4 +216,19 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(d3));
     }
 
+    @Test
+    public void testGetConstellation() {
+        System.out.println(DateUtil.getConstellation(DateUtil.buildDate(2021, 11, 22)));
+        System.out.println(DateUtil.getConstellation(DateUtil.buildDate(2021, 11, 23)));
+    }
+
+    @Test
+    public void testGetChineseZodiac() {
+        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(2023, 1, 1)));
+        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(2022, 1, 1)));
+        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1995, 1, 1)));
+        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1970, 1, 1)));
+        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1, 1, 1)));
+    }
+
 }
