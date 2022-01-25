@@ -4,10 +4,7 @@ import cn.jinty.entity.Week;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 时间 - 工具类
@@ -33,16 +30,31 @@ public final class DateUtil {
     public static final String TIME = "HH:mm:ss";
     public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
     public static final String WHOLE = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String COMPACT_DATE = "yyyyMMdd";
     public static final String COMPACT_WHOLE = "yyyyMMddHHmmssSSS";
+
+    /**
+     * 时区
+     */
+    public static final String ASIA_SHANGHAI = "Asia/Shanghai"; // 东八区
+    public static final String ASIA_TOKYO = "Asia/Tokyo"; // 东九区
+    public static final String EUROPE_LONDON = "Europe/London"; // 东一区
+    public static final String GMT_0 = "GMT+0"; // 零时区
+
+    /**
+     * 时间纪元 (时间戳的起点) (零时区)
+     */
+    public static final String EPOCH_STR = "1970-01-01 00:00:00";
+    public static final Date EPOCH = parse(EPOCH_STR, DATETIME, GMT_0);
 
     /**
      * 星期的每一天 (英文+中文)
      */
-    public static String[] dayOfWeekEn = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-    public static String[] dayOfWeekCn = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private static final String[] dayOfWeekEn = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+    private static final String[] dayOfWeekCn = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**
-     * 解析时间字符串
+     * 解析时间
      *
      * @param dateStr 时间字符串
      * @return 时间对象
@@ -52,18 +64,34 @@ public final class DateUtil {
     }
 
     /**
-     * 解析时间字符串
+     * 解析时间
      *
      * @param dateStr 时间字符串
      * @param format  时间格式
      * @return 时间对象
      */
     public static Date parse(String dateStr, String format) {
+        return parse(dateStr, format, null);
+    }
+
+    /**
+     * 解析时间
+     *
+     * @param dateStr  时间字符串
+     * @param format   时间格式
+     * @param timezone 时区
+     * @return 时间对象
+     */
+    public static Date parse(String dateStr, String format, String timezone) {
         if (dateStr == null || format == null) {
             return null;
         }
         try {
-            return new SimpleDateFormat(format).parse(dateStr);
+            SimpleDateFormat sdf = new SimpleDateFormat(format);
+            if (timezone != null) {
+                sdf.setTimeZone(TimeZone.getTimeZone(timezone));
+            }
+            return sdf.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -74,7 +102,7 @@ public final class DateUtil {
      * 格式化时间
      *
      * @param date 时间对象
-     * @return 字符串
+     * @return 时间字符串
      */
     public static String format(Date date) {
         return format(date, DATETIME);
@@ -85,13 +113,45 @@ public final class DateUtil {
      *
      * @param date   时间对象
      * @param format 时间格式
-     * @return 字符串
+     * @return 时间字符串
      */
     public static String format(Date date, String format) {
+        return format(date, format, null);
+    }
+
+    /**
+     * 格式化时间
+     *
+     * @param date     时间对象
+     * @param format   时间格式
+     * @param timezone 时区
+     * @return 时间字符串
+     */
+    public static String format(Date date, String format, String timezone) {
         if (date == null || format == null) {
             return null;
         }
-        return new SimpleDateFormat(format).format(date);
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        if (timezone != null) {
+            sdf.setTimeZone(TimeZone.getTimeZone(timezone));
+        }
+        return sdf.format(date);
+    }
+
+    /**
+     * 来自某时区的时间字符串，转为另一个时区的时间字符串
+     *
+     * @param srcDateStr   源时间字符串
+     * @param srcFormat    源时间格式
+     * @param srcTimeZone  源时区
+     * @param destTimeZone 目标时区
+     * @return 目标时间字符串
+     */
+    public static String transfer(String srcDateStr, String srcFormat, String srcTimeZone, String destTimeZone) {
+        if (srcDateStr == null || srcFormat == null) {
+            return null;
+        }
+        return format(parse(srcDateStr, srcFormat, srcTimeZone), srcFormat, destTimeZone);
     }
 
     /**

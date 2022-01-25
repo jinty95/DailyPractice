@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * 日期时间 - 工具类 - 测试
+ * 时间 - 工具类 - 测试
  *
  * @author Jinty
  * @date 2021/5/18
@@ -21,10 +21,26 @@ public class DateUtilTest {
     @Test
     public void testParseAndFormat() {
         System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00")));
-        System.out.println(DateUtil.format(DateUtil.parse("0000-00-00 00:00:00")));
-        System.out.println(DateUtil.format(DateUtil.parse("0000-01-01 00:00:00")));
-        System.out.println(DateUtil.format(DateUtil.parse("0001-01-01 00:00:00")));
-        System.out.println(DateUtil.format(DateUtil.parse("20211218", "yyyyMMdd")));
+        System.out.println(DateUtil.format(DateUtil.parse("1-1-1 00:00:00")));
+        System.out.println(DateUtil.format(DateUtil.parse("20211218", DateUtil.COMPACT_DATE), DateUtil.WHOLE));
+        System.out.println(DateUtil.format(DateUtil.parse("18:00:00", DateUtil.TIME), DateUtil.DATE));
+    }
+
+    @Test
+    public void testTimeZone() {
+        System.out.println(DateUtil.EPOCH.getTime());
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.EUROPE_LONDON));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_TOKYO));
+    }
+
+    @Test
+    public void testTransfer() {
+        // 北京时间与伦敦时间有时候差7小时，有时候差8小时
+        String srcDateStr = "2022-01-01 08:00:00";
+        System.out.println("北京时间：" + srcDateStr);
+        System.out.println("伦敦时间：" + DateUtil.transfer(srcDateStr, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.EUROPE_LONDON));
+        System.out.println("东京时间：" + DateUtil.transfer(srcDateStr, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.ASIA_TOKYO));
     }
 
     @Test
