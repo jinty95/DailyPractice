@@ -50,19 +50,19 @@ public final class DateUtil {
     /**
      * 星期的每一天 (英文+中文)
      */
-    private static final String[] dayOfWeekEn = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-    private static final String[] dayOfWeekCn = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private static final String[] DAY_OF_WEEK_ARR_EN = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+    private static final String[] DAY_OF_WEEK_ARR_CN = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**
      * 十二星座
      */
-    private static final int[] constellationDays = {20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22};
-    private static final String[] constellations = {"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
+    private static final int[] CONSTELLATION_DAYS = {20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22};
+    private static final String[] CONSTELLATIONS = {"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
 
     /**
      * 十二生肖
      */
-    private static final String[] chineseZodiacs = {"鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"};
+    private static final String[] CHINESE_ZODIACS = {"鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"};
 
     /**
      * 解析时间
@@ -215,9 +215,7 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int hour, int minute, int second) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowHour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -242,9 +240,7 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int minute, int second) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowMinute = calendar.get(Calendar.MINUTE);
@@ -265,9 +261,7 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int second) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowSecond = calendar.get(Calendar.SECOND);
@@ -286,9 +280,7 @@ public final class DateUtil {
      * @return 整数数值
      */
     public static int get(Date date, int unit) {
-        if (date == null) {
-            throw new IllegalArgumentException("输入时间不能为空");
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         if (Calendar.MONTH == unit) {
@@ -306,9 +298,7 @@ public final class DateUtil {
      * @return 时间
      */
     public static Date add(Date date, int num, int unit) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(unit, num);
@@ -322,16 +312,13 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差月份
      */
-    public static Long getDiffMonth(Date begin, Date end) {
-        if (begin == null || end == null) {
-            return null;
-        }
+    public static long getDiffMonth(Date begin, Date end) {
+        checkNull(begin, end);
         Calendar c1 = Calendar.getInstance();
         c1.setTime(begin);
         Calendar c2 = Calendar.getInstance();
         c2.setTime(end);
-        return (c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12L
-                + (c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH));
+        return Math.abs((c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12L + (c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH)));
     }
 
     /**
@@ -341,7 +328,7 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差天数
      */
-    public static Long getDiffDay(Date begin, Date end) {
+    public static long getDiffDay(Date begin, Date end) {
         return getDiff(begin, end, DAY);
     }
 
@@ -352,7 +339,7 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差小时数
      */
-    public static Long getDiffHour(Date begin, Date end) {
+    public static long getDiffHour(Date begin, Date end) {
         return getDiff(begin, end, HOUR);
     }
 
@@ -363,7 +350,7 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差分钟数
      */
-    public static Long getDiffMinute(Date begin, Date end) {
+    public static long getDiffMinute(Date begin, Date end) {
         return getDiff(begin, end, MINUTE);
     }
 
@@ -374,7 +361,7 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差秒数
      */
-    public static Long getDiffSecond(Date begin, Date end) {
+    public static long getDiffSecond(Date begin, Date end) {
         return getDiff(begin, end, SECOND);
     }
 
@@ -385,7 +372,7 @@ public final class DateUtil {
      * @param end   结束时间
      * @return 相差毫秒数
      */
-    public static Long getDiff(Date begin, Date end) {
+    public static long getDiff(Date begin, Date end) {
         return getDiff(begin, end, MILLISECOND);
     }
 
@@ -398,9 +385,7 @@ public final class DateUtil {
      * @return 布尔
      */
     public static boolean isTarget(Date date, int target, int unit) {
-        if (date == null) {
-            return false;
-        }
+        checkNull(date);
         return get(date, unit) == target;
     }
 
@@ -423,8 +408,11 @@ public final class DateUtil {
      * @return 布尔
      */
     public static boolean isSameDate(Date date1, Date date2) {
-        if (date1 == null || date2 == null) {
-            return false;
+        if (date1 == null) {
+            throw new IllegalArgumentException("时间1不能为空");
+        }
+        if (date2 == null) {
+            throw new IllegalArgumentException("时间2不能为空");
         }
         Calendar c1 = Calendar.getInstance();
         c1.setTime(date1);
@@ -444,9 +432,8 @@ public final class DateUtil {
      * @return 布尔
      */
     public static boolean isBetween(Date date, Date begin, Date end) {
-        if (date == null || begin == null || end == null) {
-            return false;
-        }
+        checkNull(date);
+        checkNull(begin, end);
         return date.compareTo(begin) >= 0 && date.compareTo(end) <= 0;
     }
 
@@ -457,9 +444,7 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getDayBegin(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -476,9 +461,7 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getDayEnd(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -495,9 +478,7 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getMonthBegin(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.DATE, 1);
@@ -515,9 +496,7 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getMonthEnd(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         // 先获取下个月的开始时刻
@@ -591,12 +570,10 @@ public final class DateUtil {
      * @return 星期几 (英文)
      */
     public static String getDayOfWeekEn(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return dayOfWeekEn[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return DAY_OF_WEEK_ARR_EN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**
@@ -606,12 +583,10 @@ public final class DateUtil {
      * @return 星期几 (中文)
      */
     public static String getDayOfWeekCn(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return dayOfWeekCn[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return DAY_OF_WEEK_ARR_CN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**
@@ -632,9 +607,7 @@ public final class DateUtil {
      * @return 是否为闰年
      */
     public static boolean isLeapYear(Date date) {
-        if (date == null) {
-            throw new IllegalArgumentException("输入时间不能为空");
-        }
+        checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return isLeapYear(calendar.get(Calendar.YEAR));
@@ -715,12 +688,10 @@ public final class DateUtil {
      * @return 星座
      */
     public static String getConstellation(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         int month = get(date, Calendar.MONTH);
         int day = get(date, Calendar.DATE);
-        return day < constellationDays[month - 1] ? constellations[month - 1] : constellations[month];
+        return day < CONSTELLATION_DAYS[month - 1] ? CONSTELLATIONS[month - 1] : CONSTELLATIONS[month];
     }
 
     /**
@@ -730,12 +701,38 @@ public final class DateUtil {
      * @return 生肖
      */
     public static String getChineseZodiac(Date date) {
-        if (date == null) {
-            return null;
-        }
+        checkNull(date);
         int year = get(date, Calendar.YEAR);
         // 已知2022为虎年，以此为基准判断
-        return year >= 2022 ? chineseZodiacs[(year - 2022 + 2) % 12] : chineseZodiacs[(12 - (2022 - year) % 12 + 2) % 12];
+        return year >= 2022 ? CHINESE_ZODIACS[(year - 2022 + 2) % 12] : CHINESE_ZODIACS[(12 - (2022 - year) % 12 + 2) % 12];
+    }
+
+    /**
+     * 根据生日求年龄
+     *
+     * @param date     当前时间
+     * @param birthday 生日
+     * @return 年龄 (周岁)
+     */
+    public static int getAge(Date date, Date birthday) {
+        if (date == null) {
+            throw new IllegalArgumentException("当前时间不能为空");
+        }
+        if (birthday == null) {
+            throw new IllegalArgumentException("生日不能为空");
+        }
+        if (date.before(birthday)) {
+            throw new IllegalArgumentException("当前时间不能早于生日");
+        }
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date);
+        c2.setTime(birthday);
+        int year1 = c1.get(Calendar.YEAR);
+        int year2 = c2.get(Calendar.YEAR);
+        c2.set(Calendar.YEAR, year1);
+        Date birthdayOfThisYear = c2.getTime();
+        return year1 - year2 - (birthdayOfThisYear.after(date) ? 1 : 0);
     }
 
     /* 以下为内部函数 */
@@ -746,16 +743,40 @@ public final class DateUtil {
      * @param begin 起始时间
      * @param end   结束时间
      * @param unit  时间单位 (毫秒数)
-     * @return 时间差
+     * @return 时间差 (绝对值)
      */
-    private static Long getDiff(Date begin, Date end, long unit) {
-        if (begin == null || end == null) {
-            return null;
-        }
+    private static long getDiff(Date begin, Date end, long unit) {
+        checkNull(begin, end);
         if (unit < 1) {
             throw new IllegalArgumentException("时间单位(毫秒数)不能小于1");
         }
-        return (begin.getTime() - end.getTime()) / unit;
+        return Math.abs((begin.getTime() - end.getTime()) / unit);
+    }
+
+    /**
+     * 时间空校验
+     *
+     * @param date 时间
+     */
+    private static void checkNull(Date date) {
+        if (date == null) {
+            throw new IllegalArgumentException("输入时间不能为空");
+        }
+    }
+
+    /**
+     * 时间空校验
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     */
+    private static void checkNull(Date begin, Date end) {
+        if (begin == null) {
+            throw new IllegalArgumentException("起始时间不能为空");
+        }
+        if (end == null) {
+            throw new IllegalArgumentException("结束时间不能为空");
+        }
     }
 
 }

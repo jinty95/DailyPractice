@@ -231,4 +231,15 @@ public class DateUtilTest {
         System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1, 1, 1)));
     }
 
+    @Test
+    public void testGetAge() {
+        Date now = new Date();
+        Date birthday = DateUtil.buildDate(1996, 1, 1);
+        System.out.println("今天：" + DateUtil.format(now, DateUtil.DATE));
+        System.out.println("生日：" + DateUtil.format(birthday, DateUtil.DATE));
+        System.out.println("年龄：" + DateUtil.getAge(now, birthday));
+        System.out.println("生肖：" + DateUtil.getChineseZodiac(birthday));
+        System.out.println("星座：" + DateUtil.getConstellation(birthday));
+    }
+
 }
