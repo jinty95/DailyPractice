@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * 时间范围 - 实体类
+ * 时间范围
  *
  * @author Jinty
  * @date 2021/11/3

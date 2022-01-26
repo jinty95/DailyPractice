@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 键值对 - 实体类
+ * 键值对
  *
  * @author Jinty
  * @date 2021/12/7

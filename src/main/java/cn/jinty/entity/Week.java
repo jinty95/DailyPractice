@@ -5,7 +5,7 @@ import lombok.*;
 import java.util.Date;
 
 /**
- * 周、星期 - 实体类
+ * 周、星期
  *
  * @author Jinty
  * @date 2021/11/10
