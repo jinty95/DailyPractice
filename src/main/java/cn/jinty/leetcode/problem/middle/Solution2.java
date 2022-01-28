@@ -1406,4 +1406,49 @@ public class Solution2 {
                 + (timePoint.charAt(3) - '0') * 10 + timePoint.charAt(4) - '0';
     }
 
+    /**
+     * 1996. 游戏中弱角色的数量
+     * 你正在参加一个多角色游戏，每个角色都有两个主要属性：攻击和防御。
+     * 给你一个二维整数数组 properties ，其中 properties[i] = [attacki, defensei] 表示游戏中第 i 个角色的属性。
+     * 如果存在一个其他角色的攻击和防御等级都严格高于该角色的攻击和防御等级，则认为该角色为弱角色。
+     *
+     * @param properties 角色属性 (2 <= properties.length <= 10^5)
+     * @return 弱角色的数量
+     */
+    public int numberOfWeakCharacters(int[][] properties) {
+        /*// 1、排序 + 两层循环：时间复杂度O(N^2)
+        int cnt = 0;
+        // 按攻击和防御的和升序
+        Arrays.sort(properties, (Comparator.comparingInt(o -> o[0] + o[1])));
+        // 遍历每个角色，与和大的比较，并且先跟和最大的比较
+        for (int i = 0; i < properties.length; i++) {
+            for (int j = properties.length - 1; j > i; j--) {
+                if (properties[i][0] < properties[j][0] && properties[i][1] < properties[j][1]) {
+                    cnt++;
+                    break;
+                }
+            }
+        }
+        return cnt;*/
+
+        // 2、排序 + 一层循环：时间复杂度O(N * logN)
+        int cnt = 0;
+        // 按照攻击力降序，攻击力相等则按防御力升序
+        Arrays.sort(properties, ((o1, o2) -> {
+            if (o1[0] == o2[0]) {
+                return o1[1] - o2[1];
+            }
+            return o2[0] - o1[0];
+        }));
+        // 从左向右遍历，保留从左到当前的最大防御力，如果比当前的大，则当前角色是弱角色
+        int maxDefense = 0;
+        for (int i = 0; i < properties.length; i++) {
+            if (maxDefense > properties[i][1]) {
+                cnt++;
+            }
+            maxDefense = Math.max(maxDefense, properties[i][1]);
+        }
+        return cnt;
+    }
+
 }

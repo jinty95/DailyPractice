@@ -266,4 +266,17 @@ public class SolutionTest2 {
         System.out.println(solution.findMinDifference(Arrays.asList("00:00", "04:00", "22:00")));
     }
 
+    @Test
+    public void testNumberOfWeakCharacters() {
+        System.out.println(solution.numberOfWeakCharacters(
+                new int[][]{{5, 5}, {6, 3}, {3, 6}}
+        ));
+        System.out.println(solution.numberOfWeakCharacters(
+                new int[][]{{5, 5}, {6, 6}, {7, 7}}
+        ));
+        System.out.println(solution.numberOfWeakCharacters(
+                new int[][]{{7, 9}, {10, 7}, {6, 9}, {10, 4}, {7, 5}, {7, 10}}
+        ));
+    }
+
 }
