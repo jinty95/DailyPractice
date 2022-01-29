@@ -11,44 +11,7 @@ import java.util.Scanner;
  * @author Jinty
  * @date 2020/2/25.
  */
-@SuppressWarnings("unused")
 public final class ArrayUtil {
-
-    /**
-     * 打印二维数组
-     *
-     * @param arr 二维数组
-     */
-    public static void print2DArray(int[][] arr) {
-        for (int[] one : arr) {
-            System.out.println(Arrays.toString(one));
-        }
-    }
-
-    /**
-     * 打印二维数组
-     *
-     * @param arr 二维数组
-     */
-    public static void print2DArray(char[][] arr) {
-        for (char[] one : arr) {
-            System.out.println(Arrays.toString(one));
-        }
-    }
-
-    /**
-     * 打印三维数组
-     *
-     * @param arr 三维数组
-     */
-    public static void print3DArray(int[][][] arr) {
-        for (int[][] two : arr) {
-            for (int[] one : two) {
-                System.out.print(Arrays.toString(one));
-            }
-            System.out.println();
-        }
-    }
 
     /**
      * 列表转为数组

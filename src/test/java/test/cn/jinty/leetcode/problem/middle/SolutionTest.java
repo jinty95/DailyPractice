@@ -27,10 +27,10 @@ public class SolutionTest {
     @Test
     public void testRotate() {
         int[][] matrix = {{2, 29, 20, 26, 16, 28}, {12, 27, 9, 25, 13, 21}, {32, 33, 32, 2, 28, 14}, {13, 14, 32, 27, 22, 26}, {33, 1, 20, 7, 21, 7}, {4, 24, 1, 6, 32, 34}};
-        ArrayUtil.print2DArray(matrix);
+        System.out.println(Arrays.deepToString(matrix));
         System.out.println("---分割线---");
         solution.rotate(matrix);
-        ArrayUtil.print2DArray(matrix);
+        System.out.println(Arrays.deepToString(matrix));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class SolutionTest {
         int[][] people = {
                 {7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}
         };
-        ArrayUtil.print2DArray(solution.reconstructQueue(people));
+        System.out.println(Arrays.deepToString(solution.reconstructQueue(people)));
     }
 
     @Test
@@ -177,7 +177,7 @@ public class SolutionTest {
     @Test
     public void testMerge() {
         int[][] intervals = {{1, 4}, {2, 6}, {6, 9}, {5, 7}, {19, 20}, {99, 100}, {98, 101}};
-        ArrayUtil.print2DArray(solution.merge(intervals));
+        System.out.println(Arrays.deepToString(solution.merge(intervals)));
     }
 
     @Test
@@ -546,7 +546,7 @@ public class SolutionTest {
         int[][] points = {
                 {1, 3}, {2, -2}
         };
-        ArrayUtil.print2DArray(solution.kClosest(points, 1));
+        System.out.println(Arrays.deepToString(solution.kClosest(points, 1)));
     }
 
     @Test
@@ -740,9 +740,9 @@ public class SolutionTest {
     @Test
     public void testGameOfLife() {
         int[][] board = {{0, 1, 0}, {0, 0, 1}, {1, 1, 1}, {0, 0, 0}};
-        ArrayUtil.print2DArray(board);
+        System.out.println(Arrays.deepToString(board));
         solution.gameOfLife(board);
-        ArrayUtil.print2DArray(board);
+        System.out.println(Arrays.deepToString(board));
     }
 
     @Test

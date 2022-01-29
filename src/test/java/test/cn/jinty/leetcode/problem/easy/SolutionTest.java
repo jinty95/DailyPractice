@@ -75,9 +75,8 @@ public class SolutionTest {
 
     @Test
     public void testFindContinuousSequence() {
-        ArrayUtil.print2DArray(solution.findContinuousSequence(15));
-        System.out.println();
-        ArrayUtil.print2DArray(solution.findContinuousSequence(5));
+        System.out.println(Arrays.deepToString(solution.findContinuousSequence(15)));
+        System.out.println(Arrays.deepToString(solution.findContinuousSequence(5)));
     }
 
     @Test
@@ -113,7 +112,7 @@ public class SolutionTest {
     @Test
     public void testFloodFill() {
         int[][] image = {{1, 1, 1}, {1, 0, 1}, {0, 0, 0}};
-        ArrayUtil.print2DArray(solution.floodFill(image, 0, 0, 3));
+        System.out.println(Arrays.deepToString(solution.floodFill(image, 0, 0, 3)));
     }
 
     @Test

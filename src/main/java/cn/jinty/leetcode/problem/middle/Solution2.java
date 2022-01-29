@@ -1451,4 +1451,100 @@ public class Solution2 {
         return cnt;
     }
 
+    /**
+     * 1765. 地图中的最高点
+     * 给你一个大小为 m x n 的整数矩阵 isWater ，它代表了一个由陆地和水域单元格组成的地图。
+     * 如果 isWater[i][j] == 0 ，格子 (i, j) 是一个陆地格子。
+     * 如果 isWater[i][j] == 1 ，格子 (i, j) 是一个水域格子。
+     * 你需要按照如下规则给每个单元格安排高度：
+     * 1、每个格子的高度都必须是非负的。
+     * 2、如果一个格子是是水域，那么它的高度必须为 0。
+     * 3、任意相邻的格子高度差 至多为 1。当两个格子在正东、南、西、北方向上相互紧挨着，就称它们为相邻的格子。
+     * 找到一种安排高度的方案，使得矩阵中的最高高度值最大。
+     * 请你返回一个大小为 m x n 的整数矩阵 height，其中 height[i][j] 是格子 (i, j) 的高度。如果有多种解法，请返回任意一个。
+     *
+     * @param isWater 矩阵(是否水域)
+     * @return 矩阵(最高高度值最大)
+     */
+    public int[][] highestPeak(int[][] isWater) {
+        /*// 1、暴力破解：时间复杂度O((MN)^2)
+        // 0的四周填上1，1的四周填上2，直到所有格子都被填充
+        int m = isWater.length, n = isWater[0].length;
+        int[][] res = new int[m][n];
+        int remain = m * n;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                res[i][j] = -1;
+                if (isWater[i][j] == 1) {
+                    res[i][j] = 0;
+                    remain--;
+                }
+            }
+        }
+        highestPeak(res, 0, remain);
+        return res;*/
+
+        // 2、广度优先搜索：时间复杂度O(MN)
+        int[][] dirs = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        int m = isWater.length, n = isWater[0].length;
+        int[][] res = new int[m][n];
+        Queue<int[]> queue = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                res[i][j] = -1;
+                if (isWater[i][j] == 1) {
+                    res[i][j] = 0;
+                    queue.offer(new int[]{i, j});
+                }
+            }
+        }
+        int height = 1;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] point = queue.poll();
+                for (int[] dir : dirs) {
+                    int x = point[0] + dir[0], y = point[1] + dir[1];
+                    if (x >= 0 && x < m && y >= 0 && y < n && res[x][y] == -1) {
+                        res[x][y] = height;
+                        queue.offer(new int[]{x, y});
+                    }
+                }
+            }
+            height++;
+        }
+        return res;
+    }
+
+    private void highestPeak(int[][] res, int num, int remain) {
+        if (remain == 0) {
+            return;
+        }
+        int m = res.length, n = res[0].length;
+        int next = num + 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (res[i][j] == num) {
+                    if (i > 0 && res[i - 1][j] == -1) {
+                        res[i - 1][j] = next;
+                        remain--;
+                    }
+                    if (i < m - 1 && res[i + 1][j] == -1) {
+                        res[i + 1][j] = next;
+                        remain--;
+                    }
+                    if (j > 0 && res[i][j - 1] == -1) {
+                        res[i][j - 1] = next;
+                        remain--;
+                    }
+                    if (j < n - 1 && res[i][j + 1] == -1) {
+                        res[i][j + 1] = next;
+                        remain--;
+                    }
+                }
+            }
+        }
+        highestPeak(res, next, remain);
+    }
+
 }

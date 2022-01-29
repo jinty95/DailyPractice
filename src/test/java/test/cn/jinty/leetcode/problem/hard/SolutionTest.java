@@ -277,7 +277,7 @@ public class SolutionTest {
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
         };
         solution.solveSudoku(sudoku);
-        ArrayUtil.print2DArray(sudoku);
+        System.out.println(Arrays.deepToString(sudoku));
     }
 
     @Test
