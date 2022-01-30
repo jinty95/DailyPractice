@@ -343,4 +343,32 @@ public class Solution1 {
         return true;
     }
 
+    /**
+     * 884. 两句话中的不常见单词
+     * 句子是一串由空格分隔的单词。每个单词仅由小写字母组成。
+     * 如果某个单词在其中一个句子中恰好出现一次，在另一个句子中却没有出现，那么这个单词就是不常见的。
+     * 给你两个句子 s1 和 s2，返回所有不常用单词的列表。返回列表中单词可以按任意顺序组织。
+     *
+     * @param s1 句子1
+     * @param s2 句子2
+     * @return 不常见的单词
+     */
+    public String[] uncommonFromSentences(String s1, String s2) {
+        // 切割为两个单词数组，统计总词频，找到只出现一次的单词
+        List<String> result = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for (String a : s1.split(" ")) {
+            map.put(a, map.getOrDefault(a, 0) + 1);
+        }
+        for (String a : s2.split(" ")) {
+            map.put(a, map.getOrDefault(a, 0) + 1);
+        }
+        for (String a : map.keySet()) {
+            if (map.get(a) == 1) {
+                result.add(a);
+            }
+        }
+        return result.toArray(new String[0]);
+    }
+
 }

@@ -71,4 +71,9 @@ public class SolutionTest1 {
         System.out.println(solution.removePalindromeSub("ababaabb")); // 2
     }
 
+    @Test
+    public void testUncommonFromSentences() {
+        System.out.println(Arrays.toString(solution.uncommonFromSentences("this apple is sweet", "this apple is sour")));
+    }
+
 }
