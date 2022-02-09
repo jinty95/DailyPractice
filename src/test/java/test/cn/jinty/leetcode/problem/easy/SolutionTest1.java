@@ -76,4 +76,10 @@ public class SolutionTest1 {
         System.out.println(Arrays.toString(solution.uncommonFromSentences("this apple is sweet", "this apple is sour")));
     }
 
+    @Test
+    public void testCountKDifference() {
+        System.out.println(solution.countKDifference(new int[]{1, 2, 2, 1}, 1));
+        System.out.println(solution.countKDifference(new int[]{3, 2, 1, 5, 4}, 2));
+    }
+
 }

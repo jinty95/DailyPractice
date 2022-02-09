@@ -371,4 +371,25 @@ public class Solution1 {
         return result.toArray(new String[0]);
     }
 
+    /**
+     * 2006. 差的绝对值为 K 的数对数目
+     * 给你一个整数数组 nums 和一个整数 k ，请你返回数对 (i, j) 的数目，满足 i < j 且 |nums[i] - nums[j]| == k 。
+     *
+     * @param nums 整数数组
+     * @param k 整数
+     * @return 符合条件的数对数目
+     */
+    public int countKDifference(int[] nums, int k) {
+        // 哈希表：时间复杂度O(N)，空间复杂度O(N)
+        int cnt = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(nums[0], 1);
+        for (int i = 1; i < nums.length; i++) {
+            int num = nums[i];
+            cnt += map.getOrDefault(num + k, 0) + map.getOrDefault(num - k, 0);
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return cnt;
+    }
+
 }
