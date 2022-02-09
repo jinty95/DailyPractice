@@ -294,7 +294,7 @@ public class Solution1 {
      * 如果存在，返回 true ；否则，返回 false 。
      *
      * @param arr 数组
-     * @param k 整数
+     * @param k   整数
      * @return 是否存在邻近的重复元素
      */
     public boolean containsNearbyDuplicate(int[] arr, int k) {
@@ -376,7 +376,7 @@ public class Solution1 {
      * 给你一个整数数组 nums 和一个整数 k ，请你返回数对 (i, j) 的数目，满足 i < j 且 |nums[i] - nums[j]| == k 。
      *
      * @param nums 整数数组
-     * @param k 整数
+     * @param k    整数
      * @return 符合条件的数对数目
      */
     public int countKDifference(int[] nums, int k) {
@@ -390,6 +390,47 @@ public class Solution1 {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         return cnt;
+    }
+
+    /**
+     * 1. 两数之和
+     * 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出和为目标值 target 的那两个整数，并返回它们的数组下标。
+     * 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。你可以按任意顺序返回答案。
+     *
+     * @param nums   整数数组
+     * @param target 整数目标值
+     * @return 和为目标值的两个数的下标
+     */
+    public int[] twoSum(int[] nums, int target) {
+        /*// 1、排序：时间复杂度O(NlogN)，空间复杂度O(N)
+        int[][] copyNums = new int[nums.length][2];
+        for (int i = 0; i < nums.length; i++) {
+            copyNums[i] = new int[]{nums[i], i};
+        }
+        Arrays.sort(copyNums, (o1, o2) -> o1[0] - o2[0]);
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int sum = copyNums[i][0] + copyNums[j][0];
+            if (sum == target) {
+                return new int[]{copyNums[i][1], copyNums[j][1]};
+            } else if (sum < target) {
+                i++;
+            } else {
+                j--;
+            }
+        }
+        return null;*/
+
+        // 2、哈希表：时间复杂度O(N)，空间复杂度O(N)
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(nums[0], 0);
+        for (int i = 1; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+        return null;
     }
 
 }

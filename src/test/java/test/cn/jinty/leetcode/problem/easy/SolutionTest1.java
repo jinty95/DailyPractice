@@ -82,4 +82,10 @@ public class SolutionTest1 {
         System.out.println(solution.countKDifference(new int[]{3, 2, 1, 5, 4}, 2));
     }
 
+    @Test
+    public void testTwoSum() {
+        System.out.println(Arrays.toString(solution.twoSum(new int[]{2, 7, 11, 15}, 9)));
+        System.out.println(Arrays.toString(solution.twoSum(new int[]{3, 2, 4}, 6)));
+    }
+
 }
