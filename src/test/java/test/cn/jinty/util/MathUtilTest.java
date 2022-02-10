@@ -29,6 +29,13 @@ public class MathUtilTest {
     }
 
     @Test
+    public void testGreatestCommonDivisor() {
+        System.out.println(MathUtil.greatestCommonDivisor(1, 99999));
+        System.out.println(MathUtil.greatestCommonDivisor(4, 6));
+        System.out.println(MathUtil.greatestCommonDivisor(81, 9));
+    }
+
+    @Test
     public void testTwoIntToLong() {
         long l1 = MathUtil.twoIntToLong(1, 1);
         System.out.println(l1);

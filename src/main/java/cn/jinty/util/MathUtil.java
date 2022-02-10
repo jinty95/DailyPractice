@@ -79,6 +79,20 @@ public final class MathUtil {
     }
 
     /**
+     * 求最大公约数 (辗转相除法)
+     *
+     * @param a 整数1
+     * @param b 整数2
+     * @return 最大公约数
+     */
+    public static int greatestCommonDivisor(int a, int b) {
+        if (a == 0) {
+            return b;
+        }
+        return greatestCommonDivisor(b % a, a);
+    }
+
+    /**
      * 两个int转为一个long
      *
      * @param h 高位整数
