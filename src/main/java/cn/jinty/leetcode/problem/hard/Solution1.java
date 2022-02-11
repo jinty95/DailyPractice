@@ -1163,4 +1163,100 @@ public class Solution1 {
         return count;
     }
 
+    /**
+     * 4. 寻找两个正序数组的中位数
+     * 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请找出并返回这两个正序数组的中位数。
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @return 中位数
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        /*// 1、有序表合并：时间复杂度O(m + n)，空间复杂度O(m + n)
+        int m = nums1.length, n = nums2.length;
+        int total = m + n;
+        int[] merge = new int[total];
+        int i = 0, j = 0, k = 0;
+        while (i < m && j < n) {
+            if (nums1[i] <= nums2[j]) {
+                merge[k++] = nums1[i++];
+            } else {
+                merge[k++] = nums2[j++];
+            }
+        }
+        while (i < m) {
+            merge[k++] = nums1[i++];
+        }
+        while (j < n) {
+            merge[k++] = nums2[j++];
+        }
+        return (total & 1) == 0 ? (merge[total / 2 - 1] + merge[total / 2]) / 2.0 : merge[total / 2];*/
+
+        /*// 2、双指针：时间复杂度O(m + n)，空间复杂度O(1)
+        int m = nums1.length, n = nums2.length;
+        int total = m + n;
+        int i = 0, j = 0, k = 0;
+        int median1 = 0, median2 = 0;
+        while (k <= total / 2) {
+            int now;
+            if (i < m && j < n) {
+                if (nums1[i] <= nums2[j]) {
+                    now = nums1[i];
+                    i++;
+                } else {
+                    now = nums2[j];
+                    j++;
+                }
+            } else if (i < m) {
+                now = nums1[i];
+                i++;
+            } else {
+                now = nums2[j];
+                j++;
+            }
+            if (k == total / 2 - 1) {
+                median1 = now;
+            } else if (k == total / 2) {
+                median2 = now;
+            }
+            k++;
+        }
+        return (total & 1) == 0 ? (median1 + median2) / 2.0 : median2;*/
+
+        // 3、二分查找：时间复杂度O(log(m + n))，空间复杂度O(1)
+        int m = nums1.length, n = nums2.length;
+        int total = m + n;
+        if ((total & 1) == 0) {
+            return (getKthMinNum(nums1, nums2, total / 2) + getKthMinNum(nums1, nums2, total / 2 + 1)) / 2.0;
+        } else {
+            return getKthMinNum(nums1, nums2, total / 2 + 1);
+        }
+    }
+
+    // 在两个升序数组中，找到第 k 小的数
+    private int getKthMinNum(int[] nums1, int[] nums2, int k) {
+        int i = 0, j = 0;
+        while (true) {
+            if (i == nums1.length) {
+                return nums2[j + k - 1];
+            }
+            if (j == nums2.length) {
+                return nums1[i + k - 1];
+            }
+            if (k == 1) {
+                return Math.min(nums1[i], nums2[j]);
+            }
+            int half = k / 2;
+            int tempI = Math.min(i + half, nums1.length) - 1;
+            int tempJ = Math.min(j + half, nums2.length) - 1;
+            if (nums1[tempI] <= nums2[tempJ]) {
+                k -= tempI - i + 1;
+                i = tempI + 1;
+            } else {
+                k -= tempJ - j + 1;
+                j = tempJ + 1;
+            }
+        }
+    }
+
 }

@@ -183,4 +183,11 @@ public class SolutionTest1 {
         System.out.println(solution.longestDupSubstring("ppyprwwynqfidzoroopgecnvdgupnlwxwjjpynpxvptmgmirzerrwlslshudljlkbanxbuidrhocsaadxcqgzleadrbsnspcxgfaimugpwyfhwfhhwhvxvpuyhixibaqpvsdigpofyeqyljekswxrckwdwyeatlulnglkuzuwmglcctjqgwwzvflayzqpqucdqzfpegmhcxuxqhxkamsxeczspgixgatcxjkfgtupiwdeicozvbackiwoxgyfrysgrlevolbmawccazzbiubipialpxmjyzrwtqtjznnunjkuujthcrmjuofaofyyviwfnxujdbmigzdbmdjwmqjddjjidzohgetthcrmsnzbxzgwicvhcsgeqvovwyikgiiaksgrrgktwhtowezzmxhbfbgktaamzeizwbcexckuejpgmgtckrgiwiopgaaaihvorfpjebsnxixmiqcfjqwqtlovqdywsibqwjuwehwguwdqnavpxltxtfowcobihawjpgtgwwmcwiftudksvhyykoskyuifgyipemyswgmusywztkobnuqrvvnxffrtwoijwpdaelhtlpweyupbvumalqaumiryikyijqpisgpgqpjwrvesforvcygzrjuwxiyewfezggvprbcfdyavzdwovgntyakcdhbunyumvzmljsktiyudvxygofyjhlvbqballbchamarhewmqwoaepq"));
     }
 
+    @Test
+    public void testFindMedianSortedArrays() {
+        System.out.println(solution.findMedianSortedArrays(new int[]{1, 3}, new int[]{2, 4}));
+        System.out.println(solution.findMedianSortedArrays(new int[]{1, 3}, new int[]{2}));
+        System.out.println(solution.findMedianSortedArrays(new int[]{1}, new int[]{2, 3, 4, 5, 6}));
+    }
+
 }
