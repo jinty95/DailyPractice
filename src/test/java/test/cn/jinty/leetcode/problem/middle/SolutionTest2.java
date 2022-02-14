@@ -296,4 +296,20 @@ public class SolutionTest2 {
         System.out.println(solution.singleNonDuplicate(new int[]{1, 2, 2, 3, 3, 4, 4}));
     }
 
+    @Test
+    public void testInsert() {
+        System.out.println(Arrays.deepToString(
+                solution.insert(new int[][]{}, new int[]{3, 4}))
+        );
+        System.out.println(Arrays.deepToString(
+                solution.insert(new int[][]{{1, 5}}, new int[]{3, 4}))
+        );
+        System.out.println(Arrays.deepToString(
+                solution.insert(new int[][]{{1, 5}}, new int[]{6, 8}))
+        );
+        System.out.println(Arrays.deepToString(
+                solution.insert(new int[][]{{1, 2}, {4, 5}, {6, 10}, {11, 12}}, new int[]{3, 4}))
+        );
+    }
+
 }

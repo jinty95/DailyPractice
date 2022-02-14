@@ -1572,7 +1572,60 @@ public class Solution2 {
             }
         }
         return nums[i];
-        
+
+    }
+
+    /**
+     * 57. 插入区间
+     * 给你一个无重叠的，按照区间起始端点排序的区间列表。
+     * 在列表中插入一个新的区间，你需要确保列表中的区间仍然有序且不重叠（如果有必要的话，可以合并区间）。
+     *
+     * @param intervals   区间数组
+     * @param newInterval 插入区间
+     * @return 结果数组
+     */
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        // 一次遍历：时间复杂度O(N)，空间复杂度O(N)，其中N为intervals的长度
+        if (intervals.length == 0) {
+            return new int[][]{newInterval};
+        }
+        List<int[]> res = new ArrayList<>();
+        // 合并区间
+        int[] merge = null;
+        // 是否已完成合并
+        boolean merged = false;
+        for (int[] interval : intervals) {
+            // 后区间原样保留
+            if (merged) {
+                res.add(interval);
+                continue;
+            }
+            // 前区间原样保留
+            if (interval[1] < newInterval[0]) {
+                res.add(interval);
+            } else {
+                // 中间区间进行合并
+                if (merge == null) {
+                    merge = newInterval;
+                }
+                if (interval[0] <= newInterval[1]) {
+                    merge[0] = Math.min(interval[0], merge[0]);
+                    merge[1] = Math.max(interval[1], merge[1]);
+                } else {
+                    res.add(merge);
+                    res.add(interval);
+                    merged = true;
+                }
+            }
+        }
+        // 可能遗漏的合并区间
+        if (!merged) {
+            if (merge == null) {
+                merge = newInterval;
+            }
+            res.add(merge);
+        }
+        return res.toArray(new int[0][]);
     }
 
 }

@@ -896,7 +896,7 @@ public class Solution {
         if (delta == 1) {
             ans[0] = max - 1;
             ans[1] = max;
-        } else if (delta == 2) {
+        } else {
             ans[1] = max;
         }
         return ans;
