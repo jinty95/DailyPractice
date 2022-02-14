@@ -1547,4 +1547,32 @@ public class Solution2 {
         highestPeak(res, next, remain);
     }
 
+    /**
+     * 540. 有序数组中的单一元素
+     * 给你一个仅由整数组成的有序数组，其中每个元素都会出现两次，唯有一个数只会出现一次。
+     * 请你找出并返回只出现一次的那个数。
+     * 你设计的解决方案必须满足 O(log n) 时间复杂度和 O(1) 空间复杂度。
+     *
+     * @param nums 整数数组
+     * @return 单一元素
+     */
+    public int singleNonDuplicate(int[] nums) {
+
+        // 根据题意可知：存在一个唯一元素，左侧偶数个小元素，相同元素的首元素下标为偶数，右侧偶数个大元素，相同元素的首元素下标为奇数，唯一元素的下标为偶数
+
+        // 二分查找
+        int i = 0, j = nums.length - 1;
+        while (i < j) {
+            int mid = i + (j - i) / 2;
+            if (((mid & 1) == 0 && nums[mid] == nums[mid + 1])
+                    || ((mid & 1) == 1 && nums[mid - 1] == nums[mid])) {
+                i = mid + 1;
+            } else {
+                j = mid;
+            }
+        }
+        return nums[i];
+        
+    }
+
 }

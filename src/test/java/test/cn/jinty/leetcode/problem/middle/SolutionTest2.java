@@ -289,4 +289,11 @@ public class SolutionTest2 {
         )));
     }
 
+    @Test
+    public void testSingleNonDuplicate() {
+        System.out.println(solution.singleNonDuplicate(new int[]{1, 1, 2, 3, 3, 4, 4}));
+        System.out.println(solution.singleNonDuplicate(new int[]{1, 1, 2, 2, 3, 3, 4}));
+        System.out.println(solution.singleNonDuplicate(new int[]{1, 2, 2, 3, 3, 4, 4}));
+    }
+
 }
