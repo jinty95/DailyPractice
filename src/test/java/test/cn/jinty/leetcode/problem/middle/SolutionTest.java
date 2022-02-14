@@ -747,9 +747,9 @@ public class SolutionTest {
 
     @Test
     public void testConvert() {
+        System.out.println(solution.convert("ABC", 1));
         System.out.println(solution.convert("PAYPALISHIRING", 3));
         System.out.println(solution.convert("PAYPALISHIRING", 4));
-        System.out.println(solution.convert("ABCD", 1));
     }
 
     @Test

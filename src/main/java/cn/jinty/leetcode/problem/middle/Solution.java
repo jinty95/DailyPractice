@@ -3874,59 +3874,47 @@ public class Solution {
      */
     public String convert(String s, int numRows) {
 
-        /*//解法1：时间复杂度O(NlogN)
-        //不需要处理的情况
-        if(numRows==1 || s.length()<=numRows) return s;
-        //记录每个字符的坐标位置
-        int[][] pos = new int[s.length()][3];
-        int i=0, j=0, k=0;
-        boolean down = true;
-        while(k<s.length()){
-            if(down){
-                if(i==numRows-1) down = false;
-                else{
-                    //下降
-                    pos[k] = new int[]{s.charAt(k), i++, j};
-                    k++;
-                }
-            }else{
-                if(i==0) down = true;
-                else{
-                    //上升
-                    pos[k] = new int[]{s.charAt(k), i--, j++};
-                    k++;
-                }
+        // 1、按顺序填充：时间复杂度O(N)
+        if (numRows == 1) return s;
+        List<StringBuilder> lists = new ArrayList<>();
+        for (int i = 0; i < Math.min(s.length(), numRows); i++) {
+            lists.add(new StringBuilder());
+        }
+        int curRow = 0;
+        boolean goDown = false;
+        for (char c : s.toCharArray()) {
+            lists.get(curRow).append(c);
+            if (curRow == 0 || curRow == numRows - 1) {
+                goDown = !goDown;
             }
+            curRow += goDown ? 1 : -1;
         }
-        //先按行后按列排序
-        Arrays.sort(pos,(o1,o2)->{
-            if(o1[1]==o2[1]) return o1[2]-o2[2];
-            return o1[1]-o2[1];
-        });
-        //构建结果字符串
-        StringBuilder result = new StringBuilder();
-        for (int[] po : pos) {
-            result.append((char) po[0]);
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder sb : lists) {
+            res.append(sb);
         }
-        return result.toString();*/
+        return res.toString();
 
-        //解法2：时间复杂度O(N)
+        /*// 2、按行访问：时间复杂度O(N)
+        // Z字形变换是一个周期性结构，且行数增一周期增二(一下一上，距离增二)，首尾行，一个周期贡献一个元素，其余行一个周期贡献两个元素
         if (numRows == 1) return s;
         StringBuilder sb = new StringBuilder();
-        //Z字形变换是一个周期性结构，且行数增一周期增二，对于每一行，一个周期会贡献1~2个元素
+        // 根据行数得到周期
         int cycle = 2 * numRows - 2;
-        //遍历行
+        // 枚举行
         for (int i = 0; i < numRows; i++) {
-            //收集属于该行的元素
+            // 收集属于该行的元素
             for (int j = i; j < s.length(); j += cycle) {
                 sb.append(s.charAt(j));
                 if (i > 0 && i < numRows - 1) {
                     int k = j - i + cycle - i;
-                    if (k < s.length()) sb.append(s.charAt(k));
+                    if (k < s.length()) {
+                        sb.append(s.charAt(k));
+                    }
                 }
             }
         }
-        return sb.toString();
+        return sb.toString();*/
 
     }
 
