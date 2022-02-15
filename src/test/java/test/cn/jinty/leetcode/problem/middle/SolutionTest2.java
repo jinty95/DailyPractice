@@ -312,4 +312,12 @@ public class SolutionTest2 {
         );
     }
 
+    @Test
+    public void testRecoverTree() {
+        TreeNode root = TreeNode.deserialize("[2,3,1,null,null,null,null]");
+        System.out.println(root.inorder());
+        solution.recoverTree(root);
+        System.out.println(root.inorder());
+    }
+
 }

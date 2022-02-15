@@ -1628,4 +1628,49 @@ public class Solution2 {
         return res.toArray(new int[0][]);
     }
 
+    /**
+     * 99. 恢复二叉搜索树
+     * 给你二叉搜索树的根节点 root ，该树中的恰好两个节点的值被错误地交换。请在不改变其结构的情况下，恢复这棵树。
+     *
+     * @param root 二叉搜索树
+     */
+    public void recoverTree(TreeNode root) {
+        // 1、中序遍历：时间复杂度O(N)，空间复杂度O(N)
+        List<TreeNode> nodes = new ArrayList<>();
+        collectByInorder(root, nodes);
+        TreeNode p1 = null, p2 = null;
+        int idx = -1;
+        // 当出现前一个节点大于后一个节点时，前一个节点是被交换的较大节点
+        for (int i = 0; i < nodes.size() - 1; i++) {
+            if (nodes.get(i).val > nodes.get(i + 1).val) {
+                p1 = nodes.get(i);
+                idx = i + 1;
+                break;
+            }
+        }
+        // 在找到被交换的较大节点的前提下，向后寻找比其还大的节点，这个节点的前一个节点是被交换的较小节点
+        for (int i = idx; i < nodes.size(); i++) {
+            if (p1 != null && nodes.get(i).val > p1.val) {
+                p2 = nodes.get(i - 1);
+                break;
+            }
+        }
+        // 被交换的较小节点可能在末尾处
+        if (p2 == null) {
+            p2 = nodes.get(nodes.size() - 1);
+        }
+        int temp = p1.val;
+        p1.val = p2.val;
+        p2.val = temp;
+    }
+
+    private void collectByInorder(TreeNode root, List<TreeNode> nodes) {
+        if (root == null) {
+            return;
+        }
+        collectByInorder(root.left, nodes);
+        nodes.add(root);
+        collectByInorder(root.right, nodes);
+    }
+
 }
