@@ -191,4 +191,12 @@ public class SolutionTest1 {
         System.out.println(solution.findMedianSortedArrays(new int[]{1}, new int[]{2, 3, 4, 5, 6}));
     }
 
+    @Test
+    public void testGetPermutation() {
+        System.out.println(solution.getPermutation(3, 1));
+        System.out.println(solution.getPermutation(3, 3));
+        System.out.println(solution.getPermutation(4, 9));
+        System.out.println(solution.getPermutation(6, 78));
+    }
+
 }

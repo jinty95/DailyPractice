@@ -1304,4 +1304,86 @@ public class Solution1 {
         }
     }
 
+    /**
+     * 60. 排列序列
+     * 给出集合 [1,2,3,...,n]，其所有元素共有 n! 种排列。
+     * 按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
+     * "123"、"132"、"213"、"231"、"312"、"321"
+     * 给定 n 和 k，返回第 k 个排列。
+     *
+     * @param n 元素个数
+     * @param k 序号
+     * @return 第 k 个排列
+     */
+    public String getPermutation(int n, int k) {
+        /*// 1、回溯 + 排序：时间复杂度O(N! * log(N!))，空间复杂度O(N! * N)
+        int[] arr = new int[n];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i + 1;
+        }
+        List<String> list = new ArrayList<>();
+        getPermutation(arr, 0, list);
+        list.sort((String::compareTo));
+        return list.get(k - 1);*/
+
+        // 2、逐位确定：时间复杂度O(N^2)，空间复杂度O(N)
+        // 计算阶乘
+        int[] factorials = new int[n];
+        for (int i = 0; i < n; i++) {
+            factorials[i] = i == 0 ? 1 : factorials[i - 1] * (i + 1);
+        }
+        // 标识已被使用的数字
+        boolean[] used = new boolean[n];
+        StringBuilder sb = new StringBuilder();
+        // 从左到右枚举位置
+        for (int i = 0; i < n; i++) {
+            int m = 1;
+            // 枚举填入该位置的数(忽略已被使用的数，最后一个数直接填入)
+            for (int j = 0; j < n; j++) {
+                if (used[j]) {
+                    continue;
+                }
+                if (i == n - 1) {
+                    sb.append(j + 1);
+                    break;
+                }
+                // 定位填入该位置的数，k值按模缩小
+                int factorial = factorials[n - i - 2];
+                if (k <= factorial * m++) {
+                    sb.append(j + 1);
+                    k = (k - 1) % factorial + 1;
+                    used[j] = true;
+                    break;
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    @SuppressWarnings("unused")
+    private void getPermutation(int[] arr, int i, List<String> list) {
+        if (i == arr.length) {
+            StringBuilder sb = new StringBuilder();
+            for (int a : arr) {
+                sb.append(a);
+            }
+            list.add(sb.toString());
+            return;
+        }
+        for (int j = i; j < arr.length; j++) {
+            swap(arr, i, j);
+            getPermutation(arr, i + 1, list);
+            swap(arr, i, j);
+        }
+    }
+
+    private void swap(int[] arr, int a, int b) {
+        if (a == b) {
+            return;
+        }
+        arr[a] ^= arr[b];
+        arr[b] ^= arr[a];
+        arr[a] ^= arr[b];
+    }
+
 }
