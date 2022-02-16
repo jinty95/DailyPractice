@@ -1673,4 +1673,38 @@ public class Solution2 {
         collectByInorder(root.right, nodes);
     }
 
+    /**
+     * 416. 分割等和子集
+     * 给你一个只包含正整数的非空数组。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+     *
+     * @param nums 数组 (1 <= nums.length <= 200 且 1 <= nums[i] <= 100)
+     * @return 是否可以等和分割
+     */
+    public boolean canPartition(int[] nums) {
+        // 动态规划：时间复杂度O(NM)，空间复杂度O(NM)
+        // 总和必须为偶数
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if ((sum & 1) == 1) {
+            return false;
+        }
+        // 找到和为总和一半的子集
+        sum /= 2;
+        // dp[i][j]表示在nums[0...i]中是否存在和为j的子集
+        boolean[][] dp = new boolean[nums.length][sum + 1];
+        for (int j = 0; j <= sum; j++) {
+            if (nums[0] == j) {
+                dp[0][j] = true;
+            }
+        }
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j <= sum; j++) {
+                dp[i][j] = dp[i - 1][j] || (j >= nums[i] && dp[i - 1][j - nums[i]]);
+            }
+        }
+        return dp[nums.length - 1][sum];
+    }
+
 }

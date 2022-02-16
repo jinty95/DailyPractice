@@ -320,4 +320,11 @@ public class SolutionTest2 {
         System.out.println(root.inorder());
     }
 
+    @Test
+    public void testCanPartition() {
+        System.out.println(solution.canPartition(new int[]{1, 5, 11, 5}));
+        System.out.println(solution.canPartition(new int[]{1, 2, 3, 4}));
+        System.out.println(solution.canPartition(new int[]{1, 2, 3, 5}));
+    }
+
 }
