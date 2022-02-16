@@ -2,6 +2,9 @@ package cn.jinty.util;
 
 import cn.jinty.struct.linear.ListNode;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -97,6 +100,71 @@ public final class ListNodeUtil {
             head = head.next;
         }
         return result;
+    }
+
+    /**
+     * 将链表按数值进行升序排序
+     *
+     * @param head 链表
+     * @return 升序链表
+     */
+    public static ListNode sort(ListNode head) {
+        // 归并排序：时间复杂度O(NlogN)，空间复杂度O(logN)
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode mid = getMidNode(head);
+        ListNode head1 = sort(mid.next);
+        mid.next = null;
+        ListNode head2 = sort(head);
+        return merge(head1, head2);
+    }
+
+    /**
+     * 合并有序链表(升序)
+     *
+     * @param head1 有序链表1
+     * @param head2 有序链表2
+     * @return 有序链表
+     */
+    public static ListNode merge(ListNode head1, ListNode head2) {
+        ListNode head = new ListNode(), tmp = head;
+        while (head1 != null && head2 != null) {
+            if (head1.val <= head2.val) {
+                tmp.next = head1;
+                tmp = tmp.next;
+                head1 = head1.next;
+            } else {
+                tmp.next = head2;
+                tmp = tmp.next;
+                head2 = head2.next;
+            }
+        }
+        if (head1 != null) {
+            tmp.next = head1;
+        }
+        if (head2 != null) {
+            tmp.next = head2;
+        }
+        return head.next;
+    }
+
+    /**
+     * 寻找链表的中间节点
+     *
+     * @param head 链表
+     * @return 中间节点
+     */
+    public static ListNode getMidNode(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode slow = head, fast = head.next;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
     }
 
 }
