@@ -327,4 +327,11 @@ public class SolutionTest2 {
         System.out.println(solution.canPartition(new int[]{1, 2, 3, 5}));
     }
 
+    @Test
+    public void testMaxProductOfSubArray() {
+        System.out.println(solution.maxProductOfSubArray(new int[]{2, 3, -1, 4}));
+        System.out.println(solution.maxProductOfSubArray(new int[]{-2, 0, -1}));
+        System.out.println(solution.maxProductOfSubArray(new int[]{-4, -3, -2}));
+    }
+
 }

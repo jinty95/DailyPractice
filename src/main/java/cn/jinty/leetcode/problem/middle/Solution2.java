@@ -1707,4 +1707,62 @@ public class Solution2 {
         return dp[nums.length - 1][sum];
     }
 
+    /**
+     * 152. 乘积最大子数组
+     * 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续子数组，并返回该子数组所对应的乘积。
+     * 测试用例的答案是一个32位整数。
+     *
+     * @param nums 数组 (1 <= nums.length <= 2 * 10^4)
+     * @return 最大乘积
+     */
+    public int maxProductOfSubArray(int[] nums) {
+        /*// 1、枚举子数组：时间复杂度O(N^2)，空间复杂度O(1)
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            int product = nums[i];
+            max = Math.max(max, product);
+            for (int j = i + 1; j < nums.length; j++) {
+                product *= nums[j];
+                max = Math.max(max, product);
+            }
+        }
+        return max;*/
+
+        /*// 2、动态规划：时间复杂度O(N)，空间复杂度O(N)
+        // max[i]表示以i为结尾的子数组的最大乘积
+        int[] max = new int[nums.length];
+        // min[i]表示以i为结尾的子数组的最小乘积
+        int[] min = new int[nums.length];
+        max[0] = nums[0];
+        min[0] = nums[0];
+        int res = max[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < 0) {
+                max[i] = Math.max(nums[i], min[i - 1] * nums[i]);
+                min[i] = Math.min(nums[i], max[i - 1] * nums[i]);
+            } else {
+                max[i] = Math.max(nums[i], max[i - 1] * nums[i]);
+                min[i] = Math.min(nums[i], min[i - 1] * nums[i]);
+            }
+            res = Math.max(res, max[i]);
+        }
+        return res;*/
+
+        // 3、动态规划：时间复杂度O(N)，空间复杂度O(1)
+        // max表示以当前点为结尾的子数组的最大乘积，min表示以当前点为结尾的子数组的最小乘积
+        int res = nums[0], max = nums[0], min = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < 0) {
+                int temp = max;
+                max = Math.max(nums[i], min * nums[i]);
+                min = Math.min(nums[i], temp * nums[i]);
+            } else{
+                max = Math.max(nums[i], max * nums[i]);
+                min = Math.min(nums[i], min * nums[i]);
+            }
+            res = Math.max(res, max);
+        }
+        return res;
+    }
+
 }
