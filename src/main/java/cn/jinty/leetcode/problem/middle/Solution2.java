@@ -1756,13 +1756,57 @@ public class Solution2 {
                 int temp = max;
                 max = Math.max(nums[i], min * nums[i]);
                 min = Math.min(nums[i], temp * nums[i]);
-            } else{
+            } else {
                 max = Math.max(nums[i], max * nums[i]);
                 min = Math.min(nums[i], min * nums[i]);
             }
             res = Math.max(res, max);
         }
         return res;
+    }
+
+    /**
+     * 207. 课程表
+     * 你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。在选修某些课程之前需要一些先修课程。
+     * 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则必须先学习课程 bi 。
+     * 例如，先修课程对 [0, 1] 表示：想要学习课程 0 ，你需要先完成课程 1 。
+     * 请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。
+     *
+     * @param numCourses    课程数 (1 <= numCourses <= 10^5)
+     * @param prerequisites 先修课程
+     * @return 能否完成所有课程
+     */
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // 判断有向图无环：时间复杂度O(N + M)，空间复杂度O(N + M)，其中N为prerequisites的长度，M为numCourses的大小
+        // 邻接表：存储先修课程 -> 后修课程列表
+        Map<Integer, List<Integer>> adjacentList = new HashMap<>();
+        // 入度：存储课程的先修课程数量
+        int[] inDegrees = new int[numCourses];
+        for (int[] prerequisite : prerequisites) {
+            adjacentList.computeIfAbsent(prerequisite[1], ArrayList::new).add(prerequisite[0]);
+            inDegrees[prerequisite[0]]++;
+        }
+        // 寻找入度为0的点，将其排除，其所有后修课程入度减1，重复这个过程，直到排除所有点，如果存在点不能排除，说明出现环
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < inDegrees.length; i++) {
+            if (inDegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int course = queue.poll();
+            numCourses--;
+            List<Integer> next = adjacentList.get(course);
+            if (next != null) {
+                for (Integer one : next) {
+                    inDegrees[one]--;
+                    if (inDegrees[one] == 0) {
+                        queue.offer(one);
+                    }
+                }
+            }
+        }
+        return numCourses == 0;
     }
 
 }

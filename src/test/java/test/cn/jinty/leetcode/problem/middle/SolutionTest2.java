@@ -334,4 +334,10 @@ public class SolutionTest2 {
         System.out.println(solution.maxProductOfSubArray(new int[]{-4, -3, -2}));
     }
 
+    @Test
+    public void testCanFinish() {
+        System.out.println(solution.canFinish(2, new int[][]{{1, 0}}));
+        System.out.println(solution.canFinish(2, new int[][]{{1, 0}, {0, 1}}));
+    }
+
 }
