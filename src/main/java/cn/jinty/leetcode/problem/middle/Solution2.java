@@ -1875,4 +1875,30 @@ public class Solution2 {
         return dp[k][row][column];
     }
 
+    /**
+     * 96. 不同的二叉搜索树
+     * 给你一个整数 n ，求恰由 n 个节点组成且节点值从 1 到 n 互不相同的二叉搜索树有多少种？返回满足题意的二叉搜索树的种数。
+     *
+     * @param n 整数 (1 <= n <= 19)
+     * @return 二叉搜索树的种数
+     */
+    public int numTrees(int n) {
+        // 动态规划：时间复杂度O(n^2)，空间复杂度O(n)
+        if (n == 1) {
+            return 1;
+        }
+        // dp[i]表示由 1 到 i 组成的二叉搜索树的种数
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
+        // 枚举节点数
+        for (int i = 3; i <= n; i++) {
+            // 枚举根节点
+            for (int j = 1; j <= i; j++) {
+                dp[i] += Math.max(1, dp[j - 1]) * Math.max(1, dp[i - j]);
+            }
+        }
+        return dp[n];
+    }
+
 }

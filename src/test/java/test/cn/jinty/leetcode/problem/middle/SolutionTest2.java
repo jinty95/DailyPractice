@@ -349,4 +349,11 @@ public class SolutionTest2 {
         System.out.println(solution.knightProbability(8, 30, 6, 4));
     }
 
+    @Test
+    public void testNumTrees() {
+        System.out.println(solution.numTrees(1));
+        System.out.println(solution.numTrees(2));
+        System.out.println(solution.numTrees(10));
+    }
+
 }
