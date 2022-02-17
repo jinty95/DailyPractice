@@ -340,4 +340,13 @@ public class SolutionTest2 {
         System.out.println(solution.canFinish(2, new int[][]{{1, 0}, {0, 1}}));
     }
 
+    @Test
+    public void testKnightProbability() {
+        System.out.println(solution.knightProbability(3, 2, 0, 0));
+        System.out.println(solution.knightProbability(3, 1, 2, 1));
+        System.out.println(solution.knightProbability(1, 0, 0, 0));
+        System.out.println(solution.knightProbability(5, 1, 2, 2));
+        System.out.println(solution.knightProbability(8, 30, 6, 4));
+    }
+
 }

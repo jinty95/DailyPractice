@@ -1809,4 +1809,70 @@ public class Solution2 {
         return numCourses == 0;
     }
 
+    /**
+     * 688. 骑士在棋盘上的概率
+     * 在一个 n x n 的国际象棋棋盘上，一个骑士从单元格 (row, column) 开始，并尝试进行 k 次移动。
+     * 象棋骑士有8种可能的走法，如下图所示。每次移动在基本方向上是两个单元格，然后在正交方向上是一个单元格。
+     * 0  2  0  2  0
+     * 2  0  0  0  2
+     * 0  0  1  0  0
+     * 2  0  0  0  2
+     * 0  2  0  2  0
+     * 每次骑士要移动时，它都会随机从8种可能的移动中选择一种(即使棋子会离开棋盘)，然后移动到那里。
+     * 骑士继续移动，直到它走了 k 步或离开了棋盘(离开棋盘后立即停止)。返回骑士在棋盘停止移动后仍留在棋盘上的概率。
+     *
+     * @param n      棋盘阶数
+     * @param k      总步数
+     * @param row    起点所在行
+     * @param column 起点所在列
+     * @return 留在棋盘的概率
+     */
+    public double knightProbability(int n, int k, int row, int column) {
+        /*// 1、深度优先搜索：时间复杂度O(8^k)，空间复杂度O(k)
+        // 出界则留在棋盘的概率为0
+        if (row < 0 || row >= n || column < 0 || column >= n) {
+            return 0.0;
+        }
+        // 步数为0则留在棋盘的概率为1
+        if (k == 0) {
+            return 1.0;
+        }
+        // 步数大于0，向四周八个点走一步，每个点有1/8的概率
+        k--;
+        return (knightProbability(n, k, row + 2, column + 1)
+                + knightProbability(n, k, row + 2, column - 1)
+                + knightProbability(n, k, row + 1, column + 2)
+                + knightProbability(n, k, row + 1, column - 2)
+                + knightProbability(n, k, row - 1, column + 2)
+                + knightProbability(n, k, row - 1, column - 2)
+                + knightProbability(n, k, row - 2, column + 1)
+                + knightProbability(n, k, row - 2, column - 1)
+        ) / 8.0;*/
+
+        // 2、动态规划：时间复杂度O(k * n^2)，空间复杂度O(k * n^2)
+        // dp[a][i][j]表示从(i,j)出发走a步后留在棋盘的概率
+        double[][][] dp = new double[k + 1][n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[0][i][j] = 1.0;
+            }
+        }
+        // 定义8个方向的偏移量
+        int[][] dirs = new int[][]{{2, 1}, {2, -1}, {1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {-2, 1}, {-2, -1}};
+        // 从(i,j)出发走a步后留在棋盘的概率，等于从周围8个点出发走a-1步后留在棋盘的概率的总和除以8
+        for (int a = 1; a <= k; a++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    for (int[] dir : dirs) {
+                        int x = i + dir[0], y = j + dir[1];
+                        if (x >= 0 && x < n && y >= 0 && y < n) {
+                            dp[a][i][j] += dp[a - 1][x][y] / 8.0;
+                        }
+                    }
+                }
+            }
+        }
+        return dp[k][row][column];
+    }
+
 }
