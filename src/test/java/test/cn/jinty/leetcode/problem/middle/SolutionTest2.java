@@ -363,4 +363,12 @@ public class SolutionTest2 {
         System.out.println(solution.longestConsecutive(new int[]{0, 0, 0, 3, 2, 1, 1}));
     }
 
+    @Test
+    public void testFlatten() {
+        TreeNode root = TreeNode.deserialize("[1,2,3,null,null,null,null]");
+        System.out.println(root.preorder());
+        solution.flatten(root);
+        System.out.println(root.preorder());
+    }
+
 }
