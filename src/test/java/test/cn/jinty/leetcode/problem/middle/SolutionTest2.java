@@ -356,4 +356,11 @@ public class SolutionTest2 {
         System.out.println(solution.numTrees(10));
     }
 
+    @Test
+    public void testLongestConsecutive() {
+        System.out.println(solution.longestConsecutive(new int[]{}));
+        System.out.println(solution.longestConsecutive(new int[]{100, 400, 4, 2, 1, 3, 5}));
+        System.out.println(solution.longestConsecutive(new int[]{0, 0, 0, 3, 2, 1, 1}));
+    }
+
 }

@@ -1901,4 +1901,50 @@ public class Solution2 {
         return dp[n];
     }
 
+    /**
+     * 128. 最长连续序列
+     * 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
+     *
+     * @param nums 数组
+     * @return 最长连续序列的长度
+     */
+    public int longestConsecutive(int[] nums) {
+        /*// 1、排序：时间复杂度O(N * logN)，空间复杂度O(1)
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Arrays.sort(nums);
+        int max = 1;
+        int tmp = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - nums[i - 1] == 1) {
+                tmp++;
+                max = Math.max(max, tmp);
+            } else if (nums[i] != nums[i - 1]) {
+                tmp = 1;
+            }
+        }
+        return max;*/
+
+        // 2、哈希表：时间复杂度O(N)，空间复杂度O(N)
+        int max = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        // 寻找可以作为起点的数，往后加1，看最长能到多长
+        for (int cur : set) {
+            if (!set.contains(cur - 1)) {
+                int tmp = 1;
+                int next = cur + 1;
+                while (set.contains(next)) {
+                    tmp++;
+                    next++;
+                }
+                max = Math.max(max, tmp);
+            }
+        }
+        return max;
+    }
+
 }
