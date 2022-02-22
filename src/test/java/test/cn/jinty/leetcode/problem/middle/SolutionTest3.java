@@ -19,4 +19,10 @@ public class SolutionTest3 {
         System.out.println(solution.pushDominoes(".L.R...LR..L.."));
     }
 
+    @Test
+    public void testPancakeSort() {
+        System.out.println(solution.pancakeSort(new int[]{1, 2, 3}));
+        System.out.println(solution.pancakeSort(new int[]{3, 2, 4, 1}));
+    }
+
 }
