@@ -408,7 +408,7 @@ public class SolutionTest {
 
     @Test
     public void testRob() {
-        int[] nums = new int[]{1, 9, 2, 8, 100};
+        int[] nums = new int[]{2, 3, 2};
         System.out.println(solution.rob(nums));
     }
 

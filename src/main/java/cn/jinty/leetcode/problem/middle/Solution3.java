@@ -1,6 +1,7 @@
 package cn.jinty.leetcode.problem.middle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -102,6 +103,58 @@ public class Solution3 {
             i++;
             j--;
         }
+    }
+
+    /**
+     * 537. 复数乘法
+     * 复数 可以用字符串表示，遵循 "实部+虚部i" 的形式，并满足下述条件：
+     * 实部 是一个整数，取值范围是 [-100, 100]
+     * 虚部 也是一个整数，取值范围是 [-100, 100]
+     * i2 == -1
+     * 给你两个字符串表示的复数 num1 和 num2 ，请你遵循复数表示形式，返回表示它们乘积的字符串。
+     *
+     * @param num1 复数1
+     * @param num2 复数2
+     * @return 乘积
+     */
+    public String complexNumberMultiply(String num1, String num2) {
+        int[] arr1 = splitComplexNumber(num1);
+        int[] arr2 = splitComplexNumber(num2);
+        int a = arr1[0] * arr2[0] - arr1[1] * arr2[1];
+        int b = arr1[0] * arr2[1] + arr1[1] * arr2[0];
+        return a + "+" + b + "i";
+    }
+
+    // 将复数拆成实部和虚部
+    private int[] splitComplexNumber(String num) {
+        int[] res = new int[2];
+        Boolean negative1 = false, negative2 = null;
+        for (int i = 0; i < num.length(); i++) {
+            char c = num.charAt(i);
+            if (c == 'i') {
+                break;
+            }
+            if (c == '+') {
+                negative2 = false;
+                continue;
+            }
+            if (c == '-') {
+                if (i == 0) {
+                    negative1 = true;
+                } else {
+                    negative2 = true;
+                }
+                continue;
+            }
+            if (negative2 == null) {
+                res[0] = res[0] * 10 + (c - '0');
+            } else {
+                res[1] = res[1] * 10 + (c - '0');
+            }
+        }
+        res[0] = negative1 ? -res[0] : res[0];
+        res[1] = negative2 ? -res[1] : res[1];
+        return res;
     }
 
 }

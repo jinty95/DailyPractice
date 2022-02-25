@@ -25,4 +25,12 @@ public class SolutionTest3 {
         System.out.println(solution.pancakeSort(new int[]{3, 2, 4, 1}));
     }
 
+    @Test
+    public void testComplexNumberMultiply() {
+        System.out.println(solution.complexNumberMultiply("1+1i", "1+1i"));
+        System.out.println(solution.complexNumberMultiply("1+-1i", "1+-1i"));
+        System.out.println(solution.complexNumberMultiply("1+0i", "1+0i"));
+        System.out.println(solution.complexNumberMultiply("78+-76i", "-86+72i"));
+    }
+
 }
