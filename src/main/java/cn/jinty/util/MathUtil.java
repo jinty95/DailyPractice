@@ -304,6 +304,9 @@ public final class MathUtil {
 
     /**
      * 十进制转N进制
+     * 以十进制转二进制为例：7 = 1 * 2^2 + 1 * 2^1 + 1 * 2^0 = (111)₂
+     * 最后一个 1 可以通过 7 % 2 得到，然后 7 / 2 = 3 ，倒数第二个 1 可以通过 3 % 2 得到，以此类推，直到被除数为 0 。
+     * 另外，注意特殊处理负数及零的情况。
      *
      * @param number 十进制整数
      * @param radix  N进制
@@ -314,12 +317,20 @@ public final class MathUtil {
         if (radix < 2 || radix > 36) {
             throw new IllegalArgumentException("进制范围限制[2,36], 当前输入为" + radix);
         }
+        if (number == 0) {
+            return "0";
+        }
         StringBuilder sb = new StringBuilder();
+        boolean positive = true;
+        if (number < 0) {
+            positive = false;
+            number = -number;
+        }
         while (number != 0) {
             sb.append(numberAndLetter[number % radix]);
             number /= radix;
         }
-        return sb.reverse().toString();
+        return positive ? sb.reverse().toString() : "-" + sb.reverse();
     }
 
     /**
