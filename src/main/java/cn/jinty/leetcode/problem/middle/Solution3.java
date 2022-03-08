@@ -157,4 +157,56 @@ public class Solution3 {
         return res;
     }
 
+    /**
+     * 2055. 蜡烛之间的盘子
+     * 给你一个长桌子，桌子上盘子和蜡烛排成一列。给你一个下标从 0 开始的字符串 s ，它只包含字符 '*' 和 '|' ，其中 '*' 表示一个 盘子 ，'|' 表示一支蜡烛。
+     * 同时给你一个下标从 0 开始的二维整数数组 queries ，其中 queries[i] = [left, right] 表示 子字符串 s[left...right] （包含左右端点的字符）。
+     * 对于每个查询，你需要找到子字符串中在两支蜡烛之间的盘子的数目。如果一个盘子在子字符串中左边和右边都至少有一支蜡烛，那么这个盘子满足在两支蜡烛之间。
+     * 比方说，s = "||**||**|*" ，查询 [3, 8] ，表示的是子字符串 "*||**|" 。子字符串中在两支蜡烛之间的盘子数目为 2 。
+     * 请你返回一个整数数组 answer ，其中 answer[i] 是第 i 个查询的答案。
+     *
+     * @param s       字符串 (3 <= s.length <= 10^5)
+     * @param queries 查询 (1 <= queries.length <= 10^5)
+     * @return 结果
+     */
+    public int[] platesBetweenCandles(String s, int[][] queries) {
+        // 1、前缀和：时间复杂度O(N + Q)，空间复杂度O(N)
+        // preSum[i]保存s[0...i]中盘子的数量
+        int[] preSum = new int[s.length()];
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '*') {
+                count++;
+            }
+            preSum[i] = count;
+        }
+        // lefts[i]保存s[i]左侧最近的'|'的位置，rights[i]保存s[i]右侧最近的'|'的位置
+        int[] lefts = new int[s.length()];
+        int[] rights = new int[s.length()];
+        int tmp = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '|') {
+                tmp = i;
+            }
+            lefts[i] = tmp;
+        }
+        tmp = -1;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '|') {
+                tmp = i;
+            }
+            rights[i] = tmp;
+        }
+        // 针对一个查询范围，先界定两侧的蜡烛位置，然后求中部的盘子总和
+        int[] result = new int[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            int left = rights[queries[i][0]];
+            int right = lefts[queries[i][1]];
+            if (left != -1 && right != -1 && left < right - 1) {
+                result[i] = preSum[right] - preSum[left];
+            }
+        }
+        return result;
+    }
+
 }

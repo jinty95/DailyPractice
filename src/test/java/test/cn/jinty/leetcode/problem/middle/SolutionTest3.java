@@ -3,6 +3,8 @@ package test.cn.jinty.leetcode.problem.middle;
 import cn.jinty.leetcode.problem.middle.Solution3;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * LeetCode - 中等题 - 测试
  *
@@ -31,6 +33,13 @@ public class SolutionTest3 {
         System.out.println(solution.complexNumberMultiply("1+-1i", "1+-1i"));
         System.out.println(solution.complexNumberMultiply("1+0i", "1+0i"));
         System.out.println(solution.complexNumberMultiply("78+-76i", "-86+72i"));
+    }
+
+    @Test
+    public void testPlatesBetweenCandles() {
+        System.out.println(Arrays.toString(solution.platesBetweenCandles(
+                "***|**|*****|**||**|*",
+                new int[][]{{1, 17}, {4, 5}, {14, 17}, {5, 11}, {15, 16}})));
     }
 
 }
