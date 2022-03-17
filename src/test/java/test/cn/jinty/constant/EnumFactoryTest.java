@@ -18,6 +18,7 @@ public class EnumFactoryTest {
         System.out.println(EnumFactory.get("OperationEnum"));
         System.out.println(EnumFactory.get("EntityEnum"));
         System.out.println(EnumFactory.get("ErrorCodeEnum"));
+        System.out.println(EnumFactory.get("FileTypeEnum"));
     }
 
 }
