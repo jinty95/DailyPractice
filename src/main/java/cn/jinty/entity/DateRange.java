@@ -1,5 +1,6 @@
 package cn.jinty.entity;
 
+import cn.jinty.util.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +23,13 @@ public class DateRange {
 
     // 结束时间
     private Date end;
+
+    @Override
+    public String toString() {
+        return "DateRange{" +
+                "begin=" + DateUtil.format(begin) +
+                ", end=" + DateUtil.format(end) +
+                '}';
+    }
 
 }

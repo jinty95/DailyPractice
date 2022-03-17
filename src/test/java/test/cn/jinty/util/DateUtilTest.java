@@ -1,5 +1,7 @@
 package test.cn.jinty.util;
 
+import cn.jinty.constant.CycleTypeEnum;
+import cn.jinty.entity.DateRange;
 import cn.jinty.entity.Week;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.ListUtil;
@@ -141,11 +143,77 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testGetWeekBeginAndEnd() {
+        System.out.println(DateUtil.format(DateUtil.getWeekBegin(new Date(), Calendar.MONDAY)));
+        System.out.println(DateUtil.format(DateUtil.getWeekEnd(new Date(), Calendar.MONDAY)));
+        System.out.println(DateUtil.format(DateUtil.getWeekBegin(new Date(), Calendar.TUESDAY)));
+        System.out.println(DateUtil.format(DateUtil.getWeekEnd(new Date(), Calendar.TUESDAY)));
+        System.out.println(DateUtil.format(DateUtil.getWeekBegin(new Date(), Calendar.SUNDAY)));
+        System.out.println(DateUtil.format(DateUtil.getWeekEnd(new Date(), Calendar.SUNDAY)));
+    }
+
+    @Test
     public void testGetMonthBeginAndEnd() {
         System.out.println(DateUtil.format(DateUtil.getMonthBegin(new Date())));
         System.out.println(DateUtil.format(DateUtil.getMonthEnd(new Date())));
         System.out.println(DateUtil.format(DateUtil.getMonthBegin(DateUtil.buildDate(2022, 2, 1))));
         System.out.println(DateUtil.format(DateUtil.getMonthEnd(DateUtil.buildDate(2022, 2, 1))));
+    }
+
+    @Test
+    public void testGetYearBeginAndEnd() {
+        System.out.println(DateUtil.format(DateUtil.getYearBegin(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getYearEnd(new Date())));
+        System.out.println(DateUtil.format(DateUtil.getYearBegin(DateUtil.buildDate(2023, 2, 1))));
+        System.out.println(DateUtil.format(DateUtil.getYearEnd(DateUtil.buildDate(2023, 2, 1))));
+    }
+
+    @Test
+    public void testSplitByCycle() {
+        Date begin = DateUtil.parse("2022-06-16 16:00:00");
+        Date end = DateUtil.parse("2023-01-21 12:00:00");
+        for (CycleTypeEnum cycleType : CycleTypeEnum.values()) {
+            System.out.printf("按%s分割时间%n",cycleType.getDesc());
+            for (DateRange range : DateUtil.splitByCycle(begin, end, cycleType)) {
+                System.out.println(range);
+            }
+        }
+    }
+
+    @Test
+    public void testSplitByDay() {
+        Date begin = DateUtil.parse("2022-03-16 16:00:00");
+        Date end = DateUtil.parse("2022-03-21 12:00:00");
+        for (DateRange range : DateUtil.splitByDay(begin, end)) {
+            System.out.println(range);
+        }
+    }
+
+    @Test
+    public void testSplitByWeek() {
+        Date begin = DateUtil.parse("2022-03-16 16:00:00");
+        Date end = DateUtil.parse("2022-04-21 12:00:00");
+        for (DateRange range : DateUtil.splitByWeek(begin, end, Calendar.MONDAY)) {
+            System.out.println(range);
+        }
+    }
+
+    @Test
+    public void testSplitByMonth() {
+        Date begin = DateUtil.parse("2022-03-16 16:00:00");
+        Date end = DateUtil.parse("2022-08-21 12:00:00");
+        for (DateRange range : DateUtil.splitByMonth(begin, end)) {
+            System.out.println(range);
+        }
+    }
+
+    @Test
+    public void testSplitByYear() {
+        Date begin = DateUtil.parse("2022-03-16 16:00:00");
+        Date end = DateUtil.parse("2024-03-21 12:00:00");
+        for (DateRange range : DateUtil.splitByYear(begin, end)) {
+            System.out.println(range);
+        }
     }
 
     @Test

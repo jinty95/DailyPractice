@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.constant.CycleTypeEnum;
+import cn.jinty.entity.DateRange;
 import cn.jinty.entity.Week;
 
 import java.text.ParseException;
@@ -472,6 +474,46 @@ public final class DateUtil {
     }
 
     /**
+     * 获取一周的开始时刻
+     *
+     * @param date           时间
+     * @param firstDayOfWeek 星期的第一天 (使用Calendar内置的星期)
+     * @return 开始时刻
+     */
+    public static Date getWeekBegin(Date date, int firstDayOfWeek) {
+        checkNull(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.add(Calendar.DATE, -(dayOfWeek + 7 - firstDayOfWeek) % 7);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一周的结束时刻
+     *
+     * @param date           时间
+     * @param firstDayOfWeek 星期的第一天 (使用Calendar内置的星期)
+     * @return 结束时刻
+     */
+    public static Date getWeekEnd(Date date, int firstDayOfWeek) {
+        checkNull(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        calendar.add(Calendar.DATE, (firstDayOfWeek + 6 - dayOfWeek) % 7);
+        return calendar.getTime();
+    }
+
+    /**
      * 获取一个月份的开始时刻
      *
      * @param date 时间
@@ -509,6 +551,156 @@ public final class DateUtil {
         // 然后减1毫秒
         calendar.add(Calendar.MILLISECOND, -1);
         return calendar.getTime();
+    }
+
+    /**
+     * 获取一年的开始时刻
+     *
+     * @param date 时间
+     * @return 开始时刻
+     */
+    public static Date getYearBegin(Date date) {
+        checkNull(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.DATE, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取一年的结束时刻
+     *
+     * @param date 时间
+     * @return 结束时刻
+     */
+    public static Date getYearEnd(Date date) {
+        checkNull(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DATE, 31);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    /**
+     * 时间分割 (根据周期类型将一个时间段分为多个时间段)
+     *
+     * @param begin     开始时间
+     * @param end       结束时间
+     * @param cycleType 周期类型
+     * @return 时间段列表
+     */
+    public static List<DateRange> splitByCycle(Date begin, Date end, CycleTypeEnum cycleType) {
+        switch (cycleType) {
+            case DAY:
+                return splitByDay(begin, end);
+            case WEEK:
+                return splitByWeek(begin, end, Calendar.MONDAY);
+            case MONTH:
+                return splitByMonth(begin, end);
+            case YEAR:
+                return splitByYear(begin, end);
+            default:
+                throw new IllegalArgumentException("不支持的周期类型");
+        }
+    }
+
+    /**
+     * 时间分割 (按天分割)
+     *
+     * @param begin 开始时间
+     * @param end   结束时间
+     * @return 时间段列表
+     */
+    public static List<DateRange> splitByDay(Date begin, Date end) {
+        checkNull(begin, end);
+        List<DateRange> list = new ArrayList<>();
+        list.add(new DateRange(begin, getDayEnd(begin)));
+        for (Date t1 = add(getDayBegin(begin), 1, Calendar.DATE); t1.before(end); t1 = add(t1, 1, Calendar.DATE)) {
+            Date t2 = getDayEnd(t1);
+            if (end.before(t2)) {
+                list.add(new DateRange(t1, end));
+            } else {
+                list.add(new DateRange(t1, t2));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 时间分割 (按周分割)
+     *
+     * @param begin          开始时间
+     * @param end            结束时间
+     * @param firstDayOfWeek 星期的第一天 (使用Calendar内置的星期)
+     * @return 时间段列表
+     */
+    public static List<DateRange> splitByWeek(Date begin, Date end, int firstDayOfWeek) {
+        checkNull(begin, end);
+        List<DateRange> list = new ArrayList<>();
+        list.add(new DateRange(begin, getWeekEnd(begin, firstDayOfWeek)));
+        for (Date t1 = add(getWeekBegin(begin, firstDayOfWeek), 7, Calendar.DATE); t1.before(end); t1 = add(t1, 7, Calendar.DATE)) {
+            Date t2 = getWeekEnd(t1, firstDayOfWeek);
+            if (end.before(t2)) {
+                list.add(new DateRange(t1, end));
+            } else {
+                list.add(new DateRange(t1, t2));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 时间分割 (按月分割)
+     *
+     * @param begin 开始时间
+     * @param end   结束时间
+     * @return 时间段列表
+     */
+    public static List<DateRange> splitByMonth(Date begin, Date end) {
+        checkNull(begin, end);
+        List<DateRange> list = new ArrayList<>();
+        list.add(new DateRange(begin, getMonthEnd(begin)));
+        for (Date t1 = add(getMonthBegin(begin), 1, Calendar.MONTH); t1.before(end); t1 = add(t1, 1, Calendar.MONTH)) {
+            Date t2 = getMonthEnd(t1);
+            if (end.before(t2)) {
+                list.add(new DateRange(t1, end));
+            } else {
+                list.add(new DateRange(t1, t2));
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 时间分割 (按年分割)
+     *
+     * @param begin 开始时间
+     * @param end   结束时间
+     * @return 时间段列表
+     */
+    public static List<DateRange> splitByYear(Date begin, Date end) {
+        checkNull(begin, end);
+        List<DateRange> list = new ArrayList<>();
+        list.add(new DateRange(begin, getYearEnd(begin)));
+        for (Date t1 = add(getYearBegin(begin), 1, Calendar.YEAR); t1.before(end); t1 = add(t1, 1, Calendar.YEAR)) {
+            Date t2 = getYearEnd(t1);
+            if (end.before(t2)) {
+                list.add(new DateRange(t1, end));
+            } else {
+                list.add(new DateRange(t1, t2));
+            }
+        }
+        return list;
     }
 
     /**
