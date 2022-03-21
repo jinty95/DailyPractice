@@ -624,7 +624,12 @@ public final class DateUtil {
     public static List<DateRange> splitByDay(Date begin, Date end) {
         checkNull(begin, end);
         List<DateRange> list = new ArrayList<>();
-        list.add(new DateRange(begin, getDayEnd(begin)));
+        Date firstDayEnd = getDayEnd(begin);
+        if (end.before(firstDayEnd)) {
+            list.add(new DateRange(begin, end));
+            return list;
+        }
+        list.add(new DateRange(begin, firstDayEnd));
         for (Date t1 = add(getDayBegin(begin), 1, Calendar.DATE); t1.before(end); t1 = add(t1, 1, Calendar.DATE)) {
             Date t2 = getDayEnd(t1);
             if (end.before(t2)) {
@@ -647,7 +652,12 @@ public final class DateUtil {
     public static List<DateRange> splitByWeek(Date begin, Date end, int firstDayOfWeek) {
         checkNull(begin, end);
         List<DateRange> list = new ArrayList<>();
-        list.add(new DateRange(begin, getWeekEnd(begin, firstDayOfWeek)));
+        Date firstWeekEnd = getWeekEnd(begin, firstDayOfWeek);
+        if (end.before(firstWeekEnd)) {
+            list.add(new DateRange(begin, end));
+            return list;
+        }
+        list.add(new DateRange(begin, firstWeekEnd));
         for (Date t1 = add(getWeekBegin(begin, firstDayOfWeek), 7, Calendar.DATE); t1.before(end); t1 = add(t1, 7, Calendar.DATE)) {
             Date t2 = getWeekEnd(t1, firstDayOfWeek);
             if (end.before(t2)) {
@@ -669,7 +679,12 @@ public final class DateUtil {
     public static List<DateRange> splitByMonth(Date begin, Date end) {
         checkNull(begin, end);
         List<DateRange> list = new ArrayList<>();
-        list.add(new DateRange(begin, getMonthEnd(begin)));
+        Date firstMonthEnd = getMonthEnd(begin);
+        if (end.before(firstMonthEnd)) {
+            list.add(new DateRange(begin, end));
+            return list;
+        }
+        list.add(new DateRange(begin, firstMonthEnd));
         for (Date t1 = add(getMonthBegin(begin), 1, Calendar.MONTH); t1.before(end); t1 = add(t1, 1, Calendar.MONTH)) {
             Date t2 = getMonthEnd(t1);
             if (end.before(t2)) {
@@ -691,7 +706,12 @@ public final class DateUtil {
     public static List<DateRange> splitByYear(Date begin, Date end) {
         checkNull(begin, end);
         List<DateRange> list = new ArrayList<>();
-        list.add(new DateRange(begin, getYearEnd(begin)));
+        Date firstYearEnd = getYearEnd(begin);
+        if (end.before(firstYearEnd)) {
+            list.add(new DateRange(begin, end));
+            return list;
+        }
+        list.add(new DateRange(begin, firstYearEnd));
         for (Date t1 = add(getYearBegin(begin), 1, Calendar.YEAR); t1.before(end); t1 = add(t1, 1, Calendar.YEAR)) {
             Date t2 = getYearEnd(t1);
             if (end.before(t2)) {

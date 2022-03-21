@@ -183,7 +183,7 @@ public class DateUtilTest {
     @Test
     public void testSplitByDay() {
         Date begin = DateUtil.parse("2022-03-16 16:00:00");
-        Date end = DateUtil.parse("2022-03-21 12:00:00");
+        Date end = DateUtil.parse("2022-03-16 19:00:00");
         for (DateRange range : DateUtil.splitByDay(begin, end)) {
             System.out.println(range);
         }
@@ -191,8 +191,8 @@ public class DateUtilTest {
 
     @Test
     public void testSplitByWeek() {
-        Date begin = DateUtil.parse("2022-03-16 16:00:00");
-        Date end = DateUtil.parse("2022-04-21 12:00:00");
+        Date begin = DateUtil.parse("2022-01-18 16:00:00");
+        Date end = DateUtil.parse("2022-01-19 12:00:00");
         for (DateRange range : DateUtil.splitByWeek(begin, end, Calendar.MONDAY)) {
             System.out.println(range);
         }
@@ -200,8 +200,8 @@ public class DateUtilTest {
 
     @Test
     public void testSplitByMonth() {
-        Date begin = DateUtil.parse("2022-03-16 16:00:00");
-        Date end = DateUtil.parse("2022-08-21 12:00:00");
+        Date begin = DateUtil.parse("2022-03-15 16:00:00");
+        Date end = DateUtil.parse("2022-03-17 12:00:00");
         for (DateRange range : DateUtil.splitByMonth(begin, end)) {
             System.out.println(range);
         }
@@ -210,7 +210,7 @@ public class DateUtilTest {
     @Test
     public void testSplitByYear() {
         Date begin = DateUtil.parse("2022-03-16 16:00:00");
-        Date end = DateUtil.parse("2024-03-21 12:00:00");
+        Date end = DateUtil.parse("2022-03-21 12:00:00");
         for (DateRange range : DateUtil.splitByYear(begin, end)) {
             System.out.println(range);
         }
