@@ -5,7 +5,7 @@ import cn.jinty.constant.common.EnumInterface;
 /**
  * 枚举 - 文件类型
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/3/17
  **/
 public enum FileTypeEnum implements EnumInterface<String> {

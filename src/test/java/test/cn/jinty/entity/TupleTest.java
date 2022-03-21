@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 元组 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/1/26
  **/
 public class TupleTest {

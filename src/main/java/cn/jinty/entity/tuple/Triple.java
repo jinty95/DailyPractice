@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * 三元组
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/1/26
  **/
 @Data

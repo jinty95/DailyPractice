@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * 文件 - 工具类 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/3/17
  **/
 public class FileUtilTest {

@@ -8,7 +8,7 @@ import java.util.Base64;
 /**
  * 文件 - 工具类
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/3/17
  **/
 public final class FileUtil {
@@ -22,16 +22,11 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static String toBase64DataURL(File file, FileTypeEnum fileType) throws IOException {
-        if (!file.exists()) {
+        if (!file.exists() || !file.isFile()) {
             return "";
         }
-        if (!file.isFile()) {
-            return "";
-        }
-        FileInputStream is = new FileInputStream(file);
-        byte[] bytes = new byte[is.available()];
-        is.read(bytes);
-        return fileType.getPrefixOfBase64DataURL() + Base64.getEncoder().encodeToString(bytes);
+        return fileType.getPrefixOfBase64DataURL() +
+                Base64.getEncoder().encodeToString(IOStreamUtil.inputStreamToBytes(new FileInputStream(file)));
     }
 
 }
