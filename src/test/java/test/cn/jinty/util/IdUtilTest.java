@@ -22,7 +22,7 @@ public class IdUtilTest {
     }
 
     @Test
-    public void testNumber() {
+    public void testNumber1() {
         Thread t1 = new Thread(() -> {
             for (int i = 0; i < 100; i++) {
                 System.out.println(Thread.currentThread().getName() + ":" +IdUtil.number());
@@ -40,6 +40,24 @@ public class IdUtilTest {
             t2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testNumber2() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println(IdUtil.number("A"));
+            System.out.println(IdUtil.number("B"));
+            System.out.println(IdUtil.number("C"));
+        }
+    }
+
+    @Test
+    public void testNumber3() {
+        for (int i = 0; i < 100; i++) {
+            System.out.println(IdUtil.number("A", 6));
+            System.out.println(IdUtil.number("B", 4));
+            System.out.println(IdUtil.number("C", 2));
         }
     }
 
@@ -66,11 +84,11 @@ public class IdUtilTest {
     }
 
     @Test
-    public void testTimeAndRandom() {
+    public void testTimeWithRandom() {
         Set<String> set = new HashSet<>();
         int repeatCount = 0;
         for (int i = 0; i < 1000; i++) {
-            String id = IdUtil.timeAndRandom();
+            String id = IdUtil.timeWithRandom();
             System.out.println(id);
             if (!set.add(id)) {
                 repeatCount++;

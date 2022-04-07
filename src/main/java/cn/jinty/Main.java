@@ -10,10 +10,19 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(System.getenv());
-        System.out.println(System.getenv("JAVA_HOME"));
-        System.out.println(System.getenv("ASGARD_PROFILE"));
+        String[] arr = {"ABC", "DEF"};
+        for (String a : arr) {
+            System.out.println(a.toLowerCase());
+        }
 
     }
 
 }
+
+
+
+
+
+
+
+

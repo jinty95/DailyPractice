@@ -1,6 +1,9 @@
 package cn.jinty.util;
 
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -13,6 +16,8 @@ import java.util.concurrent.atomic.AtomicLong;
 public final class IdUtil {
 
     private static final AtomicLong number = new AtomicLong(0);
+
+    private static final Map<String, AtomicLong> prefixNumberMap = new HashMap<>();
 
     private static final AtomicLong timestamp = new AtomicLong(0);
 
@@ -36,6 +41,35 @@ public final class IdUtil {
     }
 
     /**
+     * ID - 前缀 + 数字(严格递增)
+     *
+     * @param prefix 前缀
+     * @return 前缀 + 数字
+     */
+    public static String number(String prefix) {
+        return prefix + prefixNumberMap.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
+    }
+
+    /**
+     * ID - 前缀 + 数字(严格递增、等长)
+     *
+     * @param prefix 前缀
+     * @param length 数字长度
+     * @return 前缀 + 数字
+     */
+    public static String number(String prefix, int length) {
+        long number = prefixNumberMap.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setGroupingUsed(false);
+        nf.setMinimumIntegerDigits(length);
+        nf.setMaximumIntegerDigits(length);
+        if (String.valueOf(number).length() > length) {
+            throw new RuntimeException(String.format("自增数字已耗尽：prefix=%s, length=%s, now=%s", prefix, length, number));
+        }
+        return prefix + nf.format(number);
+    }
+
+    /**
      * ID - 时间戳(严格递增)
      *
      * @return 时间戳
@@ -53,11 +87,11 @@ public final class IdUtil {
     }
 
     /**
-     * ID - 时间加随机数(趋势递增)
+     * ID - 带随机数的时间(趋势递增)
      *
-     * @return 时间加随机数
+     * @return 时间 + 随机数
      */
-    public static String timeAndRandom() {
+    public static String timeWithRandom() {
         // 17位时间
         String date = DateUtil.format(new Date(), DateUtil.COMPACT_WHOLE);
         // 5位随机数
