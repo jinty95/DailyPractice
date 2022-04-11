@@ -14,6 +14,7 @@ import java.util.Map;
 public enum EntityEnum implements EnumInterface<String> {
 
     USER("USER", "用户"),
+    USER_GROUP("USER_GROUP", "用户组"),
     ROLE("ROLE", "角色"),
     PERMISSION("PERMISSION", "权限");
 

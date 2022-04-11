@@ -10,9 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[] arr = {"ABC", "DEF"};
+        String[] arr = {"abc"};
         for (String a : arr) {
-            System.out.println(a.toLowerCase());
+            System.out.println(a.toUpperCase());
         }
 
     }
