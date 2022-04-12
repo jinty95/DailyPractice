@@ -34,6 +34,8 @@ public final class DateUtil {
     public static final String WHOLE = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String COMPACT_DATE = "yyyyMMdd";
     public static final String COMPACT_WHOLE = "yyyyMMddHHmmssSSS";
+    public static final String SIMPLE_DATE = "yy-MM-dd";
+    public static final String SIMPLE_COMPACT_DATE = "yyMMdd";
 
     /**
      * 时区

@@ -26,6 +26,8 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.parse("1-1-1 00:00:00")));
         System.out.println(DateUtil.format(DateUtil.parse("20211218", DateUtil.COMPACT_DATE), DateUtil.WHOLE));
         System.out.println(DateUtil.format(DateUtil.parse("18:00:00", DateUtil.TIME), DateUtil.DATE));
+        System.out.println(DateUtil.format(new Date(), DateUtil.SIMPLE_DATE));
+        System.out.println(DateUtil.format(new Date(), DateUtil.SIMPLE_COMPACT_DATE));
     }
 
     @Test
