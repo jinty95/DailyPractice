@@ -1,6 +1,6 @@
-package test.cn.jinty.struct.linear;
+package test.cn.jinty.struct.line;
 
-import cn.jinty.struct.linear.Stack;
+import cn.jinty.struct.line.Stack;
 import org.junit.Test;
 
 /**

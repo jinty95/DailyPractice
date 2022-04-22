@@ -1,6 +1,6 @@
 package test.cn.jinty.util;
 
-import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.line.ListNode;
 import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
 

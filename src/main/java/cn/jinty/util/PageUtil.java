@@ -31,18 +31,18 @@ public final class PageUtil {
     /**
      * 计算总页数
      *
-     * @param recordCount 总记录数
-     * @param pageSize    页面大小
+     * @param total    总行数
+     * @param pageSize 页面大小
      * @return 总页数
      */
-    public static int getPageCount(int recordCount, int pageSize) {
-        if (recordCount < 0) {
+    public static int getPageCount(int total, int pageSize) {
+        if (total < 0) {
             throw new IllegalArgumentException("总记录数不能小于0");
         }
         if (pageSize < 1) {
             throw new IllegalArgumentException("页面大小不能小于1");
         }
-        return recordCount / pageSize + (recordCount % pageSize == 0 ? 0 : 1);
+        return total / pageSize + (total % pageSize == 0 ? 0 : 1);
     }
 
     /**

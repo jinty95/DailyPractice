@@ -2,7 +2,7 @@ package cn.jinty.leetcode.problem.easy;
 
 import cn.jinty.leetcode.entity.Employee;
 import cn.jinty.leetcode.entity.Node;
-import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.line.ListNode;
 import cn.jinty.struct.tree.TreeNode;
 
 import java.util.*;

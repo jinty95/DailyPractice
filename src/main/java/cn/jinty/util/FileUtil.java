@@ -33,7 +33,7 @@ public final class FileUtil {
         }
         try (InputStream is = new FileInputStream(file)) {
             String prefix = fileType.getPrefixOfBase64DataURL();
-            String base64 = Base64.getEncoder().encodeToString(IOStreamUtil.inputStreamToBytes(is));
+            String base64 = Base64.getEncoder().encodeToString(IOUtil.getBytes(is));
             return prefix + base64;
         }
     }
@@ -50,7 +50,7 @@ public final class FileUtil {
             return 0;
         }
         try (InputStream is = new FileInputStream(file)) {
-            return IOStreamUtil.inputStreamToBytes(is).length;
+            return IOUtil.getBytes(is).length;
         }
     }
 

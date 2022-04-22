@@ -1,8 +1,8 @@
 package cn.jinty.util;
 
 import cn.jinty.enums.CycleTypeEnum;
-import cn.jinty.entity.DateRange;
-import cn.jinty.entity.Week;
+import cn.jinty.entity.date.DateRange;
+import cn.jinty.entity.date.Week;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

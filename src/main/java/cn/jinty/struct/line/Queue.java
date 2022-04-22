@@ -1,4 +1,4 @@
-package cn.jinty.struct.linear;
+package cn.jinty.struct.line;
 
 /**
  * 队列 - 基于数组(环形数组)实现

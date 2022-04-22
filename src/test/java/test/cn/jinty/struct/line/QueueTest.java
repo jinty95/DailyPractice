@@ -1,6 +1,6 @@
-package test.cn.jinty.struct.linear;
+package test.cn.jinty.struct.line;
 
-import cn.jinty.struct.linear.Queue;
+import cn.jinty.struct.line.Queue;
 import org.junit.Test;
 
 /**

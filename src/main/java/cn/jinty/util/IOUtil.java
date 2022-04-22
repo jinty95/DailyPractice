@@ -9,7 +9,7 @@ import java.io.InputStream;
  * @author Jinty
  * @date 2022/3/21
  **/
-public final class IOStreamUtil {
+public final class IOUtil {
 
     /**
      * 输入流转为字节数组
@@ -18,7 +18,8 @@ public final class IOStreamUtil {
      * @return 字节数组
      * @throws IOException IO异常
      */
-    public static byte[] inputStreamToBytes(InputStream is) throws IOException {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static byte[] getBytes(InputStream is) throws IOException {
         if (is == null) {
             return null;
         }

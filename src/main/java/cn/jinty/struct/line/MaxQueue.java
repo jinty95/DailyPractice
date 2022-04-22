@@ -1,4 +1,4 @@
-package cn.jinty.struct.linear;
+package cn.jinty.struct.line;
 
 import java.util.Deque;
 import java.util.LinkedList;

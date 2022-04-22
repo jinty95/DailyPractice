@@ -1,4 +1,4 @@
-package cn.jinty.entity;
+package cn.jinty.entity.date;
 
 import cn.jinty.util.DateUtil;
 import lombok.AllArgsConstructor;

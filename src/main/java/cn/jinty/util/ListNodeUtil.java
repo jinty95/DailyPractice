@@ -1,10 +1,7 @@
 package cn.jinty.util;
 
-import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.line.ListNode;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Random;
 
 /**

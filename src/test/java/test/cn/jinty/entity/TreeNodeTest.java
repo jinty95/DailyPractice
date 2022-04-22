@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 树型节点 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/4/11
  **/
 public class TreeNodeTest {

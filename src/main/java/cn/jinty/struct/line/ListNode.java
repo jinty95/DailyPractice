@@ -1,4 +1,4 @@
-package cn.jinty.struct.linear;
+package cn.jinty.struct.line;
 
 /**
  * 链表节点类

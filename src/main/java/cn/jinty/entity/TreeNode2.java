@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 树型节点2 - 子节点关联父节点
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/4/11
  **/
 @Data

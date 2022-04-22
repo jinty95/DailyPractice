@@ -1,8 +1,7 @@
 package test.cn.jinty.leetcode.problem.hard;
 
 import cn.jinty.leetcode.problem.hard.Solution;
-import cn.jinty.struct.linear.ListNode;
-import cn.jinty.util.ArrayUtil;
+import cn.jinty.struct.line.ListNode;
 import cn.jinty.util.ListNodeUtil;
 import org.junit.Test;
 

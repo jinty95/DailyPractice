@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 树型节点1 - 父节点关联子节点
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/4/11
  **/
 @Data

@@ -2,7 +2,7 @@ package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.leetcode.entity.Node;
 import cn.jinty.struct.UnionFind;
-import cn.jinty.struct.linear.ListNode;
+import cn.jinty.struct.line.ListNode;
 import cn.jinty.struct.tree.TreeNode;
 
 import java.math.BigInteger;
