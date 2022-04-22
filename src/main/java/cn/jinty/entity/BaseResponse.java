@@ -1,7 +1,7 @@
 package cn.jinty.entity;
 
-import cn.jinty.constant.ErrorCodeEnum;
-import cn.jinty.constant.ResultEnum;
+import cn.jinty.enums.ErrorCodeEnum;
+import cn.jinty.enums.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
-package test.cn.jinty.constant;
+package test.cn.jinty.enums.common;
 
-import cn.jinty.constant.common.EnumFactory;
+import cn.jinty.enums.common.EnumFactory;
 import org.junit.Test;
 
 /**
@@ -13,12 +13,13 @@ public class EnumFactoryTest {
 
     @Test
     public void testGet() {
-        System.out.println(EnumFactory.get("YesOrNoEnum"));
+        System.out.println(EnumFactory.get("YesNoEnum"));
         System.out.println(EnumFactory.get("ResultEnum"));
         System.out.println(EnumFactory.get("OperationEnum"));
         System.out.println(EnumFactory.get("EntityEnum"));
         System.out.println(EnumFactory.get("ErrorCodeEnum"));
         System.out.println(EnumFactory.get("FileTypeEnum"));
+        System.out.println(EnumFactory.get("BinaryUnitEnum"));
     }
 
 }

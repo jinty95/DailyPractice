@@ -1,6 +1,8 @@
-package cn.jinty.constant;
+package cn.jinty.enums;
 
-import cn.jinty.constant.common.EnumInterface;
+import cn.jinty.enums.common.EnumInterface;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,9 @@ import java.util.Map;
  * @author Jinty
  * @date 2021/11/16
  **/
-public enum YesOrNoEnum implements EnumInterface<Byte> {
+@Getter
+@AllArgsConstructor
+public enum YesNoEnum implements EnumInterface<Byte> {
 
     NO((byte) 0, "否"),
     YES((byte) 1, "是");
@@ -21,31 +25,14 @@ public enum YesOrNoEnum implements EnumInterface<Byte> {
     // 描述
     private final String desc;
 
-    // 构造器
-    YesOrNoEnum(Byte code, String desc) {
-        this.code = code;
-        this.desc = desc;
-    }
-
-    // getter
-    @Override
-    public Byte getCode() {
-        return code;
-    }
-
-    @Override
-    public String getDesc() {
-        return desc;
-    }
-
     // 枚举静态化
-    private final static Map<Byte, YesOrNoEnum> codeMap;
-    private final static Map<String, YesOrNoEnum> descMap;
+    private final static Map<Byte, YesNoEnum> codeMap;
+    private final static Map<String, YesNoEnum> descMap;
 
     static {
         codeMap = new HashMap<>();
         descMap = new HashMap<>();
-        for (YesOrNoEnum one : YesOrNoEnum.values()) {
+        for (YesNoEnum one : YesNoEnum.values()) {
             codeMap.put(one.getCode(), one);
             descMap.put(one.getDesc(), one);
         }
@@ -62,18 +49,18 @@ public enum YesOrNoEnum implements EnumInterface<Byte> {
     }
 
     // 根据编码解析为枚举对象
-    public static YesOrNoEnum parseByCode(Byte code) {
+    public static YesNoEnum parseByCode(Byte code) {
         return codeMap.get(code);
     }
 
     // 根据描述解析为枚举对象
-    public static YesOrNoEnum parseByDesc(String desc) {
+    public static YesNoEnum parseByDesc(String desc) {
         return descMap.get(desc);
     }
 
     // 编码转为描述
     public static String codeToDesc(Byte code) {
-        YesOrNoEnum res = parseByCode(code);
+        YesNoEnum res = parseByCode(code);
         if (res == null) {
             return null;
         }
@@ -82,7 +69,7 @@ public enum YesOrNoEnum implements EnumInterface<Byte> {
 
     // 描述转为编码
     public static Byte descToCode(String desc) {
-        YesOrNoEnum res = parseByDesc(desc);
+        YesNoEnum res = parseByDesc(desc);
         if (res == null) {
             return null;
         }

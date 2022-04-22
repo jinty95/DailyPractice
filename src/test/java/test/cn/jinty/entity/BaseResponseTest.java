@@ -1,6 +1,6 @@
 package test.cn.jinty.entity;
 
-import cn.jinty.constant.ErrorCodeEnum;
+import cn.jinty.enums.ErrorCodeEnum;
 import cn.jinty.entity.BaseResponse;
 import org.junit.Test;
 

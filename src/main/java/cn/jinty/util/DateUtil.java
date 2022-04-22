@@ -1,6 +1,6 @@
 package cn.jinty.util;
 
-import cn.jinty.constant.CycleTypeEnum;
+import cn.jinty.enums.CycleTypeEnum;
 import cn.jinty.entity.DateRange;
 import cn.jinty.entity.Week;
 

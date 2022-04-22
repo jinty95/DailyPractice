@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
@@ -62,6 +63,8 @@ public class MathUtilTest {
         System.out.println(b1 + " - " + b2 + " = " + (b1.subtract(b2)));
         System.out.println(b1 + " * " + b2 + " = " + (b1.multiply(b2)));
         System.out.println(b1 + " / " + b2 + " = " + (b1.divide(b2)));
+        System.out.println(b1 + " / " + b2 + " = " + (b1.divide(b2, RoundingMode.HALF_UP)));
+        System.out.println(b1 + " / " + b2 + " = " + (b1.divide(b2, 5, RoundingMode.HALF_UP)));
         System.out.println();
     }
 

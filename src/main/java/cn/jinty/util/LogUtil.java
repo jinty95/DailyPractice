@@ -1,8 +1,8 @@
 package cn.jinty.util;
 
-import cn.jinty.constant.EntityEnum;
-import cn.jinty.constant.OperationEnum;
-import cn.jinty.constant.ResultEnum;
+import cn.jinty.enums.EntityEnum;
+import cn.jinty.enums.OperationEnum;
+import cn.jinty.enums.ResultEnum;
 
 /**
  * 日志 - 工具类

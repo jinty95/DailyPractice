@@ -1,4 +1,4 @@
-package cn.jinty.constant.common;
+package cn.jinty.enums.common;
 
 /**
  * 枚举 - 接口

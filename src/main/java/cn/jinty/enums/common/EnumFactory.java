@@ -1,7 +1,7 @@
-package cn.jinty.constant.common;
+package cn.jinty.enums.common;
 
-import cn.jinty.constant.*;
 import cn.jinty.entity.KeyValue;
+import cn.jinty.enums.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,12 +20,13 @@ public final class EnumFactory {
     private static final Map<String, List<KeyValue<String, String>>> map = new HashMap<>();
 
     static {
-        set(YesOrNoEnum.class.getSimpleName(), YesOrNoEnum.values());
+        set(YesNoEnum.class.getSimpleName(), YesNoEnum.values());
         set(ResultEnum.class.getSimpleName(), ResultEnum.values());
         set(OperationEnum.class.getSimpleName(), OperationEnum.values());
         set(EntityEnum.class.getSimpleName(), EntityEnum.values());
         set(ErrorCodeEnum.class.getSimpleName(), ErrorCodeEnum.values());
         set(FileTypeEnum.class.getSimpleName(), FileTypeEnum.values());
+        set(BinaryUnitEnum.class.getSimpleName(), BinaryUnitEnum.values());
     }
 
     /**

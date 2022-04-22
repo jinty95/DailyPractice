@@ -1,6 +1,8 @@
-package cn.jinty.constant;
+package cn.jinty.enums;
 
-import cn.jinty.constant.common.EnumInterface;
+import cn.jinty.enums.common.EnumInterface;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * 枚举 - 文件类型
@@ -8,6 +10,8 @@ import cn.jinty.constant.common.EnumInterface;
  * @author Jinty
  * @date 2022/3/17
  **/
+@Getter
+@AllArgsConstructor
 public enum FileTypeEnum implements EnumInterface<String> {
 
     TXT("txt", "文本(txt)", "data:text/plain;base64,"),
@@ -25,31 +29,9 @@ public enum FileTypeEnum implements EnumInterface<String> {
 
     // 编码 (文件后缀)
     private final String code;
-
     // 描述
     private final String desc;
-
     // Base64DataURL前缀
     private final String prefixOfBase64DataURL;
-
-    FileTypeEnum(String code, String desc, String prefixOfBase64DataURL) {
-        this.code = code;
-        this.desc = desc;
-        this.prefixOfBase64DataURL = prefixOfBase64DataURL;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getPrefixOfBase64DataURL() {
-        return prefixOfBase64DataURL;
-    }
 
 }

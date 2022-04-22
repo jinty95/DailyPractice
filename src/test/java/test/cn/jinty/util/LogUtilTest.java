@@ -3,9 +3,9 @@ package test.cn.jinty.util;
 import cn.jinty.util.LogUtil;
 import org.junit.Test;
 
-import static cn.jinty.constant.EntityEnum.*;
-import static cn.jinty.constant.OperationEnum.*;
-import static cn.jinty.constant.ResultEnum.*;
+import static cn.jinty.enums.EntityEnum.*;
+import static cn.jinty.enums.OperationEnum.*;
+import static cn.jinty.enums.ResultEnum.*;
 
 /**
  * 日志 - 工具类
