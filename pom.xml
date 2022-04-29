@@ -10,7 +10,7 @@
 
     <dependencies>
 
-        <!-- junit -->
+        <!-- junit 单元测试 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -24,7 +24,7 @@
             <version>1.2.71</version>
         </dependency>
 
-        <!-- 汉字转拼音 -->
+        <!-- 汉字拼音 -->
         <dependency>
             <groupId>com.github.stuxuhai</groupId>
             <artifactId>jpinyin</artifactId>
@@ -38,11 +38,25 @@
             <version>3.3.0</version>
         </dependency>
 
-        <!-- lombok -->
+        <!-- lombok 通过注解替代基础代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
+        </dependency>
+
+        <!-- Code Generation Library 代码(字节码)生成库 -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <!-- DozerMapper 对象深度拷贝工具 -->
+        <dependency>
+            <groupId>com.github.dozermapper</groupId>
+            <artifactId>dozer-core</artifactId>
+            <version>6.5.2</version>
         </dependency>
 
     </dependencies>
