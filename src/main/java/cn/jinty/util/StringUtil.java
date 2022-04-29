@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -209,7 +211,7 @@ public final class StringUtil {
      */
     public static String byteArrToHex(byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
-            return "";
+            return EMPTY;
         }
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
@@ -225,18 +227,36 @@ public final class StringUtil {
      * 字符串连接
      *
      * @param separate 分隔符
-     * @param arr      字符串数组
+     * @param arr      数组(当输入为基本类型数组时，表现为一个元素)
+     * @param <T>      泛型
      * @return 字符串
      */
-    public static String concat(String separate, String... arr) {
+    @SafeVarargs
+    public static <T> String join(String separate, T... arr) {
         if (arr == null || arr.length == 0) {
-            return "";
+            return EMPTY;
         }
-        StringBuilder res = new StringBuilder(arr[0]);
-        for (int i = 1; i < arr.length; i++) {
-            res.append(separate).append(arr[i]);
+        return join(Arrays.asList(arr), separate);
+    }
+
+    /**
+     * 字符串连接
+     *
+     * @param coll     集合
+     * @param separate 分隔符
+     * @param <T>      泛型
+     * @return 字符串
+     */
+    public static <T> String join(Collection<T> coll, String separate) {
+        if (coll == null || coll.isEmpty()) {
+            return EMPTY;
         }
-        return res.toString();
+        StringBuilder res = new StringBuilder();
+        separate = separate != null ? separate : EMPTY;
+        for (T one : coll) {
+            res.append(one.toString()).append(separate);
+        }
+        return res.substring(0, res.length() - separate.length());
     }
 
     /**
@@ -252,7 +272,7 @@ public final class StringUtil {
             return s;
         }
         if (times <= 0) {
-            return "";
+            return EMPTY;
         }
         StringBuilder res = new StringBuilder(s);
         for (int i = 1; i < times; i++) {

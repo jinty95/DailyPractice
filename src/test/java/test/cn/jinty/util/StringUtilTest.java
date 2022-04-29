@@ -3,6 +3,8 @@ package test.cn.jinty.util;
 import cn.jinty.util.StringUtil;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 字符串 - 工具类 - 测试
  *
@@ -38,6 +40,7 @@ public class StringUtilTest {
     public void testEquals() {
         System.out.println(StringUtil.equals(null, null));
         System.out.println(StringUtil.equals(null, ""));
+        System.out.println(StringUtil.equals("", null));
         System.out.println(StringUtil.equals("", ""));
         System.out.println(StringUtil.equals("a", "b"));
     }
@@ -79,10 +82,15 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testConcat() {
-        System.out.println(StringUtil.concat(","));
-        System.out.println(StringUtil.concat(",", "A", "B", "C"));
-        System.out.println(StringUtil.concat("_", "A", "B", "C"));
+    public void testJoin() {
+        System.out.println(StringUtil.join(","));
+        System.out.println(StringUtil.join(",", 1, 2, 3));
+        System.out.println(StringUtil.join(" ", new Integer[]{1, 2, 3}));
+        System.out.println(StringUtil.join(" ", new int[]{1, 2, 3}));
+        System.out.println(StringUtil.join("_", "A", "B", "C"));
+        System.out.println(StringUtil.join(" ", 'D', 'E', 'F', 'G', 2019, 2022L));
+        System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), "-"));
+        System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "-"));
     }
 
     @Test
