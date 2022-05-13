@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class ColorFactory {
 
-    private static final Map<String, Color> map = new HashMap<>();
+    private static final Map<String, Color> MAP = new HashMap<>();
 
     public static Color getColor(String name) {
-        Color color = map.get(name);
+        Color color = MAP.get(name);
         if (color == null) {
             color = new Color(name);
-            map.put(name, color);
+            MAP.put(name, color);
         }
         return color;
     }

@@ -15,7 +15,7 @@ public class ComputeTask extends RecursiveTask<Long> {
     //终止数
     private final long end;
     //最小计算区间
-    private static final long minLen = 1000L;
+    private static final long MIN_LEN = 1000L;
 
     public ComputeTask(long begin, long end) {
         this.begin = begin;
@@ -26,7 +26,7 @@ public class ComputeTask extends RecursiveTask<Long> {
     protected Long compute() {
         long result = 0L;
         //不可继续切分
-        if (end - begin <= minLen) {
+        if (end - begin <= MIN_LEN) {
             for (long i = begin; i <= end; i++) {
                 result += i;
             }

@@ -14,10 +14,10 @@ public class Stack<T> {
     private Object[] data;
 
     //初始容量，默认2
-    private static final int initCapacity = 2;
+    private static final int INIT_CAPACITY = 2;
 
     //最大容量，默认2^30
-    private static final int maxCapacity = 1 << 30;
+    private static final int MAX_CAPACITY = 1 << 30;
 
     //增量，默认0，表示倍增
     private int increment = 0;
@@ -30,7 +30,7 @@ public class Stack<T> {
 
     //构造器
     public Stack() {
-        data = new Object[initCapacity];
+        data = new Object[INIT_CAPACITY];
     }
 
     public Stack(int initCapacity) {
@@ -91,11 +91,11 @@ public class Stack<T> {
     //扩容
     private void expand() {
         //到达最大容量，不再扩容
-        if (data.length == maxCapacity) return;
+        if (data.length == MAX_CAPACITY) return;
         //新容量
         int newCapacity = increment == 0 ? data.length * 2 : data.length + increment;
-        if (newCapacity > maxCapacity) {
-            newCapacity = maxCapacity;
+        if (newCapacity > MAX_CAPACITY) {
+            newCapacity = MAX_CAPACITY;
         }
         //复制新容器
         data = Arrays.copyOf(data, newCapacity, Object[].class);

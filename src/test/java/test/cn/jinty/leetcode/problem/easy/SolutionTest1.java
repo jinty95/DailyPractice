@@ -13,7 +13,7 @@ import java.util.Arrays;
  **/
 public class SolutionTest1 {
 
-    private static final Solution1 solution = new Solution1();
+    private final Solution1 solution = new Solution1();
 
     @Test
     public void testBuddyStrings() {

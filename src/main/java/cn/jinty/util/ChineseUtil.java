@@ -16,10 +16,10 @@ import java.util.Random;
 public class ChineseUtil {
 
     // 随机数
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     // 姓氏(598个)
-    private static final String[] surnames = {
+    private static final String[] SURNAMES = {
             "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "冯", "陈", "褚", "卫", "蒋", "沈", "韩", "杨", "朱", "秦", "尤", "许",
             "何", "吕", "施", "张", "孔", "曹", "严", "华", "金", "魏", "陶", "姜", "戚", "谢", "邹", "喻", "柏", "水", "窦", "章",
             "云", "苏", "潘", "葛", "奚", "范", "彭", "郎", "鲁", "韦", "昌", "马", "苗", "凤", "花", "方", "俞", "任", "袁", "柳",
@@ -67,9 +67,9 @@ public class ChineseUtil {
             // 使用2字节的GBK编码来获取一个随机的汉字
             byte[] b = new byte[2];
             // 生成高位字节
-            b[0] = (byte) (176 + Math.abs(random.nextInt(39)));
+            b[0] = (byte) (176 + Math.abs(RANDOM.nextInt(39)));
             // 生成低位字节
-            b[1] = (byte) (161 + Math.abs(random.nextInt(93)));
+            b[1] = (byte) (161 + Math.abs(RANDOM.nextInt(93)));
             // 根据GBK编码获取Unicode
             try {
                 str = new String(b, "GBK");
@@ -87,7 +87,7 @@ public class ChineseUtil {
      * @return 姓氏
      */
     public static String randomSurname() {
-        return surnames[random.nextInt(surnames.length)];
+        return SURNAMES[RANDOM.nextInt(SURNAMES.length)];
     }
 
     /**
@@ -97,7 +97,7 @@ public class ChineseUtil {
      */
     public static String randomName() {
         // 25%单字名，75%双字名
-        return random(random.nextInt(4) == 0 ? 1 : 2);
+        return random(RANDOM.nextInt(4) == 0 ? 1 : 2);
     }
 
     /**

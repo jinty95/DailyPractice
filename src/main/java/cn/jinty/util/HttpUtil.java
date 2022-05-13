@@ -86,7 +86,7 @@ public final class HttpUtil {
     }
 
     // OKHTTP客户端
-    private static final OkHttpClient okHttpClient = new OkHttpClient();
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
 
     /**
      * 发起请求
@@ -99,7 +99,7 @@ public final class HttpUtil {
         if (request == null) {
             throw new IllegalArgumentException("HTTP请求不能为空");
         }
-        Call call = okHttpClient.newCall(request);
+        Call call = OK_HTTP_CLIENT.newCall(request);
         return call.execute();
     }
 

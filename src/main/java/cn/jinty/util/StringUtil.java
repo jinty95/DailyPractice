@@ -14,18 +14,18 @@ import java.util.regex.Pattern;
 public final class StringUtil {
 
     // 十六进制字符集
-    private static final char[] hex = {
+    private static final char[] HEX = {
             '0', '1', '2', '3', '4', '5', '6', '7',
             '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
     // 数字
-    private static final char[] digit = {
+    private static final char[] DIGIT = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     };
 
     // 字母
-    private static final char[] letter = {
+    private static final char[] LETTER = {
             'A', 'B', 'C', 'D', 'E', 'F', 'G',
             'H', 'I', 'J', 'K', 'L', 'M', 'N',
             'O', 'P', 'Q', 'R', 'S', 'T',
@@ -33,7 +33,7 @@ public final class StringUtil {
     };
 
     // 随机数
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     // 空串
     public static final String EMPTY = "";
@@ -166,7 +166,7 @@ public final class StringUtil {
     public static String randomDigit(int length) {
         StringBuilder sb = new StringBuilder();
         while (length-- > 0) {
-            sb.append(digit[random.nextInt(digit.length)]);
+            sb.append(DIGIT[RANDOM.nextInt(DIGIT.length)]);
         }
         return sb.toString();
     }
@@ -180,7 +180,7 @@ public final class StringUtil {
     public static String randomLetter(int length) {
         StringBuilder sb = new StringBuilder();
         while (length-- > 0) {
-            sb.append(letter[random.nextInt(letter.length)]);
+            sb.append(LETTER[RANDOM.nextInt(LETTER.length)]);
         }
         return sb.toString();
     }
@@ -194,10 +194,10 @@ public final class StringUtil {
     public static String random(int length) {
         StringBuilder sb = new StringBuilder();
         while (length-- > 0) {
-            if (random.nextInt(36) < 10) {
-                sb.append(digit[random.nextInt(digit.length)]);
+            if (RANDOM.nextInt(36) < 10) {
+                sb.append(DIGIT[RANDOM.nextInt(DIGIT.length)]);
             } else {
-                sb.append(letter[random.nextInt(letter.length)]);
+                sb.append(LETTER[RANDOM.nextInt(LETTER.length)]);
             }
         }
         return sb.toString();
@@ -216,9 +216,9 @@ public final class StringUtil {
         StringBuilder sb = new StringBuilder();
         for (byte b : bytes) {
             // 高4位
-            sb.append(hex[(b >>> 4) & 15]);
+            sb.append(HEX[(b >>> 4) & 15]);
             // 低4位
-            sb.append(hex[b & 15]);
+            sb.append(HEX[b & 15]);
         }
         return sb.toString();
     }

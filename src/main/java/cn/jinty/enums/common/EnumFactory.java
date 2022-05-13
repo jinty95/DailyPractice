@@ -17,7 +17,7 @@ import java.util.Map;
 public final class EnumFactory {
 
     // 存储所有的枚举映射
-    private static final Map<String, List<KeyValue<String, String>>> map = new HashMap<>();
+    private static final Map<String, List<KeyValue<String, String>>> MAP = new HashMap<>();
 
     static {
         set(YesNoEnum.class.getSimpleName(), YesNoEnum.values());
@@ -40,7 +40,7 @@ public final class EnumFactory {
         for (EnumInterface<T> one : value) {
             list.add(new KeyValue<>(String.valueOf(one.getCode()), one.getDesc()));
         }
-        map.put(key, list);
+        MAP.put(key, list);
     }
 
     /**
@@ -50,7 +50,7 @@ public final class EnumFactory {
      * @return 键值对列表
      */
     public static List<KeyValue<String, String>> get(String key) {
-        List<KeyValue<String, String>> list = map.get(key);
+        List<KeyValue<String, String>> list = MAP.get(key);
         return list == null ? new ArrayList<>() : list;
     }
 

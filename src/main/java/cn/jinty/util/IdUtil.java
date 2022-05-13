@@ -15,11 +15,11 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 public final class IdUtil {
 
-    private static final AtomicLong number = new AtomicLong(0);
+    private static final AtomicLong NUMBER = new AtomicLong(0);
 
-    private static final Map<String, AtomicLong> prefixNumberMap = new HashMap<>();
+    private static final Map<String, AtomicLong> PREFIX_NUMBER_MAP = new HashMap<>();
 
-    private static final AtomicLong timestamp = new AtomicLong(0);
+    private static final AtomicLong TIMESTAMP = new AtomicLong(0);
 
     /**
      * ID - UUID(无序)
@@ -37,7 +37,7 @@ public final class IdUtil {
      * @return 数字
      */
     public static long number() {
-        return number.addAndGet(1);
+        return NUMBER.addAndGet(1);
     }
 
     /**
@@ -47,7 +47,7 @@ public final class IdUtil {
      * @return 前缀 + 数字
      */
     public static String number(String prefix) {
-        return prefix + prefixNumberMap.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
+        return prefix + PREFIX_NUMBER_MAP.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
     }
 
     /**
@@ -58,7 +58,7 @@ public final class IdUtil {
      * @return 前缀 + 数字
      */
     public static String number(String prefix, int length) {
-        long number = prefixNumberMap.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
+        long number = PREFIX_NUMBER_MAP.computeIfAbsent(prefix, a -> new AtomicLong(0)).addAndGet(1);
         NumberFormat nf = NumberFormat.getInstance();
         nf.setGroupingUsed(false);
         nf.setMinimumIntegerDigits(length);
@@ -77,9 +77,9 @@ public final class IdUtil {
     public static long timestamp() {
         while (true) {
             long now = System.currentTimeMillis();
-            long before = timestamp.get();
+            long before = TIMESTAMP.get();
             if (now > before) {
-                if (timestamp.compareAndSet(before, now)) {
+                if (TIMESTAMP.compareAndSet(before, now)) {
                     return now;
                 }
             }

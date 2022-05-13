@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
  */
 public final class IpUtil {
 
-    //IP地址格式
-    private static final Pattern pattern = Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
+    // IP地址格式
+    private static final Pattern PATTERN = Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
 
     /**
      * 判断是否符合IP地址格式
@@ -20,7 +20,7 @@ public final class IpUtil {
      * @return 是否
      */
     private static boolean isIpFormat(String ip) {
-        return pattern.matcher(ip).matches();
+        return PATTERN.matcher(ip).matches();
     }
 
     /**
