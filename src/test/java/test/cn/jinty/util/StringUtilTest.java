@@ -72,6 +72,35 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testContains() {
+        String s1 = "Hello", s2 = "123@qq.com";
+        System.out.println(s1 + " 包含字母：" + StringUtil.containsLetter(s1));
+        System.out.println(s1 + " 包含大写字母：" + StringUtil.containsUpperCase(s1));
+        System.out.println(s1 + " 包含小写字母：" + StringUtil.containsLowerCase(s1));
+        System.out.println(s1 + " 包含数字：" + StringUtil.containsDigit(s1));
+        System.out.println(s1 + " 包含特殊字符：" + StringUtil.containsSpecialChar(s1));
+        System.out.println(s2 + " 包含字母：" + StringUtil.containsLetter(s2));
+        System.out.println(s2 + " 包含大写字母：" + StringUtil.containsUpperCase(s2));
+        System.out.println(s2 + " 包含小写字母：" + StringUtil.containsLowerCase(s2));
+        System.out.println(s2 + " 包含数字：" + StringUtil.containsDigit(s2));
+        System.out.println(s2 + " 包含特殊字符：" + StringUtil.containsSpecialChar(s2));
+    }
+
+    @Test
+    public void testCheckPassword() {
+        String s1 = "123456";
+        System.out.println(s1 + " 是合法密码：" + StringUtil.checkPassword(s1));
+        s1 = "Abc123";
+        System.out.println(s1 + " 是合法密码：" + StringUtil.checkPassword(s1));
+        s1 = "Abc123?";
+        System.out.println(s1 + " 是合法密码：" + StringUtil.checkPassword(s1));
+        s1 = "Abcd123?";
+        System.out.println(s1 + " 是合法密码：" + StringUtil.checkPassword(s1));
+        s1 = "Abcd123?123456789";
+        System.out.println(s1 + " 是合法密码：" + StringUtil.checkPassword(s1));
+    }
+
+    @Test
     public void testRandom() {
         System.out.println(StringUtil.randomDigit(10));
         System.out.println(StringUtil.randomLetter(10));

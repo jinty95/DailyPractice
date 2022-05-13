@@ -26,6 +26,20 @@ public final class SetUtil {
      * 数组转集合
      *
      * @param array 数组
+     * @return 集合
+     */
+    public static Set<Character> asSet(char[] array) {
+        Set<Character> res = new HashSet<>();
+        for (char one : array) {
+            res.add(one);
+        }
+        return res;
+    }
+
+    /**
+     * 数组转集合
+     *
+     * @param array 数组
      * @param <T>   泛型
      * @return 集合
      */

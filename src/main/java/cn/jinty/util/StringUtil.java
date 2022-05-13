@@ -1,8 +1,6 @@
 package cn.jinty.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -31,6 +29,14 @@ public final class StringUtil {
             'O', 'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y', 'Z'
     };
+
+    // 特殊字符
+    private static final char[] SPECIAL_CHAR = {
+            '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+            '-', '_', '+', '=', '{', '[', '}', ']', '|', '\\', ':', ';',
+            '"', '\'', '<', ',', '>', '.', '?', '/', '\r', '\n', '\t', ' '
+    };
+    private static final Set<Character> SPECIAL_CHAR_SET = SetUtil.asSet(SPECIAL_CHAR);
 
     // 随机数
     private static final Random RANDOM = new Random();
@@ -155,6 +161,113 @@ public final class StringUtil {
             }
         }
         return true;
+    }
+
+    /**
+     * 字符串是否包含字母
+     *
+     * @param s 字符串
+     * @return 是否包含字母
+     */
+    public static boolean containsLetter(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 字符串是否包含大写字母
+     *
+     * @param s 字符串
+     * @return 是否包含大写字母
+     */
+    public static boolean containsUpperCase(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 字符串是否包含小写字母
+     *
+     * @param s 字符串
+     * @return 是否包含小写字母
+     */
+    public static boolean containsLowerCase(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 字符串是否数字
+     *
+     * @param s 字符串
+     * @return 是否数字
+     */
+    public static boolean containsDigit(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 字符串是否包含特殊字符
+     *
+     * @param s 字符串
+     * @return 是否包含特殊字符
+     */
+    public static boolean containsSpecialChar(String s) {
+        if (isEmpty(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (SPECIAL_CHAR_SET.contains(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 校验密码是否符合要求(长度8-16位，且必须包含大写字母、小写字母、数字、特殊字符)
+     *
+     * @param password 密码
+     * @return 是否符合要求
+     */
+    public static boolean checkPassword(String password) {
+        if (isEmpty(password)) {
+            return false;
+        }
+        if (password.length() < 8 || password.length() > 16) {
+            return false;
+        }
+        return containsUpperCase(password) && containsLowerCase(password)
+                && containsDigit(password) && containsSpecialChar(password);
     }
 
     /**
