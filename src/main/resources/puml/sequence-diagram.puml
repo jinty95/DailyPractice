@@ -1,0 +1,36 @@
+@startuml
+
+'单行注释
+/'多行注释'/
+
+'对象定义
+participant Participant as Foo  #red
+actor       Actor       as Foo1 #blue
+boundary    Boundary    as Foo2 #yellow
+control     Control     as Foo3 #green
+entity      Entity      as Foo4 #black
+database    Database    as Foo5 #orange
+collections Collections as Foo6 #pink
+queue       Queue       as Foo7
+participant p1
+
+'隐藏未连线参与者
+hide unlinked
+
+'文本对齐
+skinparam sequenceMessageAlign center
+
+'编号
+autonumber
+
+'关系连线
+Foo -> Foo1 : To actor
+Foo -> Foo2 : To boundary
+Foo -> Foo3 : To control
+Foo -> Foo4 : To entity
+Foo -[#red]> Foo5 : To database
+Foo <->o Foo6 : To collections
+Foo ->> Foo7 : To queue
+Foo ->x Foo  : To My Self \n But Fail
+
+@enduml

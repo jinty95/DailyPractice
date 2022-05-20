@@ -1,0 +1,73 @@
+@startuml
+
+'起点
+start
+
+'默认按定义顺序自动连接
+:say hi;
+:say hello;
+
+'条件判断
+if (shall we do it?) then (yes)
+    :working;
+else (no)
+    :do nothing;
+endif
+
+'多条件判断(if-elseif)
+if (status is A) then (yes)
+    :running A;
+elseif (status is B) then (yes)
+    :running B;
+    end
+else (no)
+    :running other;
+endif
+
+'组合框
+group a group
+:so tired, sleep a moment;
+'给箭头加文字
+-> while awaken;
+endgroup
+
+'多条件判断(switch)
+switch (status)
+case (A)
+    :say A;
+case (B)
+    :say B;
+case (C)
+    :say C;
+    kill
+endswitch
+
+'循环
+repeat :happy;
+    :i am happy;
+    :you are happy;
+    if (she is unhappy ?) then (yes)
+        break
+    else (no)
+    endif
+repeat while (he is happy) is (yes) not (no)
+
+while (i am sleepy) is (yes)
+    :sleep;
+endwhile (no)
+    :go to do something;
+
+'并行处理
+fork
+    :doing;
+fork again
+    #pink:doing;
+fork again
+    #yellow\green:doing;
+end fork {聚合}
+note right :all doing in the same time
+
+'终点
+stop
+
+@enduml
