@@ -3,12 +3,15 @@ package cn.jinty.struct;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 缓存
  * 存储形式：哈希表 (通过元素键快速获取元素值)
  * 淘汰方式：LRU - Least Recently Used (将最近使用时间最小的元素删除)
  * 过期实现：延时线程池 (在存入元素时建立一个延时任务，到期删除元素)
+ * 线程安全：通过 Lock 悲观锁保证
  *
  * @author Jinty
  * @date 2021/3/15
@@ -21,6 +24,9 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
     // 延时线程池
     private final ScheduledExecutorService executorService;
 
+    // 锁
+    private final Lock lock;
+
     /**
      * 初始化
      *
@@ -30,11 +36,22 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
         super(capacity, 0.75f, true);
         this.capacity = capacity;
         this.executorService = new ScheduledThreadPoolExecutor(8);
+        this.lock = new ReentrantLock();
     }
 
     @Override
     public boolean removeEldestEntry(Map.Entry<K, V> eldest) {
         return super.size() > capacity;
+    }
+
+    @Override
+    public V put(K key, V value) {
+        lock.lock();
+        try {
+            return super.put(key, value);
+        } finally {
+            lock.unlock();
+        }
     }
 
     /**
@@ -46,11 +63,16 @@ public class LRUCache<K, V> extends LinkedHashMap<K, V> {
      * @return 值
      */
     public V put(K key, V value, long expireTime) {
-        value = super.put(key, value);
-        if (expireTime > 0) {
-            removeExpireEntry(key, expireTime);
+        lock.lock();
+        try {
+            value = super.put(key, value);
+            if (expireTime > 0) {
+                removeExpireEntry(key, expireTime);
+            }
+            return value;
+        } finally {
+            lock.unlock();
         }
-        return value;
     }
 
     /**

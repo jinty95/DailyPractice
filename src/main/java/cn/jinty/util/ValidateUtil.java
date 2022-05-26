@@ -17,9 +17,7 @@ public final class ValidateUtil {
      * @throws Exception 异常
      */
     public static void notNull(Object obj) throws Exception {
-        if (obj == null) {
-            throw new Exception("对象不能为空");
-        }
+        notNull(obj, "对象不能为空");
     }
 
     /**
@@ -42,9 +40,7 @@ public final class ValidateUtil {
      * @throws Exception 异常
      */
     public static void notBlank(String str) throws Exception {
-        if (str == null || str.length() == 0 || str.trim().length() == 0) {
-            throw new Exception("字符串不能为空");
-        }
+        notBlank(str, "字符串不能为空");
     }
 
     /**
@@ -63,26 +59,24 @@ public final class ValidateUtil {
     /**
      * 非空校验 - 集合
      *
-     * @param collection 集合
-     * @param <T>        泛型
+     * @param coll 集合
+     * @param <T>  泛型
      * @throws Exception 异常
      */
-    public static <T> void notEmpty(Collection<T> collection) throws Exception {
-        if (collection == null || collection.isEmpty()) {
-            throw new Exception("集合不能为空");
-        }
+    public static <T> void notEmpty(Collection<T> coll) throws Exception {
+        notEmpty(coll, "集合不能为空");
     }
 
     /**
      * 非空校验 - 集合
      *
-     * @param collection 集合
-     * @param msg        提示信息
-     * @param <T>        泛型
+     * @param coll 集合
+     * @param msg  提示信息
+     * @param <T>  泛型
      * @throws Exception 异常
      */
-    public static <T> void notEmpty(Collection<T> collection, String msg) throws Exception {
-        if (collection == null || collection.isEmpty()) {
+    public static <T> void notEmpty(Collection<T> coll, String msg) throws Exception {
+        if (coll == null || coll.isEmpty()) {
             throw new Exception(msg);
         }
     }
