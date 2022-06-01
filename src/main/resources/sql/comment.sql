@@ -1,7 +1,7 @@
 # 评论表(两层结构，评论下所有评论都挂在当前评论，按照时间升序，通过回复用户确定评论指向)
 DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
     `target_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '目标ID',
     `target_type` TINYINT NOT NULL DEFAULT 0 COMMENT '目标类型：1 问题，2 回答，3 评论',
     `from_user_id` BIGINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '发起用户ID',

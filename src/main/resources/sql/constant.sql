@@ -1,7 +1,7 @@
 # 枚举常量表
 DROP TABLE IF EXISTS `constant`;
 CREATE TABLE `constant` (
-    `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `id` INT NOT NULL AUTO_INCREMENT COMMENT '自增ID',
     `code` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '编码',
     `meaning` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '含义',
     `parent_code` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '上级编码',

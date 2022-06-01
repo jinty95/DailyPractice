@@ -1,7 +1,7 @@
 # 文章表
 DROP TABLE IF EXISTS `article`;
 CREATE TABLE `article` (
-    `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `id` INT NOT NULL AUTO_INCREMENT COMMENT '自增ID',
     `title` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '标题',
     `content` TEXT NOT NULL COMMENT '内容',
     `version_num` INT NOT NULL DEFAULT 1 COMMENT '版本号',
@@ -17,7 +17,7 @@ CREATE TABLE `article` (
 # 文章历史表 (关键信息变更前做一次快照)
 DROP TABLE IF EXISTS `article_history`;
 CREATE TABLE `article_history` (
-    `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `id` INT NOT NULL AUTO_INCREMENT COMMENT '自增ID',
     `article_id` INT NOT NULL DEFAULT 0 COMMENT '文章ID',
     `title` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '标题',
     `content` TEXT NOT NULL COMMENT '内容',
