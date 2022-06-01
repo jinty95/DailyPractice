@@ -2,11 +2,9 @@ package test.cn.jinty.entity;
 
 import cn.jinty.entity.page.PageRequest;
 import cn.jinty.entity.page.PageResponse;
-import cn.jinty.enums.ErrorCodeEnum;
+import cn.jinty.enums.ErrorEnum;
 import cn.jinty.entity.BaseResponse;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 /**
  * 基础响应体 - 测试
@@ -34,7 +32,7 @@ public class BaseResponseTest {
         System.out.println(baseResponse2);
         BaseResponse<Float> baseResponse3 = BaseResponse.fail("10001", "超时失败");
         System.out.println(baseResponse3);
-        BaseResponse<Double> baseResponse4 = BaseResponse.fail(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
+        BaseResponse<Double> baseResponse4 = BaseResponse.fail(ErrorEnum.INTERNAL_SERVER_ERROR);
         System.out.println(baseResponse4);
     }
 

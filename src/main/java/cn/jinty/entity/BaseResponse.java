@@ -1,6 +1,6 @@
 package cn.jinty.entity;
 
-import cn.jinty.enums.ErrorCodeEnum;
+import cn.jinty.enums.ErrorEnum;
 import cn.jinty.enums.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -95,12 +95,12 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 失败响应
      *
-     * @param errorCode 错误码
-     * @param <T>       泛型
+     * @param error 错误
+     * @param <T>   泛型
      * @return 失败响应
      */
-    public static <T> BaseResponse<T> fail(ErrorCodeEnum errorCode) {
-        return new BaseResponse<>(errorCode.getCode(), errorCode.getDesc(), null);
+    public static <T> BaseResponse<T> fail(ErrorEnum error) {
+        return new BaseResponse<>(error.getCode(), error.getDesc(), null);
     }
 
 }

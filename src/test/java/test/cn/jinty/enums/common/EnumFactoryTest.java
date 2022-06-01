@@ -15,9 +15,9 @@ public class EnumFactoryTest {
     public void testGet() {
         System.out.println(EnumFactory.get("YesNoEnum"));
         System.out.println(EnumFactory.get("ResultEnum"));
+        System.out.println(EnumFactory.get("ErrorEnum"));
         System.out.println(EnumFactory.get("OperationEnum"));
         System.out.println(EnumFactory.get("EntityEnum"));
-        System.out.println(EnumFactory.get("ErrorCodeEnum"));
         System.out.println(EnumFactory.get("FileTypeEnum"));
         System.out.println(EnumFactory.get("BinaryUnitEnum"));
     }
