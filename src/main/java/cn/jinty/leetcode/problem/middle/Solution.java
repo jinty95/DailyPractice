@@ -3920,31 +3920,30 @@ public class Solution {
 
     /**
      * 139. 单词拆分
-     * 给定一个非空字符串 s 和一个包含非空单词的列表 wordDict，
-     * 判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。
-     * 说明：
-     * 1、拆分时可以重复使用字典中的单词。
-     * 2、字典中没有重复的单词。
+     * 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。请判断是否可以利用字典中出现的单词拼接出 s 。
+     * 注意：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。
      *
      * @param s        字符串
-     * @param wordDict 字典
+     * @param wordDict 字典 (字典中的所有字符串互不相同)
      * @return 字符串能否由字典的单词组成
      */
     public boolean wordBreak(String s, List<String> wordDict) {
 
-        /*//1、暴力递归
+        /* 从暴力搜索到动态规划 */
+
+        /*//1、暴力搜索 ：时间复杂度O(N!)，空间复杂度O(N + M)
         //将列表转为哈希表
         Set<String> wordSet = new HashSet<>(wordDict);
         return wordBreak1(s, wordSet);*/
 
-        /*//2、记忆搜索
+        /*//2、记忆搜索 ：时间复杂度O(N^2)，空间复杂度O(N + M)
         //将列表转为哈希表
         Set<String> wordSet = new HashSet<>(wordDict);
-        //创建记忆表
+        //创建哈希表
         Map<Integer,Boolean> map = new HashMap<>();
         return wordBreak2(s, 0, map, wordSet);*/
 
-        //3、动态规划
+        //3、动态规划 ：时间复杂度O(N^2)，空间复杂度O(N + M)
         //将列表转为哈希表
         Set<String> wordSet = new HashSet<>(wordDict);
         //dp[i]表示s[i...len-1]能否拆分
@@ -3952,12 +3951,10 @@ public class Solution {
         dp[s.length()] = true;
         //i为子串起点
         for (int i = s.length() - 1; i >= 0; i--) {
-            StringBuilder sb = new StringBuilder();
-            //j为子串终点，j+1为剩余串
+            //j为子串终点，j+1为剩余串起点
             for (int j = i; j < s.length(); j++) {
-                sb.append(s.charAt(j));
                 //若s[i...j]能在字典找到，判断s[j+1...len-1]能否拆分
-                if (wordSet.contains(sb.toString())) {
+                if (wordSet.contains(s.substring(i, j + 1))) {
                     if (dp[j + 1]) {
                         dp[i] = true;
                         break;
@@ -3969,40 +3966,34 @@ public class Solution {
 
     }
 
-    //递归函数1：暴力递归
+    //递归函数1：暴力搜索
     @SuppressWarnings("unused")
     private boolean wordBreak1(String s, Set<String> wordSet) {
-        if (s.equals("")) return true;
-        //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            sb.append(s.charAt(i));
-            if (wordSet.contains(sb.toString())) {
-                if (wordBreak1(s.substring(sb.length()), wordSet)) return true;
+        if ("".equals(s)) return true;
+        //枚举字符串从0开始的所有子串
+        for (int i = 1; i <= s.length(); i++) {
+            //若能匹配单词，则将剩余部分递归
+            if (wordSet.contains(s.substring(0, i))) {
+                if (wordBreak1(s.substring(i), wordSet)) return true;
             }
         }
         return false;
     }
 
-    //递归函数2：使用记忆表避免重复计算
+    //递归函数2：使用哈希表缓存结果，避免重复计算
+    //由于最多只会递归N次，开辟N个函数，每个函数有一层长度为N的循环，故时间复杂度为O(N^2)
     @SuppressWarnings("unused")
     private boolean wordBreak2(String s, int begin, Map<Integer, Boolean> map, Set<String> wordSet) {
         if (begin == s.length()) return true;
-        //枚举字符串从0开始的子串，若能匹配单词，则将剩余部分递归
-        StringBuilder sb = new StringBuilder();
-        for (int i = begin; i < s.length(); i++) {
-            //收集字符
-            sb.append(s.charAt(i));
-            //匹配到单词
-            if (wordSet.contains(sb.toString())) {
-                //剩余字符串的起点
-                int nextBegin = begin + sb.length();
-                //查记忆表
-                Boolean flag = map.get(nextBegin);
-                //查不到则递归求解
+        //枚举字符串从0开始的所有子串
+        for (int i = begin + 1; i <= s.length(); i++) {
+            //若能匹配单词
+            if (wordSet.contains(s.substring(begin, i))) {
+                //查哈希表看能否直接得到结果，查不到则递归求解
+                Boolean flag = map.get(i);
                 if (flag == null) {
-                    flag = wordBreak2(s, nextBegin, map, wordSet);
-                    map.put(nextBegin, flag);
+                    flag = wordBreak2(s, i, map, wordSet);
+                    map.put(i, flag);
                 }
                 if (flag) return true;
             }

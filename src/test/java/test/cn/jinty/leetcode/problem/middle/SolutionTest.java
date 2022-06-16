@@ -754,7 +754,7 @@ public class SolutionTest {
     @Test
     public void testWordBreak() {
         System.out.println(solution.wordBreak(
-                "cn/jinty/leetcode", ListUtil.asList("leet", "code"))
+                "leetcoder", ListUtil.asList("leet", "code"))
         );
         System.out.println(solution.wordBreak(
                 "anappleaday", ListUtil.asList("an", "apple", "a", "day"))
