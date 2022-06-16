@@ -64,8 +64,8 @@ CREATE TABLE `train_schedule` (
   `train_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '列车编号',
   `from_station_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '起始站编号',
   `to_station_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '终点站编号',
-  `departure_time` DATETIME NOT NULL DEFAULT '1970-01-01' COMMENT '出发时间',
-  `arrival_time` DATETIME NOT NULL DEFAULT '1970-01-01' COMMENT '到达时间',
+  `departure_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT '出发时刻(时分秒)',
+  `running_time` BIGINT NOT NULL DEFAULT 0 COMMENT '运行时长(毫秒数)',
   `remark` VARCHAR(500) NOT NULL DEFAULT '' COMMENT '备注',
   `is_enabled` TINYINT NOT NULL DEFAULT 1 COMMENT '是否有效：0 否，1 是',
   `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
@@ -93,7 +93,7 @@ CREATE TABLE `train_route` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB COMMENT='列车班次路线表';
 
-# 车票SKU表
+# 车票SKU表 (每两个相邻站作为SKU，车票跨站时同时购买不同的SKU)
 DROP TABLE IF EXISTS `train_ticket_sku`;
 CREATE TABLE `train_ticket_sku` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -102,7 +102,9 @@ CREATE TABLE `train_ticket_sku` (
   `from_station_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '起始站编号',
   `to_station_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '终点站编号',
   `seat_type` VARCHAR(16) NOT NULL DEFAULT '' COMMENT '座位类型：A 商务座 B 一等座 C 二等座 D 无座',
-  `price` DECIMAL NOT NULL DEFAULT 0.00 COMMENT '价格(元)',
+  `price` DECIMAL(20,2) NOT NULL DEFAULT 0.00 COMMENT '价格(元)',
+  `departure_time` TIME NOT NULL DEFAULT '00:00:00' COMMENT '出发时刻(时分秒)',
+  `running_time` BIGINT NOT NULL DEFAULT 0 COMMENT '运行时长(毫秒数)',
   `is_enabled` TINYINT NOT NULL DEFAULT 1 COMMENT '是否有效：0 否，1 是',
   `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
   `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
@@ -112,7 +114,7 @@ CREATE TABLE `train_ticket_sku` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB COMMENT='车票SKU表';
 
-# 车票库存表
+# 车票库存表 (每天都有独立的库存，相互不影响)
 DROP TABLE IF EXISTS `train_ticket_stock`;
 CREATE TABLE `train_ticket_stock` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -134,11 +136,12 @@ CREATE TABLE `train_ticket_stock` (
 DROP TABLE IF EXISTS `train_ticket_order`;
 CREATE TABLE `train_ticket_order` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务ID',
-  `sku_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT 'SKU编号',
+  `biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务ID(订单编号)',
+  `schedule_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '班次编号',
   `target_date` DATE NOT NULL DEFAULT '1970-01-01' COMMENT '目标日期',
   `seat_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '座位编码',
   `order_status` VARCHAR(32) NOT NULL DEFAULT 'NEW' COMMENT '订单状态：NEW 新建，PAYING 付款中，PAYED 已付款，CANCEL 已取消，DONE 已完成',
+  `order_amount` DECIMAL(20,2) NOT NULL DEFAULT 0.00 COMMENT '订单金额',
   `is_enabled` TINYINT NOT NULL DEFAULT 1 COMMENT '是否有效：0 否，1 是',
   `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
   `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
@@ -147,6 +150,24 @@ CREATE TABLE `train_ticket_order` (
   `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB COMMENT='车票订单表';
+
+# 车票订单项表
+DROP TABLE IF EXISTS `train_ticket_order_sku`;
+CREATE TABLE `train_ticket_order_sku` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务ID',
+  `order_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '订单编号',
+  `sku_biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT 'SKU编号',
+  `target_date` DATE NOT NULL DEFAULT '1970-01-01' COMMENT '目标日期',
+  `price` DECIMAL(20,2) NOT NULL DEFAULT 0.00 COMMENT '价格(元)',
+  `is_enabled` TINYINT NOT NULL DEFAULT 1 COMMENT '是否有效：0 否，1 是',
+  `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
+  `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',
+  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB COMMENT='车票订单项表';
 
 
 # 在有库存的情况下，可以出票，但是怎么分配座位呢？
