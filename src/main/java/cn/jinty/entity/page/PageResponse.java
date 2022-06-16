@@ -40,6 +40,16 @@ public class PageResponse<T> extends PageRequest {
     /**
      * 空结果
      *
+     * @param <T> 泛型
+     * @return 分页响应体
+     */
+    public static <T> PageResponse<T> empty() {
+        return new PageResponse<>(0, new ArrayList<>());
+    }
+
+    /**
+     * 空结果
+     *
      * @param pageRequest 分页请求体
      * @param <T>         泛型
      * @return 分页响应体

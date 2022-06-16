@@ -1,8 +1,15 @@
 package test.cn.jinty.json;
 
+import cn.jinty.entity.BaseResponse;
 import cn.jinty.entity.KeyValue;
+import cn.jinty.entity.page.PageResponse;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * FastJson - 测试
@@ -13,20 +20,26 @@ import org.junit.Test;
 public class FastJsonTest {
 
     private JSONObject build() {
-        KeyValue<String, String> kv = new KeyValue<>("name", "hello");
         JSONObject json = new JSONObject();
+        KeyValue<String, String> kv = new KeyValue<>("name", "hello");
         json.put("key1", kv);
-        json.put("key2", JSONObject.toJSONString(kv));
-        json.put("key3", "hi");
+        json.put("key2", JSON.toJSONString(kv));
+        json.put("key3", new int[]{1, 2, 3});
+        json.put("key4", JSON.toJSONString(new int[]{1, 2, 3}));
+        json.put("key5", "hi");
+        json.put("key6", null);
         return json;
     }
 
     @Test
     public void testToString() {
         JSONObject json = build();
+        // 默认情况下，值为null的键值对会被忽略
         System.out.println(json);
-        System.out.println(json.toJSONString());
-        System.out.println(JSONObject.toJSONString(new Object()));
+        System.out.println(JSON.toJSONString(json));
+        // 通过配置WriteMapNullValue，显示值为null的键值对
+        System.out.println(json.toString(SerializerFeature.WriteMapNullValue));
+        System.out.println(JSON.toJSONString(json, SerializerFeature.WriteMapNullValue));
     }
 
     @Test
@@ -35,39 +48,67 @@ public class FastJsonTest {
         System.out.println("key1 is " + json.get("key1"));
         System.out.println("key2 is " + json.get("key2"));
         System.out.println("key3 is " + json.get("key3"));
+        System.out.println("key4 is " + json.get("key4"));
+        System.out.println("key5 is " + json.get("key5"));
+        System.out.println("key6 is " + json.get("key6"));
     }
 
     @Test
-    public void testGetString() {
+    public void testGetJSON() {
         JSONObject json = build();
-        System.out.println("key1 is " + json.getString("key1"));
-        System.out.println("key2 is " + json.getString("key2"));
-        System.out.println("key3 is " + json.getString("key3"));
-    }
-
-    @Test
-    public void testGetJSONObject() {
-        JSONObject json = build();
+        // 值为对象、对象JSON字符串，可转为JSONObject
         System.out.println("key1 is " + json.getJSONObject("key1"));
         System.out.println("key2 is " + json.getJSONObject("key2"));
-        System.out.println("key3 is " + json.getJSONObject("key3"));
+        // 值为数组、数组JSON字符串，可转为JSONArray
+        System.out.println("key3 is " + json.getJSONArray("key3"));
+        System.out.println("key4 is " + json.getJSONArray("key4"));
+        // 值为普通值，抛异常
+        System.out.println("key5 is " + json.getJSONObject("key5"));
     }
 
     @Test
     public void testParse() {
-        JSONObject json = build();
+        String jsonStr = "{\"key1\":{\"key\":\"name\",\"value\":\"hello\"},\"key2\":\"{\\\"key\\\":\\\"name\\\",\\\"value\\\":\\\"hello\\\"}\",\"key5\":\"hi\",\"key6\":null,\"key3\":[1,2,3],\"key4\":\"[1,2,3]\"}";
+        JSONObject json = JSON.parseObject(jsonStr);
+        // 值为对象，解析为对象
+        System.out.println(json.get("key1"));
         System.out.println(json.getJSONObject("key1").toJavaObject(KeyValue.class));
-        System.out.println(JSONObject.parseObject(json.getString("key2"), KeyValue.class));
+        System.out.println();
+        // 值为对象JSON字符串，解析为对象
+        System.out.println(json.getJSONObject("key2").toJavaObject(KeyValue.class));
+        System.out.println(JSON.parseObject(json.getString("key2"), KeyValue.class));
+        System.out.println();
+        // 值为数组，解析为数组
+        System.out.println(json.get("key3"));
+        System.out.println(Arrays.toString(json.getJSONArray("key3").toArray()));
+        System.out.println();
+        // 值为数组JSON字符串，解析为对象
+        System.out.println(Arrays.toString(json.getJSONArray("key4").toArray()));
+        System.out.println(Arrays.toString(JSON.parseArray(json.getString("key4")).toArray()));
+        System.out.println();
     }
 
     @Test
     public void testParseNull() {
-        String param = "";
-        System.out.println(JSONObject.parseObject(param, KeyValue.class));
-        param = "{}";
-        System.out.println(JSONObject.parseObject(param, KeyValue.class));
-        param = "{\"plazaCode\":\"001\"}";
-        System.out.println(JSONObject.parseObject(param, KeyValue.class));
+        String jsonStr = "";
+        System.out.println(JSONObject.parseObject(jsonStr, KeyValue.class));
+        jsonStr = "{}";
+        System.out.println(JSONObject.parseObject(jsonStr, KeyValue.class));
+        jsonStr = "{\"name\":\"001\"}";
+        System.out.println(JSONObject.parseObject(jsonStr, KeyValue.class));
+        jsonStr = "{\"key\":1,\"value\":1}";
+        System.out.println(JSONObject.parseObject(jsonStr, KeyValue.class));
+    }
+
+    @Test
+    public void testGenerics() {
+        BaseResponse<PageResponse<String>> response = BaseResponse.success(PageResponse.empty());
+        System.out.println("原对象：" + response);
+        String json = JSON.toJSONString(response);
+        System.out.println("原对象转Json：" + json);
+        response = JSON.parseObject(json, new TypeReference<BaseResponse<PageResponse<String>>>() {
+        });
+        System.out.println("Json恢复原对象：" + response);
     }
 
 }
