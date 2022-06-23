@@ -64,7 +64,7 @@ public final class IdUtil {
         nf.setMinimumIntegerDigits(length);
         nf.setMaximumIntegerDigits(length);
         if (String.valueOf(number).length() > length) {
-            throw new RuntimeException(String.format("自增数字已耗尽：prefix=%s, length=%s, now=%s", prefix, length, number));
+            throw new RuntimeException("自增数字已达上限" + (int) Math.pow(10, length));
         }
         return prefix + nf.format(number);
     }

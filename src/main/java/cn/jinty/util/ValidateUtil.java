@@ -14,9 +14,8 @@ public final class ValidateUtil {
      * 非空校验 - 对象
      *
      * @param obj 对象
-     * @throws Exception 异常
      */
-    public static void notNull(Object obj) throws Exception {
+    public static void notNull(Object obj) {
         notNull(obj, "对象不能为空");
     }
 
@@ -25,11 +24,10 @@ public final class ValidateUtil {
      *
      * @param obj 对象
      * @param msg 提示信息
-     * @throws Exception 异常
      */
-    public static void notNull(Object obj, String msg) throws Exception {
+    public static void notNull(Object obj, String msg) {
         if (obj == null) {
-            throw new Exception(msg);
+            throw new RuntimeException(msg);
         }
     }
 
@@ -37,9 +35,8 @@ public final class ValidateUtil {
      * 非空校验 - 字符串
      *
      * @param str 字符串
-     * @throws Exception 异常
      */
-    public static void notBlank(String str) throws Exception {
+    public static void notBlank(String str) {
         notBlank(str, "字符串不能为空");
     }
 
@@ -48,11 +45,10 @@ public final class ValidateUtil {
      *
      * @param str 字符串
      * @param msg 提示信息
-     * @throws Exception 异常
      */
-    public static void notBlank(String str, String msg) throws Exception {
+    public static void notBlank(String str, String msg) {
         if (str == null || str.length() == 0 || str.trim().length() == 0) {
-            throw new Exception(msg);
+            throw new RuntimeException(msg);
         }
     }
 
@@ -61,9 +57,8 @@ public final class ValidateUtil {
      *
      * @param coll 集合
      * @param <T>  泛型
-     * @throws Exception 异常
      */
-    public static <T> void notEmpty(Collection<T> coll) throws Exception {
+    public static <T> void notEmpty(Collection<T> coll) {
         notEmpty(coll, "集合不能为空");
     }
 
@@ -73,11 +68,10 @@ public final class ValidateUtil {
      * @param coll 集合
      * @param msg  提示信息
      * @param <T>  泛型
-     * @throws Exception 异常
      */
-    public static <T> void notEmpty(Collection<T> coll, String msg) throws Exception {
+    public static <T> void notEmpty(Collection<T> coll, String msg) {
         if (coll == null || coll.isEmpty()) {
-            throw new Exception(msg);
+            throw new RuntimeException(msg);
         }
     }
 
