@@ -29,11 +29,11 @@ public class FinanceUtilTest {
     public void testFormatAmount() {
         Number amount = 0;
         System.out.println(FinanceUtil.formatAmount(amount));
-        amount = 8.8;
+        amount = 8.8F;
         System.out.println(FinanceUtil.formatAmount(amount));
-        amount = 8888.888;
+        amount = 8888.888D;
         System.out.println(FinanceUtil.formatAmount(amount));
-        amount = 800800800800.88888;
+        amount = BigDecimal.valueOf(800800800800.88888);
         System.out.println(FinanceUtil.formatAmount(amount));
     }
 

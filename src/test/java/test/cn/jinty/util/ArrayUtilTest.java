@@ -39,15 +39,13 @@ public class ArrayUtilTest {
     }
 
     @Test
-    public void testGenerateArray() {
-        int[] arr = ArrayUtil.generateArray(10);
-        System.out.println(Arrays.toString(arr));
-    }
-
-    @Test
-    public void testInputArray() {
-        int[] arr = ArrayUtil.inputArray();
-        System.out.println(Arrays.toString(arr));
+    public void testShuffle() {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        System.out.println("输入序列：" + Arrays.toString(arr));
+        for (int i = 0; i < 10; i++) {
+            ArrayUtil.shuffle(arr);
+            System.out.println("打乱序列：" + Arrays.toString(arr));
+        }
     }
 
 }

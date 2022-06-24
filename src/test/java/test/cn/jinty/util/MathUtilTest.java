@@ -197,6 +197,7 @@ public class MathUtilTest {
         System.out.println(Arrays.toString(MathUtil.split(100, 2)));
         System.out.println(Arrays.toString(MathUtil.split(100, 3)));
         System.out.println(Arrays.toString(MathUtil.split(100, 5)));
+        System.out.println(Arrays.toString(MathUtil.split(100, 8)));
         System.out.println(Arrays.toString(MathUtil.split(100, 10)));
     }
 

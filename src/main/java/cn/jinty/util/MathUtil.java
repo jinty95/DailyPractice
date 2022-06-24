@@ -376,6 +376,8 @@ public final class MathUtil {
         }
         // 第n个直接取剩余数额
         result[n - 1] = amount;
+        // 打乱数组
+        ArrayUtil.shuffle(result);
         return result;
     }
 
