@@ -25,4 +25,16 @@ public class FinanceUtilTest {
         System.out.printf("原始金额=%s%n", FinanceUtil.getAmount(amountWithTax, taxRate));
     }
 
+    @Test
+    public void testFormatAmount() {
+        Number amount = 0;
+        System.out.println(FinanceUtil.formatAmount(amount));
+        amount = 8.8;
+        System.out.println(FinanceUtil.formatAmount(amount));
+        amount = 8888.888;
+        System.out.println(FinanceUtil.formatAmount(amount));
+        amount = 800800800800.88888;
+        System.out.println(FinanceUtil.formatAmount(amount));
+    }
+
 }

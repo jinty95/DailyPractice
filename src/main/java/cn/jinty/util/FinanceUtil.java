@@ -2,6 +2,8 @@ package cn.jinty.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * 财务 - 工具类
@@ -45,6 +47,21 @@ public final class FinanceUtil {
             return amountWithTax;
         }
         return amountWithTax.multiply(HUNDRED).divide(taxRate.add(HUNDRED), 7, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * 格式化金额
+     *
+     * @param amount 金额
+     * @return 格式化金额(千分位显示)
+     */
+    public static String formatAmount(Number amount) {
+        if (amount == null) {
+            return StringUtil.EMPTY;
+        }
+        // ','右侧表示多少位整数用一个','分割，'.'右侧表示小数最多精确到多少位
+        NumberFormat nf = new DecimalFormat("#,##0.00");
+        return nf.format(amount);
     }
 
 }
