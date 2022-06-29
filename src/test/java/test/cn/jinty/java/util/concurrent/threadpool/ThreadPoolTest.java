@@ -1,7 +1,10 @@
 package test.cn.jinty.java.util.concurrent.threadpool;
 
+import cn.jinty.util.ListUtil;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -158,6 +161,53 @@ public class ThreadPoolTest {
                 e.printStackTrace();
             }
         }
+        threadPool.shutdown();
+        while (true) {
+            if (threadPool.isTerminated()) {
+                System.out.println("关闭线程池");
+                return;
+            }
+        }
+    }
+
+    /**
+     * 串行与并行共存，将任务分组，组与组之间串行，组内任务并行
+     */
+    @Test
+    public void test7() {
+        // 创建线程池
+        ExecutorService threadPool = new ThreadPoolExecutor(
+                4, 8, 10L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(8)
+        );
+        System.out.println("创建线程池");
+        // 创建任务并分组
+        List<Callable<Boolean>> tasks = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            final int j = i;
+            tasks.add(() -> {
+                System.out.printf("线程[%s] 任务编号[%d] 并发执行\n", Thread.currentThread().getName(), j);
+                Thread.sleep(1000L);
+                return true;
+            });
+        }
+        List<List<Callable<Boolean>>> taskGroups = ListUtil.splitByNum(tasks, 10);
+        // 组与组之间串行，组内任务并行
+        for (int i = 0; i < taskGroups.size(); i++) {
+            System.out.printf("任务组号[%d] 串行执行\n", i);
+            List<Callable<Boolean>> taskGroup = taskGroups.get(i);
+            List<Future<Boolean>> results = new ArrayList<>();
+            for (Callable<Boolean> task : taskGroup) {
+                results.add(threadPool.submit(task));
+            }
+            for (Future<Boolean> result : results) {
+                try {
+                    result.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        // 关闭线程池
         threadPool.shutdown();
         while (true) {
             if (threadPool.isTerminated()) {
