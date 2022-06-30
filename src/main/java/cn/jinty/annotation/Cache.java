@@ -14,8 +14,10 @@ import java.lang.annotation.*;
 @Documented
 public @interface Cache {
 
-    String key() default "";
+    // key前缀
+    String prefix() default "";
 
+    // key过期时间
     long expireTime() default -1L;
 
 }

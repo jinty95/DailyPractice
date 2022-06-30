@@ -24,6 +24,8 @@ public final class DateUtil {
     public static final long MINUTE = SECOND * 60L;
     public static final long HOUR = MINUTE * 60L;
     public static final long DAY = HOUR * 24L;
+    public static final long MONTH = DAY * 30L;
+    public static final long YEAR = DAY * 365L;
 
     /**
      * 常用的时间格式
@@ -54,8 +56,8 @@ public final class DateUtil {
     /**
      * 星期的每一天 (英文+中文)
      */
-    private static final String[] DAY_OF_WEEK_ARR_EN = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
-    private static final String[] DAY_OF_WEEK_ARR_CN = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    private static final String[] DAY_OF_WEEK_EN = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
+    private static final String[] DAY_OF_WEEK_CN = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
 
     /**
      * 十二星座
@@ -787,7 +789,7 @@ public final class DateUtil {
         checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return DAY_OF_WEEK_ARR_EN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return DAY_OF_WEEK_EN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**
@@ -800,7 +802,7 @@ public final class DateUtil {
         checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        return DAY_OF_WEEK_ARR_CN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+        return DAY_OF_WEEK_CN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /**

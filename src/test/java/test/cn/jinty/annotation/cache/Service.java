@@ -12,10 +12,10 @@ import java.util.List;
  **/
 public interface Service {
 
-    @Cache(key = "Service.listByType", expireTime = 2000L)
+    @Cache(prefix = "service.listByType", expireTime = 2000L)
     List<String> listByType(String type);
 
-    @Cache(key = "Service.getById")
+    @Cache(prefix = "service.getById")
     String getById(Long id);
 
 }

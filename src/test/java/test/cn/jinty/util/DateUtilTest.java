@@ -33,6 +33,7 @@ public class DateUtilTest {
     @Test
     public void testTimeZone() {
         System.out.println(DateUtil.EPOCH.getTime());
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME));
         System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.EUROPE_LONDON));
         System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI));
         System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_TOKYO));
@@ -175,7 +176,7 @@ public class DateUtilTest {
         Date begin = DateUtil.parse("2022-06-16 16:00:00");
         Date end = DateUtil.parse("2023-01-21 12:00:00");
         for (CycleTypeEnum cycleType : CycleTypeEnum.values()) {
-            System.out.printf("按%s分割时间%n",cycleType.getDesc());
+            System.out.printf("按%s分割时间%n", cycleType.getDesc());
             for (DateRange range : DateUtil.splitByCycle(begin, end, cycleType)) {
                 System.out.println(range);
             }
@@ -310,6 +311,32 @@ public class DateUtilTest {
         System.out.println("年龄：" + DateUtil.getAge(now, birthday));
         System.out.println("生肖：" + DateUtil.getChineseZodiac(birthday));
         System.out.println("星座：" + DateUtil.getConstellation(birthday));
+    }
+
+    @Test
+    public void testTimeStampToDate() {
+        long millisecond = 1656518400000L;
+        System.out.println("时间戳(毫秒)：" + millisecond);
+        Date d1 = new Date(millisecond);
+        System.out.println("时间：" + DateUtil.format(d1));
+        System.out.println();
+        long second = 1656518400L;
+        System.out.println("时间戳(秒)：" + second);
+        Date d2 = new Date(second * DateUtil.SECOND);
+        System.out.println("时间：" + DateUtil.format(d2));
+    }
+
+    @Test
+    public void testDateToTimeStamp() {
+        Date date = DateUtil.buildDate(2022, 6, 30);
+        System.out.println("时间：" + DateUtil.format(date));
+        System.out.println("时间戳(毫秒)：" + date.getTime());
+        System.out.println("时间戳(秒)：" + date.getTime() / DateUtil.SECOND);
+        System.out.println("时间戳(分)：" + date.getTime() / DateUtil.MINUTE);
+        System.out.println("时间戳(时)：" + date.getTime() / DateUtil.HOUR);
+        System.out.println("时间戳(日)：" + date.getTime() / DateUtil.DAY);
+        System.out.println("时间戳(月)：" + date.getTime() / DateUtil.MONTH);
+        System.out.println("时间戳(年)：" + date.getTime() / DateUtil.YEAR);
     }
 
 }

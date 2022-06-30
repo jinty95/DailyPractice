@@ -23,7 +23,7 @@ public class LocalCacheParser implements CacheParser {
         }
         // 2、有注解，增加注解逻辑
         Cache cache = method.getAnnotation(Cache.class);
-        StringBuilder sb = new StringBuilder(cache.key());
+        StringBuilder sb = new StringBuilder(cache.prefix());
         if (args != null && args.length > 0) {
             sb.append("#");
             for (Object arg : args) {
