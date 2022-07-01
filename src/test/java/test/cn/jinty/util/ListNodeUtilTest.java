@@ -2,7 +2,6 @@ package test.cn.jinty.util;
 
 import cn.jinty.struct.line.ListNode;
 import cn.jinty.util.ListNodeUtil;
-import lombok.val;
 import org.junit.Test;
 
 import java.util.Arrays;

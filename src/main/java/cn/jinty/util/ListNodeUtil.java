@@ -2,7 +2,6 @@ package cn.jinty.util;
 
 import cn.jinty.struct.line.ListNode;
 
-import java.util.List;
 import java.util.Random;
 
 /**

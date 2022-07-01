@@ -20,11 +20,11 @@ public class RetryUtilTest {
     @Test
     public void test1() {
         String desc = "根据时间判断星座";
-        Date param = null;
+        Date param = new Date();
         String result;
         result = RetryUtil.retryForFunction(DateUtil::getConstellation, param, desc, 3);
         System.out.println(desc + "：param=" + DateUtil.format(param) + "，result=" + result);
-        param = new Date();
+        param = null;
         result = RetryUtil.retryForFunction(DateUtil::getConstellation, param, desc, 3);
         System.out.println(desc + "：param=" + DateUtil.format(param) + "，result=" + result);
     }
@@ -32,14 +32,14 @@ public class RetryUtilTest {
     @Test
     public void test2() {
         String desc = "断言对象非空";
-        Object param = null;
+        Object param = new Object();
         Consumer<Object> func = o -> {
             if (o == null) {
                 throw new RuntimeException("对象为空");
             }
         };
         RetryUtil.retryForConsumer(func, param, desc, 3);
-        param = new Object();
+        param = null;
         RetryUtil.retryForConsumer(func, param, desc, 3);
     }
 

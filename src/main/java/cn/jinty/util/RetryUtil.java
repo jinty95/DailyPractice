@@ -13,8 +13,9 @@ import java.util.function.Supplier;
 public final class RetryUtil {
 
     // 日志模板
-    private static final String logTemplate1 = "[%s]执行失败：param=%s, error=%s, retry=%s";
-    private static final String logTemplate2 = "[%s]执行失败：error=%s, retry=%s";
+    private static final String LOG_TEMPLATE_1 = "[%s]执行失败：param=%s, retry=%s";
+    private static final String LOG_TEMPLATE_2 = "[%s]执行失败：retry=%s";
+    private static final String LOG_TEMPLATE_3 = "[%s]执行失败，重试%d次仍然失败";
 
     /**
      * 重试 - 单输入单输出函数
@@ -33,13 +34,12 @@ public final class RetryUtil {
             try {
                 return func.apply(param);
             } catch (Exception e) {
-                String log = String.format(logTemplate1, desc, param, e.getMessage(), i);
-                System.out.println(log);
+                System.out.println(String.format(LOG_TEMPLATE_1, desc, param, i));
                 e.printStackTrace();
                 i++;
             }
         } while (i <= retry);
-        return null;
+        throw new RuntimeException(String.format(LOG_TEMPLATE_3, desc, retry));
     }
 
     /**
@@ -58,12 +58,12 @@ public final class RetryUtil {
                 func.accept(param);
                 return;
             } catch (Exception e) {
-                String log = String.format(logTemplate1, desc, param, e.getMessage(), i);
-                System.out.println(log);
+                System.out.println(String.format(LOG_TEMPLATE_1, desc, param, i));
                 e.printStackTrace();
                 i++;
             }
         } while (i <= retry);
+        throw new RuntimeException(String.format(LOG_TEMPLATE_3, desc, retry));
     }
 
     /**
@@ -81,13 +81,12 @@ public final class RetryUtil {
             try {
                 return func.get();
             } catch (Exception e) {
-                String log = String.format(logTemplate2, desc, e.getMessage(), i);
-                System.out.println(log);
+                System.out.println(String.format(LOG_TEMPLATE_2, desc, i));
                 e.printStackTrace();
                 i++;
             }
         } while (i <= retry);
-        return null;
+        throw new RuntimeException(String.format(LOG_TEMPLATE_3, desc, retry));
     }
 
 }
