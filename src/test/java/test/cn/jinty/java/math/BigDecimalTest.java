@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * 大型小数 - 测试
+ * 大小数 - 测试
  *
  * @author Jinty
  * @date 2022/5/18
@@ -19,6 +19,7 @@ public class BigDecimalTest {
         System.out.println(b);
         System.out.println(b.toPlainString());
         System.out.println(b.stripTrailingZeros().toPlainString());
+        System.out.println(b.setScale(2, RoundingMode.HALF_UP).toPlainString());
     }
 
     @Test

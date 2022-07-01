@@ -2,6 +2,7 @@ package cn.jinty.util;
 
 import cn.jinty.struct.line.ListNode;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -77,26 +78,45 @@ public final class ListNodeUtil {
     }
 
     /**
-     * 随机获取链表的一个节点，各个节点被获取的概率相等
+     * 等概率随机获取链表的一个节点
      *
      * @param head 链表
      * @return 节点
      */
     public static ListNode random(ListNode head) {
+        return randomN(head, 1)[0];
+    }
+
+    /**
+     * 等概率随机获取链表的 n 个节点
+     *
+     * @param head 链表
+     * @param n    取样数
+     * @return 取样结果
+     */
+    public static ListNode[] randomN(ListNode head, int n) {
         // 蓄水池算法
-        ListNode result = head;
+        ListNode[] results = new ListNode[n];
         Random random = new Random();
-        head = head.next;
-        int i = 1;
+        int i = 0;
+        // 前 n 个节点直接放进蓄水池中，如果节点数小于等于 n ，那么每个节点都 100% 被获取
+        while (i < n) {
+            results[i++] = head;
+            head = head.next;
+        }
+        // 后续的节点，以当前遍历累计节点数生成一个随机数，如果这个数落在蓄水池中，则以当前节点替换蓄水池中的原有节点
+        // 第 n+1 个节点，有 n/(n+1) 概率进蓄水池，其它节点有 n/(n+1) * (n-1)/n + 1/n+1 = n/(n+1) 概率留在蓄水池，即前 n+1 个节点都有 n/(n+1) 概率在蓄水池中
+        // 第 n+2 个节点，有 n/(n+2) 概率进蓄水池，其它节点有 n/(n+1) * (n/(n+2) * (n-1)/n + 2/(n+2)) = n/(n+2) 概率留在蓄水池，即前 n+2 个节点都有 n/(n+2) 概率在蓄水池中
+        // 以此类推，第 n+m 个节点，有 n/(n+m) 概率进蓄水池，其它节点有 n/(n+m) 概率留在蓄水池，即前 n+m 个节点都有 n/(n+m) 概率在蓄水池中
         while (head != null) {
             i++;
-            // 1/n概率选择第n个节点，(n-1)/n概率保持原来的选择
-            if (random.nextInt(i) == 0) {
-                result = head;
+            int rand = random.nextInt(i);
+            if (rand < n) {
+                results[rand] = head;
             }
             head = head.next;
         }
-        return result;
+        return results;
     }
 
     /**

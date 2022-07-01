@@ -2,7 +2,10 @@ package test.cn.jinty.util;
 
 import cn.jinty.struct.line.ListNode;
 import cn.jinty.util.ListNodeUtil;
+import lombok.val;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * 链表工具 - 测试
@@ -33,10 +36,27 @@ public class ListNodeUtilTest {
 
     @Test
     public void testRandom() {
-        ListNode head = ListNodeUtil.fromArray(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
-        for (int i = 0; i < 8; i++) {
-            System.out.println(ListNodeUtil.random(head).val);
+        ListNode head = ListNodeUtil.fromArray(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        int[] count = new int[10];
+        for (int i = 0; i < 10000; i++) {
+            count[ListNodeUtil.random(head).val]++;
         }
+        System.out.println("等概率随机获取链表的1个节点，执行10000次，各节点出现频次统计");
+        System.out.println(Arrays.toString(count));
+    }
+
+    @Test
+    public void testRandomN() {
+        ListNode head = ListNodeUtil.fromArray(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+        int[] count = new int[10];
+        for (int i = 0; i < 10000; i++) {
+            ListNode[] results = ListNodeUtil.randomN(head, 2);
+            for (ListNode result : results) {
+                count[result.val]++;
+            }
+        }
+        System.out.println("等概率随机获取链表的2个节点，执行10000次，各节点出现频次统计");
+        System.out.println(Arrays.toString(count));
     }
 
     @Test
