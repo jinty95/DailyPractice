@@ -252,40 +252,30 @@ public class Solution {
      * @return 省份数量
      */
     public int findCircleNum(int[][] isConnected) {
-        //省份集
-        List<Set<Integer>> circle = new ArrayList<>();
-        int len = isConnected.length;
-        for (int i = 0; i < len; i++) {
-            for (int j = 0; j < len; j++) {
+        UnionFind uf = new UnionFind();
+        //初始化并查集
+        String[] str = new String[isConnected.length];
+        for (int i = 0; i < isConnected.length; i++) {
+            str[i] = String.valueOf(i);
+            uf.parents.put(str[i], str[i]);
+            uf.number.put(str[i], 0);
+        }
+        //合并并查集
+        for (int i = 0; i < isConnected.length; i++) {
+            for (int j = 0; j < isConnected.length && j != i; j++) {
                 if (isConnected[i][j] == 1) {
-                    //找所在省份
-                    Set<Integer> province1 = null;
-                    Set<Integer> province2 = null;
-                    for (Set<Integer> one : circle) {
-                        if (one.contains(i)) province1 = one;
-                        if (one.contains(j)) province2 = one;
-                    }
-                    //分四种情况讨论
-                    if (province1 == null && province2 == null) {
-                        province1 = new HashSet<>();
-                        province1.add(i);
-                        province1.add(j);
-                        circle.add(province1);
-                    } else if (province1 == null) {
-                        province2.add(i);
-                    } else if (province2 == null) {
-                        province1.add(j);
-                    } else {
-                        if (province1 != province2) {
-                            province1.addAll(province2);
-                            circle.remove(province2);
-                        }
-                    }
+                    uf.union(str[i], str[j]);
                 }
             }
         }
-        //返回省份数
-        return circle.size();
+        //统计集合数量
+        int count = 0;
+        for (int i = 0; i < isConnected.length; i++) {
+            if (str[i].equals(uf.find(str[i]))) {
+                count++;
+            }
+        }
+        return count;
     }
 
     /**

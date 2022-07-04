@@ -71,7 +71,11 @@ public class SolutionTest {
 
     @Test
     public void testFindCircleNum() {
-        int[][] isConnected = {{1, 0, 0, 1}, {0, 1, 1, 0}, {0, 1, 1, 1}, {1, 0, 1, 1}};
+        int[][] isConnected = new int[][]{{1, 0, 0, 1}, {0, 1, 1, 0}, {0, 1, 1, 1}, {1, 0, 1, 1}};
+        System.out.println(solution.findCircleNum(isConnected));
+        isConnected = new int[][]{{1, 0, 0, 0}, {0, 1, 1, 0}, {0, 1, 1, 1}, {0, 0, 1, 1}};
+        System.out.println(solution.findCircleNum(isConnected));
+        isConnected = new int[][]{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
         System.out.println(solution.findCircleNum(isConnected));
     }
 
