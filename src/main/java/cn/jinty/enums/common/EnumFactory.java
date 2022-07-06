@@ -27,6 +27,7 @@ public final class EnumFactory {
         set(ErrorEnum.class.getSimpleName(), ErrorEnum.values());
         set(FileTypeEnum.class.getSimpleName(), FileTypeEnum.values());
         set(BinaryUnitEnum.class.getSimpleName(), BinaryUnitEnum.values());
+        set(ContentTypeEnum.class.getSimpleName(), ContentTypeEnum.values());
     }
 
     /**

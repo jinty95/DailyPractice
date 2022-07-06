@@ -1,6 +1,7 @@
 package test.cn.jinty.util;
 
 import cn.jinty.entity.KeyValue;
+import cn.jinty.enums.ContentTypeEnum;
 import cn.jinty.util.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
@@ -28,6 +29,7 @@ public class HttpUtilTest {
             e.printStackTrace();
         }
 
+        // 只有这种请求(GET+查询参数)可以得到正确的百度搜索结果页面，其它请求都只能得到一个"网络不给力，请稍后重试"页面
         Map<String, String> params = new HashMap<>();
         params.put("wd", "如何学习java");
         try {
@@ -37,6 +39,29 @@ public class HttpUtilTest {
         }
 
     }
+
+    @Test
+    public void testDoPost() {
+
+        String url = "http://www.baidu.com/s";
+        String params = "wd=如何学习java";
+        try {
+            System.out.println("发起POST请求：响应=" + HttpUtil.doPost(url, params, ContentTypeEnum.URL_ENCODED));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        url = "http://www.baidu.com/s";
+        params = "{\"wd\":\"如何学习java\"";
+        try {
+            System.out.println("发起POST请求：响应=" + HttpUtil.doPost(url, params, ContentTypeEnum.JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /* OKHTTP */
 
     @Test
     public void testSend() {
@@ -60,7 +85,7 @@ public class HttpUtilTest {
                 .build();
         request = new Request.Builder()
                 .url(url)
-                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Content-Type", ContentTypeEnum.URL_ENCODED.getCode())
                 .post(body)
                 .build();
         try {
@@ -71,11 +96,11 @@ public class HttpUtilTest {
         }
 
         //  POST请求 JSON
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        MediaType JSON = MediaType.parse(ContentTypeEnum.JSON.getCode());
         body = RequestBody.create(JSON, "{\"key\":1}");
         request = new Request.Builder()
                 .url(url)
-                .header("Content-Type", "application/json; charset=utf-8")
+                .header("Content-Type", ContentTypeEnum.JSON.getCode())
                 .post(body)
                 .build();
         try {
@@ -95,7 +120,7 @@ public class HttpUtilTest {
         System.out.println("url=" + url);
         System.out.println("body=" + json);
         try {
-            System.out.println("result=" + HttpUtil.send(url, json));
+            System.out.println("result=" + HttpUtil.sendJson(url, json));
         } catch (IOException e) {
             e.printStackTrace();
         }
