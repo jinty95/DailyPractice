@@ -6,8 +6,10 @@ import cn.jinty.enums.FileTypeEnum;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
 
@@ -105,6 +107,34 @@ public final class FileUtil {
         int scale = B == unit ? 0 : 2;
         BigDecimal bd = BigDecimal.valueOf(size).divide(BigDecimal.valueOf(unit.getBytes().intValue()), scale, RoundingMode.HALF_UP);
         return bd + unit.getCode();
+    }
+
+    /**
+     * 扫描根路径下面的所有文件
+     *
+     * @param root 根路径
+     * @return 所有文件
+     */
+    public static List<File> scanFilesOfRoot(File root) {
+        if (root == null || !root.exists()) {
+            return new ArrayList<>();
+        }
+        List<File> results = new ArrayList<>();
+        // 如果是文件，直接添加
+        if (root.isFile()) {
+            results.add(root);
+            return results;
+        }
+        // 如果是目录，扫描目录下的文件
+        if (root.isDirectory()) {
+            File[] files = root.listFiles();
+            if (files != null && files.length > 0) {
+                for (File file : files) {
+                    results.addAll(scanFilesOfRoot(file));
+                }
+            }
+        }
+        return results;
     }
 
 }
