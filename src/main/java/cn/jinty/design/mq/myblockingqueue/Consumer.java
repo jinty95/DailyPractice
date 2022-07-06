@@ -1,8 +1,7 @@
-package cn.jinty.design.mq.blockingqueue;
+package cn.jinty.design.mq.myblockingqueue;
 
 import cn.jinty.design.mq.Message;
-
-import java.util.concurrent.BlockingQueue;
+import cn.jinty.struct.line.BlockingQueue;
 
 /**
  * 消费者

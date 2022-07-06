@@ -9,21 +9,24 @@ package cn.jinty.struct.line;
 public class Queue<T> {
 
     //默认初始容量
-    private static final int DEFAULT_INIT_CAPACITY = 2;
+    private static final int DEFAULT_INIT_CAPACITY = 1 << 4;
 
-    //最大容量
-    private static final int MAX_CAPACITY = 1 << 30;
+    //默认最大容量
+    private static final int DEFAULT_MAX_CAPACITY = 1 << 30;
 
-    //默认增量，0表示倍增
+    //默认扩容增量，0表示倍增
     private static final int DEFAULT_INCREMENT = 0;
 
-    //增量
+    //最大容量
+    private final int maxCapacity;
+
+    //扩容增量
     private final int increment;
 
     //元素数量
     private int size = 0;
 
-    //数组
+    //数组容器
     private Object[] data;
 
     //队头指针
@@ -32,17 +35,25 @@ public class Queue<T> {
     //队尾指针
     private int tail = 0;
 
-    //构造器
+    //构造器(无参)
     public Queue() {
         this(DEFAULT_INIT_CAPACITY);
     }
 
+    //构造器(设置初始容量)
     public Queue(int initCapacity) {
-        this(initCapacity, DEFAULT_INCREMENT);
+        this(initCapacity, DEFAULT_MAX_CAPACITY);
     }
 
-    public Queue(int initCapacity, int increment) {
+    //构造器(设置初始容量、最大容量)
+    public Queue(int initCapacity, int maxCapacity) {
+        this(initCapacity, maxCapacity, DEFAULT_INCREMENT);
+    }
+
+    //构造器(设置初始容量、最大容量、扩容增量)
+    public Queue(int initCapacity, int maxCapacity, int increment) {
         this.data = new Object[initCapacity];
+        this.maxCapacity = maxCapacity;
         this.increment = increment;
     }
 
@@ -99,10 +110,10 @@ public class Queue<T> {
     //扩容
     private void expand() {
         //到达最大容量，不再扩容
-        if (data.length == MAX_CAPACITY) return;
-        //新容量
+        if (data.length == maxCapacity) return;
+        //扩容
         int newCapacity = increment == 0 ? data.length * 2 : data.length + increment;
-        newCapacity = Math.min(newCapacity, MAX_CAPACITY);
+        newCapacity = Math.min(newCapacity, maxCapacity);
         //复制
         Object[] newData = new Object[newCapacity];
         int newHead = 0, newTail = 0;

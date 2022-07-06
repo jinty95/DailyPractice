@@ -1,9 +1,9 @@
-package cn.jinty.design.mq.blockingqueue;
+package cn.jinty.design.mq.myblockingqueue;
 
 import cn.jinty.design.mq.Message;
+import cn.jinty.struct.line.BlockingQueue;
 
 import java.util.Random;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * 生产者

@@ -1,11 +1,9 @@
-package test.cn.jinty.design.mq.blockingqueue;
+package test.cn.jinty.design.mq.myblockingqueue;
 
 import cn.jinty.design.mq.Message;
-import cn.jinty.design.mq.blockingqueue.Consumer;
-import cn.jinty.design.mq.blockingqueue.Producer;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import cn.jinty.design.mq.myblockingqueue.Consumer;
+import cn.jinty.design.mq.myblockingqueue.Producer;
+import cn.jinty.struct.line.BlockingQueue;
 
 /**
  * 测试
@@ -17,7 +15,7 @@ public class Test {
 
     public static void main(String[] args) {
         //消息队列
-        BlockingQueue<Message> queue = new ArrayBlockingQueue<>(10);
+        BlockingQueue<Message> queue = new BlockingQueue<>(10);
         //生产者
         for (int i = 0; i < 5; i++) {
             new Thread(new Producer(queue)).start();
