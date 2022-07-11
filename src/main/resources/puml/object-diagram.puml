@@ -1,0 +1,23 @@
+@startuml
+
+'对象定义
+object "Object1" as o1
+object "Object2" as o2
+object "Object3" as o3
+object "Object4" as o4
+
+'对象属性
+o1 : id = 1
+o1 : name = "Mike"
+o2 : id
+o2 : name
+o3 : animal_cat
+o4 : animal_dog
+
+'连线(-表示横线，--表示竖线，<>表示箭头)
+o1 - o2 : "ok"
+o1 -> o2 : "yes"
+o3 "hi" --> o4
+o3 <-- "hi" o4
+
+@enduml

@@ -36,7 +36,7 @@ public final class FinanceUtil {
      * 计算不含税金额
      *
      * @param amountWithTax 含税金额
-     * @param taxRate       税率
+     * @param taxRate       税率(百分数，输入6，表示6%)
      * @return 不含税金额
      */
     public static BigDecimal getAmount(BigDecimal amountWithTax, BigDecimal taxRate) {
