@@ -46,6 +46,13 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testLength() {
+        System.out.println(StringUtil.length(null));
+        System.out.println(StringUtil.length(""));
+        System.out.println(StringUtil.length("哈哈哈"));
+    }
+
+    @Test
     public void testIsLetter() {
         System.out.println(StringUtil.isLetter("Hello"));
         System.out.println(StringUtil.isLetter("12345"));
@@ -111,6 +118,14 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testAppend() {
+        System.out.println(StringUtil.append(null, "1", ","));
+        System.out.println(StringUtil.append("", "1", ","));
+        System.out.println(StringUtil.append("1", "2", ","));
+        System.out.println(StringUtil.append("1,2", "3", ","));
+    }
+
+    @Test
     public void testJoin() {
         System.out.println(StringUtil.join(","));
         System.out.println(StringUtil.join(",", 1, 2, 3));
@@ -170,6 +185,24 @@ public class StringUtilTest {
         System.out.println(StringUtil.matches("ABC\n", "[\\d\\D]*"));
         // 使用[\w\W]匹配所有字符
         System.out.println(StringUtil.matches("ABC\n", "[\\w\\W]*"));
+    }
+
+    @Test
+    public void testCamelToSnake() {
+        System.out.println(StringUtil.camelToSnake("stringUtilTest"));
+        System.out.println(StringUtil.camelToSnake("StringUtilTest"));
+        System.out.println(StringUtil.camelToSnake("StringUtilTest1"));
+        System.out.println(StringUtil.camelToSnake("string_util_test"));
+        System.out.println(StringUtil.camelToSnake("12345"));
+    }
+
+    @Test
+    public void testSnakeToCamel() {
+        System.out.println(StringUtil.snakeToCamel("string_util_test", true));
+        System.out.println(StringUtil.snakeToCamel("string_util_test", false));
+        System.out.println(StringUtil.snakeToCamel("_string_util_test", false));
+        System.out.println(StringUtil.snakeToCamel("StringUtilTest", false));
+        System.out.println(StringUtil.snakeToCamel("1_2_3_4_5", false));
     }
 
 }

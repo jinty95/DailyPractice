@@ -92,6 +92,19 @@ public final class StringUtil {
     }
 
     /**
+     * 字符串长度
+     *
+     * @param s 字符串
+     * @return 长度
+     */
+    public static int length(String s) {
+        if (s == null) {
+            return 0;
+        }
+        return s.length();
+    }
+
+    /**
      * 字符串是否全为字母
      *
      * @param s 字符串
@@ -337,6 +350,21 @@ public final class StringUtil {
     }
 
     /**
+     * 字符串追加
+     *
+     * @param origin   原串
+     * @param append   追加串
+     * @param separate 分隔符
+     * @return 字符串
+     */
+    public static String append(String origin, String append, String separate) {
+        if (isEmpty(origin)) {
+            return append;
+        }
+        return origin + separate + append;
+    }
+
+    /**
      * 字符串连接
      *
      * @param separate 分隔符
@@ -382,7 +410,7 @@ public final class StringUtil {
      */
     public static String repeat(String s, int times) {
         if (isEmpty(s)) {
-            return s;
+            return EMPTY;
         }
         if (times <= 0) {
             return EMPTY;
@@ -422,6 +450,59 @@ public final class StringUtil {
         }
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(text).matches();
+    }
+
+    /**
+     * 驼峰命名 -> 下划线命名
+     *
+     * @param camel 驼峰字符串
+     * @return 下划线字符串
+     */
+    public static String camelToSnake(String camel) {
+        if (isEmpty(camel)) {
+            return EMPTY;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < camel.length(); i++) {
+            char c = camel.charAt(i);
+            // 寻找大写字母，在前面添加下划线，并将其转为小写
+            if (Character.isUpperCase(c)) {
+                if (i > 0) {
+                    sb.append("_");
+                }
+                c = Character.toLowerCase(c);
+            }
+            sb.append(c);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 下划线命名 -> 驼峰命名
+     *
+     * @param snake   下划线字符串
+     * @param upFirst 是否首字符大写
+     * @return 驼峰字符串
+     */
+    public static String snakeToCamel(String snake, boolean upFirst) {
+        if (isEmpty(snake)) {
+            return EMPTY;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < snake.length(); i++) {
+            char c = snake.charAt(i);
+            // 寻找下划线，将其移除，并将后一个字母变为大写
+            if (c == '_') {
+                upFirst = true;
+            } else {
+                if (upFirst) {
+                    c = Character.toUpperCase(c);
+                }
+                sb.append(c);
+                upFirst = false;
+            }
+        }
+        return sb.toString();
     }
 
 }
