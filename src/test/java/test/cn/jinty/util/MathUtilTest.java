@@ -171,6 +171,7 @@ public class MathUtilTest {
         System.out.println(MathUtil.toBinaryString(15));
         System.out.println(MathUtil.toString(36, 36));
         System.out.println(MathUtil.toString(36, 2));
+        System.out.println(MathUtil.toString(-36, 2)); // 负数转二进制不是标准的二进制数
         System.out.println(MathUtil.toString(1000, 5));
         System.out.println(MathUtil.toString(-1000, 5));
         System.out.println(MathUtil.toString(0, 5));

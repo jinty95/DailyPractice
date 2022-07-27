@@ -505,4 +505,65 @@ public final class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * 移除4字节编码的字符
+     *
+     * @param s 输入字符串
+     * @return 输出字符串
+     */
+    public static String remove4ByteChar(String s) {
+        if (isEmpty(s)) {
+            return EMPTY;
+        }
+        byte[] bytes = s.getBytes();
+        List<Byte> byteList = new ArrayList<>();
+        for (int i = 0; i < bytes.length; i++) {
+            // UTF-8的4字节编码以11110开头
+            if ((bytes[i] & 0xF8) == 0xF0) {
+                i += 3;
+            } else {
+                byteList.add(bytes[i]);
+            }
+        }
+        bytes = new byte[byteList.size()];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = byteList.get(i);
+        }
+        return new String(bytes);
+    }
+
+    /**
+     * 字节流 -> 二进制字符串
+     *
+     * @param bytes 字节流
+     * @return 二进制字符串
+     */
+    public static String toBinaryString(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return EMPTY;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (byte b : bytes) {
+            sb.append(toBinaryString(b)).append(",");
+        }
+        return sb.substring(0, sb.length() - 1);
+    }
+
+    /**
+     * 字节 -> 二进制字符串
+     *
+     * @param b 字节
+     * @return 二进制字符串
+     */
+    public static String toBinaryString(byte b) {
+        StringBuilder sb = new StringBuilder();
+        // 逐位与1，得到每一位的数字
+        for (int i = 0; i < 8; i++) {
+            sb.append(b & 1);
+            b >>= 1;
+        }
+        // 翻转
+        return sb.reverse().toString();
+    }
+
 }

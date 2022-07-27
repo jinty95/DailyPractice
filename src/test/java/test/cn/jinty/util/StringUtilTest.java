@@ -205,4 +205,19 @@ public class StringUtilTest {
         System.out.println(StringUtil.snakeToCamel("1_2_3_4_5", false));
     }
 
+    @Test
+    public void testRemove4ByteChar() {
+        System.out.println(StringUtil.remove4ByteChar("你好"));
+        System.out.println(StringUtil.remove4ByteChar("Hello"));
+        System.out.println(StringUtil.remove4ByteChar("1234"));
+        System.out.println(StringUtil.remove4ByteChar("\uD834\uDD1EOK"));
+        System.out.println(StringUtil.remove4ByteChar("\uD834OK"));
+        System.out.println(StringUtil.remove4ByteChar("\u2600\u2601\u231A\u270A\u270B\u270C"));
+    }
+
+    @Test
+    public void testToBinaryString() {
+        System.out.println(StringUtil.toBinaryString("\uD834\uDD1E".getBytes()));
+    }
+
 }
