@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * QPS控制器 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/6/28
  **/
 public class QPSControllerTest {

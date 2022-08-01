@@ -5,7 +5,7 @@ package cn.jinty.struct;
  * 使用数组存储每个请求到来的时间，前 N 次请求顺利通过，并填满数组。
  * 后续请求到来时，判断当前时间是否比数组中最早的时间晚 1 s，是则通过，否则拒绝。
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/6/28
  **/
 public class QPSController {

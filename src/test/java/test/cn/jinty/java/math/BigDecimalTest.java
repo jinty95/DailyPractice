@@ -51,4 +51,12 @@ public class BigDecimalTest {
         System.out.println(b);
     }
 
+    @Test
+    public void testCompare() {
+        BigDecimal b1 = new BigDecimal("0.00");
+        BigDecimal b2 = new BigDecimal("0");
+        System.out.println(b1.equals(b2)); // 值跟精度都相等时才相等
+        System.out.println(b1.compareTo(b2)); // 值相等时相等
+    }
+
 }

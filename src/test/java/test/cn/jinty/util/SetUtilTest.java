@@ -3,7 +3,9 @@ package test.cn.jinty.util;
 import cn.jinty.util.SetUtil;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,6 +36,9 @@ public class SetUtilTest {
         Set<Integer> set2 = SetUtil.asSet(3, 4, 5, 6);
         System.out.println(SetUtil.intersect(set1, set2));
         System.out.println(SetUtil.intersect(new HashSet<>(), null));
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4);
+        List<Integer> list2 = Arrays.asList(3, 4, 5, 6);
+        System.out.println(SetUtil.intersect(new HashSet<>(list1), new HashSet<>(list2)));
     }
 
     @Test

@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * HTTP - Content-Type - 枚举
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/7/6
  **/
 @Getter
