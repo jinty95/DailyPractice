@@ -3,6 +3,7 @@ package test.cn.jinty.util;
 import cn.jinty.util.StringUtil;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -120,6 +121,8 @@ public class StringUtilTest {
     @Test
     public void testAppend() {
         System.out.println(StringUtil.append(null, "1", ","));
+        System.out.println(StringUtil.append(null, null, null));
+        System.out.println(StringUtil.append("1", null, null));
         System.out.println(StringUtil.append("", "1", ","));
         System.out.println(StringUtil.append("1", "2", ","));
         System.out.println(StringUtil.append("1,2", "3", ","));
@@ -127,14 +130,11 @@ public class StringUtilTest {
 
     @Test
     public void testJoin() {
-        System.out.println(StringUtil.join(","));
-        System.out.println(StringUtil.join(",", 1, 2, 3));
-        System.out.println(StringUtil.join(" ", new Integer[]{1, 2, 3}));
-        System.out.println(StringUtil.join(" ", new int[]{1, 2, 3}));
-        System.out.println(StringUtil.join("_", "A", "B", "C"));
-        System.out.println(StringUtil.join(" ", 'D', 'E', 'F', 'G', 2019, 2022L));
-        System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), "-"));
-        System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "-"));
+        System.out.println(StringUtil.join(null, ""));
+        System.out.println(StringUtil.join(new ArrayList<>(), ""));
+        System.out.println(StringUtil.join(Arrays.asList('D', 'E', 'F', 'G'), ""));
+        System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), ","));
+        System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "和"));
     }
 
     @Test
@@ -218,6 +218,18 @@ public class StringUtilTest {
     @Test
     public void testToBinaryString() {
         System.out.println(StringUtil.toBinaryString("\uD834\uDD1E".getBytes()));
+    }
+
+    @Test
+    public void testSubstring() {
+        System.out.println(StringUtil.substring(null, 0, 0));
+        System.out.println(StringUtil.substring("hello", -1, 4));
+        System.out.println(StringUtil.substring("hello", 5, 4));
+        System.out.println(StringUtil.substring("hello", 0, 1));
+        System.out.println(StringUtil.substring("hello", 0, 2));
+        System.out.println(StringUtil.substring("hello", 0, 5));
+        System.out.println(StringUtil.substring("hello", 0, 15));
+        System.out.println(StringUtil.substring("hello world yes oh yeah", 0, 5) + "...");
     }
 
 }

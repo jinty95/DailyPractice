@@ -365,23 +365,7 @@ public final class StringUtil {
     }
 
     /**
-     * 字符串连接
-     *
-     * @param separate 分隔符
-     * @param arr      数组(当输入为基本类型数组时，表现为一个元素)
-     * @param <T>      泛型
-     * @return 字符串
-     */
-    @SafeVarargs
-    public static <T> String join(String separate, T... arr) {
-        if (arr == null || arr.length == 0) {
-            return EMPTY;
-        }
-        return join(Arrays.asList(arr), separate);
-    }
-
-    /**
-     * 字符串连接
+     * 集合以分隔符连接成字符串
      *
      * @param coll     集合
      * @param separate 分隔符
@@ -564,6 +548,25 @@ public final class StringUtil {
         }
         // 翻转
         return sb.reverse().toString();
+    }
+
+    /**
+     * 截取子串
+     *
+     * @param s      字符串
+     * @param start  起始索引
+     * @param length 长度
+     * @return 子串
+     */
+    public static String substring(String s, int start, int length) {
+        if (isEmpty(s)) {
+            return EMPTY;
+        }
+        if (start < 0 || start >= s.length() || length <= 0) {
+            return EMPTY;
+        }
+        int end = Math.min(start + length, s.length());
+        return s.substring(start, end);
     }
 
 }
