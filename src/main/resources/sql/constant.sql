@@ -1,4 +1,4 @@
-# 枚举常量表
+# 常量表
 DROP TABLE IF EXISTS `constant`;
 CREATE TABLE `constant` (
     `id` INT NOT NULL AUTO_INCREMENT COMMENT '自增ID',
@@ -9,7 +9,7 @@ CREATE TABLE `constant` (
     `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE `uniq_parent_code_code` (`parent_code`, `code`) USING BTREE
-) ENGINE=InnoDB COMMENT='枚举常量表';
+) ENGINE=InnoDB COMMENT='常量表';
 
 INSERT INTO `constant`(`code`, `meaning`, `parent_code`) VALUES('sex', '性别', '');
 INSERT INTO `constant`(`code`, `meaning`, `parent_code`) VALUES('male', '男', 'sex');

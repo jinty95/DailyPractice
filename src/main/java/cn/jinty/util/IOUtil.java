@@ -1,8 +1,11 @@
 package cn.jinty.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * IO流 - 工具类
@@ -37,5 +40,42 @@ public final class IOUtil {
             return os.toByteArray();
         }
     }
-    
+
+    /**
+     * 压缩字节数组
+     *
+     * @param bytes 原始字节数组
+     * @return 压缩字节数组
+     * @throws IOException IO异常
+     */
+    public static byte[] zip(byte[] bytes) throws IOException {
+        if (bytes == null || bytes.length == 0) {
+            return bytes;
+        }
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream();
+             GZIPOutputStream gos = new GZIPOutputStream(os)) {
+            gos.write(bytes);
+            // 这里必须先close，否则os中数据不完整，在解压时会出现异常 java.io.EOFException: Unexpected end of ZLIB input stream
+            gos.close();
+            return os.toByteArray();
+        }
+    }
+
+    /**
+     * 解压字节数组
+     *
+     * @param bytes 压缩字节数组
+     * @return 原始字节数组
+     * @throws IOException IO异常
+     */
+    public static byte[] unzip(byte[] bytes) throws IOException {
+        if (bytes == null || bytes.length == 0) {
+            return bytes;
+        }
+        try (ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+             GZIPInputStream gis = new GZIPInputStream(is)) {
+            return getBytes(gis);
+        }
+    }
+
 }

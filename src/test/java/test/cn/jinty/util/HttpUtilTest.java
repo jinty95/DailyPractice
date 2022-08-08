@@ -115,7 +115,7 @@ public class HttpUtilTest {
     @Test
     public void testSendJson() {
 
-        String url = "http://www.baidu.com/s";
+        String url = "https://www.baidu.com/s";
         String json = JSONObject.toJSONString(new KeyValue<>("name", "me"));
         System.out.println("url=" + url);
         System.out.println("body=" + json);
