@@ -354,15 +354,9 @@ public final class MathUtil {
      * @return 结果
      */
     public static int[] split(int amount, int n) {
-        // 校验入参
-        if (n < 1) {
-            throw new IllegalArgumentException("n不能小于1");
-        }
-        if (amount < 1) {
-            throw new IllegalArgumentException("amount不能小于1");
-        }
-        if (amount < n) {
-            throw new IllegalArgumentException("amount不能小于n");
+        // 无法切分
+        if (n < 1 || amount < 1 || amount < n) {
+            return new int[0];
         }
         // 随机切分
         Random random = new Random();

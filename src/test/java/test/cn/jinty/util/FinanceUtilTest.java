@@ -1,9 +1,11 @@
 package test.cn.jinty.util;
 
 import cn.jinty.util.FinanceUtil;
+import cn.jinty.util.MathUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * 财务 - 工具类 - 测试
@@ -35,6 +37,13 @@ public class FinanceUtilTest {
         System.out.println(FinanceUtil.formatAmount(amount));
         amount = BigDecimal.valueOf(800800800800.88888);
         System.out.println(FinanceUtil.formatAmount(amount));
+    }
+
+    @Test
+    public void testSplitAvg() {
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(10), 3)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(200), 5)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(300), 7)));
     }
 
 }

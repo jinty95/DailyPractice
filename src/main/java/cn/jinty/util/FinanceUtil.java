@@ -29,7 +29,7 @@ public final class FinanceUtil {
         if (taxRate == null) {
             return BigDecimal.ZERO;
         }
-        return amount.multiply(taxRate).divide(HUNDRED, 7, RoundingMode.HALF_UP);
+        return amount.multiply(taxRate).divide(HUNDRED, 2, RoundingMode.HALF_UP);
     }
 
     /**
@@ -46,7 +46,7 @@ public final class FinanceUtil {
         if (taxRate == null) {
             return amountWithTax;
         }
-        return amountWithTax.multiply(HUNDRED).divide(taxRate.add(HUNDRED), 7, RoundingMode.HALF_UP);
+        return amountWithTax.multiply(HUNDRED).divide(taxRate.add(HUNDRED), 2, RoundingMode.HALF_UP);
     }
 
     /**
@@ -62,6 +62,33 @@ public final class FinanceUtil {
         // ','右侧表示多少位整数用一个','分割，'.'右侧表示小数最多精确到多少位
         NumberFormat nf = new DecimalFormat("#,##0.00");
         return nf.format(amount);
+    }
+
+    /**
+     * 金额平均分摊
+     *
+     * @param amount 金额
+     * @param n      个数
+     * @return 结果
+     */
+    public static BigDecimal[] splitAvg(BigDecimal amount, int n) {
+        // 无法分摊
+        if (amount == null || n < 1) {
+            return new BigDecimal[0];
+        }
+        // 平均分摊，无法均分时，在最后一个部分补上尾差
+        BigDecimal avg = amount.divide(BigDecimal.valueOf(n), 2, RoundingMode.HALF_UP);
+        BigDecimal sum = BigDecimal.ZERO;
+        BigDecimal[] result = new BigDecimal[n];
+        for (int i = 0; i < n; i++) {
+            if (i != n - 1) {
+                sum = sum.add(avg);
+                result[i] = avg;
+            } else {
+                result[i] = amount.subtract(sum);
+            }
+        }
+        return result;
     }
 
 }
