@@ -806,6 +806,32 @@ public final class DateUtil {
     }
 
     /**
+     * 获取月份对应的天数
+     *
+     * @param year  年份
+     * @param month 月份
+     * @return 天数
+     */
+    public static int getDayNumOfMonth(int year, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    /**
+     * 获取年份对应的天数
+     *
+     * @param year 年份
+     * @return 天数
+     */
+    public static int getDayNumOfYear(int year) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        return calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
+    }
+
+    /**
      * 判断是否为闰年
      *
      * @param year 年份

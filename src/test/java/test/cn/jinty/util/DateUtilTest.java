@@ -82,10 +82,11 @@ public class DateUtilTest {
         System.out.println(DateUtil.get(new Date(), Calendar.YEAR));
         System.out.println(DateUtil.get(new Date(), Calendar.MONTH));
         System.out.println(DateUtil.get(new Date(), Calendar.DATE));
-        System.out.println(DateUtil.get(new Date(), Calendar.HOUR));
+        System.out.println(DateUtil.get(new Date(), Calendar.HOUR_OF_DAY));
         System.out.println(DateUtil.get(new Date(), Calendar.MINUTE));
         System.out.println(DateUtil.get(new Date(), Calendar.SECOND));
         System.out.println(DateUtil.get(new Date(), Calendar.MILLISECOND));
+        System.out.println(DateUtil.get(new Date(), Calendar.DAY_OF_YEAR));
     }
 
     @Test
@@ -251,6 +252,17 @@ public class DateUtilTest {
     public void testGetDayOfWeek() {
         System.out.println(DateUtil.getDayOfWeekEn(new Date()));
         System.out.println(DateUtil.getDayOfWeekCn(new Date()));
+    }
+
+    @Test
+    public void testGetDayNum() {
+        for (int i = 2020; i <= 2022; i++) {
+            System.out.printf("%d年有%d天%n", i, DateUtil.getDayNumOfYear(i));
+            for (int j = 1; j <= 12; j++) {
+                System.out.printf("%d年%d月有%d天%n", i, j, DateUtil.getDayNumOfMonth(i, j));
+            }
+            System.out.println();
+        }
     }
 
     @Test
