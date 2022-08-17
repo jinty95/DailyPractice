@@ -34,6 +34,20 @@ public final class ObjectUtil {
     }
 
     /**
+     * 是否相等
+     *
+     * @param o1 对象1
+     * @param o2 对象2
+     * @return 是否
+     */
+    public static boolean equals(Object o1, Object o2) {
+        if (o1 == null) {
+            return o2 == null;
+        }
+        return o1.equals(o2);
+    }
+
+    /**
      * 获取类的所有属性(包括父类属性)
      *
      * @param clazz 类
@@ -93,6 +107,38 @@ public final class ObjectUtil {
                         obj, field.getName(), e.getClass().getSimpleName()));
             }
         }
+    }
+
+    /**
+     * 比较对象差异 (浅比较，即只比较第一层字段)
+     *
+     * @param o1  对象1
+     * @param o2  对象2
+     * @param <T> 泛型
+     * @return 差异描述
+     */
+    public static <T> List<String> diff(T o1, T o2) {
+        List<String> diffs = new ArrayList<>();
+        if (o1 == null || o2 == null) {
+            return diffs;
+        }
+        Class<?> clazz = o1.getClass();
+        List<Field> fields = getAllFields(clazz);
+        for (Field field : fields) {
+            try {
+                field.setAccessible(true);
+                Object val1 = field.get(o1);
+                Object val2 = field.get(o2);
+                if (!equals(val1, val2)) {
+                    String diff = String.format("[%s] %s -> %s", field.getName(), val1, val2);
+                    diffs.add(diff);
+                }
+            } catch (IllegalAccessException e) {
+                System.out.println(String.format("比较对象差异异常：o1=%s, o2=%s, field=%s, error=%s",
+                        o1, o2, field.getName(), e.getClass().getSimpleName()));
+            }
+        }
+        return diffs;
     }
 
 }

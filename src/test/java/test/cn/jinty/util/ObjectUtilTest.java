@@ -1,11 +1,15 @@
 package test.cn.jinty.util;
 
 import cn.jinty.util.ObjectUtil;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 对象 - 工具类 - 测试
@@ -30,6 +34,22 @@ public class ObjectUtilTest {
         System.out.println("设置默认值后：" + obj);
     }
 
+    @Test
+    public void testDiff() {
+        Obj o1 = new Obj();
+        Obj o2 = new Obj();
+        o1.setCol11(Arrays.asList(1, 2, 3));
+        o2.setCol11(Arrays.asList(1, 3, 2));
+        ObjectUtil.setDefaultWhenNull(o2);
+        for (String diff : ObjectUtil.diff(o1, o2)) {
+            System.out.println(diff);
+        }
+    }
+
+    /* 以下为内部类 */
+
+    @Data
+    @EqualsAndHashCode(callSuper = true)
     @ToString(callSuper = true)
     public static class Obj extends SuperObj {
         private Byte col1;
@@ -42,13 +62,15 @@ public class ObjectUtilTest {
         private Character col8;
         private String col9;
         private Date col10;
+        private List<Integer> col11;
     }
 
+    @Data
     @ToString
     public static class SuperObj {
-        private String super1;
-        private String super2;
-        private Date super3;
+        private String superCol1;
+        private String superCol2;
+        private Date superCol3;
     }
 
 }
