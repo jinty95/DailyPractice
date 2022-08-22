@@ -4,6 +4,8 @@ import cn.jinty.enums.CycleTypeEnum;
 import cn.jinty.entity.date.DateRange;
 import cn.jinty.entity.date.Week;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -312,19 +314,87 @@ public final class DateUtil {
     }
 
     /**
-     * 计算相差月份 (只考虑年月，其余忽略)
+     * 计算相差年份
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差月份
+     * @return 相差年份 (绝对值)
      */
-    public static long getDiffMonth(Date begin, Date end) {
+    public static BigDecimal getDiffYear(Date begin, Date end) {
         checkNull(begin, end);
         Calendar c1 = Calendar.getInstance();
         c1.setTime(begin);
         Calendar c2 = Calendar.getInstance();
         c2.setTime(end);
-        return Math.abs((c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12L + (c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH)));
+        BigDecimal diff = BigDecimal.ZERO;
+        // 中间整年，按年相减计
+        int year1 = c1.get(Calendar.YEAR);
+        int year2 = c2.get(Calendar.YEAR);
+        int diff1 = year1 - year2;
+        diff1 = Math.abs(diff1);
+        diff1 = diff1 >= 1 ? diff1 - 1 : diff1;
+        diff = diff.add(BigDecimal.valueOf(diff1));
+        // 两端非整年，按天数占该年天数计
+        BigDecimal diff2;
+        if (year1 == year2) {
+            // 两端在同一年
+            diff2 = BigDecimal.valueOf(Math.abs(begin.getTime() - end.getTime()))
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP);
+        } else {
+            // 两端不在同一年
+            diff2 = BigDecimal.valueOf(getYearEnd(begin).getTime() - begin.getTime())
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP);
+            diff2 = BigDecimal.valueOf(end.getTime() - getYearBegin(end).getTime())
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c2.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP)
+                    .add(diff2);
+        }
+        diff = diff.add(diff2);
+        return diff;
+    }
+
+    /**
+     * 计算相差月份
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 相差月份 (绝对值)
+     */
+    public static BigDecimal getDiffMonth(Date begin, Date end) {
+        checkNull(begin, end);
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(begin);
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(end);
+        BigDecimal diff = BigDecimal.ZERO;
+        // 中间整月，按年月相减计
+        int year1 = c1.get(Calendar.YEAR), month1 = c1.get(Calendar.MONTH);
+        int year2 = c2.get(Calendar.YEAR), month2 = c2.get(Calendar.MONTH);
+        int diff1 = (year1 - year2) * 12 + (month1 - month2);
+        diff1 = Math.abs(diff1);
+        diff1 = diff1 >= 1 ? diff1 - 1 : diff1;
+        diff = diff.add(BigDecimal.valueOf(diff1));
+        // 两端非整月，按天数占该月天数计
+        BigDecimal diff2;
+        if (year1 == year2 && month1 == month2) {
+            // 两端在同一个月
+            diff2 = BigDecimal.valueOf(Math.abs(begin.getTime() - end.getTime()))
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP);
+        } else {
+            // 两端不在同一个月
+            diff2 = BigDecimal.valueOf(getMonthEnd(begin).getTime() - begin.getTime())
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP);
+            diff2 = BigDecimal.valueOf(end.getTime() - getMonthBegin(end).getTime())
+                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(c2.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP)
+                    .add(diff2);
+        }
+        diff = diff.add(diff2);
+        return diff;
     }
 
     /**
@@ -332,9 +402,9 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差天数
+     * @return 相差天数 (绝对值)
      */
-    public static long getDiffDay(Date begin, Date end) {
+    public static BigDecimal getDiffDay(Date begin, Date end) {
         return getDiff(begin, end, DAY);
     }
 
@@ -343,9 +413,9 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差小时数
+     * @return 相差小时数 (绝对值)
      */
-    public static long getDiffHour(Date begin, Date end) {
+    public static BigDecimal getDiffHour(Date begin, Date end) {
         return getDiff(begin, end, HOUR);
     }
 
@@ -354,9 +424,9 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差分钟数
+     * @return 相差分钟数 (绝对值)
      */
-    public static long getDiffMinute(Date begin, Date end) {
+    public static BigDecimal getDiffMinute(Date begin, Date end) {
         return getDiff(begin, end, MINUTE);
     }
 
@@ -365,9 +435,9 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差秒数
+     * @return 相差秒数 (绝对值)
      */
-    public static long getDiffSecond(Date begin, Date end) {
+    public static BigDecimal getDiffSecond(Date begin, Date end) {
         return getDiff(begin, end, SECOND);
     }
 
@@ -376,10 +446,11 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差毫秒数
+     * @return 相差毫秒数 (绝对值)
      */
     public static long getDiff(Date begin, Date end) {
-        return getDiff(begin, end, MILLISECOND);
+        checkNull(begin, end);
+        return Math.abs(begin.getTime() - end.getTime());
     }
 
     /**
@@ -985,14 +1056,12 @@ public final class DateUtil {
      * @param begin 起始时间
      * @param end   结束时间
      * @param unit  时间单位 (毫秒数)
-     * @return 时间差 (绝对值)
+     * @return 时间差 (绝对值) (保留两位小数)
      */
-    private static long getDiff(Date begin, Date end, long unit) {
+    private static BigDecimal getDiff(Date begin, Date end, long unit) {
         checkNull(begin, end);
-        if (unit < 1) {
-            throw new IllegalArgumentException("时间单位(毫秒数)不能小于1");
-        }
-        return Math.abs((begin.getTime() - end.getTime()) / unit);
+        return BigDecimal.valueOf(Math.abs((begin.getTime() - end.getTime())))
+                .divide(BigDecimal.valueOf(unit), 2, RoundingMode.HALF_UP);
     }
 
     /**

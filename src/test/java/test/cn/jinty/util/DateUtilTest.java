@@ -97,16 +97,33 @@ public class DateUtilTest {
 
     @Test
     public void testGetDiff() {
-        Date d1 = DateUtil.parse("2021-11-03 10:00:00");
-        Date d2 = DateUtil.parse("2021-11-05 00:00:00");
-        System.out.println(DateUtil.getDiffDay(d1, d2));
-        System.out.println(DateUtil.getDiffHour(d1, d2));
-        System.out.println(DateUtil.getDiffMinute(d1, d2));
-        System.out.println(DateUtil.getDiffSecond(d1, d2));
-        System.out.println(DateUtil.getDiff(d1, d2));
-        Date d3 = DateUtil.buildDate(2020, 11, 1);
-        Date d4 = DateUtil.buildDate(2021, 4, 15);
-        System.out.println(DateUtil.getDiffMonth(d3, d4));
+        Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.WHOLE);
+        Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiff(d1, d2) + " 毫秒");
+
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 17:00:01.500", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffSecond(d1, d2) + " 秒");
+
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 17:01:45.000", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffMinute(d1, d2) + " 分钟");
+
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 18:10:00.000", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffHour(d1, d2) + " 小时");
+
+        d1 = DateUtil.parse("2019-07-03 09:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 20:11:00.000", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffDay(d1, d2) + " 天");
+
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffMonth(d1, d2) + " 月");
+
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.WHOLE);
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.WHOLE);
+        System.out.println(DateUtil.format(d1, DateUtil.WHOLE) + " 到 " + DateUtil.format(d2, DateUtil.WHOLE) + " 有 " + DateUtil.getDiffYear(d1, d2) + " 年");
     }
 
     @Test
