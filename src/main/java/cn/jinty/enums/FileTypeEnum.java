@@ -14,24 +14,86 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FileTypeEnum implements EnumInterface<String> {
 
-    TXT("txt", "文本(txt)", "data:text/plain;base64,"),
-    JPEG("jpeg", "图片(jpeg)", "data:image/jpeg;base64,"),
-    PNG("png", "图片(png)", "data:image/png;base64,"),
-    GIF("gif", "动图(gif)", "data:image/gif;base64,"),
-    PDF("pdf", "PDF", "data:application/pdf;base64,"),
-    XLS("xls", "Excel(2003及以前)", "data:application/vnd.ms-excel;base64,"),
-    XLSX("xlsx", "Excel(2007及以后)", "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,"),
-    DOC("doc", "Word(2003及以前)", "data:application/msword;base64,"),
-    DOCX("docx", "Word(2007及以前)", "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,"),
-    PPT("ppt", "PPT(2003及以前)", "data:application/vnd.ms-powerpoint;base64,"),
-    PPTX("pptx", "PPT(2007及以后)", "data:application/vnd.openxmlformats-officedocument.presentationml.presentation;base64,"),
+    // 应用
+    DOC("doc", "Word文档(2003)", "application/msword"),
+    DOCX("docx", "Word文档(2007)", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+    XLS("xls", "Excel表格(2003)", "application/vnd.ms-excel"),
+    XLSX("xlsx", "Excel表格(2007)", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"),
+    PPT("ppt", "PPT幻灯片(2003)", "application/vnd.ms-powerpoint"),
+    PPTX("pptx", "PPT幻灯片(2007)", "application/vnd.openxmlformats-officedocument.presentationml.presentation"),
+    PPS("pps", "PPS幻灯片(2003)", "application/vnd.ms-powerpoint"),
+    PPSX("ppsx", "PPS幻灯片(2007)", "application/vnd.openxmlformats-officedocument.presentationml.slideshow"),
+    PDF("pdf", "可携带文档", "application/pdf"),
+    RTF("rtf", "富文本格式", "application/rtf"),
+    RAR("rar", "RAR压缩包", "application/x-rar-compressed"),
+    ZIP("zip", "ZIP压缩包", "application/x-zip-compressed"),
+    ZIP_7("7z", "7Z压缩包", "application/x-7z-compressed"),
+    Z("z", "Z压缩包", "application/x-compress"),
+    TAR("tar", "TAR压缩包", "application/x-tar"),
+    GZ("gz", "GZ压缩包", "application/x-gzip"),
+    TGZ("tgz", "TGZ压缩包", "application/x-compressed"),
+    ISO("iso", "光盘镜像文件", "application/x-iso9660-image"),
+    SQL("sql", "数据库脚本", "application/x-sql"),
+    JSON("json", "JSON", "application/json"),
+
+    // 邮件
+    MHT("mht", "网页归档", "message/rfc822"),
+    MHTML("mhtml", "网页归档", "message/rfc822"),
+
+    // 视频
+    WMV("wmv", "微软媒体视频", "video/x-ms-wmv"),
+    MP4("mp4", "MP4视频", "video/mp4"),
+    AVI("avi", "AVI视频", "video/x-msvideo"),
+    MKV("mkv", "MKV视频", "video/x-matroska"),
+    MOV("mov", "MOV视频", "video/quicktime"),
+    FLV("flv", "FLASH视频", "video/x-flv"),
+    MPE("mpe", "MPEG视频", "video/mpeg"),
+    MPEG("mpeg", "MPEG视频", "video/mpeg"),
+    MPG("mpg", "MPEG视频", "video/mpeg"),
+    WEBM("webm", "WEBM视频", "video/webm"),
+
+    // 音频
+    WMA("wma", "微软媒体音频", "audio/x-ms-wma"),
+    WAV("wav", "波形声音文件", "audio/wav"),
+    FLAC("flac", "无损音频", "audio/flac"),
+    M4A("m4a", "MP4音频", "audio/mp4"),
+    MP3("mp3", "MP3音频", "audio/mpeg"),
+    MP2("mp2", "MP2音频", "audio/mpeg"),
+    MP1("mp1", "MP1音频", "audio/mpeg"),
+    MID("mid", "MIDI音频", "audio/midi"),
+    MIDI("midi", "MIDI音频", "audio/midi"),
+    RMI("rmi", "RMI音频", "audio/midi"),
+
+    // 图片
+    BMP("bmp", "位图", "image/bmp"),
+    WBMP("wbmp", "无线位图", "image/vnd.wap.wbmp"),
+    GIF("gif", "动图", "image/gif"),
+    PNG("png", "PNG图片", "image/png"),
+    JPE("jpe", "JPEG图片", "image/jpeg"),
+    JPEG("jpeg", "JPEG图片", "image/jpeg"),
+    JPG("jpg", "JPEG图片", "image/jpeg"),
+    ICO("ico", "ICON图标", "image/x-icon"),
+    TIF("tif", "标签图像", "image/tiff"),
+    TIFF("tiff", "标签图像", "image/tiff"),
+
+    // 文本
+    TXT("txt", "文本", "text/plain"),
+    MD("md", "MD", "text/markdown"),
+    LOG("log", "LOG", "text/plain"),
+    XML("xml", "XML", "text/xml"),
+    HTM("htm", "HTML", "text/html"),
+    HTML("html", "HTML", "text/html"),
+    CSS("css", "CSS", "text/css"),
+    JS("js", "JS", "text/javascript"),
+    CSV("csv", "CSV", "text/csv"),
+
     ;
 
     // 编码 (文件后缀)
     private final String code;
     // 描述
     private final String desc;
-    // Base64DataURL前缀
-    private final String prefixOfBase64DataURL;
+    // MIME类型
+    private final String mimeType;
 
 }

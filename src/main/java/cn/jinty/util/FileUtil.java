@@ -34,7 +34,7 @@ public final class FileUtil {
             return "";
         }
         try (InputStream is = new FileInputStream(file)) {
-            String prefix = fileType.getPrefixOfBase64DataURL();
+            String prefix = String.format("data:%s;base64,", fileType.getMimeType());
             String base64 = Base64.getEncoder().encodeToString(IOUtil.getBytes(is));
             return prefix + base64;
         }
