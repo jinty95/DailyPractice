@@ -53,6 +53,8 @@ public class FileUtilTest {
 
     @Test
     public void testScanFilesOfRoot() {
+        // 以"/"开头，则在classpath下寻找，否则在调用类所在目录下寻找，返回一个URL对象
+        // classpath即"/target/classes"目录
         String path = Main.class.getResource("enums").getPath();
         File root = new File(path);
         List<File> files = FileUtil.scanFilesOfRoot(root);

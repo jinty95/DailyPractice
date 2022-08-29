@@ -86,7 +86,6 @@ public enum FileTypeEnum implements EnumInterface<String> {
     CSS("css", "CSS", "text/css"),
     JS("js", "JS", "text/javascript"),
     CSV("csv", "CSV", "text/csv"),
-
     ;
 
     // 编码 (文件后缀)

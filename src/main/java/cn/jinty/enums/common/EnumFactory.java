@@ -28,6 +28,7 @@ public final class EnumFactory {
         set(FileTypeEnum.class.getSimpleName(), FileTypeEnum.values());
         set(BinaryUnitEnum.class.getSimpleName(), BinaryUnitEnum.values());
         set(ContentTypeEnum.class.getSimpleName(), ContentTypeEnum.values());
+        set(CycleTypeEnum.class.getSimpleName(), CycleTypeEnum.values());
     }
 
     /**

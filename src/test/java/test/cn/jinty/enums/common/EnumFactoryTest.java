@@ -21,6 +21,7 @@ public class EnumFactoryTest {
         System.out.println(EnumFactory.get("FileTypeEnum"));
         System.out.println(EnumFactory.get("BinaryUnitEnum"));
         System.out.println(EnumFactory.get("ContentTypeEnum"));
+        System.out.println(EnumFactory.get("CycleTypeEnum"));
     }
 
 }

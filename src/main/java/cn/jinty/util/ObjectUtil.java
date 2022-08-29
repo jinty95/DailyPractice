@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.annotation.FieldName;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,18 +121,20 @@ public final class ObjectUtil {
      */
     public static <T> List<String> diff(T o1, T o2) {
         List<String> diffs = new ArrayList<>();
-        if (o1 == null || o2 == null) {
+        if (o1 == o2) {
             return diffs;
         }
-        Class<?> clazz = o1.getClass();
+        Class<?> clazz = o1 != null ? o1.getClass() : o2.getClass();
         List<Field> fields = getAllFields(clazz);
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
-                Object val1 = field.get(o1);
-                Object val2 = field.get(o2);
+                Object val1 = o1 != null ? field.get(o1) : null;
+                Object val2 = o2 != null ? field.get(o2) : null;
                 if (!equals(val1, val2)) {
-                    String diff = String.format("[%s] %s -> %s", field.getName(), val1, val2);
+                    FieldName fieldName = field.getAnnotation(FieldName.class);
+                    String name = fieldName != null ? fieldName.value() : field.getName();
+                    String diff = String.format("[%s] %s -> %s", name, val1, val2);
                     diffs.add(diff);
                 }
             } catch (IllegalAccessException e) {

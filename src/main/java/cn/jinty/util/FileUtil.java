@@ -86,11 +86,7 @@ public final class FileUtil {
         int size = getSize(file);
         for (BinaryUnitEnum unit : Arrays.asList(B, KB, MB, GB, TB)) {
             if (size < unit.getBytes().intValue()) {
-                if (B == unit) {
-                    return transferUnit(size, unit);
-                } else {
-                    return transferUnit(size, unit.getLast());
-                }
+                return transferUnit(size, unit.getLast() != null ? unit.getLast() : unit);
             }
         }
         return "";

@@ -32,8 +32,10 @@ public class XmlUtilTest {
             boolean[] arr = new boolean[]{true, false};
             for (boolean one : arr) {
                 for (boolean two : arr) {
-                    System.out.println(XmlUtil.objToXml(new XmlObj(1L, "me"), one, two));
-                    System.out.println();
+                    System.out.printf("保留头部: %s, 格式化: %s\n", one, two);
+                    String xml = XmlUtil.objToXml(new XmlObj(1L, "me"), one, two);
+                    System.out.println(xml);
+                    System.out.println(xml.replace("id>", "Id>").replace("name>", "Name>"));
                 }
             }
         } catch (JAXBException e) {

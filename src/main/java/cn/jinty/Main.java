@@ -15,6 +15,8 @@ public class Main {
             System.out.println(a.toUpperCase());
         }
 
+        System.out.println("".length());
+
     }
 
 }

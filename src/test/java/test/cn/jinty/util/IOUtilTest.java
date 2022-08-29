@@ -6,6 +6,8 @@ import cn.jinty.util.StringUtil;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * IO流 - 工具类 - 测试
@@ -26,6 +28,14 @@ public class IOUtilTest {
         origin = IOUtil.unzip(zip);
         System.out.println("解压数据大小：" + origin.length + BinaryUnitEnum.B.name());
         System.out.println("解压数据：" + new String(origin));
+    }
+
+    @Test
+    public void testUnzip() throws IOException {
+        // 对于Base64字符串，先解码，再解压，最后转原字符串
+        String zip = "";
+        byte[] zipBytes = Base64.getDecoder().decode(zip.getBytes(StandardCharsets.UTF_8));
+        System.out.println(new String(IOUtil.unzip(zipBytes)));
     }
 
 }

@@ -17,7 +17,8 @@ public enum EntityEnum implements EnumInterface<String> {
     USER("USER", "用户"),
     USER_GROUP("USER_GROUP", "用户组"),
     ROLE("ROLE", "角色"),
-    PERMISSION("PERMISSION", "权限");
+    PERMISSION("PERMISSION", "权限"),
+    ;
 
     // 编码
     private final String code;

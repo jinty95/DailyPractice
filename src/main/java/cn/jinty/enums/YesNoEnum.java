@@ -61,19 +61,13 @@ public enum YesNoEnum implements EnumInterface<Byte> {
     // 编码转为描述
     public static String codeToDesc(Byte code) {
         YesNoEnum res = parseByCode(code);
-        if (res == null) {
-            return null;
-        }
-        return res.getDesc();
+        return res == null ? null : res.getDesc();
     }
 
     // 描述转为编码
     public static Byte descToCode(String desc) {
         YesNoEnum res = parseByDesc(desc);
-        if (res == null) {
-            return null;
-        }
-        return res.getCode();
+        return res == null ? null : res.getCode();
     }
 
 }

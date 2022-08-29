@@ -17,7 +17,8 @@ public enum OperationEnum implements EnumInterface<String> {
     INSERT("INSERT", "新增"),
     UPDATE("UPDATE", "更新"),
     DELETE("DELETE", "删除"),
-    SELECT("SELECT", "查询");
+    SELECT("SELECT", "查询"),
+    ;
 
     // 编码
     private final String code;

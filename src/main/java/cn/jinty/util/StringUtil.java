@@ -320,10 +320,11 @@ public final class StringUtil {
     public static String random(int length) {
         StringBuilder sb = new StringBuilder();
         while (length-- > 0) {
-            if (RANDOM.nextInt(36) < 10) {
-                sb.append(DIGIT[RANDOM.nextInt(DIGIT.length)]);
+            int rand = RANDOM.nextInt(36);
+            if (rand < 10) {
+                sb.append(DIGIT[rand]);
             } else {
-                sb.append(LETTER[RANDOM.nextInt(LETTER.length)]);
+                sb.append(LETTER[rand - 10]);
             }
         }
         return sb.toString();
@@ -376,8 +377,10 @@ public final class StringUtil {
         if (coll == null || coll.isEmpty()) {
             return EMPTY;
         }
+        if (separate == null) {
+            separate = EMPTY;
+        }
         StringBuilder res = new StringBuilder();
-        separate = separate != null ? separate : EMPTY;
         for (T one : coll) {
             res.append(one.toString()).append(separate);
         }

@@ -15,7 +15,8 @@ import lombok.Getter;
 public enum ErrorEnum implements EnumInterface<String> {
 
     NOT_FOUND("404", "数据不存在"),
-    INTERNAL_SERVER_ERROR("500", "内部错误");
+    INTERNAL_SERVER_ERROR("500", "内部错误"),
+    ;
 
     // 编码
     private final String code;

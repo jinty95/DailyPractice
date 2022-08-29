@@ -15,7 +15,8 @@ import lombok.Getter;
 public enum ResultEnum implements EnumInterface<String> {
 
     SUCCESS("0", "成功"),
-    FAIL("1", "失败");
+    FAIL("1", "失败"),
+    ;
 
     // 编码
     private final String code;

@@ -110,11 +110,17 @@ public class StringUtilTest {
 
     @Test
     public void testRandom() {
+        System.out.println("随机数字字符串");
+        System.out.println(StringUtil.randomDigit(5));
         System.out.println(StringUtil.randomDigit(10));
-        System.out.println(StringUtil.randomLetter(10));
-        System.out.println(StringUtil.random(10));
         System.out.println(StringUtil.randomDigit(12));
+        System.out.println("随机字母字符串");
+        System.out.println(StringUtil.randomLetter(5));
+        System.out.println(StringUtil.randomLetter(10));
         System.out.println(StringUtil.randomLetter(12));
+        System.out.println("随机数字字母字符串");
+        System.out.println(StringUtil.random(5));
+        System.out.println(StringUtil.random(10));
         System.out.println(StringUtil.random(12));
     }
 
