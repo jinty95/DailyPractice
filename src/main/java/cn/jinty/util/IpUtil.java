@@ -10,16 +10,28 @@ import java.util.regex.Pattern;
  */
 public final class IpUtil {
 
-    // IP地址格式
-    private static final Pattern PATTERN = Pattern.compile("^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
+    // 有效数字：0~9, 10~99, 100~199, 200~249, 250~255
+    private static final String VALID_NUMBER = "(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])";
+    // IP地址正则表达式
+    private static final String REGEX = "^" + VALID_NUMBER + "\\." + VALID_NUMBER + "\\." + VALID_NUMBER + "\\." + VALID_NUMBER + "$";
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     /**
-     * 判断是否符合IP地址格式
+     * 获取IP地址正则表达式
+     *
+     * @return 正则表达式
+     */
+    public static String getRegex() {
+        return REGEX;
+    }
+
+    /**
+     * 判断IP字符串是否为IP地址
      *
      * @param ip IP字符串
      * @return 是否
      */
-    private static boolean isIpFormat(String ip) {
+    public static boolean isIp(String ip) {
         return PATTERN.matcher(ip).matches();
     }
 
@@ -31,16 +43,13 @@ public final class IpUtil {
      * @return 整数
      */
     public static int ip2int(String ip) {
-        if (!isIpFormat(ip)) {
+        if (!isIp(ip)) {
             throw new IllegalArgumentException(ip + "不是合法的IP地址");
         }
         String[] arr = ip.split("\\.");
         int result = 0;
         for (int i = 0; i < arr.length; i++) {
             int j = Integer.parseInt(arr[i]);
-            if (j > 255) {
-                throw new IllegalArgumentException(ip + "不是合法的IP地址");
-            }
             result |= j << (arr.length - 1 - i) * 8;
         }
         return result;
