@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 时间 - 工具类
@@ -33,13 +35,24 @@ public final class DateUtil {
      * 常用的时间格式
      */
     public static final String DATE = "yyyy-MM-dd";
-    public static final String TIME = "HH:mm:ss";
     public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public static final String WHOLE = "yyyy-MM-dd HH:mm:ss.SSS";
-    public static final String COMPACT_DATE = "yyyyMMdd";
-    public static final String COMPACT_WHOLE = "yyyyMMddHHmmssSSS";
-    public static final String SIMPLE_DATE = "yy-MM-dd";
-    public static final String SIMPLE_COMPACT_DATE = "yyMMdd";
+    public static final String DATETIME_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String DATE_1 = "yyyy/MM/dd";
+    public static final String DATETIME_1 = "yyyy/MM/dd HH:mm:ss";
+    public static final String DATETIME_MILLI_1 = "yyyy/MM/dd HH:mm:ss.SSS";
+    public static final String DATE_2 = "yyyyMMdd";
+    public static final String DATETIME_2 = "yyyyMMddHHmmss";
+    public static final String DATETIME_MILLI_2 = "yyyyMMddHHmmssSSS";
+    public static final String DATE_3 = "yyyy年MM月dd日";
+    public static final String DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
+    public static final String DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
+
+    public static final List<String> SUPPORTED_FORMAT = Stream.of(
+            DateUtil.DATE, DateUtil.DATETIME, DateUtil.DATETIME_MILLI,
+            DateUtil.DATE_1, DateUtil.DATETIME_1, DateUtil.DATETIME_MILLI_1,
+            DateUtil.DATE_2, DateUtil.DATETIME_2, DateUtil.DATETIME_MILLI_2,
+            DateUtil.DATE_3, DateUtil.DATETIME_3, DateUtil.DATETIME_MILLI_3)
+            .sorted((Comparator.comparingInt(String::length))).collect(Collectors.toList());
 
     /**
      * 时区
@@ -74,6 +87,7 @@ public final class DateUtil {
 
     /**
      * 解析时间
+     * (被解析的字符串可以不必跟时间格式保持完全一致，只需要左侧部分跟时间格式完全一致，右侧随意)
      *
      * @param dateStr 时间字符串
      * @return 时间对象
@@ -112,9 +126,49 @@ public final class DateUtil {
             }
             return sdf.parse(dateStr);
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.out.println(String.format("解析时间失败：dateStr=%s, format=%s, error=%s", dateStr, format, e.getMessage()));
             return null;
         }
+    }
+
+    /**
+     * 解析时间(年月日) - 兼容常用的时间格式
+     *
+     * @param dateStr 时间字符串
+     * @return 时间对象
+     */
+    public static Date parseDateCompatibly(String dateStr) {
+        if (dateStr == null) {
+            return null;
+        }
+        if (dateStr.contains("-")) {
+            return parse(dateStr, DATE);
+        } else if (dateStr.contains("/")) {
+            return parse(dateStr, DATE_1);
+        } else if (dateStr.contains("年")) {
+            return parse(dateStr, DATE_3);
+        }
+        return parse(dateStr, DATE_2);
+    }
+
+    /**
+     * 解析时间(年月日时分秒) - 兼容常用的时间格式
+     *
+     * @param dateStr 时间字符串
+     * @return 时间对象
+     */
+    public static Date parseDatetimeCompatibly(String dateStr) {
+        if (dateStr == null) {
+            return null;
+        }
+        if (dateStr.contains("-")) {
+            return parse(dateStr, DATETIME);
+        } else if (dateStr.contains("/")) {
+            return parse(dateStr, DATETIME_1);
+        } else if (dateStr.contains("年")) {
+            return parse(dateStr, DATETIME_3);
+        }
+        return parse(dateStr, DATETIME_2);
     }
 
     /**

@@ -13,9 +13,8 @@ public class Main {
         String[] arr = {"abc"};
         for (String a : arr) {
             System.out.println(a.toUpperCase());
+            System.out.println(a.length());
         }
-
-        System.out.println("".length());
 
     }
 

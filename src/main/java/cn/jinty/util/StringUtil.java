@@ -484,9 +484,9 @@ public final class StringUtil {
             } else {
                 if (upFirst) {
                     c = Character.toUpperCase(c);
+                    upFirst = false;
                 }
                 sb.append(c);
-                upFirst = false;
             }
         }
         return sb.toString();
