@@ -5,6 +5,7 @@ CREATE TABLE `base_table` (
   `biz_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '业务ID',
   `is_enabled` TINYINT NOT NULL DEFAULT 1 COMMENT '是否有效：0 否，1 是',
   `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
+  `remark` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '备注',
   `creator` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',
