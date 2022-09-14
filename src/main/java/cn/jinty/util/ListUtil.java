@@ -154,14 +154,15 @@ public final class ListUtil {
     /**
      * 字符串 -> 列表
      *
-     * @param s 字符串
+     * @param s        字符串
+     * @param separate 分隔符
      * @return 列表
      */
-    public static List<String> fromString(String s) {
+    public static List<String> fromString(String s, String separate) {
         if (StringUtil.isBlank(s)) {
             return new ArrayList<>();
         }
-        return asList(s.split(","));
+        return asList(s.split(separate));
     }
 
 }

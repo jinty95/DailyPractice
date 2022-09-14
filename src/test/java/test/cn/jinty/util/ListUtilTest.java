@@ -42,8 +42,8 @@ public class ListUtilTest {
 
     @Test
     public void testFromString() {
-        System.out.println(ListUtil.fromString(""));
-        System.out.println(ListUtil.fromString("A,B,C"));
+        System.out.println(ListUtil.fromString("", ""));
+        System.out.println(ListUtil.fromString("A,B,C", ","));
     }
 
 }

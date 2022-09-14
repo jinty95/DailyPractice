@@ -21,16 +21,6 @@ public final class ArrayUtil {
     }
 
     /**
-     * 是否非空
-     *
-     * @param arr 数组
-     * @return 是否非空
-     */
-    public static boolean isNotEmpty(int[] arr) {
-        return !isEmpty(arr);
-    }
-
-    /**
      * 数组中元素交换
      *
      * @param arr 数组
@@ -120,6 +110,58 @@ public final class ArrayUtil {
             b = random.nextInt(arr.length);
             swap(arr, a, b);
         }
+    }
+
+    /**
+     * 移除单个元素
+     *
+     * @param arr   数组
+     * @param index 移除位置
+     * @return 数组
+     */
+    public static int[] remove(int[] arr, int index) {
+        if (index < 0 || index >= arr.length) {
+            throw new IndexOutOfBoundsException(String.format("arr.length=%d, index=%d", arr.length, index));
+        }
+        int[] result = new int[arr.length - 1];
+        if (result.length == 0) {
+            return result;
+        }
+        int i = 0;
+        for (int j = 0; j < arr.length; j++) {
+            if (j != index) {
+                result[i++] = arr[j];
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 移除多个连续元素
+     *
+     * @param arr   数组
+     * @param start 移除起始位置
+     * @param end   移除结束位置
+     * @return 数组
+     */
+    public static int[] remove(int[] arr, int start, int end) {
+        if (start < 0 || start >= arr.length || end < 0 || end >= arr.length) {
+            throw new IndexOutOfBoundsException(String.format("arr.length=%d, start=%d, end=%d", arr.length, start, end));
+        }
+        if (start >= end) {
+            throw new IllegalArgumentException(String.format("start great than end, start=%d, end=%d", start, end));
+        }
+        int[] result = new int[arr.length - (end - start + 1)];
+        if (result.length == 0) {
+            return result;
+        }
+        int i = 0;
+        for (int j = 0; j < arr.length; j++) {
+            if (j < start || j > end) {
+                result[i++] = arr[j];
+            }
+        }
+        return result;
     }
 
 }
