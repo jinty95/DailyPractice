@@ -59,7 +59,7 @@ public final class HttpUtil {
      */
     public static String doGet(String url, Map<String, String> params) throws IOException {
         // 查询参数拼在url后面
-        if (params != null) {
+        if (params != null && !params.isEmpty()) {
             StringBuilder sb = new StringBuilder(url);
             sb.append("?");
             for (String key : params.keySet()) {

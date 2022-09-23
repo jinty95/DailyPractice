@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,12 +57,49 @@ public class FileUtilTest {
     public void testScanFilesOfRoot() {
         // 以"/"开头，则在classpath下寻找，否则在调用类所在目录下寻找，返回一个URL对象
         // classpath即"/target/classes"目录
-        String path = Main.class.getResource("enums").getPath();
+        URL url = Main.class.getResource("enums");
+        assert url != null;
+        String path = url.getPath();
         File root = new File(path);
         List<File> files = FileUtil.scanFilesOfRoot(root);
         System.out.println("根路径：" + path);
         System.out.println("根路径下所有文件：");
         System.out.println(ListUtil.toString(files, "\n"));
+    }
+
+    @Test
+    public void testCreateFile() {
+        // 最后一级路径表示一个没有后缀的文件名
+        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy".replace("/", File.separator);
+        System.out.println(filePath);
+        try {
+            File file = FileUtil.createFile(filePath);
+            assert file != null;
+            System.out.println("文件创建成功：filePath=" + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCreateFolder() {
+        String folderPath = "D:/Users/jintai.wang/Pictures/xxx/xxx".replace("/", File.separator);
+        System.out.println(folderPath);
+        File folder = FileUtil.createFolder(folderPath);
+        assert folder != null;
+        System.out.println("目录创建成功：folderPath=" + folder.getAbsolutePath());
+    }
+
+    @Test
+    public void testSplitFilePath() {
+        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy".replace("/", File.separator);
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy.txt".replace("/", File.separator);
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = "Pictures/yyy/yyy.txt".replace("/", File.separator);
+        String[] arr = FileUtil.splitFilePath(filePath);
+        System.out.println("文件路径拆分：" + Arrays.toString(arr));
+        System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
     }
 
 }

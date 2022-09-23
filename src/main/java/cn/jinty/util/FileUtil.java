@@ -133,4 +133,84 @@ public final class FileUtil {
         return results;
     }
 
+    /**
+     * 根据绝对路径在磁盘上创建文件
+     *
+     * @param filePath 绝对路径
+     * @return 文件对象
+     * @throws IOException IO异常
+     */
+    @SuppressWarnings("all")
+    public static File createFile(String filePath) throws IOException {
+        if (StringUtil.isBlank(filePath)) {
+            System.out.println(String.format("创建文件失败，路径为空：path=%s", filePath));
+            return null;
+        }
+        // 文件存在直接返回
+        File file = new File(filePath);
+        if (file.exists()) {
+            return file;
+        }
+        // 文件不存在，判断目录是否存在，不存在时创建目录
+        File folder = file.getParentFile();
+        if (folder != null && !folder.exists()) {
+            if (!folder.mkdirs()) {
+                System.out.println(String.format("创建目录失败：path=%s", folder.getAbsolutePath()));
+                return null;
+            }
+        }
+        // 创建文件
+        if (!file.createNewFile()) {
+            System.out.println(String.format("创建文件失败：path=%s", filePath));
+            return null;
+        }
+        return file;
+    }
+
+    /**
+     * 根据绝对路径在磁盘上创建目录
+     *
+     * @param folderPath 绝对路径
+     * @return 目录对象
+     */
+    @SuppressWarnings("all")
+    public static File createFolder(String folderPath) {
+        if (StringUtil.isBlank(folderPath)) {
+            System.out.println(String.format("创建目录失败，路径为空：path=%s", folderPath));
+            return null;
+        }
+        File folder = new File(folderPath);
+        if (folder.exists()) {
+            return folder;
+        }
+        if (!folder.mkdirs()) {
+            System.out.println(String.format("创建目录失败：path=%s", folderPath));
+            return null;
+        }
+        return folder;
+    }
+
+    /**
+     * 拆分文件路径
+     *
+     * @param filePath 文件路径
+     * @return 文件目录、文件名、后缀(可能无后缀)
+     */
+    public static String[] splitFilePath(String filePath) {
+        String[] arr = new String[3];
+        if (StringUtil.isBlank(filePath)) {
+            return arr;
+        }
+        int index1 = filePath.lastIndexOf(File.separator);
+        int index2 = filePath.lastIndexOf(".");
+        arr[0] = filePath.substring(0, index1);
+        if (index2 < index1) {
+            arr[1] = filePath.substring(index1 + 1);
+        } else {
+            arr[1] = filePath.substring(index1 + 1, index2);
+            arr[2] = filePath.substring(index2 + 1);
+        }
+        return arr;
+    }
+
 }

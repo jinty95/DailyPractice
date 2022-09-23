@@ -200,6 +200,7 @@ public class StringUtilTest {
         System.out.println(StringUtil.camelToSnake("StringUtilTest1"));
         System.out.println(StringUtil.camelToSnake("string_util_test"));
         System.out.println(StringUtil.camelToSnake("12345"));
+        System.out.println(StringUtil.camelToSnake("ElectronicReceiptExternal"));
     }
 
     @Test
