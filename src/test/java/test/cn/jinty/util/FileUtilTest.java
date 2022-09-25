@@ -26,6 +26,17 @@ public class FileUtilTest {
     }
 
     @Test
+    public void testGetBytes() {
+        File file = getFile();
+        try {
+            byte[] bytes = FileUtil.getBytes(file);
+            System.out.println(Arrays.toString(bytes));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testToBase64DataURL() {
         File file = getFile();
         try {
@@ -100,6 +111,17 @@ public class FileUtilTest {
         String[] arr = FileUtil.splitFilePath(filePath);
         System.out.println("文件路径拆分：" + Arrays.toString(arr));
         System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
+    }
+
+    @Test
+    public void testHasUtf8Bom() {
+        File file = new File("D:\\code\\ap\\fcs_ivfs\\src\\main\\webapp\\WEB-INF\\jsp\\contract\\contract_bw.jsp");
+        System.out.println("文件：" + file.getAbsolutePath());
+        try {
+            System.out.println("是否带有UTF-8对应的BOM：" + FileUtil.hasUtf8Bom(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

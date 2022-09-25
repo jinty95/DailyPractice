@@ -22,6 +22,32 @@ import static cn.jinty.enums.BinaryUnitEnum.*;
 public final class FileUtil {
 
     /**
+     * 是否在硬盘上存在对应文件(不是目录)
+     *
+     * @param file 文件
+     * @return 是否
+     */
+    public static boolean existFile(File file) {
+        return file != null && file.exists() && file.isFile();
+    }
+
+    /**
+     * 文件 -> 字节数组
+     *
+     * @param file 文件
+     * @return 字节数组
+     * @throws IOException IO异常
+     */
+    public static byte[] getBytes(File file) throws IOException {
+        if (!existFile(file)) {
+            return null;
+        }
+        try (InputStream is = new FileInputStream(file)) {
+            return IOUtil.getBytes(is);
+        }
+    }
+
+    /**
      * 文件 => Base64DataURL
      *
      * @param file     文件
@@ -30,14 +56,13 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static String toBase64DataURL(File file, FileTypeEnum fileType) throws IOException {
-        if (!file.exists() || !file.isFile()) {
+        byte[] bytes = getBytes(file);
+        if (bytes == null) {
             return "";
         }
-        try (InputStream is = new FileInputStream(file)) {
-            String prefix = String.format("data:%s;base64,", fileType.getMimeType());
-            String base64 = Base64.getEncoder().encodeToString(IOUtil.getBytes(is));
-            return prefix + base64;
-        }
+        String prefix = String.format("data:%s;base64,", fileType.getMimeType());
+        String base64 = Base64.getEncoder().encodeToString(bytes);
+        return prefix + base64;
     }
 
     /**
@@ -48,12 +73,8 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static int getSize(File file) throws IOException {
-        if (!file.exists() || !file.isFile()) {
-            return 0;
-        }
-        try (InputStream is = new FileInputStream(file)) {
-            return IOUtil.getBytes(is).length;
-        }
+        byte[] bytes = getBytes(file);
+        return bytes == null ? 0 : bytes.length;
     }
 
     /**
@@ -211,6 +232,21 @@ public final class FileUtil {
             arr[2] = filePath.substring(index2 + 1);
         }
         return arr;
+    }
+
+    /**
+     * 检查文件是否带有UTF-8对应的BOM
+     *
+     * @param file 文件
+     * @return 是否
+     * @throws IOException IO异常
+     */
+    public static boolean hasUtf8Bom(File file) throws IOException {
+        byte[] bytes = getBytes(file);
+        return bytes != null && bytes.length >= 3
+                && bytes[0] == (byte) 0xEF
+                && bytes[1] == (byte) 0xBB
+                && bytes[2] == (byte) 0xBF;
     }
 
 }
