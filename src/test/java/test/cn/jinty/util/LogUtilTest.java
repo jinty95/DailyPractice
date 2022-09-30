@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static cn.jinty.enums.EntityEnum.*;
 import static cn.jinty.enums.OperationEnum.*;
-import static cn.jinty.enums.ResultEnum.*;
+import static cn.jinty.enums.ResponseCodeEnum.*;
 
 /**
  * 日志 - 工具类

@@ -1,10 +1,11 @@
 package cn.jinty.entity;
 
-import cn.jinty.enums.ErrorEnum;
-import cn.jinty.enums.ResultEnum;
+import cn.jinty.enums.ResponseCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import static cn.jinty.enums.ResponseCodeEnum.*;
 
 /**
  * 基础响应体
@@ -33,7 +34,7 @@ public class BaseResponse<T> {
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success() {
-        return new BaseResponse<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc(), null);
+        return new BaseResponse<>(SUCCESS.getCode(), SUCCESS.getDesc(), null);
     }
 
     /**
@@ -44,7 +45,7 @@ public class BaseResponse<T> {
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success(T content) {
-        return new BaseResponse<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc(), content);
+        return new BaseResponse<>(SUCCESS.getCode(), SUCCESS.getDesc(), content);
     }
 
     /**
@@ -56,7 +57,7 @@ public class BaseResponse<T> {
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success(String message, T content) {
-        return new BaseResponse<>(ResultEnum.SUCCESS.getCode(), message, content);
+        return new BaseResponse<>(SUCCESS.getCode(), message, content);
     }
 
     /**
@@ -66,7 +67,7 @@ public class BaseResponse<T> {
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail() {
-        return new BaseResponse<>(ResultEnum.FAIL.getCode(), ResultEnum.FAIL.getDesc(), null);
+        return new BaseResponse<>(FAIL.getCode(), FAIL.getDesc(), null);
     }
 
     /**
@@ -77,7 +78,7 @@ public class BaseResponse<T> {
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail(String message) {
-        return new BaseResponse<>(ResultEnum.FAIL.getCode(), message, null);
+        return new BaseResponse<>(FAIL.getCode(), message, null);
     }
 
     /**
@@ -99,7 +100,7 @@ public class BaseResponse<T> {
      * @param <T>   泛型
      * @return 失败响应
      */
-    public static <T> BaseResponse<T> fail(ErrorEnum error) {
+    public static <T> BaseResponse<T> fail(ResponseCodeEnum error) {
         return new BaseResponse<>(error.getCode(), error.getDesc(), null);
     }
 

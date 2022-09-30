@@ -2,7 +2,7 @@ package cn.jinty.util;
 
 import cn.jinty.enums.EntityEnum;
 import cn.jinty.enums.OperationEnum;
-import cn.jinty.enums.ResultEnum;
+import cn.jinty.enums.ResponseCodeEnum;
 
 /**
  * 日志 - 工具类
@@ -20,7 +20,7 @@ public final class LogUtil {
      * @param result    结果
      * @return 字符串
      */
-    public static String standardFormat(EntityEnum entity, OperationEnum operation, ResultEnum result) {
+    public static String standardFormat(EntityEnum entity, OperationEnum operation, ResponseCodeEnum result) {
         return "[" + entity.getDesc() + "-"
                 + operation.getDesc() + "-"
                 + result.getDesc() + "]";
@@ -34,7 +34,7 @@ public final class LogUtil {
      * @param result    结果
      * @return 字符串
      */
-    public static String simpleFormat(EntityEnum entity, OperationEnum operation, ResultEnum result) {
+    public static String simpleFormat(EntityEnum entity, OperationEnum operation, ResponseCodeEnum result) {
         return operation.getDesc() + entity.getDesc() + result.getDesc();
     }
 

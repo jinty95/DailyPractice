@@ -3,6 +3,7 @@ package test.cn.jinty.util;
 import cn.jinty.entity.KeyValue;
 import cn.jinty.enums.ContentTypeEnum;
 import cn.jinty.util.HttpUtil;
+import cn.jinty.util.SslUtil;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.*;
 import org.junit.Test;
@@ -55,6 +56,19 @@ public class HttpUtilTest {
         params = "{\"wd\":\"如何学习java\"";
         try {
             System.out.println("发起POST请求：响应=" + HttpUtil.doPost(url, params, ContentTypeEnum.JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    public void testIgnoreSsl() {
+
+        String url = "https://127.0.0.1:8443/";
+        try {
+            SslUtil.ignoreSsl();
+            System.out.println(HttpUtil.doGet(url));
         } catch (Exception e) {
             e.printStackTrace();
         }

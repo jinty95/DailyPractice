@@ -21,10 +21,9 @@ public final class EnumFactory {
 
     static {
         set(YesNoEnum.class.getSimpleName(), YesNoEnum.values());
-        set(ResultEnum.class.getSimpleName(), ResultEnum.values());
+        set(ResponseCodeEnum.class.getSimpleName(), ResponseCodeEnum.values());
         set(OperationEnum.class.getSimpleName(), OperationEnum.values());
         set(EntityEnum.class.getSimpleName(), EntityEnum.values());
-        set(ErrorEnum.class.getSimpleName(), ErrorEnum.values());
         set(FileTypeEnum.class.getSimpleName(), FileTypeEnum.values());
         set(BinaryUnitEnum.class.getSimpleName(), BinaryUnitEnum.values());
         set(ContentTypeEnum.class.getSimpleName(), ContentTypeEnum.values());

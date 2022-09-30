@@ -1,10 +1,12 @@
 package test.cn.jinty.entity;
 
+import cn.jinty.entity.BaseResponse;
 import cn.jinty.entity.page.PageRequest;
 import cn.jinty.entity.page.PageResponse;
-import cn.jinty.enums.ErrorEnum;
-import cn.jinty.entity.BaseResponse;
 import org.junit.Test;
+
+import static cn.jinty.enums.ResponseCodeEnum.LOGIN_ATTEMPT_EXCEED;
+import static cn.jinty.enums.ResponseCodeEnum.LOGIN_FAIL;
 
 /**
  * 基础响应体 - 测试
@@ -28,11 +30,11 @@ public class BaseResponseTest {
     public void testFail() {
         BaseResponse<Integer> baseResponse1 = BaseResponse.fail();
         System.out.println(baseResponse1);
-        BaseResponse<Long> baseResponse2 = BaseResponse.fail("执行失败");
+        BaseResponse<Long> baseResponse2 = BaseResponse.fail("不知道为什么反正就是失败了，真实乌鱼子！");
         System.out.println(baseResponse2);
-        BaseResponse<Float> baseResponse3 = BaseResponse.fail("10001", "超时失败");
+        BaseResponse<Float> baseResponse3 = BaseResponse.fail(LOGIN_FAIL.getCode(), LOGIN_FAIL.getDesc());
         System.out.println(baseResponse3);
-        BaseResponse<Double> baseResponse4 = BaseResponse.fail(ErrorEnum.INTERNAL_SERVER_ERROR);
+        BaseResponse<Double> baseResponse4 = BaseResponse.fail(LOGIN_ATTEMPT_EXCEED);
         System.out.println(baseResponse4);
     }
 

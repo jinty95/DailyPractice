@@ -17,8 +17,8 @@ import java.util.Map;
 @AllArgsConstructor
 public enum YesNoEnum implements EnumInterface<Byte> {
 
-    NO((byte) 0, "否"),
-    YES((byte) 1, "是");
+    N((byte) 0, "否"),
+    Y((byte) 1, "是");
 
     // 编码
     private final Byte code;

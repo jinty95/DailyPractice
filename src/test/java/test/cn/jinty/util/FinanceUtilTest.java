@@ -41,9 +41,14 @@ public class FinanceUtilTest {
 
     @Test
     public void testSplitAvg() {
-        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(10), 3)));
-        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(200), 5)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(10), 2)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(200), 3)));
         System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(300), 7)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(300), 11)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(400), 11)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(600), 13)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(750), 19)));
+        System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(800), 19)));
     }
 
 }

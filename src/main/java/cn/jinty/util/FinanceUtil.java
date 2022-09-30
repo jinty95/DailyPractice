@@ -76,7 +76,7 @@ public final class FinanceUtil {
         if (amount == null || n < 1) {
             return new BigDecimal[0];
         }
-        // 平均分摊，无法均分时，在最后一个部分补上尾差
+        // 倒挤算法：平均分摊，无法均分时，在最后一个部分补上尾差
         BigDecimal avg = amount.divide(BigDecimal.valueOf(n), 2, RoundingMode.HALF_UP);
         BigDecimal sum = BigDecimal.ZERO;
         BigDecimal[] result = new BigDecimal[n];
