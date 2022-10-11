@@ -159,7 +159,7 @@ public final class ListUtil {
      * @return 列表
      */
     public static List<String> fromString(String s, String separate) {
-        if (StringUtil.isBlank(s)) {
+        if (StringUtil.isEmpty(s)) {
             return new ArrayList<>();
         }
         return asList(s.split(separate));

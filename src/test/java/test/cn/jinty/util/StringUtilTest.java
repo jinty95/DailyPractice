@@ -109,6 +109,24 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testIsLikeCnPhoneNum() {
+        String s1 = null;
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "99988889999";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "12088889999";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "15688889999";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "13688889999";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "19988889999";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+        s1 = "199AAAABBBB";
+        System.out.println(s1 + " 可能是国内手机号码：" + StringUtil.isLikeCnPhoneNum(s1));
+    }
+
+    @Test
     public void testRandom() {
         System.out.println("随机数字字符串");
         System.out.println(StringUtil.randomDigit(5));

@@ -284,6 +284,25 @@ public final class StringUtil {
     }
 
     /**
+     * 是否可能为国内手机号码
+     *
+     * @param phoneNum 手机号码
+     * @return 是否
+     */
+    public static boolean isLikeCnPhoneNum(String phoneNum) {
+        if (isEmpty(phoneNum)) {
+            return false;
+        }
+        if (phoneNum.length() != 11) {
+            return false;
+        }
+        if (!isDigit(phoneNum)) {
+            return false;
+        }
+        return phoneNum.charAt(0) == '1' && phoneNum.charAt(1) >= '3' && phoneNum.charAt(1) <= '9';
+    }
+
+    /**
      * 生成随机字符串(数字)
      *
      * @param length 长度
