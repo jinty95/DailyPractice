@@ -19,6 +19,9 @@ import java.util.Map;
  */
 public final class HttpUtil {
 
+    private HttpUtil() {
+    }
+
     /**
      * 发起GET请求
      *
@@ -62,9 +65,9 @@ public final class HttpUtil {
         if (params != null && !params.isEmpty()) {
             StringBuilder sb = new StringBuilder(url);
             sb.append("?");
-            for (String key : params.keySet()) {
-                String encodeKey = URLEncoder.encode(key, "UTF-8");
-                String encodeVal = URLEncoder.encode(params.get(key), "UTF-8");
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String encodeKey = URLEncoder.encode(entry.getKey(), "UTF-8");
+                String encodeVal = URLEncoder.encode(entry.getValue(), "UTF-8");
                 sb.append(encodeKey).append("=").append(encodeVal).append("&");
             }
             url = sb.substring(0, sb.length() - 1);
@@ -174,18 +177,16 @@ public final class HttpUtil {
      */
     public static String sendJson(String url, String json) throws IOException {
         String result = null;
-        MediaType JSON = MediaType.parse(ContentTypeEnum.JSON.getCode());
-        RequestBody body = RequestBody.create(JSON, json);
+        MediaType mediaType = MediaType.parse(ContentTypeEnum.JSON.getCode());
+        RequestBody body = RequestBody.create(mediaType, json);
         Request request = new Request.Builder()
                 .url(url)
                 .header("Content-Type", ContentTypeEnum.JSON.getCode())
                 .post(body)
                 .build();
         Response response = send(request);
-        if (response.isSuccessful()) {
-            if (response.body() != null) {
-                result = response.body().string();
-            }
+        if (response.isSuccessful() && response.body() != null) {
+            result = response.body().string();
         }
         return result;
     }

@@ -10,6 +10,12 @@ import java.util.Random;
  **/
 public final class ArraySortUtil {
 
+    private ArraySortUtil() {
+    }
+
+    // 随机数
+    private static final Random RANDOM = new Random();
+
     /**
      * 冒泡排序
      * 时间复杂度O(N^2)，最优情况下O(N)
@@ -303,10 +309,9 @@ public final class ArraySortUtil {
     public static void monkeySort(int[] arr) {
         if (arr == null) return;
         long begin = System.currentTimeMillis();
-        Random random = new Random();
         int count = 0;
         while (!isOrdered(arr, true)) {
-            swap(arr, random.nextInt(arr.length), random.nextInt(arr.length));
+            swap(arr, RANDOM.nextInt(arr.length), RANDOM.nextInt(arr.length));
             count++;
         }
         long end = System.currentTimeMillis();

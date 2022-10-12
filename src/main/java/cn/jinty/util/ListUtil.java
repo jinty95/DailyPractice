@@ -11,6 +11,9 @@ import java.util.List;
  **/
 public final class ListUtil {
 
+    private ListUtil() {
+    }
+
     /**
      * 列表按数量分组
      *

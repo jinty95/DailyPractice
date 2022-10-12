@@ -12,6 +12,9 @@ import cn.jinty.enums.ResponseCodeEnum;
  **/
 public final class LogUtil {
 
+    private LogUtil() {
+    }
+
     /**
      * 标准格式 - 打印日志
      *

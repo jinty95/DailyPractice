@@ -10,7 +10,10 @@ import java.security.cert.X509Certificate;
  * @author jintai.wang
  * @date 2022/9/16
  **/
-public class SslUtil {
+public final class SslUtil {
+
+    private SslUtil() {
+    }
 
     /**
      * 忽略HTTPS请求的SSL证书，必须在openConnection之前调用

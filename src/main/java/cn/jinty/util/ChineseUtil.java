@@ -13,7 +13,10 @@ import java.util.Random;
  * @author Jinty
  * @date 2022/1/17
  **/
-public class ChineseUtil {
+public final class ChineseUtil {
+
+    private ChineseUtil() {
+    }
 
     // 随机数
     private static final Random RANDOM = new Random();

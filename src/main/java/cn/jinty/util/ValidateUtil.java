@@ -10,6 +10,9 @@ import java.util.Collection;
  **/
 public final class ValidateUtil {
 
+    private ValidateUtil() {
+    }
+
     /**
      * 非空校验 - 对象
      *

@@ -8,6 +8,9 @@ package cn.jinty.util;
  **/
 public final class ExceptionUtil {
 
+    private ExceptionUtil() {
+    }
+
     /**
      * 获取异常信息
      *

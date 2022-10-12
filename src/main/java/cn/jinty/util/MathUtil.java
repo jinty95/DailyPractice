@@ -12,6 +12,11 @@ import java.util.Random;
  **/
 public final class MathUtil {
 
+    private MathUtil() {
+    }
+
+    private static final Random RANDOM = new Random();
+
     // 数字与字母
     public static final char[] numberAndLetter = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -269,7 +274,10 @@ public final class MathUtil {
                 result += count;
             }
         }
-        return (int) (minus ? -result : (result > Integer.MAX_VALUE ? Integer.MAX_VALUE : result));
+        if (minus) {
+            return (int) -result;
+        }
+        return (int) (result > Integer.MAX_VALUE ? Integer.MAX_VALUE : result);
     }
 
     /**
@@ -359,12 +367,11 @@ public final class MathUtil {
             return new int[0];
         }
         // 随机切分
-        Random random = new Random();
         int max = amount - (n - 1);
         int[] result = new int[n];
         // 前n-1个随机生成
         for (int i = 1; i < n; i++) {
-            result[i - 1] = random.nextInt(max) + 1;
+            result[i - 1] = RANDOM.nextInt(max) + 1;
             amount -= result[i - 1];
             max = amount - (n - i - 1);
         }

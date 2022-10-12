@@ -15,6 +15,9 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 public final class IdUtil {
 
+    private IdUtil() {
+    }
+
     private static final AtomicLong NUMBER = new AtomicLong(0);
 
     private static final Map<String, AtomicLong> PREFIX_NUMBER_MAP = new HashMap<>();
@@ -78,10 +81,8 @@ public final class IdUtil {
         while (true) {
             long now = System.currentTimeMillis();
             long before = TIMESTAMP.get();
-            if (now > before) {
-                if (TIMESTAMP.compareAndSet(before, now)) {
-                    return now;
-                }
+            if (now > before && TIMESTAMP.compareAndSet(before, now)) {
+                return now;
             }
         }
     }

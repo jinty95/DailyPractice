@@ -12,6 +12,9 @@ import java.util.function.Supplier;
  **/
 public final class RetryUtil {
 
+    private RetryUtil() {
+    }
+
     // 日志模板
     private static final String LOG_TEMPLATE_1 = "[%s]执行失败：param=%s, retry=%s";
     private static final String LOG_TEMPLATE_2 = "[%s]执行失败：retry=%s";

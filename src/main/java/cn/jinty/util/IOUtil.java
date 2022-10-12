@@ -15,6 +15,9 @@ import java.util.zip.GZIPOutputStream;
  **/
 public final class IOUtil {
 
+    private IOUtil() {
+    }
+
     /**
      * 输入流转为字节数组
      *
@@ -24,7 +27,7 @@ public final class IOUtil {
      */
     public static byte[] getBytes(InputStream is) throws IOException {
         if (is == null) {
-            return null;
+            return new byte[0];
         }
         /*// 由于available()返回的是一个估计值，可能导致读取数据不完整
         byte[] bytes = new byte[is.available()];

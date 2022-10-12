@@ -12,6 +12,11 @@ import java.util.Random;
  */
 public final class ListNodeUtil {
 
+    private ListNodeUtil() {
+    }
+
+    private static final Random RANDOM = new Random();
+
     /**
      * 根据数组构建链表
      *
@@ -96,7 +101,6 @@ public final class ListNodeUtil {
     public static ListNode[] randomN(ListNode head, int n) {
         // 蓄水池算法
         ListNode[] results = new ListNode[n];
-        Random random = new Random();
         int i = 0;
         // 前 n 个节点直接放进蓄水池中，如果节点数小于等于 n ，那么每个节点都 100% 被获取
         while (i < n) {
@@ -109,7 +113,7 @@ public final class ListNodeUtil {
         // 以此类推，第 n+m 个节点，有 n/(n+m) 概率进蓄水池，其它节点有 n/(n+m) 概率留在蓄水池，即前 n+m 个节点都有 n/(n+m) 概率在蓄水池中
         while (head != null) {
             i++;
-            int rand = random.nextInt(i);
+            int rand = RANDOM.nextInt(i);
             if (rand < n) {
                 results[rand] = head;
             }

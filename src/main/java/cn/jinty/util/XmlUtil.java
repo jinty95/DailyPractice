@@ -13,6 +13,9 @@ import java.io.StringWriter;
  **/
 public final class XmlUtil {
 
+    private XmlUtil() {
+    }
+
     /**
      * 对象转XML
      *

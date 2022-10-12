@@ -15,6 +15,9 @@ import java.util.List;
  **/
 public final class ObjectUtil {
 
+    private ObjectUtil() {
+    }
+
     /**
      * 是否为空
      *

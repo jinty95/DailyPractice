@@ -11,6 +11,9 @@ import java.util.Map;
  **/
 public final class DataMaskUtil {
 
+    private DataMaskUtil() {
+    }
+
     private static final String MASK = "*";
     private static final Map<Integer, String> MASKS = new HashMap<>();
 

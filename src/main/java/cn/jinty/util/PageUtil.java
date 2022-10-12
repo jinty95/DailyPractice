@@ -11,6 +11,9 @@ import java.util.List;
  **/
 public final class PageUtil {
 
+    private PageUtil() {
+    }
+
     /**
      * 计算起始索引
      *

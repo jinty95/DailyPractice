@@ -11,6 +11,9 @@ import java.util.regex.Pattern;
  **/
 public final class StringUtil {
 
+    private StringUtil() {
+    }
+
     // 十六进制字符集
     private static final char[] HEX = {
             '0', '1', '2', '3', '4', '5', '6', '7',

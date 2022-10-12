@@ -13,6 +13,9 @@ import java.text.NumberFormat;
  **/
 public final class FinanceUtil {
 
+    private FinanceUtil() {
+    }
+
     private static final BigDecimal HUNDRED = BigDecimal.valueOf(100L);
 
     /**

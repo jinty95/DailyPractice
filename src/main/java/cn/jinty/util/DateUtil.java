@@ -20,6 +20,9 @@ import java.util.stream.Stream;
  */
 public final class DateUtil {
 
+    private DateUtil() {
+    }
+
     /**
      * 时间单位 (毫秒表示)
      */

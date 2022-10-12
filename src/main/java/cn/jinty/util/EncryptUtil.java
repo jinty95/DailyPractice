@@ -17,6 +17,9 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public final class EncryptUtil {
 
+    private EncryptUtil() {
+    }
+
     //AES算法：参数分别代表 算法名称/加密模式/数据填充方式
     private static final String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
 

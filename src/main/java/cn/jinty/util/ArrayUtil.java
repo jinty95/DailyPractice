@@ -10,6 +10,12 @@ import java.util.Random;
  */
 public final class ArrayUtil {
 
+    private ArrayUtil() {
+    }
+
+    // 随机数
+    private static final Random RANDOM = new Random();
+
     /**
      * 是否为空
      *
@@ -90,9 +96,8 @@ public final class ArrayUtil {
      */
     public static int[] generateArray(int len) {
         int[] arr = new int[len];
-        Random random = new Random();
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = random.nextInt(10);
+            arr[i] = RANDOM.nextInt(10);
         }
         return arr;
     }
@@ -103,11 +108,10 @@ public final class ArrayUtil {
      * @param arr 数组
      */
     public static void shuffle(int[] arr) {
-        Random random = new Random();
         int a, b;
         for (int i = 0; i < arr.length; i++) {
-            a = random.nextInt(arr.length);
-            b = random.nextInt(arr.length);
+            a = RANDOM.nextInt(arr.length);
+            b = RANDOM.nextInt(arr.length);
             swap(arr, a, b);
         }
     }

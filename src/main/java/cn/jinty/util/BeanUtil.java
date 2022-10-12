@@ -15,6 +15,9 @@ import java.util.List;
  **/
 public final class BeanUtil {
 
+    private BeanUtil() {
+    }
+
     /**
      * 浅拷贝
      *

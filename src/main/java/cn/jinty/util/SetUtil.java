@@ -11,6 +11,9 @@ import java.util.Set;
  */
 public final class SetUtil {
 
+    private SetUtil() {
+    }
+
     /**
      * 是否为空集
      *

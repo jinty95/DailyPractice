@@ -10,6 +10,9 @@ import java.util.regex.Pattern;
  */
 public final class IpUtil {
 
+    private IpUtil() {
+    }
+
     // 有效数字：0~9, 10~99, 100~199, 200~249, 250~255
     private static final String VALID_NUMBER = "(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])";
     // IP地址正则表达式

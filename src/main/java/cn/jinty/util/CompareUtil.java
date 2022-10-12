@@ -10,6 +10,9 @@ import java.util.Comparator;
  **/
 public final class CompareUtil {
 
+    private CompareUtil() {
+    }
+
     /**
      * 可空比较
      * (支持被比较的操作数为空，且空为最小)

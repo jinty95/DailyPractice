@@ -21,6 +21,9 @@ import static cn.jinty.enums.BinaryUnitEnum.*;
  **/
 public final class FileUtil {
 
+    private FileUtil() {
+    }
+
     /**
      * 是否在硬盘上存在对应文件(不是目录)
      *
@@ -40,7 +43,7 @@ public final class FileUtil {
      */
     public static byte[] getBytes(File file) throws IOException {
         if (!existFile(file)) {
-            return null;
+            return new byte[0];
         }
         try (InputStream is = new FileInputStream(file)) {
             return IOUtil.getBytes(is);
@@ -57,7 +60,7 @@ public final class FileUtil {
      */
     public static String toBase64DataURL(File file, FileTypeEnum fileType) throws IOException {
         byte[] bytes = getBytes(file);
-        if (bytes == null) {
+        if (bytes == null || bytes.length == 0) {
             return "";
         }
         String prefix = String.format("data:%s;base64,", fileType.getMimeType());
