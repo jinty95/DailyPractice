@@ -40,10 +40,10 @@ public final class HttpUtil {
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(3000);
             connection.setReadTimeout(5000);
-            // 发起请求
+            // 建立TCP连接 (还未发起Http请求)
             connection.connect();
-            // 解析响应
-            return resolveResponse(connection);
+            // 发起Http请求，解析响应
+            return sendRequestAndResolveResponse(connection);
         } finally {
             // 断开连接
             if (connection != null) {
@@ -103,10 +103,10 @@ public final class HttpUtil {
             connection.setRequestProperty("Content-Type", contentType.getCode());
             // 获取连接输出流
             os = connection.getOutputStream();
-            // 写入请求体，发起请求
+            // 写入请求体
             os.write(params.getBytes());
-            // 解析响应
-            return resolveResponse(connection);
+            // 发起Http请求，解析响应
+            return sendRequestAndResolveResponse(connection);
         } finally {
             // 关闭资源
             if (os != null) {
@@ -120,16 +120,17 @@ public final class HttpUtil {
     }
 
     /**
-     * 解析响应
+     * 发起Http请求，解析响应
+     * (Http请求在调用HttpURLConnection的getInputStream()函数时发送)
      *
      * @param connection HTTP连接
      * @return 响应结果
      * @throws IOException IO异常
      */
-    private static String resolveResponse(HttpURLConnection connection) throws IOException {
+    private static String sendRequestAndResolveResponse(HttpURLConnection connection) throws IOException {
         // 获取响应码 (301或302需要重定向，发一个新的请求)
-        if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM
-                || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_MOVED_PERM || responseCode == HttpURLConnection.HTTP_MOVED_TEMP) {
             // 获取响应头
             Map<String, List<String>> responseHeaders = connection.getHeaderFields();
             // 获取重定向链接
@@ -137,16 +138,20 @@ public final class HttpUtil {
             // 发起一个新的请求
             return doGet(newUrl);
         }
-        // 获取响应体
-        try (InputStream is = connection.getInputStream();
-             BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line).append("\r\n");
+        // 返回200时，获取响应体
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            try (InputStream is = connection.getInputStream();
+                 BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line).append("\r\n");
+                }
+                return sb.toString();
             }
-            return sb.toString();
         }
+        // 返回其它响应码时
+        throw new IOException(String.format("error! responseCode = %d", responseCode));
     }
 
     // OKHTTP客户端

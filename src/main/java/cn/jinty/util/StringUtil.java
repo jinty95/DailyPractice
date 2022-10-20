@@ -108,6 +108,43 @@ public final class StringUtil {
     }
 
     /**
+     * 去除字符串的前后"空格"
+     *
+     * @param s 字符串
+     * @return 字符串
+     */
+    public static String trim(String s) {
+        if (isEmpty(s)) {
+            return s;
+        }
+        return s.trim();
+    }
+
+    /**
+     * 去除字符串的前后"空格及指定字符"
+     *
+     * @param s    字符串
+     * @param trim 指定字符
+     * @return 字符串
+     */
+    public static String trim(String s, String trim) {
+        if (isEmpty(s)) {
+            return s;
+        }
+        s = s.trim();
+        if (isEmpty(trim)) {
+            return s;
+        }
+        if (s.startsWith(trim)) {
+            s = s.substring(trim.length()).trim();
+        }
+        if (s.endsWith(trim)) {
+            s = s.substring(0, s.length() - trim.length()).trim();
+        }
+        return s;
+    }
+
+    /**
      * 字符串是否全为字母
      *
      * @param s 字符串

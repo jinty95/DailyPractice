@@ -54,6 +54,17 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testTrim() {
+        System.out.println(StringUtil.trim("  1  "));
+        System.out.println(StringUtil.trim("\"hello\"", "\""));
+        System.out.println(StringUtil.trim("  \"  hello  \"  ", "\""));
+        System.out.println(StringUtil.trim(" ' hello world ' ", "'"));
+        System.out.println(StringUtil.trim("ok yes", "$$"));
+        System.out.println(StringUtil.trim(" $$ ok yes $$ ", "$$"));
+        System.out.println(StringUtil.trim(StringUtil.trim(" \"' ok yes '\" ", "\""), "'"));
+    }
+
+    @Test
     public void testIsLetter() {
         System.out.println(StringUtil.isLetter("Hello"));
         System.out.println(StringUtil.isLetter("12345"));
