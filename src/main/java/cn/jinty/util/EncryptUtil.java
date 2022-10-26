@@ -20,10 +20,10 @@ public final class EncryptUtil {
     private EncryptUtil() {
     }
 
-    //AES算法：参数分别代表 算法名称/加密模式/数据填充方式
+    // AES算法：参数分别代表 算法名称/加密模式/数据填充方式
     private static final String AES_ALGORITHM = "AES/ECB/PKCS5Padding";
 
-    //AES加密器
+    // AES加密器
     private static Cipher cipher = null;
 
     static {
@@ -35,19 +35,19 @@ public final class EncryptUtil {
     }
 
     /**
-     * AES秘钥 - 随机生成
+     * AES密钥 - 随机生成
      *
-     * @return 秘钥字符串
+     * @return 密钥字节数组
      */
     public static byte[] generateAesKey() {
         try {
-            //1.构造密钥生成器，指定为AES算法,不区分大小写
+            // 1、构造密钥生成器，指定为AES算法,不区分大小写
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            //2.指定密钥为128比特
+            // 2、指定密钥为128比特
             keygen.init(128);
-            //3.随机生成密钥
+            // 3、随机生成密钥
             SecretKey originalKey = keygen.generateKey();
-            //4.获得密钥的字节数组
+            // 4、获得密钥的字节数组
             return originalKey.getEncoded();
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,11 +64,11 @@ public final class EncryptUtil {
      * @throws Exception 异常
      */
     public static String aesEncrypt(String plaintext, String key) throws Exception {
-        //初始化
+        // 初始化
         cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key.getBytes(), "AES"));
-        //加密
+        // 加密
         byte[] b = cipher.doFinal(plaintext.getBytes());
-        //采用base64进行转码,避免乱码
+        // 采用base64进行转码，避免乱码
         return Base64.getEncoder().encodeToString(b);
     }
 
@@ -81,11 +81,11 @@ public final class EncryptUtil {
      * @throws Exception 异常
      */
     public static String aesDecrypt(String ciphertext, String key) throws Exception {
-        //初始化
+        // 初始化
         cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key.getBytes(), "AES"));
-        //采用base64进行转码,避免乱码
+        // 采用base64进行转码，避免乱码
         byte[] encryptBytes = Base64.getDecoder().decode(ciphertext);
-        //解码
+        // 解码
         byte[] decryptBytes = cipher.doFinal(encryptBytes);
         return new String(decryptBytes);
     }
@@ -150,7 +150,7 @@ public final class EncryptUtil {
         // 获得密文
         byte[] md = md5(s);
         // 把密文转换成十六进制的字符串形式
-        return StringUtil.byteArrToHex(md);
+        return StringUtil.bytesToHex(md);
     }
 
     /**
@@ -183,7 +183,7 @@ public final class EncryptUtil {
         // 获得密文
         byte[] md = sha1(s);
         // 把密文转换成十六进制的字符串形式
-        return StringUtil.byteArrToHex(md);
+        return StringUtil.bytesToHex(md);
     }
 
 }

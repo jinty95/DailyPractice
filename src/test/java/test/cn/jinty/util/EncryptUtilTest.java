@@ -21,18 +21,18 @@ public class EncryptUtilTest {
 
         BASE64Encoder base64Encoder = new BASE64Encoder();
 
-        //生成AES密钥
+        // 生成AES密钥
         byte[] bytes = EncryptUtil.generateAesKey();
-        //转为字符串显示
-        String aesKeyHex = StringUtil.byteArrToHex(bytes);
+        // 转为字符串显示
+        String aesKeyHex = StringUtil.bytesToHex(bytes);
         String aeskeyBase64 = base64Encoder.encode(bytes);
         System.out.println("AesKey[hex] : " + aesKeyHex);
         System.out.println("AesKey[base64] : " + aeskeyBase64);
 
-        //进行SHA1处理并取前16位
+        // 进行SHA1处理并取前16位
         byte[] newBytes = Arrays.copyOf(Objects.requireNonNull(EncryptUtil.sha1(aesKeyHex)), 16);
-        //转为字符串显示
-        System.out.println("NewAesKey[hex] : " + StringUtil.byteArrToHex(newBytes));
+        // 转为字符串显示
+        System.out.println("NewAesKey[hex] : " + StringUtil.bytesToHex(newBytes));
         System.out.println("NewAesKey[base64] : " + base64Encoder.encode(newBytes));
 
     }
@@ -40,16 +40,17 @@ public class EncryptUtilTest {
     @Test
     public void testAes() {
         String[] str = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ"};
-        //key不能任意指定，只能为128b、192b、256b
-        String key = "0123456789ABCDEF";
+        // key不能任意指定，大小必须为128b、192b、256b其中之一
+        String key = StringUtil.random(16);
+        System.out.println("AES-Key：" + key);
         try {
             for (int i = 0; i <= 9; i++) {
-                //首次由于初始化加密器，执行时间比较长
+                // 首次由于初始化加密器，执行时间比较长
                 long begin = System.currentTimeMillis();
                 String encrypt = EncryptUtil.aesEncrypt(str[i], key);
-                System.out.println(encrypt);
+                System.out.println("密文：" + encrypt);
                 str[i] = EncryptUtil.aesDecrypt(encrypt, key);
-                System.out.println(str[i]);
+                System.out.println("明文：" + str[i]);
                 long end = System.currentTimeMillis();
                 System.out.println("used time : " + (end - begin));
             }

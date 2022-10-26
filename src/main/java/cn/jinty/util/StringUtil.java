@@ -395,7 +395,7 @@ public final class StringUtil {
      * @param bytes 字节数组
      * @return 十六进制字符串
      */
-    public static String byteArrToHex(byte[] bytes) {
+    public static String bytesToHex(byte[] bytes) {
         if (bytes == null || bytes.length == 0) {
             return EMPTY;
         }
@@ -407,6 +407,30 @@ public final class StringUtil {
             sb.append(HEX[b & 15]);
         }
         return sb.toString();
+    }
+
+    /**
+     * 十六进制字符串转为字节数组
+     *
+     * @param hex 十六进制字符串
+     * @return 字节数组
+     */
+    public static byte[] hexToBytes(String hex) {
+        if (isEmpty(hex)) {
+            return new byte[0];
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < HEX.length; i++) {
+            map.put(HEX[i], i);
+        }
+        byte[] bytes = new byte[hex.length() / 2];
+        int j = 0;
+        for (int i = 0; i < hex.length(); i += 2) {
+            int high = map.get(hex.charAt(i));
+            int low = map.get(hex.charAt(i + 1));
+            bytes[j++] = (byte) ((high << 4) | low);
+        }
+        return bytes;
     }
 
     /**

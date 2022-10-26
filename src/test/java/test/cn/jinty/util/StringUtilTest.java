@@ -154,6 +154,14 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testHexToBytes() {
+        String hex = "123456789ABCDEFF";
+        System.out.println("十六进制数：" + hex);
+        System.out.println("字节数组：" + Arrays.toString(StringUtil.hexToBytes(hex)));
+        System.out.println("十六进制数：" + StringUtil.bytesToHex(StringUtil.hexToBytes(hex)));
+    }
+
+    @Test
     public void testAppend() {
         System.out.println(StringUtil.append(null, "1", ","));
         System.out.println(StringUtil.append(null, null, null));
