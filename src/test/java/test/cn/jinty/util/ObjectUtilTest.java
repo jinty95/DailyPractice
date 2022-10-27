@@ -1,7 +1,9 @@
 package test.cn.jinty.util;
 
 import cn.jinty.annotation.FieldName;
+import cn.jinty.entity.KeyValue;
 import cn.jinty.util.ObjectUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -45,6 +47,16 @@ public class ObjectUtilTest {
         for (String diff : ObjectUtil.diff(o1, o2)) {
             System.out.println(diff);
         }
+    }
+
+    @Test
+    public void testToKvPairs() {
+        Obj obj = new Obj();
+        ObjectUtil.setDefaultWhenNull(obj);
+        for (KeyValue<String, Object> keyValue : ObjectUtil.toKvPairs(obj)) {
+            System.out.println(keyValue);
+        }
+        System.out.println(JSON.toJSONString(ObjectUtil.toKvPairs(obj)));
     }
 
     /* 以下为内部类 */

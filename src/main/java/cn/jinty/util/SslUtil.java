@@ -7,7 +7,7 @@ import java.security.cert.X509Certificate;
 /**
  * SSL - 工具类
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2022/9/16
  **/
 public final class SslUtil {
