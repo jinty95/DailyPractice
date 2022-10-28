@@ -5,12 +5,14 @@ import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.FileUtil;
 import cn.jinty.util.ListUtil;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -119,6 +121,18 @@ public class FileUtilTest {
         System.out.println("文件：" + file.getAbsolutePath());
         try {
             System.out.println("是否带有UTF-8对应的BOM：" + FileUtil.hasUtf8Bom(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testParseProperties() {
+        try {
+            URL url = Main.class.getResource("/properties/application.properties");
+            assert url != null;
+            System.out.println("文件路径：" + url.getPath());
+            System.out.println("文件内容：" + FileUtil.parseProperties(url.getPath()));
         } catch (IOException e) {
             e.printStackTrace();
         }

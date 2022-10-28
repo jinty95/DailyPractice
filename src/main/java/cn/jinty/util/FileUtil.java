@@ -6,10 +6,7 @@ import cn.jinty.enums.FileTypeEnum;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
 
@@ -60,7 +57,7 @@ public final class FileUtil {
      */
     public static String toBase64DataURL(File file, FileTypeEnum fileType) throws IOException {
         byte[] bytes = getBytes(file);
-        if (bytes == null || bytes.length == 0) {
+        if (bytes.length == 0) {
             return "";
         }
         String prefix = String.format("data:%s;base64,", fileType.getMimeType());
@@ -77,7 +74,7 @@ public final class FileUtil {
      */
     public static int getSize(File file) throws IOException {
         byte[] bytes = getBytes(file);
-        return bytes == null ? 0 : bytes.length;
+        return bytes.length;
     }
 
     /**
@@ -246,10 +243,31 @@ public final class FileUtil {
      */
     public static boolean hasUtf8Bom(File file) throws IOException {
         byte[] bytes = getBytes(file);
-        return bytes != null && bytes.length >= 3
-                && bytes[0] == (byte) 0xEF
-                && bytes[1] == (byte) 0xBB
-                && bytes[2] == (byte) 0xBF;
+        return bytes.length >= 3 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF;
+    }
+
+    /**
+     * 解析.properties文件
+     *
+     * @param filePath 文件路径
+     * @return Properties对象
+     * @throws IOException IO异常
+     */
+    public static Properties parseProperties(String filePath) throws IOException {
+        Properties properties = new Properties();
+        if (StringUtil.isBlank(filePath)) {
+            System.out.println(String.format("解析.properties文件失败，文件路径为空：filePath=%s", filePath));
+            return properties;
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            System.out.println(String.format("解析.properties文件失败，文件不存在：filePath=%s", filePath));
+            return properties;
+        }
+        try (InputStream is = new FileInputStream(file)) {
+            properties.load(is);
+            return properties;
+        }
     }
 
 }
