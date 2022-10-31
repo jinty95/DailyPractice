@@ -37,24 +37,27 @@ public final class DateUtil {
     /**
      * 常用的时间格式
      */
-    public static final String DATE = "yyyy-MM-dd";
-    public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public static final String DATETIME_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
-    public static final String DATE_1 = "yyyy/MM/dd";
-    public static final String DATETIME_1 = "yyyy/MM/dd HH:mm:ss";
-    public static final String DATETIME_MILLI_1 = "yyyy/MM/dd HH:mm:ss.SSS";
-    public static final String DATE_2 = "yyyyMMdd";
-    public static final String DATETIME_2 = "yyyyMMddHHmmss";
-    public static final String DATETIME_MILLI_2 = "yyyyMMddHHmmssSSS";
-    public static final String DATE_3 = "yyyy年MM月dd日";
-    public static final String DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
-    public static final String DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
+    public static final String FORMAT_YEAR = "yyyy";
+    public static final String FORMAT_MONTH = "yyyy-MM";
+    public static final String FORMAT_DATE = "yyyy-MM-dd";
+    public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final String FORMAT_DATETIME_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String FORMAT_DATE_1 = "yyyy/MM/dd";
+    public static final String FORMAT_DATETIME_1 = "yyyy/MM/dd HH:mm:ss";
+    public static final String FORMAT_DATETIME_MILLI_1 = "yyyy/MM/dd HH:mm:ss.SSS";
+    public static final String FORMAT_DATE_2 = "yyyyMMdd";
+    public static final String FORMAT_DATETIME_2 = "yyyyMMddHHmmss";
+    public static final String FORMAT_DATETIME_MILLI_2 = "yyyyMMddHHmmssSSS";
+    public static final String FORMAT_DATE_3 = "yyyy年MM月dd日";
+    public static final String FORMAT_DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
+    public static final String FORMAT_DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
 
     public static final List<String> SUPPORTED_FORMAT = Stream.of(
-            DateUtil.DATE, DateUtil.DATETIME, DateUtil.DATETIME_MILLI,
-            DateUtil.DATE_1, DateUtil.DATETIME_1, DateUtil.DATETIME_MILLI_1,
-            DateUtil.DATE_2, DateUtil.DATETIME_2, DateUtil.DATETIME_MILLI_2,
-            DateUtil.DATE_3, DateUtil.DATETIME_3, DateUtil.DATETIME_MILLI_3)
+            DateUtil.FORMAT_YEAR, DateUtil.FORMAT_MONTH,
+            DateUtil.FORMAT_DATE, DateUtil.FORMAT_DATETIME, DateUtil.FORMAT_DATETIME_MILLI,
+            DateUtil.FORMAT_DATE_1, DateUtil.FORMAT_DATETIME_1, DateUtil.FORMAT_DATETIME_MILLI_1,
+            DateUtil.FORMAT_DATE_2, DateUtil.FORMAT_DATETIME_2, DateUtil.FORMAT_DATETIME_MILLI_2,
+            DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3)
             .sorted((Comparator.comparingInt(String::length))).collect(Collectors.toList());
 
     /**
@@ -69,7 +72,7 @@ public final class DateUtil {
      * 时间纪元 (时间戳的起点) (零时区)
      */
     public static final String EPOCH_STR = "1970-01-01 00:00:00";
-    public static final Date EPOCH = parse(EPOCH_STR, DATETIME, GMT_0);
+    public static final Date EPOCH = parse(EPOCH_STR, FORMAT_DATETIME, GMT_0);
 
     /**
      * 星期的每一天 (英文+中文)
@@ -96,7 +99,7 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr) {
-        return parse(dateStr, DATETIME);
+        return parse(dateStr, FORMAT_DATETIME);
     }
 
     /**
@@ -145,13 +148,13 @@ public final class DateUtil {
             return null;
         }
         if (dateStr.contains("-")) {
-            return parse(dateStr, DATE);
+            return parse(dateStr, FORMAT_DATE);
         } else if (dateStr.contains("/")) {
-            return parse(dateStr, DATE_1);
+            return parse(dateStr, FORMAT_DATE_1);
         } else if (dateStr.contains("年")) {
-            return parse(dateStr, DATE_3);
+            return parse(dateStr, FORMAT_DATE_3);
         }
-        return parse(dateStr, DATE_2);
+        return parse(dateStr, FORMAT_DATE_2);
     }
 
     /**
@@ -165,13 +168,13 @@ public final class DateUtil {
             return null;
         }
         if (dateStr.contains("-")) {
-            return parse(dateStr, DATETIME);
+            return parse(dateStr, FORMAT_DATETIME);
         } else if (dateStr.contains("/")) {
-            return parse(dateStr, DATETIME_1);
+            return parse(dateStr, FORMAT_DATETIME_1);
         } else if (dateStr.contains("年")) {
-            return parse(dateStr, DATETIME_3);
+            return parse(dateStr, FORMAT_DATETIME_3);
         }
-        return parse(dateStr, DATETIME_2);
+        return parse(dateStr, FORMAT_DATETIME_2);
     }
 
     /**
@@ -181,7 +184,7 @@ public final class DateUtil {
      * @return 时间字符串
      */
     public static String format(Date date) {
-        return format(date, DATETIME);
+        return format(date, FORMAT_DATETIME);
     }
 
     /**
@@ -881,6 +884,26 @@ public final class DateUtil {
             result[3] = end;
         }
         return result;
+    }
+
+    /**
+     * 获取期间的所有月份
+     *
+     * @param begin 开始时间(yyyy-MM)
+     * @param end   结束时间(yyyy-MM)
+     * @return 月份列表
+     */
+    public static List<String> getAllMonth(String begin, String end) {
+        List<String> list = new ArrayList<>();
+        Date beginTime = parse(begin, FORMAT_MONTH);
+        Date endTime = parse(end, FORMAT_MONTH);
+        if (beginTime.after(endTime)) {
+            return list;
+        }
+        for (; beginTime.compareTo(endTime) <= 0; beginTime = add(beginTime, 1, Calendar.MONTH)) {
+            list.add(format(beginTime, FORMAT_MONTH));
+        }
+        return list;
     }
 
     /**

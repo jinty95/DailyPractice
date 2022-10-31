@@ -94,7 +94,7 @@ public final class IdUtil {
      */
     public static String timeWithRandom() {
         // 17位时间
-        String date = DateUtil.format(new Date(), DateUtil.DATETIME_MILLI_2);
+        String date = DateUtil.format(new Date(), DateUtil.FORMAT_DATETIME_MILLI_2);
         // 5位随机数
         String random = StringUtil.randomDigit(5);
         return date + random;

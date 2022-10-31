@@ -50,20 +50,20 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00")));
         System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00 this is also ok")));
 
-        System.out.println(DateUtil.format(DateUtil.parse("2022/9/5", DateUtil.DATE_1), DateUtil.DATETIME_1));
-        System.out.println(DateUtil.format(DateUtil.parse("2022/09/05 17:50:00.000", DateUtil.DATETIME_MILLI_1), DateUtil.DATETIME_1));
+        System.out.println(DateUtil.format(DateUtil.parse("2022/9/5", DateUtil.FORMAT_DATE_1), DateUtil.FORMAT_DATETIME_1));
+        System.out.println(DateUtil.format(DateUtil.parse("2022/09/05 17:50:00.000", DateUtil.FORMAT_DATETIME_MILLI_1), DateUtil.FORMAT_DATETIME_1));
 
-        System.out.println(DateUtil.format(DateUtil.parse("20220905", DateUtil.DATE_2), DateUtil.DATETIME_2));
-        System.out.println(DateUtil.format(DateUtil.parse("20220905175000000", DateUtil.DATETIME_MILLI_2), DateUtil.DATETIME_2));
+        System.out.println(DateUtil.format(DateUtil.parse("20220905", DateUtil.FORMAT_DATE_2), DateUtil.FORMAT_DATETIME_2));
+        System.out.println(DateUtil.format(DateUtil.parse("20220905175000000", DateUtil.FORMAT_DATETIME_MILLI_2), DateUtil.FORMAT_DATETIME_2));
     }
 
     @Test
     public void testTimeZone() {
         System.out.println(DateUtil.EPOCH.getTime());
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.EUROPE_LONDON));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DATETIME, DateUtil.ASIA_TOKYO));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.EUROPE_LONDON));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_TOKYO));
     }
 
     @Test
@@ -71,8 +71,8 @@ public class DateUtilTest {
         // 北京时间与伦敦时间有时候差7小时，有时候差8小时
         String srcDateStr = "2022-01-01 08:00:00";
         System.out.println("北京时间：" + srcDateStr);
-        System.out.println("伦敦时间：" + DateUtil.transfer(srcDateStr, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.EUROPE_LONDON));
-        System.out.println("东京时间：" + DateUtil.transfer(srcDateStr, DateUtil.DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.ASIA_TOKYO));
+        System.out.println("伦敦时间：" + DateUtil.transfer(srcDateStr, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.EUROPE_LONDON));
+        System.out.println("东京时间：" + DateUtil.transfer(srcDateStr, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.ASIA_TOKYO));
     }
 
     @Test
@@ -124,33 +124,33 @@ public class DateUtilTest {
 
     @Test
     public void testGetDiff() {
-        Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.DATETIME_MILLI);
-        Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiff(d1, d2) + " 毫秒");
+        Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.FORMAT_DATETIME_MILLI);
+        Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiff(d1, d2) + " 毫秒");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 17:00:01.500", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffSecond(d1, d2) + " 秒");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 17:00:01.500", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffSecond(d1, d2) + " 秒");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 17:01:45.000", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffMinute(d1, d2) + " 分钟");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 17:01:45.000", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffMinute(d1, d2) + " 分钟");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 18:10:00.000", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffHour(d1, d2) + " 小时");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 18:10:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffHour(d1, d2) + " 小时");
 
-        d1 = DateUtil.parse("2019-07-03 09:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 20:11:00.000", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffDay(d1, d2) + " 天");
+        d1 = DateUtil.parse("2019-07-03 09:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 20:11:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffDay(d1, d2) + " 天");
 
-        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffMonth(d1, d2) + " 月");
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffMonth(d1, d2) + " 月");
 
-        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.DATETIME_MILLI) + " 有 " + DateUtil.getDiffYear(d1, d2) + " 年");
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
+        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " + DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffYear(d1, d2) + " 年");
     }
 
     @Test
@@ -285,7 +285,14 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testGetWeekOfYear() {
+    public void testGetAllMonth() {
+        for (String month : DateUtil.getAllMonth("2021-10", "2022-10")) {
+            System.out.println(month);
+        }
+    }
+
+    @Test
+    public void testGetAllWeekOfYear() {
         List<Week> weeks = DateUtil.getAllWeekOfYear(2020, Calendar.SATURDAY);
         for (Week week : weeks) {
             System.out.println(week);
@@ -362,8 +369,8 @@ public class DateUtilTest {
     public void testGetAge() {
         Date now = new Date();
         Date birthday = DateUtil.buildDate(1996, 1, 1);
-        System.out.println("今天：" + DateUtil.format(now, DateUtil.DATE));
-        System.out.println("生日：" + DateUtil.format(birthday, DateUtil.DATE));
+        System.out.println("今天：" + DateUtil.format(now, DateUtil.FORMAT_DATE));
+        System.out.println("生日：" + DateUtil.format(birthday, DateUtil.FORMAT_DATE));
         System.out.println("年龄：" + DateUtil.getAge(now, birthday));
         System.out.println("生肖：" + DateUtil.getChineseZodiac(birthday));
         System.out.println("星座：" + DateUtil.getConstellation(birthday));
