@@ -378,27 +378,34 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差年份 (绝对值)
+     * @return 相差年份
      */
     public static BigDecimal getDiffYear(Date begin, Date end) {
         checkNull(begin, end);
+        BigDecimal diff = BigDecimal.ZERO;
+        // 计算过程需要保证 begin <= end
+        boolean flag = true;
+        if (begin.compareTo(end) > 0) {
+            flag = false;
+            Date tmp = end;
+            end = begin;
+            begin = tmp;
+        }
+        // 中间整年，按年相减计
         Calendar c1 = Calendar.getInstance();
         c1.setTime(begin);
         Calendar c2 = Calendar.getInstance();
         c2.setTime(end);
-        BigDecimal diff = BigDecimal.ZERO;
-        // 中间整年，按年相减计
         int year1 = c1.get(Calendar.YEAR);
         int year2 = c2.get(Calendar.YEAR);
-        int diff1 = year1 - year2;
-        diff1 = Math.abs(diff1);
+        int diff1 = year2 - year1;
         diff1 = diff1 >= 1 ? diff1 - 1 : diff1;
         diff = diff.add(BigDecimal.valueOf(diff1));
         // 两端非整年，按天数占该年天数计
         BigDecimal diff2;
         if (year1 == year2) {
             // 两端在同一年
-            diff2 = BigDecimal.valueOf(Math.abs(begin.getTime() - end.getTime()))
+            diff2 = BigDecimal.valueOf(end.getTime() - begin.getTime())
                     .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP);
         } else {
@@ -412,7 +419,7 @@ public final class DateUtil {
                     .add(diff2);
         }
         diff = diff.add(diff2);
-        return diff;
+        return flag ? diff.negate() : diff;
     }
 
     /**
@@ -420,27 +427,34 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差月份 (绝对值)
+     * @return 相差月份
      */
     public static BigDecimal getDiffMonth(Date begin, Date end) {
         checkNull(begin, end);
+        BigDecimal diff = BigDecimal.ZERO;
+        // 计算过程需要保证 begin <= end
+        boolean flag = true;
+        if (begin.compareTo(end) > 0) {
+            flag = false;
+            Date tmp = end;
+            end = begin;
+            begin = tmp;
+        }
+        // 中间整月，按年月相减计
         Calendar c1 = Calendar.getInstance();
         c1.setTime(begin);
         Calendar c2 = Calendar.getInstance();
         c2.setTime(end);
-        BigDecimal diff = BigDecimal.ZERO;
-        // 中间整月，按年月相减计
         int year1 = c1.get(Calendar.YEAR), month1 = c1.get(Calendar.MONTH);
         int year2 = c2.get(Calendar.YEAR), month2 = c2.get(Calendar.MONTH);
-        int diff1 = (year1 - year2) * 12 + (month1 - month2);
-        diff1 = Math.abs(diff1);
+        int diff1 = (year2 - year1) * 12 + (month2 - month1);
         diff1 = diff1 >= 1 ? diff1 - 1 : diff1;
         diff = diff.add(BigDecimal.valueOf(diff1));
         // 两端非整月，按天数占该月天数计
         BigDecimal diff2;
         if (year1 == year2 && month1 == month2) {
             // 两端在同一个月
-            diff2 = BigDecimal.valueOf(Math.abs(begin.getTime() - end.getTime()))
+            diff2 = BigDecimal.valueOf(end.getTime() - begin.getTime())
                     .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP);
         } else {
@@ -454,7 +468,7 @@ public final class DateUtil {
                     .add(diff2);
         }
         diff = diff.add(diff2);
-        return diff;
+        return flag ? diff.negate() : diff;
     }
 
     /**
@@ -462,7 +476,7 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差天数 (绝对值)
+     * @return 相差天数
      */
     public static BigDecimal getDiffDay(Date begin, Date end) {
         return getDiff(begin, end, DAY);
@@ -473,7 +487,7 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差小时数 (绝对值)
+     * @return 相差小时数
      */
     public static BigDecimal getDiffHour(Date begin, Date end) {
         return getDiff(begin, end, HOUR);
@@ -484,7 +498,7 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差分钟数 (绝对值)
+     * @return 相差分钟数
      */
     public static BigDecimal getDiffMinute(Date begin, Date end) {
         return getDiff(begin, end, MINUTE);
@@ -495,7 +509,7 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差秒数 (绝对值)
+     * @return 相差秒数
      */
     public static BigDecimal getDiffSecond(Date begin, Date end) {
         return getDiff(begin, end, SECOND);
@@ -506,11 +520,11 @@ public final class DateUtil {
      *
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 相差毫秒数 (绝对值)
+     * @return 相差毫秒数
      */
     public static long getDiff(Date begin, Date end) {
         checkNull(begin, end);
-        return Math.abs(begin.getTime() - end.getTime());
+        return begin.getTime() - end.getTime();
     }
 
     /**
@@ -519,7 +533,7 @@ public final class DateUtil {
      * @param date   时间
      * @param target 目标值
      * @param unit   时间单位 (使用Calendar内置的时间单位)
-     * @return 布尔
+     * @return 是否
      */
     public static boolean isTarget(Date date, int target, int unit) {
         checkNull(date);
@@ -530,7 +544,7 @@ public final class DateUtil {
      * 判断时间是否是今天
      *
      * @param date 时间
-     * @return 布尔
+     * @return 是否
      */
     public static boolean isToday(Date date) {
         Date now = new Date();
@@ -542,7 +556,7 @@ public final class DateUtil {
      *
      * @param date1 时间1
      * @param date2 时间2
-     * @return 布尔
+     * @return 是否
      */
     public static boolean isSameDate(Date date1, Date date2) {
         if (date1 == null) {
@@ -566,12 +580,40 @@ public final class DateUtil {
      * @param date  时间
      * @param begin 起始时间
      * @param end   结束时间
-     * @return 布尔
+     * @return 是否
      */
     public static boolean isBetween(Date date, Date begin, Date end) {
         checkNull(date);
-        checkNull(begin, end);
+        checkInterval(begin, end);
         return date.compareTo(begin) >= 0 && date.compareTo(end) <= 0;
+    }
+
+    /**
+     * 判断时间区间是否在一个时间区间内
+     *
+     * @param d1    起始时间
+     * @param d2    结束时间
+     * @param begin 起始时间
+     * @param end   结束时间
+     * @return 是否
+     */
+    public static boolean isBetween(Date d1, Date d2, Date begin, Date end) {
+        checkInterval(d1, d2);
+        checkInterval(begin, end);
+        return d1.compareTo(begin) >= 0 && d2.compareTo(end) <= 0;
+    }
+
+    /**
+     * 日期比较 (仅比较年月日)
+     *
+     * @param d1 时间1
+     * @param d2 时间2
+     * @return -1表示小于，0表示等于，1表示大于
+     */
+    public static int compareDay(Date d1, Date d2) {
+        checkNull(d1);
+        checkNull(d2);
+        return getDayBegin(d1).compareTo(getDayBegin(d2));
     }
 
     /**
@@ -1136,11 +1178,11 @@ public final class DateUtil {
      * @param begin 起始时间
      * @param end   结束时间
      * @param unit  时间单位 (毫秒数)
-     * @return 时间差 (绝对值) (保留两位小数)
+     * @return 时间差 (保留两位小数)
      */
     private static BigDecimal getDiff(Date begin, Date end, long unit) {
         checkNull(begin, end);
-        return BigDecimal.valueOf(Math.abs((begin.getTime() - end.getTime())))
+        return BigDecimal.valueOf((begin.getTime() - end.getTime()))
                 .divide(BigDecimal.valueOf(unit), 2, RoundingMode.HALF_UP);
     }
 
@@ -1167,6 +1209,19 @@ public final class DateUtil {
         }
         if (end == null) {
             throw new IllegalArgumentException("结束时间不能为空");
+        }
+    }
+
+    /**
+     * 时间区间校验
+     *
+     * @param begin 起始时间
+     * @param end   结束时间
+     */
+    private static void checkInterval(Date begin, Date end) {
+        checkNull(begin, end);
+        if (begin.compareTo(end) > 0) {
+            throw new IllegalArgumentException("起始时间不能大于结束时间");
         }
     }
 
