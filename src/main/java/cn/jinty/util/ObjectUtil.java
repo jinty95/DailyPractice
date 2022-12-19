@@ -6,6 +6,7 @@ import cn.jinty.entity.KeyValue;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,7 +72,7 @@ public final class ObjectUtil {
 
     /**
      * 对象空字段设置默认值
-     * (包括8种基本类型包装类和字符串，共支持9种类型)
+     * (包括8种基本类型包装类、字符串、日期、列表)
      *
      * @param obj 对象
      * @param <T> 泛型
@@ -107,6 +108,10 @@ public final class ObjectUtil {
                     field.set(obj, ' ');
                 } else if (field.getType() == String.class) {
                     field.set(obj, "");
+                } else if (field.getType() == Date.class) {
+                    field.set(obj, new Date());
+                } else if (field.getType() == List.class) {
+                    field.set(obj, new ArrayList<>());
                 }
             } catch (IllegalAccessException e) {
                 System.out.println(String.format("对象空字段设置默认值异常：obj=%s, field=%s, error=%s",

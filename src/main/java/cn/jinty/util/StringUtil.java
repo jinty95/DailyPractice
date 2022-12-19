@@ -655,4 +655,25 @@ public final class StringUtil {
         return s.substring(start, end);
     }
 
+    /**
+     * 统计子串出现次数
+     *
+     * @param s   字符串
+     * @param sub 子串
+     * @return 出现次数
+     */
+    public static int countOccur(String s, String sub) {
+        if (isEmpty(s) || isEmpty(sub)) {
+            return 0;
+        }
+        int count = 0;
+        int pos = 0;
+        int index;
+        while ((index = s.indexOf(sub, pos)) != -1) {
+            count++;
+            pos = index + sub.length();
+        }
+        return count;
+    }
+
 }

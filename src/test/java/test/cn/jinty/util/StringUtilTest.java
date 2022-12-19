@@ -276,4 +276,11 @@ public class StringUtilTest {
         System.out.println(StringUtil.substring("hello world yes oh yeah", 0, 5) + "...");
     }
 
+    @Test
+    public void testCountOccur() {
+        System.out.println(StringUtil.countOccur("", null));
+        System.out.println(StringUtil.countOccur("AAAAAAA", "AA"));
+        System.out.println(StringUtil.countOccur("ABABABA", "ABA"));
+    }
+
 }

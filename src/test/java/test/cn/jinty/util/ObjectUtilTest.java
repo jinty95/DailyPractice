@@ -87,6 +87,8 @@ public class ObjectUtilTest {
         private Date col10;
         @FieldName("字段11")
         private List<Integer> col11;
+        @FieldName("字段12")
+        private int col12;
     }
 
     @Data

@@ -52,13 +52,12 @@ public final class DateUtil {
     public static final String FORMAT_DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
     public static final String FORMAT_DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
 
-    public static final List<String> SUPPORTED_FORMAT = Stream.of(
+    public static final List<String> SUPPORTED_FORMAT = Arrays.asList(
             DateUtil.FORMAT_YEAR, DateUtil.FORMAT_MONTH,
             DateUtil.FORMAT_DATE, DateUtil.FORMAT_DATETIME, DateUtil.FORMAT_DATETIME_MILLI,
             DateUtil.FORMAT_DATE_1, DateUtil.FORMAT_DATETIME_1, DateUtil.FORMAT_DATETIME_MILLI_1,
             DateUtil.FORMAT_DATE_2, DateUtil.FORMAT_DATETIME_2, DateUtil.FORMAT_DATETIME_MILLI_2,
-            DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3)
-            .sorted((Comparator.comparingInt(String::length))).collect(Collectors.toList());
+            DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3);
 
     /**
      * 时区

@@ -111,4 +111,17 @@ public class FastJsonTest {
         System.out.println("Json恢复原对象：" + response);
     }
 
+    @Test
+    public void testParseByte() {
+        JSONObject json = new JSONObject();
+        json.put("key1", true);
+        json.put("key2", 1);
+        json.put("key3", "1");
+        json.put("key4", null);
+        System.out.println(json.getByte("key1"));
+        System.out.println(json.getByte("key2"));
+        System.out.println(json.getByte("key3"));
+        System.out.println(json.getByte("key4"));
+    }
+
 }

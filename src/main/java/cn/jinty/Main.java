@@ -22,9 +22,7 @@ public class Main {
 
         String[] arr = {"abc"};
         for (String a : arr) {
-            System.out.println("字符串：" + a);
-            System.out.println("转大写：" + a.toUpperCase());
-            System.out.println("长度：" + a.length());
+            System.out.println("字符串：" + a + "，转大写：" + a.toUpperCase() + "，长度：" + a.length());
         }
 
     }
