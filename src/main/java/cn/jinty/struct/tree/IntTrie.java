@@ -28,7 +28,8 @@ public class IntTrie {
         }
     }
 
-    //计算num与所有整数的最大异或值
+    //num与树中的每个元素分别进行异或运算，返回其中最大的异或结果
+    //在只考虑正数的情况下，越高位出现1，则值越大
     public int getMaxXor(int num) {
         int result = 0;
         IntTrie node = this;

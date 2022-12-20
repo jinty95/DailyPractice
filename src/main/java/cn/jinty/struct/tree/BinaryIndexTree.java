@@ -2,7 +2,7 @@ package cn.jinty.struct.tree;
 
 /**
  * 二进制索引树 (树状数组、Fenwick树)
- * O(logN)的时间复杂度内修改单个元素及查询区间信息
+ * O(logN)的时间复杂度内修改单个元素及查询区间和
  *
  * @author Jinty
  * @date 2021/6/1
@@ -11,7 +11,7 @@ public class BinaryIndexTree {
 
     //原数组
     private int[] nums;
-    //树状数组(以二进制下标做区间关联)
+    //区间和(树状数组，以二进制下标映射树型节点)
     private int[] tree;
 
     //构造器

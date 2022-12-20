@@ -17,6 +17,7 @@ public final class FinanceUtil {
     }
 
     private static final BigDecimal HUNDRED = BigDecimal.valueOf(100L);
+    private static final int SCALE = 2;
 
     /**
      * 计算税额
@@ -32,7 +33,7 @@ public final class FinanceUtil {
         if (taxRate == null) {
             return BigDecimal.ZERO;
         }
-        return amount.multiply(taxRate).divide(HUNDRED, 2, RoundingMode.HALF_UP);
+        return amount.multiply(taxRate).divide(HUNDRED, SCALE, RoundingMode.HALF_UP);
     }
 
     /**
@@ -49,7 +50,7 @@ public final class FinanceUtil {
         if (taxRate == null) {
             return amountWithTax;
         }
-        return amountWithTax.multiply(HUNDRED).divide(taxRate.add(HUNDRED), 2, RoundingMode.HALF_UP);
+        return amountWithTax.multiply(HUNDRED).divide(taxRate.add(HUNDRED), SCALE, RoundingMode.HALF_UP);
     }
 
     /**
@@ -80,7 +81,7 @@ public final class FinanceUtil {
             return new BigDecimal[0];
         }
         // 倒挤算法：平均分摊，无法均分时，在最后一个部分补上尾差
-        BigDecimal avg = amount.divide(BigDecimal.valueOf(n), 2, RoundingMode.HALF_UP);
+        BigDecimal avg = amount.divide(BigDecimal.valueOf(n), SCALE, RoundingMode.HALF_UP);
         BigDecimal sum = BigDecimal.ZERO;
         BigDecimal[] result = new BigDecimal[n];
         for (int i = 0; i < n; i++) {
