@@ -446,4 +446,21 @@ public final class MathUtil {
         return Math.round(res);
     }
 
+    /**
+     * 生成九九乘法表
+     *
+     * @return 九九乘法表
+     */
+    public static List<List<String>> genMultiplicationTable() {
+        List<List<String>> lists = new ArrayList<>();
+        for (int i = 1; i <= 9; i++) {
+            List<String> list = new ArrayList<>();
+            for (int j = 1; j <= i; j++) {
+                list.add(String.format("%dx%d=%d", j, i, j * i));
+            }
+            lists.add(list);
+        }
+        return lists;
+    }
+
 }

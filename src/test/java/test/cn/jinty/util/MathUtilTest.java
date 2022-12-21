@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 数学工具类测试
@@ -230,6 +231,13 @@ public class MathUtilTest {
         System.out.println(MathUtil.divideAndRound(5L, 3L)); // 1.6
         System.out.println(MathUtil.divideAndRound(3L, 5L)); // 0.6
         System.out.println(MathUtil.divideAndRound(2L, 5L)); // 0.4
+    }
+
+    @Test
+    public void testGenMultiplicationTable() {
+        for (List<String> list : MathUtil.genMultiplicationTable()) {
+            System.out.println(list);
+        }
     }
 
 }
