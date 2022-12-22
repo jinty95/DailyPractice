@@ -2,6 +2,7 @@ package cn.jinty;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Locale;
 
 /**
  * 主函数
@@ -12,6 +13,9 @@ import java.net.UnknownHostException;
 public class Main {
 
     public static void main(String[] args) {
+
+        Locale locale = Locale.getDefault();
+        System.out.println("本机语言及国家：" + locale.getLanguage() + "_" + locale.getCountry());
 
         try {
             InetAddress address = InetAddress.getLocalHost();

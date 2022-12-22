@@ -257,4 +257,95 @@ public class Solution3 {
                 Math.max(rob.getOrDefault(root.right, 0), notRob.getOrDefault(root.right, 0)));
     }
 
+    /**
+     * 394. 字符串解码
+     * 给定一个经过编码的字符串，返回它解码后的字符串。
+     * 编码规则为: k[encoded_string]，表示其中方括号内部的encoded_string正好重复k次。注意k保证为正整数。
+     * 你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
+     * 此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数k，例如不会出现像3a或2[4]的输入。
+     *
+     * @param s 解码前的字符串 (长度N在[1, 30]范围内)
+     * @return 解码后的字符串
+     */
+    public String decodeString(String s) {
+        /*// 1、递归
+        if (!s.contains("[") || !s.contains("]")) {
+            return s;
+        }
+        StringBuilder res = new StringBuilder();
+        int num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            } else if (c == '[') {
+                // 出现一个'['，则找到其对应的']'，然后将中间部分递归，得到的结果根据前边次数复制
+                int cnt = 1;
+                for (int j = i + 1; j < s.length(); j++) {
+                    char a = s.charAt(j);
+                    if (a == '[') {
+                        cnt++;
+                    } else if (a == ']') {
+                        cnt--;
+                    }
+                    if (cnt == 0) {
+                        res.append(repeat(decodeString(s.substring(i + 1, j)), num));
+                        num = 0;
+                        i = j;
+                        break;
+                    }
+                }
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();*/
+
+        // 2、栈操作
+        StringBuilder res = new StringBuilder();
+        // 数字栈
+        LinkedList<Integer> numStack = new LinkedList<>();
+        // 字符栈
+        LinkedList<Character> charStack = new LinkedList<>();
+        int num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            } else {
+                // 数字进数字栈
+                if (num > 0) {
+                    numStack.push(num);
+                    num = 0;
+                }
+                // 字符进字符栈，当遇到']'时，将'['到']'的部分出栈，按照对应的数字复制后，再重新进栈
+                if (c != ']') {
+                    charStack.push(c);
+                } else {
+                    StringBuilder sb = new StringBuilder();
+                    while (charStack.peek() != '[') {
+                        sb.append(charStack.pop());
+                    }
+                    charStack.pop();
+                    for (char a : repeat(sb.reverse().toString(), numStack.pop()).toCharArray()) {
+                        charStack.push(a);
+                    }
+                }
+            }
+        }
+        // 字符栈出栈后翻转，即为最终答案
+        while (!charStack.isEmpty()) {
+            res.append(charStack.pop());
+        }
+        return res.reverse().toString();
+    }
+
+    private String repeat(String s, int num) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= num; i++) {
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
 }

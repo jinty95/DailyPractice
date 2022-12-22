@@ -51,4 +51,11 @@ public class SolutionTest3 {
         System.out.println(solution.rob(root));
     }
 
+    @Test
+    public void testDecodeString() {
+        System.out.println(solution.decodeString("victory"));
+        System.out.println(solution.decodeString("3[a]2[bc]"));
+        System.out.println(solution.decodeString("3[a2[c]]"));
+    }
+
 }
