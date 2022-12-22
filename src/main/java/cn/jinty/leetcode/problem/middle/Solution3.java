@@ -1,8 +1,8 @@
 package cn.jinty.leetcode.problem.middle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import cn.jinty.struct.tree.TreeNode;
+
+import java.util.*;
 
 /**
  * LeetCode - 中等题
@@ -207,6 +207,54 @@ public class Solution3 {
             }
         }
         return result;
+    }
+
+    /**
+     * 337. 打家劫舍 III
+     * 小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为root。
+     * 除了root之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。
+     * 如果两个直接相连的房子在同一天晚上被打劫，房屋将自动报警。给定二叉树的root，返回在不触动警报的情况下，小偷能够盗取的最高金额。
+     *
+     * @param root 二叉树根节点 (树的节点数N在[1, 10^4]范围内)
+     * @return 在不触动警报的情况下，小偷能够盗取的最高金额
+     */
+    public int rob(TreeNode root) {
+        /*// 1、先序遍历：时间复杂度O(N^2)，空间复杂度O(logN)
+        // 设二叉树的高度为K，则时间复杂度为O(4^K)，等价于O((2^K)^2)，等价于O(N^2)
+        return preOrderRob(root, true);*/
+
+        // 2、后序遍历：时间复杂度O(N)，空间复杂度O(N)
+        Map<TreeNode, Integer> rob = new HashMap<>();
+        Map<TreeNode, Integer> notRob = new HashMap<>();
+        postOrderRob(root, rob, notRob);
+        return Math.max(rob.get(root), notRob.get(root));
+    }
+
+    // 先序遍历
+    private int preOrderRob(TreeNode root, boolean canRob) {
+        if (root == null) {
+            return 0;
+        }
+        // 当前节点可以偷，则分为偷或不偷，取其中金额更高的
+        if (canRob) {
+            int rob = root.val + preOrderRob(root.left, false) + preOrderRob(root.right, false);
+            int notRob = preOrderRob(root.left, true) + preOrderRob(root.right, true);
+            return Math.max(rob, notRob);
+        }
+        // 当前节点不可以偷
+        return preOrderRob(root.left, true) + preOrderRob(root.right, true);
+    }
+
+    // 后序遍历
+    private void postOrderRob(TreeNode root, Map<TreeNode, Integer> rob, Map<TreeNode, Integer> notRob) {
+        if (root == null) {
+            return;
+        }
+        postOrderRob(root.left, rob, notRob);
+        postOrderRob(root.right, rob, notRob);
+        rob.put(root, root.val + notRob.getOrDefault(root.left, 0) + notRob.getOrDefault(root.right, 0));
+        notRob.put(root, Math.max(rob.getOrDefault(root.left, 0), notRob.getOrDefault(root.left, 0)) +
+                Math.max(rob.getOrDefault(root.right, 0), notRob.getOrDefault(root.right, 0)));
     }
 
 }

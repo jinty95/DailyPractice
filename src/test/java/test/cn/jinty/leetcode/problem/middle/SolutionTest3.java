@@ -1,6 +1,7 @@
 package test.cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.leetcode.problem.middle.Solution3;
+import cn.jinty.struct.tree.TreeNode;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -40,6 +41,14 @@ public class SolutionTest3 {
         System.out.println(Arrays.toString(solution.platesBetweenCandles(
                 "***|**|*****|**||**|*",
                 new int[][]{{1, 17}, {4, 5}, {14, 17}, {5, 11}, {15, 16}})));
+    }
+
+    @Test
+    public void testRob() {
+        TreeNode root = TreeNode.deserialize("[3,2,3,null,3,null,1,null,null,null,null]");
+        System.out.println(solution.rob(root));
+        root = TreeNode.deserialize("[3,4,5,1,3,null,1,null,null,null,null,null,null]");
+        System.out.println(solution.rob(root));
     }
 
 }

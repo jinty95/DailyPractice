@@ -134,7 +134,7 @@ public class TreeNode {
         return bfs(root).toString();
     }
 
-    //从字符串反序列化出二叉树：字符串格式为[1,2,3,4,...]，空节点必须填写且值为"null"
+    //从字符串反序列化出二叉树：字符串格式为"[1,2,3,4,...]"，空节点必须填写且值为"null"
     public static TreeNode deserialize(String data) {
         if (data == null || data.length() == 0 || data.equals("[]")) return null;
         //1、解析序列字符串
