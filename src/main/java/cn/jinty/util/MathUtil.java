@@ -122,6 +122,34 @@ public final class MathUtil {
     }
 
     /**
+     * 四个byte转为一个int
+     *
+     * @param bytes 四个字节(依次从高8位到低8位)
+     * @return 整数
+     */
+    public static int fourByteToInt(byte[] bytes) {
+        int num = 0;
+        for (int i = 3; i >= 0; i--) {
+            num |= ((int) bytes[3 - i] << i * 8) & (255 << i * 8);
+        }
+        return num;
+    }
+
+    /**
+     * 一个int转为四个byte
+     *
+     * @param num 整数
+     * @return 四个字节(依次从高8位到低8位)
+     */
+    public static byte[] intToFourByte(int num) {
+        byte[] bytes = new byte[4];
+        for (int i = 3; i >= 0; i--) {
+            bytes[3 - i] = (byte) (num >> i * 8);
+        }
+        return bytes;
+    }
+
+    /**
      * 对数运算
      *
      * @param base  底

@@ -67,7 +67,7 @@ public final class IpUtil {
     public static String int2ip(int num) {
         StringBuilder sb = new StringBuilder();
         for (int i = 3; i >= 0; i--) {
-            int j = (num >>> i * 8) & 255;
+            int j = (num >> i * 8) & 255;
             sb.append(j);
             if (i != 0) {
                 sb.append(".");

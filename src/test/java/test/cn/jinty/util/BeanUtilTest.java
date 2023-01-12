@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import net.sf.cglib.beans.BeanCopier;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -135,6 +136,59 @@ public class BeanUtilTest {
         List<Person1> list1 = Arrays.asList(p1, p2);
         System.out.println("源对象列表：" + list1);
         System.out.println("目标对象列表：" + BeanUtil.deepCopyList(list1, Person2.class));
+    }
+
+    /**
+     * 比较GetSet和BeanUtil的拷贝性能差异
+     */
+    @Test
+    public void testGetSetAndCopy() {
+
+        List<Person1> p1List = new ArrayList<>();
+        for (int i = 1; i <= 1000000; i++) {
+            Person1 p1 = new Person1(i, "我", 8999.99, new int[]{1, 2, 3});
+            p1List.add(p1);
+        }
+
+        long begin = System.currentTimeMillis();
+        List<Person1> p1Copy1List = new ArrayList<>();
+        for (Person1 one : p1List) {
+            Person1 p1Copy1 = new Person1();
+            p1Copy1.setId(one.getId());
+            p1Copy1.setName(one.getName());
+            p1Copy1.setSalary(one.getSalary());
+            p1Copy1.setScores(one.getScores());
+            p1Copy1List.add(p1Copy1);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("基于GetSet拷贝：costTime=" + (end - begin));
+
+        begin = System.currentTimeMillis();
+        List<Person1> p1Copy2List = new ArrayList<>();
+        try {
+            for (Person1 one : p1List) {
+                Person1 p1Copy2 = BeanUtil.copy(one, Person1.class);
+                p1Copy2List.add(p1Copy2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        end = System.currentTimeMillis();
+        System.out.println("基于BeanCopier拷贝：costTime=" + (end - begin));
+
+        begin = System.currentTimeMillis();
+        List<Person1> p1Copy3List = new ArrayList<>();
+        try {
+            for (Person1 one : p1List) {
+                Person1 p1Copy3 = BeanUtil.deepCopy(one, Person1.class);
+                p1Copy3List.add(p1Copy3);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        end = System.currentTimeMillis();
+        System.out.println("基于BeanMapper拷贝：costTime=" + (end - begin));
+
     }
 
 }

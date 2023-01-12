@@ -58,6 +58,15 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testCheckFormat() {
+        System.out.println(DateUtil.checkFormat("2023", DateUtil.FORMAT_MONTH));
+        System.out.println(DateUtil.checkFormat("2023-01", DateUtil.FORMAT_MONTH));
+        System.out.println(DateUtil.checkFormat("2023-01-16", DateUtil.FORMAT_MONTH));
+        System.out.println(DateUtil.checkFormat("AA2023-01-16", DateUtil.FORMAT_MONTH));
+        System.out.println(DateUtil.checkFormat("2023-01-16AA", DateUtil.FORMAT_MONTH));
+    }
+
+    @Test
     public void testTimeZone() {
         System.out.println(DateUtil.EPOCH.getTime());
         System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME));

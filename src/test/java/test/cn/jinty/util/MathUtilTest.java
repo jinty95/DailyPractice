@@ -48,6 +48,15 @@ public class MathUtilTest {
     }
 
     @Test
+    public void testFourByteToInt() {
+        byte[] bytes = {-1, -1, -1, -1};
+        int i = MathUtil.fourByteToInt(bytes);
+        System.out.println(i);
+        System.out.println(Integer.toBinaryString(i));
+        System.out.println(Arrays.toString(MathUtil.intToFourByte(i)));
+    }
+
+    @Test
     public void testDoubleOperation() {
         //Double
         Double d1 = 4.015;

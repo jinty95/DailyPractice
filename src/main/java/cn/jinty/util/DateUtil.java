@@ -42,22 +42,25 @@ public final class DateUtil {
     public static final String FORMAT_DATE = "yyyy-MM-dd";
     public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     public static final String FORMAT_DATETIME_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String FORMAT_MONTH_1 = "yyyy/MM";
     public static final String FORMAT_DATE_1 = "yyyy/MM/dd";
     public static final String FORMAT_DATETIME_1 = "yyyy/MM/dd HH:mm:ss";
     public static final String FORMAT_DATETIME_MILLI_1 = "yyyy/MM/dd HH:mm:ss.SSS";
+    public static final String FORMAT_MONTH_2 = "yyyyMM";
     public static final String FORMAT_DATE_2 = "yyyyMMdd";
     public static final String FORMAT_DATETIME_2 = "yyyyMMddHHmmss";
     public static final String FORMAT_DATETIME_MILLI_2 = "yyyyMMddHHmmssSSS";
+    public static final String FORMAT_MONTH_3 = "yyyy年MM月";
     public static final String FORMAT_DATE_3 = "yyyy年MM月dd日";
     public static final String FORMAT_DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
     public static final String FORMAT_DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
 
-    public static final List<String> SUPPORTED_FORMAT = Arrays.asList(
-            DateUtil.FORMAT_YEAR, DateUtil.FORMAT_MONTH,
-            DateUtil.FORMAT_DATE, DateUtil.FORMAT_DATETIME, DateUtil.FORMAT_DATETIME_MILLI,
-            DateUtil.FORMAT_DATE_1, DateUtil.FORMAT_DATETIME_1, DateUtil.FORMAT_DATETIME_MILLI_1,
-            DateUtil.FORMAT_DATE_2, DateUtil.FORMAT_DATETIME_2, DateUtil.FORMAT_DATETIME_MILLI_2,
-            DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3);
+    public static final List<String> SUPPORTED_FORMAT = Arrays.asList(DateUtil.FORMAT_YEAR,
+            DateUtil.FORMAT_MONTH, DateUtil.FORMAT_DATE, DateUtil.FORMAT_DATETIME, DateUtil.FORMAT_DATETIME_MILLI,
+            DateUtil.FORMAT_MONTH_1, DateUtil.FORMAT_DATE_1, DateUtil.FORMAT_DATETIME_1, DateUtil.FORMAT_DATETIME_MILLI_1,
+            DateUtil.FORMAT_MONTH_2, DateUtil.FORMAT_DATE_2, DateUtil.FORMAT_DATETIME_2, DateUtil.FORMAT_DATETIME_MILLI_2,
+            DateUtil.FORMAT_MONTH_3, DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3
+    );
 
     /**
      * 时区
@@ -214,6 +217,26 @@ public final class DateUtil {
             sdf.setTimeZone(TimeZone.getTimeZone(timezone));
         }
         return sdf.format(date);
+    }
+
+    /**
+     * 校验时间字符串是否满足给定格式
+     *
+     * @param dateStr 时间字符串
+     * @param format  时间格式
+     * @return 是否
+     */
+    public static boolean checkFormat(String dateStr, String format) {
+        if (dateStr == null || format == null) {
+            return false;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            sdf.parse(dateStr);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     /**

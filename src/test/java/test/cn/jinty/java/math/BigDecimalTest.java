@@ -15,7 +15,7 @@ import java.math.RoundingMode;
 public class BigDecimalTest {
 
     @Test
-    public void testNewBigDecimal() {
+    public void testNew() {
         String[] arr = {"100", "0E-7", "5000", "5,305.28"};
         // 金额按千分位格式化后，无法解析成功，所以在代码中，要避免金额格式化，如有必要，在前端实现
         for (String num : arr) {
@@ -30,6 +30,14 @@ public class BigDecimalTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void testNew1() {
+        BigDecimal num = new BigDecimal("1.11");
+        System.out.println(num.longValue());
+        num = new BigDecimal("aaa");
+        System.out.println(num);
     }
 
     @Test
