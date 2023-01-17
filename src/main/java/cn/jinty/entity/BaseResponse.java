@@ -25,7 +25,7 @@ public class BaseResponse<T> {
     private String message;
 
     // 具体内容
-    private T content;
+    private T data;
 
     /**
      * 构造器 - 成功响应
@@ -40,24 +40,24 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 成功响应
      *
-     * @param content 具体内容
-     * @param <T>     泛型
+     * @param data 具体内容
+     * @param <T>  泛型
      * @return 成功响应
      */
-    public static <T> BaseResponse<T> success(T content) {
-        return new BaseResponse<>(SUCCESS.getCode(), SUCCESS.getDesc(), content);
+    public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(SUCCESS.getCode(), SUCCESS.getDesc(), data);
     }
 
     /**
      * 构造器 - 成功响应
      *
      * @param message 提示信息
-     * @param content 具体内容
+     * @param data    具体内容
      * @param <T>     泛型
      * @return 成功响应
      */
-    public static <T> BaseResponse<T> success(String message, T content) {
-        return new BaseResponse<>(SUCCESS.getCode(), message, content);
+    public static <T> BaseResponse<T> success(String message, T data) {
+        return new BaseResponse<>(SUCCESS.getCode(), message, data);
     }
 
     /**
