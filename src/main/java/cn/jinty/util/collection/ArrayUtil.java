@@ -168,4 +168,38 @@ public final class ArrayUtil {
         return result;
     }
 
+    /**
+     * 获取一个二维数组中的最大值
+     *
+     * @param arr 二维数组
+     * @return 最大值
+     */
+    public static int getMax(int[][] arr) {
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                max = Math.max(max, arr[i][j]);
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 在一个二维数组中，搜索一个值的首次出现位置
+     *
+     * @param arr   二维数组
+     * @param value 值
+     * @return 首次出现位置
+     */
+    public static int[] indexOf(int[][] arr, int value) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] == value) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
 }
