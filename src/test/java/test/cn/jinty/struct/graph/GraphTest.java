@@ -1,7 +1,7 @@
 package test.cn.jinty.struct.graph;
 
 import cn.jinty.struct.graph.GraphNode;
-import cn.jinty.util.ListUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.util.List;

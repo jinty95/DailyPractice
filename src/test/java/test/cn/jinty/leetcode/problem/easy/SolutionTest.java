@@ -5,8 +5,8 @@ import cn.jinty.leetcode.entity.Node;
 import cn.jinty.leetcode.problem.easy.Solution;
 import cn.jinty.struct.line.ListNode;
 import cn.jinty.struct.tree.TreeNode;
-import cn.jinty.util.ListNodeUtil;
-import cn.jinty.util.ListUtil;
+import cn.jinty.util.collection.ListNodeUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;

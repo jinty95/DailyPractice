@@ -1,6 +1,6 @@
 package test.cn.jinty.java.util.concurrent.threadpool;
 
-import cn.jinty.util.ListUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -3,9 +3,16 @@
 '起点
 start
 
+'活动标签(activity label)以冒号开始，以分号结束
 '默认按定义顺序自动连接
 :say hi;
+'给活动标签添加注释
+note left: 这是左侧单行注释
 :say hello;
+note right
+    这是右侧
+    多行注释
+end note
 
 '条件判断
 if (shall we do it?) then (yes)
@@ -25,7 +32,7 @@ else (no)
 endif
 
 '组合框
-group a group
+group 一个组合框
 :so tired, sleep a moment;
 '给箭头加文字
 -> while awaken;
@@ -65,7 +72,7 @@ fork again
 fork again
     #yellow\green:doing;
 end fork {聚合}
-note right :all doing in the same time
+note right: 并行处理
 
 '终点
 stop

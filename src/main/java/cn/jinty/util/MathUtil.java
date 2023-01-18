@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.util.collection.ArrayUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -190,19 +192,6 @@ public final class MathUtil {
             throw new IllegalArgumentException("n值不能小于m值");
         }
         return factorial(n) / factorial(m) / factorial(n - m);
-    }
-
-    /**
-     * 从1到N的累加和
-     *
-     * @param n 正整数
-     * @return 累加和
-     */
-    public static int sumFromOneToN(int n) {
-        if (n < 1) {
-            throw new IllegalArgumentException("n不能小于1");
-        }
-        return (1 + n) * n / 2;
     }
 
     /**

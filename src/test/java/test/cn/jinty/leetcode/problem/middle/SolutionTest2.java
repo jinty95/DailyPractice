@@ -2,7 +2,7 @@ package test.cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.leetcode.problem.middle.Solution2;
 import cn.jinty.struct.tree.TreeNode;
-import cn.jinty.util.ListUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.util.Arrays;

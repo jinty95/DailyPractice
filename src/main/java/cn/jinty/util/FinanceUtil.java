@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.util.StringUtil;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;

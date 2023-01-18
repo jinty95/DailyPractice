@@ -120,15 +120,6 @@ public class MathUtilTest {
     }
 
     @Test
-    public void testSumFromOneToN() {
-        System.out.println(MathUtil.sumFromOneToN(1));
-        System.out.println(MathUtil.sumFromOneToN(2));
-        System.out.println(MathUtil.sumFromOneToN(100));
-        System.out.println(MathUtil.sumFromOneToN(101));
-        System.out.println(MathUtil.sumFromOneToN(Integer.MAX_VALUE));
-    }
-
-    @Test
     public void testLowBit() {
         int num = 9999;
         System.out.println(Integer.toBinaryString(num));

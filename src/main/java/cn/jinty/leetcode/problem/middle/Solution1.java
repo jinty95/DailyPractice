@@ -1,7 +1,6 @@
 package cn.jinty.leetcode.problem.middle;
 
 import cn.jinty.struct.tree.TreeNode;
-import cn.jinty.util.ArrayUtil;
 import cn.jinty.util.MathUtil;
 
 import java.util.*;

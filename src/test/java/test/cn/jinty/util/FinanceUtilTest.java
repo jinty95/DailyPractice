@@ -1,7 +1,6 @@
 package test.cn.jinty.util;
 
 import cn.jinty.util.FinanceUtil;
-import cn.jinty.util.MathUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;

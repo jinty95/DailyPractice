@@ -1,6 +1,6 @@
 package test.cn.jinty.util;
 
-import cn.jinty.util.ListUtil;
+import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.PageUtil;
 import org.junit.Test;
 
