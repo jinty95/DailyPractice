@@ -316,7 +316,7 @@ public class Solution2 {
         }
 
         public boolean search(String word) {
-            return trie.findWithPoint(word);
+            return trie.searchWithPoint(word);
         }
 
     }
