@@ -58,4 +58,12 @@ public class SolutionTest3 {
         System.out.println(solution.decodeString("3[a2[c]]"));
     }
 
+    @Test
+    public void testFindingUsersActiveMinutes() {
+        int[][] logs = new int[][]{
+                {0, 5}, {1, 2}, {0, 2}, {0, 5}, {1, 3}
+        };
+        System.out.println(Arrays.toString(solution.findingUsersActiveMinutes(logs, 5)));
+    }
+
 }

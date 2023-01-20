@@ -348,4 +348,36 @@ public class Solution3 {
         return sb.toString();
     }
 
+    /**
+     * 1817. 查找用户活跃分钟数
+     * 给你用户在 LeetCode 的操作日志，和一个整数 k 。日志用一个二维整数数组 logs 表示，其中每个 logs[i] = [IDi, timei] 表示 ID 为 IDi 的用户在 timei 分钟时执行了某个操作。
+     * 多个用户可以同时执行操作，单个用户可以在同一分钟内执行多个操作。
+     * 指定用户的用户活跃分钟数（user active minutes，UAM）定义为用户对 LeetCode 执行操作的唯一分钟数。 即使一分钟内执行多个操作，也只能按一分钟计数。
+     * 请你统计用户活跃分钟数的分布情况，统计结果是一个长度为 k 且 下标从 1 开始计数 的数组 answer ，对于每个 j（1 <= j <= k），answer[j] 表示用户活跃分钟数等于 j 的用户数。
+     * 返回上面描述的答案数组 answer 。
+     *
+     * @param logs 操作日志 (1 <= logs.length <= 10^4)
+     * @param k    整数
+     * @return 答案数组
+     */
+    public int[] findingUsersActiveMinutes(int[][] logs, int k) {
+        // 统计用户的所有活跃分钟 (分钟去重)
+        Map<Integer, Set<Integer>> userToTimes = new HashMap<>();
+        for (int[] log : logs) {
+            userToTimes.computeIfAbsent(log[0], a -> new HashSet<>()).add(log[1]);
+        }
+        // 统计活跃分钟数对应的用户数
+        Map<Integer, Integer> timeToUserNum = new HashMap<>();
+        for (Set<Integer> times : userToTimes.values()) {
+            int userNum = timeToUserNum.computeIfAbsent(times.size(), a -> 0);
+            timeToUserNum.put(times.size(), userNum + 1);
+        }
+        // 转为结果数组
+        int[] answer = new int[k];
+        for (int i = 0; i < k; i++) {
+            answer[i] = timeToUserNum.getOrDefault(i + 1, 0);
+        }
+        return answer;
+    }
+
 }
