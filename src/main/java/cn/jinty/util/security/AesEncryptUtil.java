@@ -17,6 +17,10 @@ public final class AesEncryptUtil {
     private AesEncryptUtil() {
     }
 
+    public static final String AES = "AES";
+    public static final String AES_ECB_PKCS5Padding = "AES/ECB/PKCS5Padding";
+    public static final int KEY_SIZE = 128;
+
     /**
      * 生成AES密钥
      *
@@ -24,9 +28,9 @@ public final class AesEncryptUtil {
      */
     public static SecretKey genAesKey() throws Exception {
         // 1、构造密钥生成器，指定为AES算法，不区分大小写
-        KeyGenerator keygen = KeyGenerator.getInstance("AES");
+        KeyGenerator keygen = KeyGenerator.getInstance(AES);
         // 2、指定密钥为128比特(注意：不能任意指定，大小必须为128比特、192比特、256比特其中之一)
-        keygen.init(128);
+        keygen.init(KEY_SIZE);
         // 3、随机生成密钥
         return keygen.generateKey();
     }
@@ -50,7 +54,7 @@ public final class AesEncryptUtil {
      */
     public static SecretKey parseAesKey(String keyStr) {
         byte[] keyBytes = Base64.getDecoder().decode(keyStr);
-        return new SecretKeySpec(keyBytes, "AES");
+        return new SecretKeySpec(keyBytes, AES);
     }
 
     /**
@@ -62,7 +66,7 @@ public final class AesEncryptUtil {
      * @throws Exception 异常
      */
     public static String aesEncrypt(String content, String keyStr) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5Padding);
         cipher.init(Cipher.ENCRYPT_MODE, parseAesKey(keyStr));
         return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
     }
@@ -76,7 +80,7 @@ public final class AesEncryptUtil {
      * @throws Exception 异常
      */
     public static String aesDecrypt(String content, String keyStr) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5Padding);
         cipher.init(Cipher.DECRYPT_MODE, parseAesKey(keyStr));
         return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
     }

@@ -22,6 +22,9 @@ public final class MessageDigestUtil {
     private MessageDigestUtil() {
     }
 
+    public static final String MD5 = "MD5";
+    public static final String SHA1 = "SHA1";
+
     /**
      * 生成MD5摘要
      *
@@ -30,7 +33,7 @@ public final class MessageDigestUtil {
      * @throws Exception 异常
      */
     public static byte[] md5(byte[] bytes) throws Exception {
-        MessageDigest mdInst = MessageDigest.getInstance("MD5");
+        MessageDigest mdInst = MessageDigest.getInstance(MD5);
         mdInst.update(bytes);
         return mdInst.digest();
     }
@@ -66,7 +69,7 @@ public final class MessageDigestUtil {
      * @throws Exception 异常
      */
     public static byte[] sha1(byte[] bytes) throws Exception {
-        MessageDigest mdInst = MessageDigest.getInstance("SHA1");
+        MessageDigest mdInst = MessageDigest.getInstance(SHA1);
         mdInst.update(bytes);
         return mdInst.digest();
     }

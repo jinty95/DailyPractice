@@ -17,6 +17,9 @@ public final class RsaEncryptUtil {
     private RsaEncryptUtil() {
     }
 
+    public static final String RSA = "RSA";
+    public static final int KEY_SIZE = 2048;
+
     /**
      * 生成密钥对
      *
@@ -24,8 +27,8 @@ public final class RsaEncryptUtil {
      * @throws Exception 异常
      */
     public static KeyPair genKeyPair() throws Exception {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA);
+        keyPairGenerator.initialize(KEY_SIZE);
         return keyPairGenerator.generateKeyPair();
     }
 
@@ -63,7 +66,7 @@ public final class RsaEncryptUtil {
     public static PublicKey parsePublicKey(String pubStr) throws Exception {
         byte[] keyBytes = Base64.getDecoder().decode(pubStr);
         X509EncodedKeySpec keySpec = new X509EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        KeyFactory keyFactory = KeyFactory.getInstance(RSA);
         return keyFactory.generatePublic(keySpec);
     }
 
@@ -77,7 +80,7 @@ public final class RsaEncryptUtil {
     public static PrivateKey parsePrivateKey(String priStr) throws Exception {
         byte[] keyBytes = Base64.getDecoder().decode(priStr);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        KeyFactory keyFactory = KeyFactory.getInstance(RSA);
         return keyFactory.generatePrivate(keySpec);
     }
 
@@ -90,7 +93,7 @@ public final class RsaEncryptUtil {
      * @throws Exception 异常
      */
     public static String publicEncrypt(String content, String pubStr) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance(RSA);
         cipher.init(Cipher.ENCRYPT_MODE, parsePublicKey(pubStr));
         return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
     }
@@ -104,7 +107,7 @@ public final class RsaEncryptUtil {
      * @throws Exception 异常
      */
     public static String privateDecrypt(String content, String priStr) throws Exception {
-        Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance(RSA);
         cipher.init(Cipher.DECRYPT_MODE, parsePrivateKey(priStr));
         return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
     }
