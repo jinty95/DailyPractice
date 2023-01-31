@@ -112,4 +112,32 @@ public final class RsaEncryptUtil {
         return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
     }
 
+    /**
+     * 使用私钥加密
+     *
+     * @param content 原内容
+     * @param priStr  Base64编码后的私钥
+     * @return 加密内容
+     * @throws Exception 异常
+     */
+    public static String privateEncrypt(String content, String priStr) throws Exception {
+        Cipher cipher = Cipher.getInstance(RSA);
+        cipher.init(Cipher.ENCRYPT_MODE, parsePrivateKey(priStr));
+        return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
+    }
+
+    /**
+     * 使用公钥解密
+     *
+     * @param content 加密内容
+     * @param pubStr  Base64编码后的公钥
+     * @return 原内容
+     * @throws Exception 异常
+     */
+    public static String publicDecrypt(String content, String pubStr) throws Exception {
+        Cipher cipher = Cipher.getInstance(RSA);
+        cipher.init(Cipher.DECRYPT_MODE, parsePublicKey(pubStr));
+        return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
+    }
+
 }
