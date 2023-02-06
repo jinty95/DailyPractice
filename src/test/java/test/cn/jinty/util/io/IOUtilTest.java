@@ -5,8 +5,11 @@ import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.StringUtil;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -16,6 +19,16 @@ import java.util.Base64;
  * @date 2022/8/8
  **/
 public class IOUtilTest {
+
+    @Test
+    public void test() throws IOException {
+        byte[] bytes = {0, 0, 0, 1};
+        InputStream is = new ByteArrayInputStream(bytes);
+        System.out.println(Arrays.toString(IOUtil.getBytes(is)));
+        System.out.println(Arrays.toString(IOUtil.getBytes(is)));
+        is.reset();
+        System.out.println(Arrays.toString(IOUtil.getBytes(is)));
+    }
 
     @Test
     public void testZipAndUnzip() throws IOException {
