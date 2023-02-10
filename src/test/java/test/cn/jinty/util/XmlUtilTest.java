@@ -35,9 +35,21 @@ public class XmlUtilTest {
                     System.out.printf("保留头部: %s, 格式化: %s\n", one, two);
                     String xml = XmlUtil.objToXml(new XmlObj(1L, "me"), one, two);
                     System.out.println(xml);
-                    System.out.println(xml.replace("id>", "Id>").replace("name>", "Name>"));
+                    System.out.println();
                 }
             }
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testXmlToObj() {
+        try {
+            String xml = XmlUtil.objToXml(new XmlObj(1L, "me"));
+            System.out.println(xml);
+            XmlObj obj = XmlUtil.xmlToObj(xml, XmlObj.class);
+            System.out.println(obj);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
