@@ -4,7 +4,6 @@ import cn.jinty.util.collection.ArrayUtil;
 import cn.jinty.util.collection.SetUtil;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * 字符串 - 工具类
@@ -489,36 +488,6 @@ public final class StringUtil {
             res.append(s);
         }
         return res.toString();
-    }
-
-    /**
-     * 正则表达式搜索
-     *
-     * @param text  文本
-     * @param regex 正则表达式
-     * @return 能否找到符合条件的子串
-     */
-    public static boolean find(String text, String regex) {
-        if (text == null || regex == null) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(text).find();
-    }
-
-    /**
-     * 正则表达式匹配
-     *
-     * @param text  文本
-     * @param regex 正则表达式
-     * @return 是否匹配
-     */
-    public static boolean matches(String text, String regex) {
-        if (text == null || regex == null) {
-            return false;
-        }
-        Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(text).matches();
     }
 
     /**

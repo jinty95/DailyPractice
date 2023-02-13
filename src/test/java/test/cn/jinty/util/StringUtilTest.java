@@ -192,46 +192,6 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testFind() {
-        System.out.println(StringUtil.find("ABC", "B"));
-        System.out.println(StringUtil.find("Hello You Guys", "^H\\w+"));
-        System.out.println(StringUtil.find("Hello You Guys", "Guys$"));
-        System.out.println(StringUtil.find("Hello You Guys", "^H\\w+ Guys$"));
-    }
-
-    @Test
-    public void testMatches() {
-        System.out.println(StringUtil.matches("ABC", "B"));
-        System.out.println(StringUtil.matches("ABC", "ABC"));
-        System.out.println(StringUtil.matches("Hello You Guys", "^H\\w+"));
-        System.out.println(StringUtil.matches("Hello You Guys", "Guys$"));
-        System.out.println(StringUtil.matches("Hello You Guys", ".+\\s+.+\\s+.+"));
-    }
-
-    @Test
-    public void testFind1() {
-        // .不能匹配换行符
-        System.out.println(StringUtil.find("换货原因：不符合换货原因：\n 会员的诉求：客户要求换货 已解释没有库存无法换货", "^(?=.*(无法换货|换不了|不能换货).*)(?=.*没有.*)(?=.*库存.*)|(?=.*断货.*)(?=.*换货.*)(?!.*断货王.*)(?!.*退货.*)"));
-        System.out.println(StringUtil.find("换货原因：不符合换货原因：会员的诉求：客户要求换货 已解释没有库存无法换货", "^(?=.*(无法换货|换不了|不能换货).*)(?=.*没有.*)(?=.*库存.*)|(?=.*断货.*)(?=.*换货.*)(?!.*断货王.*)(?!.*退货.*)"));
-        // 使用单行模式(?s)忽略换行符
-        System.out.println(StringUtil.find("换货原因：不符合换货原因：\n 会员的诉求：客户要求换货 已解释没有库存无法换货", "(?s)^(?=.*(无法换货|换不了|不能换货).*)(?=.*没有.*)(?=.*库存.*)|(?=.*断货.*)(?=.*换货.*)(?!.*断货王.*)(?!.*退货.*)"));
-    }
-
-    @Test
-    public void testMatches1() {
-        // .不能匹配换行符
-        System.out.println(StringUtil.matches("ABC\n", ".*"));
-        // 使用单行模式(?s)忽略换行符
-        System.out.println(StringUtil.matches("ABC\n", "(?s).*"));
-        // 使用[\s\S]匹配所有字符
-        System.out.println(StringUtil.matches("ABC\n", "[\\s\\S]*"));
-        // 使用[\d\D]匹配所有字符
-        System.out.println(StringUtil.matches("ABC\n", "[\\d\\D]*"));
-        // 使用[\w\W]匹配所有字符
-        System.out.println(StringUtil.matches("ABC\n", "[\\w\\W]*"));
-    }
-
-    @Test
     public void testCamelToSnake() {
         System.out.println(StringUtil.camelToSnake("stringUtilTest"));
         System.out.println(StringUtil.camelToSnake("StringUtilTest"));
