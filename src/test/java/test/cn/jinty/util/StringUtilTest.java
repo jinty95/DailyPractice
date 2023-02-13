@@ -17,6 +17,15 @@ import java.util.Scanner;
 public class StringUtilTest {
 
     @Test
+    public void testCRLF() {
+        System.out.println("开始");
+        System.out.print("LF：" + StringUtil.LF);
+        System.out.print("CR：" + StringUtil.CR);
+        System.out.print("CRLF：" + StringUtil.CRLF);
+        System.out.println("结束");
+    }
+
+    @Test
     public void testIsEmpty() {
         System.out.println(StringUtil.isEmpty(null));
         System.out.println(StringUtil.isEmpty(""));
@@ -185,10 +194,36 @@ public class StringUtilTest {
     public void testRepeat() {
         System.out.println(StringUtil.repeat(null, 0));
         System.out.println(StringUtil.repeat("abc", 0));
-        System.out.println(StringUtil.repeat("", 1));
-        System.out.println(StringUtil.repeat("aa", 5));
+        System.out.println(StringUtil.repeat("", 100));
+        System.out.println(StringUtil.repeat("a", 1));
+        System.out.println(StringUtil.repeat("a", 5));
         System.out.println(StringUtil.repeat("ok", 10));
         System.out.println(StringUtil.repeat("hello", 5));
+    }
+
+    @Test
+    public void testRepeat1() {
+        System.out.println(StringUtil.repeat(null, null, 1));
+        System.out.println(StringUtil.repeat("", null, 2));
+        System.out.println(StringUtil.repeat(null, ",", 2));
+        System.out.println(StringUtil.repeat("a", "-", 5));
+        System.out.println(StringUtil.repeat("aa", ",", 10));
+    }
+
+    @Test
+    public void testLeftPad() {
+        System.out.println(StringUtil.leftPad(null, 10, '0'));
+        System.out.println(StringUtil.leftPad(null, -1, '0'));
+        System.out.println(StringUtil.leftPad("12306", -1, '0'));
+        System.out.println(StringUtil.leftPad("12306", 10, '0'));
+    }
+
+    @Test
+    public void testRightPad() {
+        System.out.println(StringUtil.rightPad(null, 10, '0'));
+        System.out.println(StringUtil.rightPad(null, -1, '0'));
+        System.out.println(StringUtil.rightPad("12306", -1, '0'));
+        System.out.println(StringUtil.rightPad("12306", 10, '0'));
     }
 
     @Test

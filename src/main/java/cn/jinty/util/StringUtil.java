@@ -45,6 +45,13 @@ public final class StringUtil {
     // 空串
     public static final String EMPTY = "";
 
+    // 换行(LineFeed) - Linux系统换行符
+    public static final char LF = '\n';
+    // 回车(CarriageReturn) - Mac系统换行符
+    public static final char CR = '\r';
+    // 回车换行 - Windows系统换行符
+    public static final String CRLF = "\r\n";
+
     /**
      * 字符串空判断
      *
@@ -477,10 +484,7 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String repeat(String s, int times) {
-        if (isEmpty(s)) {
-            return EMPTY;
-        }
-        if (times <= 0) {
+        if (isEmpty(s) || times <= 0) {
             return EMPTY;
         }
         StringBuilder res = new StringBuilder(s);
@@ -488,6 +492,67 @@ public final class StringUtil {
             res.append(s);
         }
         return res.toString();
+    }
+
+    /**
+     * 字符串复制，带分隔符
+     * repeat("a", ",", 3) => "a,a,a"
+     *
+     * @param s         字符串
+     * @param separator 分隔符
+     * @param times     复制次数
+     * @return 字符串
+     */
+    public static String repeat(String s, String separator, int times) {
+        if (s == null || separator == null) {
+            return repeat(s, times);
+        }
+        StringBuilder res = new StringBuilder(s);
+        for (int i = 1; i < times; i++) {
+            res.append(separator);
+            res.append(s);
+        }
+        return res.toString();
+    }
+
+    /**
+     * 字符串左填充，使达到指定长度
+     *
+     * @param s      字符串
+     * @param length 目标长度
+     * @param pad    填充字符
+     * @return 字符串
+     */
+    public static String leftPad(String s, int length, char pad) {
+        if (s == null) {
+            s = EMPTY;
+        }
+        StringBuilder sb = new StringBuilder(s);
+        sb.reverse();
+        for (int i = sb.length(); i < length; i++) {
+            sb.append(pad);
+        }
+        sb.reverse();
+        return sb.toString();
+    }
+
+    /**
+     * 字符串右填充，使达到指定长度
+     *
+     * @param s      字符串
+     * @param length 目标长度
+     * @param pad    填充字符
+     * @return 字符串
+     */
+    public static String rightPad(String s, int length, char pad) {
+        if (s == null) {
+            s = EMPTY;
+        }
+        StringBuilder sb = new StringBuilder(s);
+        for (int i = sb.length(); i < length; i++) {
+            sb.append(pad);
+        }
+        return sb.toString();
     }
 
     /**
