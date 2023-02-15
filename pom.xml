@@ -10,14 +10,14 @@
 
     <dependencies>
 
-        <!-- junit 单元测试 -->
+        <!-- Junit 单元测试 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.8.2</version>
         </dependency>
 
-        <!-- fastjson -->
+        <!-- Fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -31,14 +31,14 @@
             <version>1.1.8</version>
         </dependency>
 
-        <!-- http客户端 -->
+        <!-- Http客户端 -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>3.3.0</version>
         </dependency>
 
-        <!-- lombok 通过注解替代基础代码 -->
+        <!-- Lombok 通过注解替代基础代码 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -57,6 +57,18 @@
             <groupId>com.github.dozermapper</groupId>
             <artifactId>dozer-core</artifactId>
             <version>6.5.2</version>
+        </dependency>
+
+        <!-- POI 支持与Office相关的操作 -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.2</version>
         </dependency>
 
     </dependencies>
