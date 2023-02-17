@@ -1,9 +1,6 @@
 package cn.jinty.util.io;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -33,19 +30,34 @@ public final class IOUtil {
         byte[] bytes = new byte[is.available()];
         is.read(bytes);
         return bytes;*/
-        // 循环从输入流读取，写入缓冲区，然后再读取缓存区，写入输出流
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = is.read(buf)) != -1) {
-                os.write(buf, 0, len);
-            }
+            inputStreamToOutputStream(is, os);
             return os.toByteArray();
         }
     }
 
     /**
-     * 压缩字节数组
+     * 从输入流读取，写入到输出流
+     *
+     * @param is 输入流
+     * @param os 输出流
+     * @throws IOException IO异常
+     */
+    public static void inputStreamToOutputStream(InputStream is, OutputStream os) throws IOException {
+        if (is == null || os == null) {
+            return;
+        }
+        // 每次都从输入流读取1024个字节，然后写入输出流
+        // 这样只需要很少容量的内存，就可以完成大数据量的转移
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = is.read(buf)) != -1) {
+            os.write(buf, 0, len);
+        }
+    }
+
+    /**
+     * 使用GZIP压缩字节数组
      *
      * @param bytes 原始字节数组
      * @return 压缩字节数组
@@ -65,7 +77,7 @@ public final class IOUtil {
     }
 
     /**
-     * 解压字节数组
+     * 使用GZIP解压字节数组
      *
      * @param bytes 压缩字节数组
      * @return 原始字节数组

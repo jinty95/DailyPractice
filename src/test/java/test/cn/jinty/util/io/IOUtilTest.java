@@ -5,9 +5,7 @@ import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.StringUtil;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
@@ -21,13 +19,27 @@ import java.util.Base64;
 public class IOUtilTest {
 
     @Test
-    public void test() throws IOException {
+    public void testGetBytes() throws IOException {
         byte[] bytes = {0, 0, 0, 1};
         InputStream is = new ByteArrayInputStream(bytes);
         System.out.println(Arrays.toString(IOUtil.getBytes(is)));
         System.out.println(Arrays.toString(IOUtil.getBytes(is)));
         is.reset();
         System.out.println(Arrays.toString(IOUtil.getBytes(is)));
+    }
+
+    @Test
+    public void testInputStreamToOutputStream() throws IOException {
+        // 输出流的字节数组一直在内存中吗？
+        byte[] bytes = {0, 0, 0, 1};
+        InputStream is = new ByteArrayInputStream(bytes);
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        IOUtil.inputStreamToOutputStream(is, os);
+        System.out.println(Arrays.toString(os.toByteArray()));
+        os.flush();
+        System.out.println(Arrays.toString(os.toByteArray()));
+        os.close();
+        System.out.println(Arrays.toString(os.toByteArray()));
     }
 
     @Test

@@ -9,6 +9,10 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
+import java.util.zip.CRC32;
+import java.util.zip.CheckedOutputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
 
@@ -163,10 +167,8 @@ public final class FileUtil {
      * @return 文件对象
      * @throws IOException IO异常
      */
-    @SuppressWarnings("all")
     public static File createFile(String filePath) throws IOException {
         if (StringUtil.isBlank(filePath)) {
-            System.out.println(String.format("创建文件失败，路径为空：path=%s", filePath));
             return null;
         }
         // 文件存在直接返回
@@ -178,13 +180,11 @@ public final class FileUtil {
         File folder = file.getParentFile();
         if (folder != null && !folder.exists()) {
             if (!folder.mkdirs()) {
-                System.out.println(String.format("创建目录失败：path=%s", folder.getAbsolutePath()));
                 return null;
             }
         }
         // 创建文件
         if (!file.createNewFile()) {
-            System.out.println(String.format("创建文件失败：path=%s", filePath));
             return null;
         }
         return file;
@@ -196,10 +196,8 @@ public final class FileUtil {
      * @param folderPath 绝对路径
      * @return 目录对象
      */
-    @SuppressWarnings("all")
     public static File createFolder(String folderPath) {
         if (StringUtil.isBlank(folderPath)) {
-            System.out.println(String.format("创建目录失败，路径为空：path=%s", folderPath));
             return null;
         }
         File folder = new File(folderPath);
@@ -207,7 +205,6 @@ public final class FileUtil {
             return folder;
         }
         if (!folder.mkdirs()) {
-            System.out.println(String.format("创建目录失败：path=%s", folderPath));
             return null;
         }
         return folder;
@@ -258,17 +255,74 @@ public final class FileUtil {
     public static Properties parseProperties(String filePath) throws IOException {
         Properties properties = new Properties();
         if (StringUtil.isBlank(filePath)) {
-            System.out.println(String.format("解析.properties文件失败，文件路径为空：filePath=%s", filePath));
             return properties;
         }
         File file = new File(filePath);
         if (!file.exists()) {
-            System.out.println(String.format("解析.properties文件失败，文件不存在：filePath=%s", filePath));
             return properties;
         }
         try (InputStream is = new FileInputStream(file)) {
             properties.load(is);
             return properties;
+        }
+    }
+
+    /**
+     * 压缩文件
+     *
+     * @param filePath    待压缩的文件路径
+     * @param zipFilePath 压缩包的文件路径
+     * @throws IOException IO异常
+     */
+    public static void zip(String filePath, String zipFilePath) throws IOException {
+        if (StringUtil.isBlank(filePath) || StringUtil.isBlank(zipFilePath)) {
+            return;
+        }
+        File file = new File(filePath);
+        File zipFile = new File(zipFilePath);
+        try (FileOutputStream fos = new FileOutputStream(zipFile);
+             CheckedOutputStream cos = new CheckedOutputStream(fos, new CRC32());
+             ZipOutputStream zos = new ZipOutputStream(cos)) {
+            zip(file, zos, "");
+        }
+    }
+
+    /**
+     * 压缩文件
+     *
+     * @param file    待压缩的文件
+     * @param zos     压缩输出流
+     * @param baseDir 文件目录(用于保证压缩后内部目录结构不改变)
+     * @throws IOException IO异常
+     */
+    public static void zip(File file, ZipOutputStream zos, String baseDir) throws IOException {
+        if (file == null || zos == null) {
+            return;
+        }
+        if (!file.exists()) {
+            return;
+        }
+        if (baseDir == null) {
+            baseDir = "";
+        } else if (!baseDir.endsWith(File.separator)) {
+            baseDir = baseDir + File.separator;
+        }
+        // 目录
+        if (file.isDirectory()) {
+            File[] subFiles = file.listFiles();
+            if (subFiles == null) {
+                return;
+            }
+            for (File subFile : subFiles) {
+                zip(subFile, zos, baseDir + file.getName() + File.separator);
+            }
+            return;
+        }
+        // 文件
+        ZipEntry entry = new ZipEntry(baseDir + file.getName());
+        zos.putNextEntry(entry);
+        try (FileInputStream fis = new FileInputStream(file)) {
+            IOUtil.inputStreamToOutputStream(fis, zos);
         }
     }
 

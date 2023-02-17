@@ -136,4 +136,27 @@ public class FileUtilTest {
         }
     }
 
+    @Test
+    public void testZip() {
+        try {
+            long begin = System.currentTimeMillis();
+            // 读：需要保证"D:/Users/jintai.wang/Pictures"存在
+            String filePath = "D:/Users/jintai.wang/Pictures";
+            // 写：不需要保证"D:/temp/picture/Pictures.zip"存在，但需要保证"D:/temp/picture"存在
+            String zipFilePath = "D:/temp/picture/Pictures.zip";
+            // 创建目录"D:/temp/picture"
+            File zipFile = new File(zipFilePath);
+            File zipParentFile = zipFile.getParentFile();
+            if (zipParentFile != null && !zipParentFile.exists()) {
+                zipParentFile.mkdirs();
+            }
+            // 压缩文件
+            FileUtil.zip(filePath, zipFilePath);
+            long end = System.currentTimeMillis();
+            System.out.printf("压缩文件完成：filePath=%s, zipFilePath=%s, costTime=%sms%n", filePath, zipFilePath, (end - begin));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
