@@ -57,6 +57,27 @@ public final class IOUtil {
     }
 
     /**
+     * 输入流的字节数量
+     * (如果只是想要知道输入流的数据大小，那么不要将其转为byte[]再获取length，因为比较耗内存)
+     *
+     * @param is 输入流
+     * @return 字节数量
+     * @throws IOException IO异常
+     */
+    public static long getSize(InputStream is) throws IOException {
+        long count = 0L;
+        if (is == null) {
+            return count;
+        }
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = is.read(buf)) != -1) {
+            count += len;
+        }
+        return count;
+    }
+
+    /**
      * 使用GZIP压缩字节数组
      *
      * @param bytes 原始字节数组

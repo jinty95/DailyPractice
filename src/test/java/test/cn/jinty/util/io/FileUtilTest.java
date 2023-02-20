@@ -48,7 +48,7 @@ public class FileUtilTest {
 
     @Test
     public void testGetSize() {
-        File file = getFile();
+        File file = new File("C:\\Software\\Windows_20200801.exe");
         try {
             System.out.println("获取文件大小(字节数)");
             System.out.println(FileUtil.getSize(file));

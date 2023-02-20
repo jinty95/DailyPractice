@@ -78,9 +78,13 @@ public final class FileUtil {
      * @return 文件大小(单位为Byte)
      * @throws IOException IO异常
      */
-    public static int getSize(File file) throws IOException {
-        byte[] bytes = getBytes(file);
-        return bytes.length;
+    public static long getSize(File file) throws IOException {
+        if (!existFile(file)) {
+            return 0L;
+        }
+        try (InputStream is = new FileInputStream(file)) {
+            return IOUtil.getSize(is);
+        }
     }
 
     /**
@@ -98,7 +102,7 @@ public final class FileUtil {
         if (unit.getBytes().compareTo(GB.getBytes()) > 0) {
             throw new IllegalArgumentException("文件单位最大支持GB");
         }
-        int size = getSize(file);
+        long size = getSize(file);
         return transferUnit(size, unit);
     }
 
@@ -110,7 +114,7 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static String getSizeWithUnit(File file) throws IOException {
-        int size = getSize(file);
+        long size = getSize(file);
         for (BinaryUnitEnum unit : Arrays.asList(B, KB, MB, GB, TB)) {
             if (size < unit.getBytes().intValue()) {
                 return transferUnit(size, unit.getLast() != null ? unit.getLast() : unit);
@@ -126,9 +130,9 @@ public final class FileUtil {
      * @param unit 单位
      * @return 换算结果
      */
-    private static String transferUnit(int size, BinaryUnitEnum unit) {
+    private static String transferUnit(long size, BinaryUnitEnum unit) {
         int scale = B == unit ? 0 : 2;
-        BigDecimal bd = BigDecimal.valueOf(size).divide(BigDecimal.valueOf(unit.getBytes().intValue()), scale, RoundingMode.HALF_UP);
+        BigDecimal bd = BigDecimal.valueOf(size).divide(BigDecimal.valueOf(unit.getBytes().longValue()), scale, RoundingMode.HALF_UP);
         return bd + unit.getCode();
     }
 

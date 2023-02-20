@@ -12,9 +12,17 @@ import org.junit.Test;
 public class BinaryUnitEnumTest {
 
     @Test
-    public void testBytes() {
+    public void testValues() {
         for (BinaryUnitEnum one : BinaryUnitEnum.values()) {
             System.out.println(one);
+        }
+    }
+
+    @Test
+    public void testLongValue() {
+        // long类型最大支持二进制单位为EB
+        for (BinaryUnitEnum one : BinaryUnitEnum.values()) {
+            System.out.printf("1%s=%dB%n", one.getCode(), one.getBytes().longValue());
         }
     }
 
