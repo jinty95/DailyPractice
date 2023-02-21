@@ -3,6 +3,7 @@ package cn.jinty.util.io;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.StringUtil;
+import cn.jinty.util.collection.ListUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -211,6 +212,36 @@ public final class FileUtil {
     }
 
     /**
+     * 删除文件
+     *
+     * @param filePath 文件路径
+     * @return 是否成功删除(不存在的文件视为成功删除)
+     */
+    public static boolean deleteFile(String filePath) {
+        return deleteFiles(Collections.singletonList(filePath));
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param filePaths 多个文件路径
+     * @return 是否成功删除所有文件(不存在的文件视为成功删除)
+     */
+    public static boolean deleteFiles(List<String> filePaths) {
+        if (ListUtil.isEmpty(filePaths)) {
+            return true;
+        }
+        boolean flag = true;
+        for (String filePath : filePaths) {
+            File file = new File(filePath);
+            if (file.exists()) {
+                flag &= file.delete();
+            }
+        }
+        return flag;
+    }
+
+    /**
      * 拆分文件路径
      *
      * @param filePath 文件路径
@@ -275,15 +306,28 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static void zip(String filePath, String zipFilePath) throws IOException {
-        if (StringUtil.isBlank(filePath) || StringUtil.isBlank(zipFilePath)) {
+        zip(Collections.singletonList(filePath), zipFilePath);
+    }
+
+    /**
+     * 压缩文件
+     *
+     * @param filePaths   多个待压缩的文件路径
+     * @param zipFilePath 压缩包的文件路径
+     * @throws IOException IO异常
+     */
+    public static void zip(List<String> filePaths, String zipFilePath) throws IOException {
+        if (ListUtil.isEmpty(filePaths) || StringUtil.isBlank(zipFilePath)) {
             return;
         }
-        File file = new File(filePath);
         File zipFile = new File(zipFilePath);
         try (FileOutputStream fos = new FileOutputStream(zipFile);
              CheckedOutputStream cos = new CheckedOutputStream(fos, new CRC32());
              ZipOutputStream zos = new ZipOutputStream(cos)) {
-            zip(file, zos, "");
+            for (String filePath : filePaths) {
+                File file = new File(filePath);
+                zip(file, zos, "");
+            }
         }
     }
 

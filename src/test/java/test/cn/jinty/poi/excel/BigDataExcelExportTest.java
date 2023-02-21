@@ -1,5 +1,6 @@
 package test.cn.jinty.poi.excel;
 
+import cn.jinty.util.io.FileUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -12,6 +13,8 @@ import org.junit.Test;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -27,10 +30,9 @@ public class BigDataExcelExportTest {
 
     // 单个Sheet最大1048576
     private static final int SHEET_MAX_ROW_NUMBER = 1048576;
-    // 写入Excel的数据行数
-    private static final int TOTAL_ROW_NUMBER = 2000000;
-    // 写入Excel的每行列数
-    private static final int TOTAL_COLUMN_NUMBER = 10;
+
+    // 每个Excel的数据行数
+    private static final int FILE_MAX_ROW_NUMBER = 500000 - 1;
 
     // 使用XSSFWorkbook，所有数据都存储在内存，数据量过大时会导致内存溢出
     @Test
@@ -38,15 +40,17 @@ public class BigDataExcelExportTest {
         this.printVmOptions();
         Workbook wb = null;
         FileOutputStream out = null;
+        int totalRowNumber = 2000000;
+        int totalColumnNumber = 10;
         try {
-            System.out.printf("导出%d行Excel%n", TOTAL_ROW_NUMBER);
+            System.out.printf("导出%d行Excel%n", totalRowNumber);
             long beginTime = System.currentTimeMillis();
             wb = new XSSFWorkbook();
-            this.addDataToWorkBook(wb);
-            out = new FileOutputStream("D:\\temp\\BigDataExcelExportTest1_" + TOTAL_ROW_NUMBER + ".xlsx");
+            this.addDataToWorkBook(wb, totalRowNumber, totalColumnNumber);
+            out = new FileOutputStream("D:\\temp\\BigDataExcelExportTest1_" + totalRowNumber + ".xlsx");
             wb.write(out);
             long endTime = System.currentTimeMillis();
-            System.out.printf("导出%d行Excel成功，耗时%d毫秒%n", TOTAL_ROW_NUMBER, (endTime - beginTime));
+            System.out.printf("导出%d行Excel成功，耗时%d毫秒%n", totalRowNumber, (endTime - beginTime));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -62,20 +66,22 @@ public class BigDataExcelExportTest {
         this.modifyTmpDir();
         SXSSFWorkbook wb = null;
         FileOutputStream out = null;
+        int totalRowNumber = 2000000;
+        int totalColumnNumber = 10;
         try {
-            System.out.printf("导出%d行Excel%n", TOTAL_ROW_NUMBER);
+            System.out.printf("导出%d行Excel%n", totalRowNumber);
             long beginTime = System.currentTimeMillis();
             // 默认超过100行就写到临时文件
             wb = new SXSSFWorkbook();
             // 设置临时文件不压缩，这样速度快一点
             wb.setCompressTempFiles(false);
-            this.addDataToWorkBook(wb);
-            out = new FileOutputStream("D:\\temp\\BigDataExcelExportTest2_" + TOTAL_ROW_NUMBER + ".xlsx");
+            this.addDataToWorkBook(wb, totalRowNumber, totalColumnNumber);
+            out = new FileOutputStream("D:\\temp\\BigDataExcelExportTest2_" + totalRowNumber + ".xlsx");
             wb.write(out);
             long endTime = System.currentTimeMillis();
-            System.out.printf("导出%d行Excel成功，耗时%d毫秒%n", TOTAL_ROW_NUMBER, (endTime - beginTime));
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.printf("导出%d行Excel成功，耗时%d毫秒%n", totalRowNumber, (endTime - beginTime));
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             if (wb != null) {
                 // 删除临时文件
@@ -84,6 +90,70 @@ public class BigDataExcelExportTest {
             this.close(wb, out);
         }
     }
+
+    // 单个Excel太大时很难打开，所以对于大数据量，可以切分成多个Excel导出，最后压成一个压缩包
+    @Test
+    public void testExport3() {
+
+        long beginTime = System.currentTimeMillis();
+        this.printVmOptions();
+        this.modifyTmpDir();
+        int totalRowNumber = 2000000;
+        int totalColumnNumber = 10;
+
+        // 判断文件数量，以及最后一个文件的数据行数
+        int lastFileRowNumber = totalRowNumber % FILE_MAX_ROW_NUMBER;
+        int fileCount = totalRowNumber / FILE_MAX_ROW_NUMBER;
+        if (lastFileRowNumber == 0) {
+            lastFileRowNumber = FILE_MAX_ROW_NUMBER;
+        } else {
+            fileCount++;
+        }
+        System.out.printf("导出%d行Excel%n", totalRowNumber);
+        System.out.printf("分成%d个文件导出，每个文件%d行(最后一个文件%d行)%n", fileCount, FILE_MAX_ROW_NUMBER, lastFileRowNumber);
+        List<String> fileNames = new ArrayList<>();
+
+        // 生成多个Excel文件
+        for (int i = 1; i <= fileCount; i++) {
+            SXSSFWorkbook wb = null;
+            FileOutputStream out = null;
+            try {
+                wb = new SXSSFWorkbook();
+                wb.setCompressTempFiles(false);
+                int fileRowNumber = i == fileCount ? lastFileRowNumber : FILE_MAX_ROW_NUMBER;
+                this.addDataToWorkBook(wb, fileRowNumber, totalColumnNumber);
+                String fileName = "D:\\temp\\BigDataExcelExportTest3_" + totalRowNumber + "_" + i + ".xlsx";
+                fileNames.add(fileName);
+                out = new FileOutputStream(fileName);
+                wb.write(out);
+                System.out.printf("第%d个文件导出完成，文件名=%s%n%n", i, fileName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (wb != null) {
+                    wb.dispose();
+                }
+                this.close(wb, out);
+            }
+        }
+
+        // 将多个Excel文件压缩为一个压缩包，然后删除这些Excel文件
+        try {
+            String zipFilePath = "D:\\temp\\BigDataExcelExportTest3.zip";
+            FileUtil.zip(fileNames, zipFilePath);
+            System.out.printf("压缩多个Excel文件，生成压缩包=%s%n", zipFilePath);
+            FileUtil.deleteFiles(fileNames);
+            System.out.printf("删除多个Excel文件，文件列表=%s%n%n", fileNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        long endTime = System.currentTimeMillis();
+        System.out.printf("导出%d行Excel成功，耗时%d毫秒%n", totalRowNumber, (endTime - beginTime));
+
+    }
+
+    /* 以下为内部函数 */
 
     // 打印JAVA虚拟机参数
     private void printVmOptions() {
@@ -105,38 +175,37 @@ public class BigDataExcelExportTest {
     }
 
     // 添加数据到工作表
-    private void addDataToWorkBook(Workbook wb) {
+    private void addDataToWorkBook(Workbook wb, int totalRowNumber, int totalColumnNumber) {
         // 将数据切分到多个表单，避免单表单行数超限
-        int totalSheetNumber = TOTAL_ROW_NUMBER / SHEET_MAX_ROW_NUMBER + (TOTAL_ROW_NUMBER % SHEET_MAX_ROW_NUMBER == 0 ? 0 : 1);
-        int totalRowNumber = TOTAL_ROW_NUMBER;
-        for (int sheetNumber = 1; sheetNumber <= totalSheetNumber; sheetNumber++) {
+        int lastSheetRowNumber = totalRowNumber % SHEET_MAX_ROW_NUMBER;
+        int sheetCount = totalRowNumber / SHEET_MAX_ROW_NUMBER;
+        if (lastSheetRowNumber == 0) {
+            lastSheetRowNumber = SHEET_MAX_ROW_NUMBER;
+        } else {
+            sheetCount++;
+        }
+        for (int i = 1; i <= sheetCount; i++) {
             // 表单
-            Sheet sheet = wb.createSheet("Sheet" + sheetNumber);
-            // 当前表单应该有多少行数据
-            int sheetRowNumber;
-            if (totalRowNumber >= SHEET_MAX_ROW_NUMBER) {
-                sheetRowNumber = SHEET_MAX_ROW_NUMBER;
-                totalRowNumber -= SHEET_MAX_ROW_NUMBER;
-            } else {
-                sheetRowNumber = totalRowNumber;
-            }
+            Sheet sheet = wb.createSheet("Sheet" + i);
+            // 特殊处理最后一个表单的行数
+            int sheetRowNumber = i == sheetCount ? lastSheetRowNumber : SHEET_MAX_ROW_NUMBER;
             Row row;
             Cell cell;
             // 标题行
             row = sheet.createRow(0);
-            for (int cellNumber = 0; cellNumber < TOTAL_COLUMN_NUMBER; cellNumber++) {
+            for (int cellNumber = 0; cellNumber < totalColumnNumber; cellNumber++) {
                 cell = row.createCell(cellNumber);
                 cell.setCellValue("列名" + (cellNumber + 1));
             }
             // 数据行
             for (int rowNumber = 1; rowNumber < sheetRowNumber; rowNumber++) {
                 row = sheet.createRow(rowNumber);
-                for (int cellNumber = 0; cellNumber < TOTAL_COLUMN_NUMBER; cellNumber++) {
+                for (int cellNumber = 0; cellNumber < totalColumnNumber; cellNumber++) {
                     cell = row.createCell(cellNumber);
                     cell.setCellValue(RANDOM.nextInt(100));
                 }
                 if (rowNumber % 10000 == 0) {
-                    System.out.printf("当前处理到第%d行%n", (sheetNumber - 1) * SHEET_MAX_ROW_NUMBER + rowNumber);
+                    System.out.printf("当前处理到第%d行%n", (i - 1) * SHEET_MAX_ROW_NUMBER + rowNumber);
                 }
             }
         }
