@@ -26,6 +26,11 @@ public class FileUtilTest {
     }
 
     @Test
+    public void testExistFile() {
+        System.out.println(FileUtil.existFile(getFile()));
+    }
+
+    @Test
     public void testGetBytes() {
         File file = getFile();
         try {
@@ -137,7 +142,8 @@ public class FileUtilTest {
     }
 
     @Test
-    public void testZip() {
+    @SuppressWarnings("all")
+    public void testZipAndUnzip() {
         try {
             long begin = System.currentTimeMillis();
             // 读：需要保证"D:/Users/jintai.wang/Pictures"存在
@@ -153,7 +159,13 @@ public class FileUtilTest {
             // 压缩文件
             FileUtil.zip(filePath, zipFilePath);
             long end = System.currentTimeMillis();
-            System.out.printf("压缩文件完成：filePath=%s, zipFilePath=%s, costTime=%sms%n", filePath, zipFilePath, (end - begin));
+            System.out.printf("压缩文件完成：filePath=%s, zipFilePath=%s, costTime=%sms%n",
+                    filePath, zipFilePath, (end - begin));
+            // 解压文件
+            String destDir = "D:/temp/picture/Pictures";
+            FileUtil.unzip(zipFilePath, destDir);
+            System.out.printf("压缩文件完成：zipFilePath=%s, destDir=%s, costTime=%sms%n",
+                    zipFilePath, destDir, (System.currentTimeMillis() - end));
         } catch (IOException e) {
             e.printStackTrace();
         }

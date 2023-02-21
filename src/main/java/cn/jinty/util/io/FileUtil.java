@@ -3,16 +3,12 @@ package cn.jinty.util.io;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.StringUtil;
-import cn.jinty.util.io.IOUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
-import java.util.zip.CRC32;
-import java.util.zip.CheckedOutputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.zip.*;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
 
@@ -311,22 +307,68 @@ public final class FileUtil {
         } else if (!baseDir.endsWith(File.separator)) {
             baseDir = baseDir + File.separator;
         }
-        // 目录
+        // 如果是目录
         if (file.isDirectory()) {
             File[] subFiles = file.listFiles();
-            if (subFiles == null) {
+            // 目录下为空
+            if (subFiles == null || subFiles.length == 0) {
+                // 根据ZipEntry.isDirectory方法可知这里用"/"结尾可以表示压缩对象是一个目录
+                ZipEntry entry = new ZipEntry(baseDir + file.getName() + "/");
+                zos.putNextEntry(entry);
                 return;
             }
+            // 目录下非空
             for (File subFile : subFiles) {
                 zip(subFile, zos, baseDir + file.getName() + File.separator);
             }
             return;
         }
-        // 文件
+        // 如果是文件
         ZipEntry entry = new ZipEntry(baseDir + file.getName());
         zos.putNextEntry(entry);
         try (FileInputStream fis = new FileInputStream(file)) {
             IOUtil.inputStreamToOutputStream(fis, zos);
+        }
+    }
+
+    /**
+     * 解压文件
+     *
+     * @param zipFilePath 压缩包的文件路径
+     * @param destDir     解压后的目录路径
+     * @throws IOException IO异常
+     */
+    public static void unzip(String zipFilePath, String destDir) throws IOException {
+        if (StringUtil.isBlank(zipFilePath) || StringUtil.isBlank(destDir)) {
+            return;
+        }
+        File checkZipFile = new File(zipFilePath);
+        if (!checkZipFile.exists()) {
+            return;
+        }
+        if (!destDir.endsWith(File.separator)) {
+            destDir = destDir + File.separator;
+        }
+        // 开始解压
+        ZipFile zipFile = new ZipFile(zipFilePath);
+        Enumeration<?> enumeration = zipFile.entries();
+        while (enumeration.hasMoreElements()) {
+            // 解压对象
+            ZipEntry zipEntry = (ZipEntry) enumeration.nextElement();
+            String destPath = destDir + zipEntry.getName();
+            // 如果是目录
+            if (zipEntry.isDirectory()) {
+                createFolder(destPath);
+                continue;
+            }
+            // 如果是文件
+            File file = createFile(destPath);
+            assert file != null;
+            try (InputStream is = zipFile.getInputStream(zipEntry);
+                 CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
+                 FileOutputStream fos = new FileOutputStream(file)) {
+                IOUtil.inputStreamToOutputStream(cis, fos);
+            }
         }
     }
 
