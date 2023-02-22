@@ -8,12 +8,10 @@ import lombok.NoArgsConstructor;
 import net.sf.cglib.beans.BeanCopier;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
- * 对象拷贝 - 工具类 - 测试
+ * Bean - 工具类 - 测试
  *
  * @author Jinty
  * @date 2022/4/29
@@ -189,6 +187,24 @@ public class BeanUtilTest {
         end = System.currentTimeMillis();
         System.out.println("基于BeanMapper拷贝：costTime=" + (end - begin));
 
+    }
+
+    @Test
+    public void testMapToBean() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", 1);
+        map.put("name", "mark");
+        map.put("salary", 9.99);
+        map.put("scores", new int[]{1, 2, 3});
+        System.out.println(map);
+        try {
+            Person1 p1 = BeanUtil.mapToBean(map, Person1.class);
+            System.out.println(p1);
+            map = BeanUtil.beanToMap(p1);
+            System.out.println(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

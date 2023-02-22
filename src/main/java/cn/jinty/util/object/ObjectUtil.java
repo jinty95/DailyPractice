@@ -1,7 +1,6 @@
 package cn.jinty.util.object;
 
 import cn.jinty.annotation.FieldName;
-import cn.jinty.entity.KeyValue;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -152,32 +151,6 @@ public final class ObjectUtil {
             }
         }
         return diffs;
-    }
-
-    /**
-     * 对象转为键值对数组
-     *
-     * @param obj 对象
-     * @return 键值对数组
-     */
-    public static List<KeyValue<String, Object>> toKvPairs(Object obj) {
-        List<KeyValue<String, Object>> kvPairs = new ArrayList<>();
-        if (isNull(obj)) {
-            return kvPairs;
-        }
-        List<Field> fields = getAllFields(obj.getClass());
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                String key = field.getName();
-                Object value = field.get(obj);
-                kvPairs.add(new KeyValue<>(key, value));
-            } catch (IllegalAccessException e) {
-                System.out.println(String.format("对象转为键值对数组异常：obj=%s, field=%s, error=%s",
-                        obj, field.getName(), e.getClass().getSimpleName()));
-            }
-        }
-        return kvPairs;
     }
 
 }
