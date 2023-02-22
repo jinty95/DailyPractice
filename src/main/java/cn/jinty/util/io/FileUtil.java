@@ -24,6 +24,63 @@ public final class FileUtil {
     private FileUtil() {
     }
 
+    // 文件类型标志
+    public static final String FILE_TYPE_MARK = ".";
+
+    /**
+     * 获取文件类型
+     *
+     * @param filePath 文件路径
+     * @return 文件类型
+     */
+    public static String getFileType(String filePath) {
+        if (StringUtil.isBlank(filePath)) {
+            return StringUtil.EMPTY;
+        }
+        int index = filePath.lastIndexOf(FILE_TYPE_MARK);
+        return filePath.substring(index + 1);
+    }
+
+    /**
+     * 拆分文件路径
+     *
+     * @param filePath 文件路径
+     * @return 文件目录、文件名、后缀(可能无后缀)
+     */
+    public static String[] splitFilePath(String filePath) {
+        String[] arr = new String[3];
+        if (StringUtil.isBlank(filePath)) {
+            return arr;
+        }
+        int index1 = filePath.lastIndexOf(File.separator);
+        int index2 = filePath.lastIndexOf(FILE_TYPE_MARK);
+        arr[0] = filePath.substring(0, index1);
+        if (index2 < index1) {
+            arr[1] = filePath.substring(index1 + 1);
+        } else {
+            arr[1] = filePath.substring(index1 + 1, index2);
+            arr[2] = filePath.substring(index2 + 1);
+        }
+        return arr;
+    }
+
+    /**
+     * 转换文件路径分隔符，使其符合当前系统
+     *
+     * @param filePath 文件路径
+     * @return 文件路径
+     */
+    public static String convertSeparator(String filePath) {
+        if (StringUtil.isBlank(filePath)) {
+            return filePath;
+        }
+        // Windows系统的文件分隔符为 \
+        filePath = filePath.replace("\\", File.separator);
+        // Linux系统的文件分隔符为 /
+        filePath = filePath.replace("/", File.separator);
+        return filePath;
+    }
+
     /**
      * 是否在硬盘上存在对应文件(不是目录)
      *
@@ -213,6 +270,7 @@ public final class FileUtil {
 
     /**
      * 删除文件
+     * (如果是目录，那么只有空目录可以删除成功)
      *
      * @param filePath 文件路径
      * @return 是否成功删除(不存在的文件视为成功删除)
@@ -223,6 +281,7 @@ public final class FileUtil {
 
     /**
      * 删除文件
+     * (如果是目录，那么只有空目录可以删除成功)
      *
      * @param filePaths 多个文件路径
      * @return 是否成功删除所有文件(不存在的文件视为成功删除)
@@ -239,29 +298,6 @@ public final class FileUtil {
             }
         }
         return flag;
-    }
-
-    /**
-     * 拆分文件路径
-     *
-     * @param filePath 文件路径
-     * @return 文件目录、文件名、后缀(可能无后缀)
-     */
-    public static String[] splitFilePath(String filePath) {
-        String[] arr = new String[3];
-        if (StringUtil.isBlank(filePath)) {
-            return arr;
-        }
-        int index1 = filePath.lastIndexOf(File.separator);
-        int index2 = filePath.lastIndexOf(".");
-        arr[0] = filePath.substring(0, index1);
-        if (index2 < index1) {
-            arr[1] = filePath.substring(index1 + 1);
-        } else {
-            arr[1] = filePath.substring(index1 + 1, index2);
-            arr[2] = filePath.substring(index2 + 1);
-        }
-        return arr;
     }
 
     /**

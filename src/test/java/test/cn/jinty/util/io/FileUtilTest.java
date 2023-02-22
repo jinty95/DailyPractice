@@ -22,18 +22,40 @@ import java.util.List;
 public class FileUtilTest {
 
     private File getFile() {
-        return new File("D:/Users/jintai.wang/Pictures/小仓鼠.jpg");
+        return new File(FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/小仓鼠.jpg"));
+    }
+
+    @Test
+    public void testGetFileType() {
+        File file = getFile();
+        System.out.println(file.getAbsolutePath());
+        System.out.println(FileUtil.getFileType(file.getAbsolutePath()));
+    }
+
+    @Test
+    public void testSplitFilePath() {
+        String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy");
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy.txt");
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = FileUtil.convertSeparator("Pictures/yyy/yyy.txt");
+        String[] arr = FileUtil.splitFilePath(filePath);
+        System.out.println("文件路径拆分：" + Arrays.toString(arr));
+        System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
     }
 
     @Test
     public void testExistFile() {
-        System.out.println(FileUtil.existFile(getFile()));
+        File file = getFile();
+        System.out.println(file.getAbsolutePath());
+        System.out.println(FileUtil.existFile(file));
     }
 
     @Test
     public void testGetBytes() {
         File file = getFile();
         try {
+            System.out.println(file.getAbsolutePath());
             byte[] bytes = FileUtil.getBytes(file);
             System.out.println(Arrays.toString(bytes));
         } catch (IOException e) {
@@ -45,6 +67,7 @@ public class FileUtilTest {
     public void testToBase64DataURL() {
         File file = getFile();
         try {
+            System.out.println(file.getAbsolutePath());
             System.out.println(FileUtil.toBase64DataURL(file, FileTypeEnum.JPEG));
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,8 +76,9 @@ public class FileUtilTest {
 
     @Test
     public void testGetSize() {
-        File file = new File("C:\\Software\\Windows_20200801.exe");
+        File file = new File(FileUtil.convertSeparator("C:/Software/Windows_20200801.exe"));
         try {
+            System.out.println(file.getAbsolutePath());
             System.out.println("获取文件大小(字节数)");
             System.out.println(FileUtil.getSize(file));
             System.out.println("获取文件大小(自适应单位)");
@@ -86,7 +110,7 @@ public class FileUtilTest {
     @Test
     public void testCreateFile() {
         // 最后一级路径表示一个没有后缀的文件名
-        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy".replace("/", File.separator);
+        String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy");
         System.out.println(filePath);
         try {
             File file = FileUtil.createFile(filePath);
@@ -99,7 +123,7 @@ public class FileUtilTest {
 
     @Test
     public void testCreateFolder() {
-        String folderPath = "D:/Users/jintai.wang/Pictures/xxx/xxx".replace("/", File.separator);
+        String folderPath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/xxx/xxx");
         System.out.println(folderPath);
         File folder = FileUtil.createFolder(folderPath);
         assert folder != null;
@@ -107,20 +131,18 @@ public class FileUtilTest {
     }
 
     @Test
-    public void testSplitFilePath() {
-        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy".replace("/", File.separator);
-        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
-        filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy.txt".replace("/", File.separator);
-        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
-        filePath = "Pictures/yyy/yyy.txt".replace("/", File.separator);
-        String[] arr = FileUtil.splitFilePath(filePath);
-        System.out.println("文件路径拆分：" + Arrays.toString(arr));
-        System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
+    public void testDeleteFile() {
+        // 非空目录，无法删除
+        String folderPath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/xxx");
+        System.out.println(folderPath);
+        System.out.println("删除是否成功：" + FileUtil.deleteFile(folderPath));
     }
 
     @Test
     public void testHasUtf8Bom() {
-        File file = new File("D:\\code\\ap\\fcs_ivfs\\src\\main\\webapp\\WEB-INF\\jsp\\contract\\contract_bw.jsp");
+        String filePath = FileUtil.convertSeparator(
+                "D:/code/ap/fcs_ivfs/src/main/webapp/WEB-INF/jsp/contract/contract_bw.jsp");
+        File file = new File(filePath);
         System.out.println("文件：" + file.getAbsolutePath());
         try {
             System.out.println("是否带有UTF-8对应的BOM：" + FileUtil.hasUtf8Bom(file));
@@ -147,9 +169,9 @@ public class FileUtilTest {
         try {
             long begin = System.currentTimeMillis();
             // 读：需要保证"D:/Users/jintai.wang/Pictures"存在
-            String filePath = "D:/Users/jintai.wang/Pictures";
+            String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures");
             // 写：不需要保证"D:/temp/picture/Pictures.zip"存在，但需要保证"D:/temp/picture"存在
-            String zipFilePath = "D:/temp/picture/Pictures.zip";
+            String zipFilePath = FileUtil.convertSeparator("D:/temp/picture/Pictures.zip");
             // 创建目录"D:/temp/picture"
             File zipFile = new File(zipFilePath);
             File zipParentFile = zipFile.getParentFile();
@@ -162,7 +184,7 @@ public class FileUtilTest {
             System.out.printf("压缩文件完成：filePath=%s, zipFilePath=%s, costTime=%sms%n",
                     filePath, zipFilePath, (end - begin));
             // 解压文件
-            String destDir = "D:/temp/picture/Pictures";
+            String destDir = FileUtil.convertSeparator("D:/temp/picture/Pictures");
             FileUtil.unzip(zipFilePath, destDir);
             System.out.printf("压缩文件完成：zipFilePath=%s, destDir=%s, costTime=%sms%n",
                     zipFilePath, destDir, (System.currentTimeMillis() - end));
