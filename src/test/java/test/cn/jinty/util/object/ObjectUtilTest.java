@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对象 - 工具类 - 测试
@@ -45,6 +46,21 @@ public class ObjectUtilTest {
         for (String diff : ObjectUtil.diff(o1, o2)) {
             System.out.println(diff);
         }
+    }
+
+    @Test
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void testStrToObj() {
+        String str = "1";
+        System.out.println("字符串：" + str);
+        for (Class clazz : ObjectUtil.STR_TO_OBJ_SUPPORTED_CLASS) {
+            System.out.printf("转成%s：%s%n", clazz.getSimpleName(), ObjectUtil.strToObj(str, clazz));
+        }
+        //System.out.printf("转成%s：%s%n", Map.class.getSimpleName(), ObjectUtil.strToObj(str, Map.class));
+        System.out.println();
+        str = "2023年02月23日";
+        System.out.println("字符串：" + str);
+        System.out.printf("转成%s：%s%n", Date.class.getSimpleName(), ObjectUtil.strToObj(str, Date.class));
     }
 
     /* 以下为内部类 */

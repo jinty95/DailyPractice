@@ -1,12 +1,14 @@
 package cn.jinty.util.object;
 
 import cn.jinty.annotation.FieldName;
+import cn.jinty.util.DateUtil;
+import cn.jinty.util.StringUtil;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 对象 - 工具类
@@ -151,6 +153,79 @@ public final class ObjectUtil {
             }
         }
         return diffs;
+    }
+
+    // 字符串转对象所支持的所有类型(字符串、八种基础类型、大整数、大小数、日期)
+    @SuppressWarnings("rawtypes")
+    public static Class[] STR_TO_OBJ_SUPPORTED_CLASS = new Class[]{
+            String.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class,
+            Character.class, Boolean.class, BigInteger.class, BigDecimal.class, Date.class
+    };
+    public static Set<String> STR_TO_OBJ_SUPPORTED_CLASS_NAME = Arrays.stream(STR_TO_OBJ_SUPPORTED_CLASS)
+            .map(Class::getName).collect(Collectors.toSet());
+
+    /**
+     * 将一个字符串转成指定类型的对象
+     *
+     * @param str   字符串
+     * @param clazz 目标类型
+     * @param <T>   泛型
+     * @return 目标对象
+     */
+    public static <T> T strToObj(String str, Class<T> clazz) {
+        if (clazz == null) {
+            return null;
+        }
+        return strToObj(str, clazz.getName());
+    }
+
+    /**
+     * 将一个字符串转成指定类型的对象
+     *
+     * @param str       字符串
+     * @param className 目标类型名称
+     * @param <T>       泛型
+     * @return 目标对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T strToObj(String str, String className) {
+        if (StringUtil.isBlank(str) || StringUtil.isBlank(className)) {
+            return null;
+        }
+        if (!STR_TO_OBJ_SUPPORTED_CLASS_NAME.contains(className)) {
+            throw new IllegalArgumentException("不支持将字符串转成该类型：" + className);
+        }
+        Object obj = null;
+        if (String.class.getName().equals(className)) {
+            obj = str;
+        } else if (Byte.class.getName().equals(className)) {
+            obj = Byte.parseByte(str);
+        } else if (Short.class.getName().equals(className)) {
+            obj = Short.parseShort(str);
+        } else if (Integer.class.getName().equals(className)) {
+            obj = Integer.parseInt(str);
+        } else if (Long.class.getName().equals(className)) {
+            obj = Long.parseLong(str);
+        } else if (Float.class.getName().equals(className)) {
+            obj = Float.parseFloat(str);
+        } else if (Double.class.getName().equals(className)) {
+            obj = Double.parseDouble(str);
+        } else if (Character.class.getName().equals(className)) {
+            obj = str.charAt(0);
+        } else if (Boolean.class.getName().equals(className)) {
+            obj = Boolean.parseBoolean(str);
+        } else if (BigInteger.class.getName().equals(className)) {
+            obj = new BigInteger(str);
+        } else if (BigDecimal.class.getName().equals(className)) {
+            obj = new BigDecimal(str);
+        } else if (Date.class.getName().equals(className)) {
+            if (str.length() <= 11) {
+                obj = DateUtil.parseDateCompatibly(str);
+            } else {
+                obj = DateUtil.parseDatetimeCompatibly(str);
+            }
+        }
+        return (T) obj;
     }
 
 }
