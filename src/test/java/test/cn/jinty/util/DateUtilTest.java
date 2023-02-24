@@ -132,6 +132,50 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testAddMonth() {
+        // 2019-02-28 + 12个月 = 2020-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2019-02-28"), 12, Calendar.MONTH)));
+        // 2020-02-28 - 12个月 = 2019-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2020-02-28"), -12, Calendar.MONTH)));
+        // 2020-02-29 - 12个月 = 2019-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2020-02-29"), -12, Calendar.MONTH)));
+
+        System.out.println();
+
+        // 2023-01-31 + 1个月 = 2023-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2023-01-31"), 1, Calendar.MONTH)));
+        // 2023-02-28 - 1个月 = 2023-01-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2023-02-28"), -1, Calendar.MONTH)));
+        // 2023-03-31 - 1个月 = 2023-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2023-03-31"), -1, Calendar.MONTH)));
+        // 2023-02-28 + 1个月 = 2023-03-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2023-02-28"), 1, Calendar.MONTH)));
+
+        // 总结："月"加减，如果"日"超出该"年"该"月"的"日"最大值，则"日"改为这个最大值，否则"日"保持不变。
+
+    }
+
+    @Test
+    public void testAddYear() {
+        // 2020-02-29 + 1年 = 2021-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2020-02-29"), 1, Calendar.YEAR)));
+        // 2020-02-28 + 1年 = 2021-02-28
+        System.out.println(DateUtil.format(DateUtil.add(
+                DateUtil.parseDateCompatibly("2020-02-28"), 1, Calendar.YEAR)));
+
+        // 总结："年"加减，如果"日"超出该"年"该"月"的"日"最大值，则"日"改为这个最大值，否则"日"保持不变。
+
+    }
+
+    @Test
     public void testGetDiff() {
         Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.FORMAT_DATETIME_MILLI);
         Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.FORMAT_DATETIME_MILLI);
