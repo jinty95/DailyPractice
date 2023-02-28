@@ -157,7 +157,8 @@ public final class FileUtil {
             throw new IllegalArgumentException("文件单位最大支持GB");
         }
         long size = getSize(file);
-        return transferUnit(size, unit);
+        BigDecimal targetNum = BinaryUnitEnum.transferUnit(BigDecimal.valueOf(size), BinaryUnitEnum.B, unit);
+        return targetNum + unit.getCode();
     }
 
     /**
@@ -171,23 +172,12 @@ public final class FileUtil {
         long size = getSize(file);
         for (BinaryUnitEnum unit : Arrays.asList(B, KB, MB, GB, TB)) {
             if (size < unit.getBytes().intValue()) {
-                return transferUnit(size, unit.getLast() != null ? unit.getLast() : unit);
+                BinaryUnitEnum targetUnit = unit.getLast() != null ? unit.getLast() : unit;
+                BigDecimal targetNum = BinaryUnitEnum.transferUnit(BigDecimal.valueOf(size), BinaryUnitEnum.B, targetUnit);
+                return targetNum + targetUnit.getCode();
             }
         }
         return "";
-    }
-
-    /**
-     * 单位换算
-     *
-     * @param size 字节数
-     * @param unit 单位
-     * @return 换算结果
-     */
-    private static String transferUnit(long size, BinaryUnitEnum unit) {
-        int scale = B == unit ? 0 : 2;
-        BigDecimal bd = BigDecimal.valueOf(size).divide(BigDecimal.valueOf(unit.getBytes().longValue()), scale, RoundingMode.HALF_UP);
-        return bd + unit.getCode();
     }
 
     /**

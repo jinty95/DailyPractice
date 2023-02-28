@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 /**
  * 枚举 - 二进制单位
@@ -38,5 +40,23 @@ public enum BinaryUnitEnum implements EnumInterface<String> {
     private final BigInteger bytes;
     // 上一级单位
     private final BinaryUnitEnum last;
+
+    /**
+     * 单位换算
+     *
+     * @param sourceNum  源数值
+     * @param sourceUnit 源单位
+     * @param targetUnit 目标单位
+     * @return 目标数值
+     */
+    public static BigDecimal transferUnit(BigDecimal sourceNum, BinaryUnitEnum sourceUnit, BinaryUnitEnum targetUnit) {
+        BigDecimal sourceUnitBytes = new BigDecimal(sourceUnit.getBytes().toString());
+        BigDecimal targetUnitBytes = new BigDecimal(targetUnit.getBytes().toString());
+        BigDecimal bytes = sourceNum.multiply(sourceUnitBytes);
+        if (targetUnit == B) {
+            return bytes.setScale(0, RoundingMode.HALF_UP);
+        }
+        return bytes.divide(targetUnitBytes, 2, RoundingMode.HALF_UP);
+    }
 
 }
