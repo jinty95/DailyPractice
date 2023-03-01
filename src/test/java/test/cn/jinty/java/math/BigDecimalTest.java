@@ -26,7 +26,9 @@ public class BigDecimalTest {
                     throw new IllegalArgumentException(null, ex);
                 } catch (Exception e) {
                     System.out.println("解析数字失败：num=" + num + ", error=" + ExceptionUtil.getMessage(e) + ", deepError=" + ExceptionUtil.getDeepMessage(e));
-                    System.err.println(ExceptionUtil.getStackTrace(e));
+                    String stackTrace = ExceptionUtil.getStackTrace(e);
+                    System.out.println("异常堆栈长度：" + stackTrace.length());
+                    System.err.println(stackTrace);
                 }
             }
         }

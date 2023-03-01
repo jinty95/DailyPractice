@@ -2,6 +2,7 @@ package cn.jinty.util.collection;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * 集合 - 工具类
@@ -12,17 +13,6 @@ import java.util.Set;
 public final class SetUtil {
 
     private SetUtil() {
-    }
-
-    /**
-     * 是否为空集
-     *
-     * @param set 集合
-     * @param <T> 泛型
-     * @return 是否为空集
-     */
-    public static <T> boolean isEmpty(Set<T> set) {
-        return set == null || set.isEmpty();
     }
 
     /**
@@ -64,13 +54,13 @@ public final class SetUtil {
      * @return 并集
      */
     public static <T> Set<T> union(Set<T> set1, Set<T> set2) {
-        if (isEmpty(set1)) {
-            if (isEmpty(set2)) {
+        if (CollectionUtil.isEmpty(set1)) {
+            if (CollectionUtil.isEmpty(set2)) {
                 return new HashSet<>();
             }
             return new HashSet<>(set2);
         }
-        if (isEmpty(set2)) {
+        if (CollectionUtil.isEmpty(set2)) {
             return new HashSet<>(set1);
         }
         Set<T> res = new HashSet<>(set1);
@@ -87,7 +77,7 @@ public final class SetUtil {
      * @return 交集
      */
     public static <T> Set<T> intersect(Set<T> set1, Set<T> set2) {
-        if (isEmpty(set1) || isEmpty(set2)) {
+        if (CollectionUtil.isEmpty(set1) || CollectionUtil.isEmpty(set2)) {
             return new HashSet<>();
         }
         Set<T> res = new HashSet<>();
@@ -107,11 +97,11 @@ public final class SetUtil {
      * @param <T>  泛型
      * @return 差集 (元素属于集合1但不属于集合2)
      */
-    public static <T> Set<T> diff(Set<T> set1, Set<T> set2) {
-        if (isEmpty(set1)) {
+    public static <T> Set<T> subtract(Set<T> set1, Set<T> set2) {
+        if (CollectionUtil.isEmpty(set1)) {
             return new HashSet<>();
         }
-        if (isEmpty(set2)) {
+        if (CollectionUtil.isEmpty(set2)) {
             return new HashSet<>(set1);
         }
         Set<T> res = new HashSet<>();
@@ -121,6 +111,18 @@ public final class SetUtil {
             }
         }
         return res;
+    }
+
+    /**
+     * 从集合中挑选出符合条件的元素
+     *
+     * @param set       集合
+     * @param condition 条件
+     * @param <T>       泛型
+     * @return 符合条件的元素集合
+     */
+    public static <T> Set<T> select(Set<T> set, Predicate<T> condition) {
+        return CollectionUtil.select(set, condition, new HashSet<>());
     }
 
 }

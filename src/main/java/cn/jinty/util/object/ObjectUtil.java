@@ -73,7 +73,7 @@ public final class ObjectUtil {
 
     /**
      * 对象空字段设置默认值
-     * (包括8种基本类型包装类、字符串、日期、列表)
+     * (包括8种基本类型包装类、字符串、日期、大整数、大小数、列表、集合、映射)
      *
      * @param obj 对象
      * @param <T> 泛型
@@ -111,8 +111,16 @@ public final class ObjectUtil {
                     field.set(obj, "");
                 } else if (field.getType() == Date.class) {
                     field.set(obj, new Date());
+                } else if (field.getType() == BigInteger.class) {
+                    field.set(obj, BigInteger.ZERO);
+                } else if (field.getType() == BigDecimal.class) {
+                    field.set(obj, BigDecimal.ZERO);
                 } else if (field.getType() == List.class) {
                     field.set(obj, new ArrayList<>());
+                } else if (field.getType() == Set.class) {
+                    field.set(obj, new HashSet<>());
+                } else if (field.getType() == Map.class) {
+                    field.set(obj, new HashMap<>());
                 }
             } catch (IllegalAccessException e) {
                 System.out.println(String.format("对象空字段设置默认值异常：obj=%s, field=%s, error=%s",

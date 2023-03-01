@@ -3,11 +3,10 @@ package cn.jinty.util.io;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.StringUtil;
-import cn.jinty.util.collection.ListUtil;
+import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 import java.util.zip.*;
 
@@ -277,7 +276,7 @@ public final class FileUtil {
      * @return 是否成功删除所有文件(不存在的文件视为成功删除)
      */
     public static boolean deleteFiles(List<String> filePaths) {
-        if (ListUtil.isEmpty(filePaths)) {
+        if (CollectionUtil.isEmpty(filePaths)) {
             return true;
         }
         boolean flag = true;
@@ -343,7 +342,7 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static void zip(List<String> filePaths, String zipFilePath) throws IOException {
-        if (ListUtil.isEmpty(filePaths) || StringUtil.isBlank(zipFilePath)) {
+        if (CollectionUtil.isEmpty(filePaths) || StringUtil.isBlank(zipFilePath)) {
             return;
         }
         File zipFile = new File(zipFilePath);

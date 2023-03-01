@@ -4,6 +4,7 @@ import cn.jinty.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * 列表 - 工具类
@@ -59,29 +60,6 @@ public final class ListUtil {
     }
 
     /**
-     * 是否为空
-     *
-     * @param list 列表
-     * @param <T>  泛型
-     * @return 是否为空
-     */
-    public static <T> boolean isEmpty(List<T> list) {
-        return list == null || list.size() == 0;
-    }
-
-    /**
-     * 是否非空
-     *
-     * @param list 列表
-     * @param <T>  泛型
-     * @return 是否非空
-     */
-    @SuppressWarnings("unused")
-    public static <T> boolean isNotEmpty(List<T> list) {
-        return !isEmpty(list);
-    }
-
-    /**
      * 列表 -> 字符串
      *
      * @param list 列表
@@ -131,7 +109,7 @@ public final class ListUtil {
      * @return 字符串
      */
     public static <T> String toString(List<T> list, String separate, String open, String close, String before, String after) {
-        if (isEmpty(list)) {
+        if (CollectionUtil.isEmpty(list)) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
@@ -160,7 +138,7 @@ public final class ListUtil {
      * 字符串 -> 列表
      *
      * @param s        字符串
-     * @param separate 分隔符
+     * @param separate 分隔符(支持正则表达式)
      * @return 列表
      */
     public static List<String> fromString(String s, String separate) {
@@ -168,6 +146,18 @@ public final class ListUtil {
             return new ArrayList<>();
         }
         return asList(s.split(separate));
+    }
+
+    /**
+     * 从列表中挑选出符合条件的元素
+     *
+     * @param list      列表
+     * @param condition 条件
+     * @param <T>       泛型
+     * @return 符合条件的元素列表
+     */
+    public static <T> List<T> select(List<T> list, Predicate<T> condition) {
+        return CollectionUtil.select(list, condition, new ArrayList<>());
     }
 
 }

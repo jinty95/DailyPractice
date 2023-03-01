@@ -44,6 +44,17 @@ public class ListUtilTest {
     public void testFromString() {
         System.out.println(ListUtil.fromString("", ""));
         System.out.println(ListUtil.fromString("A,B,C", ","));
+        System.out.println(ListUtil.fromString("A\r\nB\nC\rD\tE\fF G,H.I;J", "\\s+|[,.;]"));
+    }
+
+    @Test
+    public void testSelect() {
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8);
+        System.out.println("数据集：" + list);
+        System.out.println("大于5：" + ListUtil.select(list, a -> a > 5));
+        System.out.println("小于3：" + ListUtil.select(list, a -> a < 3));
+        System.out.println("偶数：" + ListUtil.select(list, a -> a % 2 == 0));
+        System.out.println("无限制：" + ListUtil.select(list, null));
     }
 
 }

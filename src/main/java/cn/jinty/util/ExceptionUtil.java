@@ -57,8 +57,10 @@ public final class ExceptionUtil {
         if (e.getMessage() != null) {
             sb.append(": ").append(e.getMessage());
         }
-        for (StackTraceElement element : e.getStackTrace()) {
-            sb.append(("\n\tat ")).append(element.toString());
+        if (e.getStackTrace() != null) {
+            for (StackTraceElement element : e.getStackTrace()) {
+                sb.append(("\n\tat ")).append(element.toString());
+            }
         }
         if (e.getCause() != null) {
             sb.append("\n").append(getStackTrace(e.getCause(), true));

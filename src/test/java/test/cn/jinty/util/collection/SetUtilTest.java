@@ -17,12 +17,6 @@ import java.util.Set;
 public class SetUtilTest {
 
     @Test
-    public void testIsEmpty() {
-        System.out.println(SetUtil.isEmpty(null));
-        System.out.println(SetUtil.isEmpty(new HashSet<>()));
-    }
-
-    @Test
     public void testUnion() {
         Set<Integer> set1 = SetUtil.asSet(1, 2, 3, 4);
         Set<Integer> set2 = SetUtil.asSet(3, 4, 5, 6);
@@ -42,12 +36,22 @@ public class SetUtilTest {
     }
 
     @Test
-    public void testDiff() {
+    public void testSubtract() {
         Set<Integer> set1 = SetUtil.asSet(1, 2, 3, 4);
         Set<Integer> set2 = SetUtil.asSet(3, 4, 5, 6);
-        System.out.println(SetUtil.diff(set1, set2));
-        System.out.println(SetUtil.diff(set2, set1));
-        System.out.println(SetUtil.diff(set1, null));
+        System.out.println(SetUtil.subtract(set1, set2));
+        System.out.println(SetUtil.subtract(set2, set1));
+        System.out.println(SetUtil.subtract(set1, null));
+    }
+
+    @Test
+    public void testSelect() {
+        Set<Integer> set = SetUtil.asSet(1, 2, 3, 4, 5, 6, 7, 8);
+        System.out.println("数据集：" + set);
+        System.out.println("大于5：" + SetUtil.select(set, a -> a > 5));
+        System.out.println("小于3：" + SetUtil.select(set, a -> a < 3));
+        System.out.println("偶数：" + SetUtil.select(set, a -> a % 2 == 0));
+        System.out.println("无限制：" + SetUtil.select(set, null));
     }
 
 }
