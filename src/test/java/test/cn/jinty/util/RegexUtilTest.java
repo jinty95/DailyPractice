@@ -29,7 +29,7 @@ public class RegexUtilTest {
         System.out.println(RegexUtil.matches("Hello You Guys", ".+\\s+.+\\s+.+"));
     }
 
-    // 测试匹配所有字符
+    // 测试匹配任意字符
     @Test
     public void testMatchAll() {
         // .不能匹配换行符
@@ -37,11 +37,75 @@ public class RegexUtilTest {
         // 使用单行模式(?s)忽略换行符，然后使用.匹配所有字符
         System.out.println(RegexUtil.matches("ABC\n", "(?s).*"));
         // 使用[\s\S]匹配所有字符
-        System.out.println(RegexUtil.matches("ABC\n", "[\\s\\S]*"));
+        System.out.println(RegexUtil.matches("ABC\n", RegexUtil.ALL + "*"));
         // 使用[\d\D]匹配所有字符
         System.out.println(RegexUtil.matches("ABC\n", "[\\d\\D]*"));
         // 使用[\w\W]匹配所有字符
         System.out.println(RegexUtil.matches("ABC\n", "[\\w\\W]*"));
+    }
+
+    // 测试匹配任意空白符
+    @Test
+    public void testMatchBlank() {
+        char[] arr = "\r\n\f\t is blank char".toCharArray();
+        for (char c : arr) {
+            boolean isBlank = RegexUtil.matches(String.valueOf(c), RegexUtil.BLANK);
+            boolean notBlank = RegexUtil.matches(String.valueOf(c), RegexUtil.NOT_BLANK);
+            if (isBlank) {
+                System.out.printf("'%s'是空白符%n", c);
+            }
+            if (notBlank) {
+                System.err.printf("'%s'不是空白符%n", c);
+            }
+        }
+    }
+
+    // 测试匹配任意数字
+    @Test
+    public void testMatchNumber() {
+        char[] arr = "121，121，左脚右脚左脚，左右左".toCharArray();
+        for (char c : arr) {
+            boolean isNumber = RegexUtil.matches(String.valueOf(c), RegexUtil.NUMBER);
+            boolean notNumber = RegexUtil.matches(String.valueOf(c), RegexUtil.NOT_NUMBER);
+            if (isNumber) {
+                System.out.printf("'%s'是数字%n", c);
+            }
+            if (notNumber) {
+                System.err.printf("'%s'不是数字%n", c);
+            }
+        }
+    }
+
+    // 测试匹配任意数字/字母/下划线
+    @Test
+    public void testMatchNumberLetterUnderline() {
+        char[] arr = "123_456@qq.com".toCharArray();
+        for (char c : arr) {
+            boolean isNumberLetterUnderline = RegexUtil.matches(String.valueOf(c), RegexUtil.NUMBER_LETTER_UNDERLINE);
+            boolean notNumberLetterUnderline = RegexUtil.matches(String.valueOf(c), RegexUtil.NOT_NUMBER_LETTER_UNDERLINE);
+            if (isNumberLetterUnderline) {
+                System.out.printf("'%s'是数字/字母/下划线%n", c);
+            }
+            if (notNumberLetterUnderline) {
+                System.err.printf("'%s'不是数字/字母/下划线%n", c);
+            }
+        }
+    }
+
+    // 测试匹配任意汉字
+    @Test
+    public void testMatchChinese() {
+        char[] arr = "1234567七六五四三二一".toCharArray();
+        for (char c : arr) {
+            boolean isChinese = RegexUtil.matches(String.valueOf(c), RegexUtil.CHINESE);
+            boolean notChinese = RegexUtil.matches(String.valueOf(c), RegexUtil.NOT_CHINESE);
+            if (isChinese) {
+                System.out.printf("'%s'是汉字%n", c);
+            }
+            if (notChinese) {
+                System.err.printf("'%s'不是汉字%n", c);
+            }
+        }
     }
 
     // 测试零宽断言

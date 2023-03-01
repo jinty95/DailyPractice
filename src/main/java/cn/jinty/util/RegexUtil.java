@@ -13,6 +13,25 @@ public final class RegexUtil {
     private RegexUtil() {
     }
 
+    // 匹配任意一个字符
+    public static final String ALL = "[\\s\\S]";
+    // 匹配任意一个"空白符"
+    public static final String BLANK = "\\s";
+    // 匹配任意一个非"空白符"
+    public static final String NOT_BLANK = "\\S";
+    // 匹配任意一个"数字"
+    public static final String NUMBER = "\\d";
+    // 匹配任意一个非"数字"
+    public static final String NOT_NUMBER = "\\D";
+    // 匹配任意一个"数字/字母/下划线"
+    public static final String NUMBER_LETTER_UNDERLINE = "\\w";
+    // 匹配任意一个非"数字/字母/下划线"
+    public static final String NOT_NUMBER_LETTER_UNDERLINE = "\\W";
+    // 匹配任意一个"汉字"
+    public static final String CHINESE = "[\\u4E00-\\u9FA5]";
+    // 匹配任意一个非"汉字"
+    public static final String NOT_CHINESE = "[^\\u4E00-\\u9FA5]";
+
     /**
      * 正则表达式搜索
      *
