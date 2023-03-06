@@ -30,7 +30,7 @@ public enum DDLWordType {
     UNIQUE("唯一索引");
 
     // 描述
-    private String desc;
+    private final String desc;
 
     /**
      * 是否属于字段

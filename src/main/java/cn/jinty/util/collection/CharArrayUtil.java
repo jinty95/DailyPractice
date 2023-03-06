@@ -54,4 +54,21 @@ public final class CharArrayUtil {
         return new String(arr, begin, count);
     }
 
+    /**
+     * 在字符数组中统计某个字符出现的次数
+     *
+     * @param arr 字符数组
+     * @param c   字符
+     * @return 字符出现次数
+     */
+    public static int countChar(char[] arr, char c) {
+        int count = 0;
+        for (char a : arr) {
+            if (a == c) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }

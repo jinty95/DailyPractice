@@ -85,7 +85,7 @@ public class DDLParser {
         for (int idx = 0; idx < charArr.length; idx++) {
             char c = charArr[idx];
             if (curWord.getType() == DDLWordType.INIT) {
-                // 初始
+                // 初始状态 -> 判断当前单词的类型 (注意：这里会消耗一个字符)
                 judgeCurWordType(charArr, idx, lastWord, curWord);
                 continue;
             }
@@ -110,14 +110,6 @@ public class DDLParser {
             } else if (curWord.getType() == DDLWordType.FIELD_NAME) {
                 // 字段名
                 if (Character.isWhitespace(c)) {
-                    continue;
-                }
-                // 最后一个字段结束，接下来是索引
-                if (PRIMARY_KEY.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, PRIMARY_KEY.length()))
-                        || INDEX.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, INDEX.length()))
-                        || UNIQUE.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, UNIQUE.length()))) {
-                    curWord = new DDLWord();
-                    idx--;
                     continue;
                 }
                 if (c == '`') {
@@ -175,11 +167,17 @@ public class DDLParser {
                     idx += (DEFAULT.length() - 1);
                     continue;
                 }
+                // 几种常见默认值：0，'0'，''，'1970-01-01 00:00:00'，CURRENT_TIMESTAMP
                 if (Character.isWhitespace(c)) {
                     if (!curWord.isEmpty()) {
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord(fieldOrder);
+                        // '出现奇数次，说明还没结束，那么当前空白符是默认值的一部分
+                        if (CharArrayUtil.countChar(curWord.toCharArray(), '\'') % 2 == 1) {
+                            curWord.append(c);
+                        } else {
+                            words.add(curWord);
+                            lastWord = curWord;
+                            curWord = new DDLWord(fieldOrder);
+                        }
                     }
                 } else {
                     curWord.append(c);
@@ -217,10 +215,12 @@ public class DDLParser {
             } else if (curWord.getType() == DDLWordType.INDEX) {
                 // 普通索引 (不处理)
                 lastWord = new DDLWord();
+                lastWord.setType(DDLWordType.INDEX);
                 curWord = new DDLWord();
             } else if (curWord.getType() == DDLWordType.UNIQUE) {
                 // 唯一索引 (不处理)
                 lastWord = new DDLWord();
+                lastWord.setType(DDLWordType.UNIQUE);
                 curWord = new DDLWord();
             } else if (curWord.getType() == DDLWordType.TABLE_COMMENT) {
                 // 表说明
@@ -255,26 +255,31 @@ public class DDLParser {
     private static void judgeCurWordType(char[] charArr, int idx, DDLWord lastWord, DDLWord curWord) {
         if (CREATE_TABLE.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, CREATE_TABLE.length()))) {
             curWord.setType(DDLWordType.TABLE_NAME);
-        } else if (charArr[idx] == '`' && lastWord.getType() == DDLWordType.TABLE_NAME) {
+        } else if (charArr[idx] == '`'
+                && (lastWord.getType() == DDLWordType.TABLE_NAME || DDLWordType.isField(lastWord.getType()))) {
             curWord.setType(DDLWordType.FIELD_NAME);
         } else if (charArr[idx] == ' ' && lastWord.getType() == DDLWordType.FIELD_NAME) {
             curWord.setType(DDLWordType.FIELD_TYPE);
         } else if ((charArr[idx] == '(') && lastWord.getType() == DDLWordType.FIELD_TYPE) {
             curWord.setType(DDLWordType.FIELD_LENGTH);
-        } else if (NULL.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, NULL.length()))
-                || NOT_NULL.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, NOT_NULL.length()))) {
+        } else if ((NULL.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, NULL.length()))
+                || NOT_NULL.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, NOT_NULL.length())))
+                && DDLWordType.isField(lastWord.getType())) {
             curWord.setType(DDLWordType.FIELD_NULLABLE);
-        } else if (DEFAULT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, DEFAULT.length()))) {
+        } else if (DEFAULT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, DEFAULT.length()))
+                && DDLWordType.isField(lastWord.getType())) {
             curWord.setType(DDLWordType.FIELD_DEFAULT);
-        } else if (COMMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, COMMENT.length()))) {
+        } else if (COMMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, COMMENT.length()))
+                && DDLWordType.isField(lastWord.getType())) {
             curWord.setType(DDLWordType.FIELD_COMMENT);
-        } else if (charArr[idx] == ',' && DDLWordType.isField(lastWord.getType())) {
-            curWord.setType(DDLWordType.FIELD_NAME);
-        } else if (PRIMARY_KEY.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, PRIMARY_KEY.length()))) {
+        } else if (PRIMARY_KEY.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, PRIMARY_KEY.length()))
+                && (DDLWordType.isField(lastWord.getType()) || DDLWordType.isIndex(lastWord.getType()))) {
             curWord.setType(DDLWordType.PRIMARY_KEY);
-        } else if (INDEX.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, INDEX.length()))) {
+        } else if (INDEX.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, INDEX.length()))
+                && (DDLWordType.isField(lastWord.getType()) || DDLWordType.isIndex(lastWord.getType()))) {
             curWord.setType(DDLWordType.INDEX);
-        } else if (UNIQUE.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, UNIQUE.length()))) {
+        } else if (UNIQUE.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, UNIQUE.length()))
+                && (DDLWordType.isField(lastWord.getType()) || DDLWordType.isIndex(lastWord.getType()))) {
             curWord.setType(DDLWordType.UNIQUE);
         } else if (TABLE_COMMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, TABLE_COMMENT.length()))) {
             curWord.setType(DDLWordType.TABLE_COMMENT);

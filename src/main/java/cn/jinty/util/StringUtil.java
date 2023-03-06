@@ -591,6 +591,7 @@ public final class StringUtil {
         if (isEmpty(snake)) {
             return EMPTY;
         }
+        snake = snake.toLowerCase();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < snake.length(); i++) {
             char c = snake.charAt(i);

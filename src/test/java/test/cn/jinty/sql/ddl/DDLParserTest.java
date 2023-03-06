@@ -52,6 +52,7 @@ public class DDLParserTest {
         Table table = DDLParser.parse(ddl);
         System.out.println("表名：" + table.getName());
         System.out.println("表说明：" + table.getComment());
+        System.out.println("字段数：" + table.getColumns().size());
         System.out.println("字段列表：");
         table.getColumns().forEach(System.out::println);
     }

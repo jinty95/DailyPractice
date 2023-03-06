@@ -44,9 +44,10 @@ public class DDLWord {
      * @param count 字符数量
      */
     public void append(char[] arr, int begin, int count) {
-        for (int i = begin; i < begin + count && i < arr.length; i++) {
-            this.text.append(arr[i]);
+        if (begin + count > arr.length) {
+            count = arr.length - begin;
         }
+        this.text.append(arr, begin, count);
     }
 
     /**
@@ -56,6 +57,15 @@ public class DDLWord {
      */
     public boolean isEmpty() {
         return this.text.length() == 0;
+    }
+
+    /**
+     * 将文本转为字符数组
+     *
+     * @return 字符数组
+     */
+    public char[] toCharArray() {
+        return this.text.toString().toCharArray();
     }
 
 }
