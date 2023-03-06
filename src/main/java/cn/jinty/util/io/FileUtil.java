@@ -7,6 +7,7 @@ import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.zip.*;
 
@@ -78,6 +79,35 @@ public final class FileUtil {
         // Linux系统的文件分隔符为 /
         filePath = filePath.replace("/", File.separator);
         return filePath;
+    }
+
+    /**
+     * 使用文件路径分隔符，将各部分连接起来
+     * (在连接点处，两个连续的分隔符仅保留一个)
+     *
+     * @param filePaths 各部分路径
+     * @return 文件路径
+     */
+    public static String concatBySeparator(String... filePaths) {
+        if (filePaths == null || filePaths.length == 0) {
+            return StringUtil.EMPTY;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String filePath : filePaths) {
+            if (sb.length() == 0) {
+                sb.append(filePath);
+            } else {
+                if (sb.charAt(sb.length() - 1) != File.separatorChar) {
+                    sb.append(File.separatorChar);
+                }
+                if (filePath.startsWith(File.separator)) {
+                    sb.append(filePath.substring(1));
+                } else {
+                    sb.append(filePath);
+                }
+            }
+        }
+        return sb.toString();
     }
 
     /**
@@ -438,6 +468,46 @@ public final class FileUtil {
                  FileOutputStream fos = new FileOutputStream(file)) {
                 IOUtil.inputStreamToOutputStream(cis, fos);
             }
+        }
+    }
+
+    /**
+     * 将文件读取为字符串 (UTF-8)
+     *
+     * @param filePath 文件路径
+     * @return 字符串
+     * @throws IOException IO异常
+     */
+    public static String read(String filePath) throws IOException {
+        if (StringUtil.isBlank(filePath)) {
+            return StringUtil.EMPTY;
+        }
+        File file = new File(filePath);
+        if (!existFile(file)) {
+            return StringUtil.EMPTY;
+        }
+        try (FileInputStream fis = new FileInputStream(file)) {
+            return new String(IOUtil.getBytes(fis));
+        }
+    }
+
+    /**
+     * 将字符串写入文件中 (UTF-8)
+     *
+     * @param content  字符串
+     * @param filePath 文件路径
+     * @throws IOException IO异常
+     */
+    public static void write(String content, String filePath) throws IOException {
+        if (StringUtil.isBlank(content) || StringUtil.isBlank(filePath)) {
+            return;
+        }
+        File file = createFile(filePath);
+        if (file == null) {
+            return;
+        }
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(content.getBytes());
         }
     }
 

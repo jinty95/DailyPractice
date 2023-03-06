@@ -1,0 +1,14 @@
+package ${PACKAGE_NAME};
+
+import lombok.Data;
+
+/**
+ * ${CLASS_DESC}
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@Data
+public class ${CLASS_NAME} {
+    ${FIELDS}
+}

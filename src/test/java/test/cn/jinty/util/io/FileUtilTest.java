@@ -3,6 +3,7 @@ package test.cn.jinty.util.io;
 import cn.jinty.Main;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
+import cn.jinty.util.StringUtil;
 import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
@@ -42,6 +43,11 @@ public class FileUtilTest {
         String[] arr = FileUtil.splitFilePath(filePath);
         System.out.println("文件路径拆分：" + Arrays.toString(arr));
         System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
+    }
+
+    @Test
+    public void testConcatBySeparator() {
+        System.out.println(FileUtil.concatBySeparator("D:\\", "\\Users\\", "\\jintai.wang", "Pictures"));
     }
 
     @Test
@@ -188,6 +194,32 @@ public class FileUtilTest {
             FileUtil.unzip(zipFilePath, destDir);
             System.out.printf("压缩文件完成：zipFilePath=%s, destDir=%s, costTime=%sms%n",
                     zipFilePath, destDir, (System.currentTimeMillis() - end));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testRead() {
+        URL url = Main.class.getResource("/txt/sensitive_word.txt");
+        assert url != null;
+        String filePath = FileUtil.convertSeparator(url.getPath());
+        try {
+            System.out.println(filePath);
+            System.out.println(FileUtil.read(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testWrite() {
+        URL url = Main.class.getResource("/txt");
+        assert url != null;
+        String filePath = FileUtil.convertSeparator(url.getPath() + File.separator + StringUtil.random(10));
+        try {
+            System.out.println(filePath);
+            FileUtil.write("哈哈哈哈", filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
