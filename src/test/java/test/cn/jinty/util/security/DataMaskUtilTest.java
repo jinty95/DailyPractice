@@ -46,4 +46,15 @@ public class DataMaskUtilTest {
         System.out.println(DataMaskUtil.maskMail("123456789@163.cn"));
     }
 
+    @Test
+    public void testMaskAddress() {
+        System.out.println(DataMaskUtil.maskAddress("广东省广州市天河区猎德街道"));
+        System.out.println(DataMaskUtil.maskAddress("广东省揭阳市惠来县葵潭镇长春社区"));
+        System.out.println(DataMaskUtil.maskAddress("广东省揭阳市普宁市流沙镇小杨美村"));
+        System.out.println(DataMaskUtil.maskAddress("内蒙古自治区呼和浩特市"));
+        System.out.println(DataMaskUtil.maskAddress("广西壮族自治区南宁市"));
+        System.out.println(DataMaskUtil.maskAddress("北京市海淀区XX大院XX栋"));
+        System.out.println(DataMaskUtil.maskAddress("广东广州天河车陂"));
+    }
+
 }
