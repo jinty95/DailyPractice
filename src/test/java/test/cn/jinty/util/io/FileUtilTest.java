@@ -23,7 +23,7 @@ import java.util.List;
 public class FileUtilTest {
 
     private File getFile() {
-        return new File(FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/小仓鼠.jpg"));
+        return new File("D:/Users/jintai.wang/Pictures/小仓鼠.jpg");
     }
 
     @Test
@@ -34,20 +34,31 @@ public class FileUtilTest {
     }
 
     @Test
-    public void testSplitFilePath() {
-        String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy");
-        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
-        filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy.txt");
-        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
-        filePath = FileUtil.convertSeparator("Pictures/yyy/yyy.txt");
-        String[] arr = FileUtil.splitFilePath(filePath);
-        System.out.println("文件路径拆分：" + Arrays.toString(arr));
-        System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
+    public void testConvertSeparator() {
+        System.out.println(FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures"));
+        System.out.println(FileUtil.convertSeparator("D://Users//jintai.wang//Pictures"));
+        System.out.println(FileUtil.convertSeparator("D:///Users////jintai.wang////////Pictures"));
+        System.out.println(FileUtil.convertSeparator("D:\\Users\\jintai.wang\\Pictures"));
+        System.out.println(FileUtil.convertSeparator("D:\\\\Users\\\\jintai.wang\\\\\\Pictures"));
+        System.out.println(FileUtil.convertSeparator("D:///\\\\Users///\\\\jintai.wang///\\\\\\Pictures"));
     }
 
     @Test
     public void testConcatBySeparator() {
         System.out.println(FileUtil.concatBySeparator("D:\\", "\\Users\\", "\\jintai.wang", "Pictures"));
+        System.out.println(FileUtil.concatBySeparator("D:/", "/Users/", "/jintai.wang", "Pictures"));
+    }
+
+    @Test
+    public void testSplitFilePath() {
+        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy";
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy.txt";
+        System.out.println("文件路径拆分：" + Arrays.toString(FileUtil.splitFilePath(filePath)));
+        filePath = "Pictures/yyy/yyy.txt";
+        String[] arr = FileUtil.splitFilePath(filePath);
+        System.out.println("文件路径拆分：" + Arrays.toString(arr));
+        System.out.println("文件路径重组(扩展名称)：" + arr[0] + File.separator + arr[1] + "_已盖章." + arr[2]);
     }
 
     @Test
@@ -82,7 +93,7 @@ public class FileUtilTest {
 
     @Test
     public void testGetSize() {
-        File file = new File(FileUtil.convertSeparator("C:/Software/Windows_20200801.exe"));
+        File file = new File("C:/Software/Windows_20200801.exe");
         try {
             System.out.println(file.getAbsolutePath());
             System.out.println("获取文件大小(字节数)");
@@ -116,7 +127,7 @@ public class FileUtilTest {
     @Test
     public void testCreateFile() {
         // 最后一级路径表示一个没有后缀的文件名
-        String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/yyy/yyy");
+        String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy";
         System.out.println(filePath);
         try {
             File file = FileUtil.createFile(filePath);
@@ -129,7 +140,7 @@ public class FileUtilTest {
 
     @Test
     public void testCreateFolder() {
-        String folderPath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/xxx/xxx");
+        String folderPath = "D:/Users/jintai.wang/Pictures/xxx/xxx";
         System.out.println(folderPath);
         File folder = FileUtil.createFolder(folderPath);
         assert folder != null;
@@ -139,15 +150,14 @@ public class FileUtilTest {
     @Test
     public void testDeleteFile() {
         // 非空目录，无法删除
-        String folderPath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures/xxx");
+        String folderPath = "D:/Users/jintai.wang/Pictures/xxx";
         System.out.println(folderPath);
         System.out.println("删除是否成功：" + FileUtil.deleteFile(folderPath));
     }
 
     @Test
     public void testHasUtf8Bom() {
-        String filePath = FileUtil.convertSeparator(
-                "D:/code/ap/fcs_ivfs/src/main/webapp/WEB-INF/jsp/contract/contract_bw.jsp");
+        String filePath = "D:/code/ap/fcs_ivfs/src/main/webapp/WEB-INF/jsp/contract/contract_bw.jsp";
         File file = new File(filePath);
         System.out.println("文件：" + file.getAbsolutePath());
         try {
@@ -175,9 +185,9 @@ public class FileUtilTest {
         try {
             long begin = System.currentTimeMillis();
             // 读：需要保证"D:/Users/jintai.wang/Pictures"存在
-            String filePath = FileUtil.convertSeparator("D:/Users/jintai.wang/Pictures");
+            String filePath = "D:/Users/jintai.wang/Pictures";
             // 写：不需要保证"D:/temp/picture/Pictures.zip"存在，但需要保证"D:/temp/picture"存在
-            String zipFilePath = FileUtil.convertSeparator("D:/temp/picture/Pictures.zip");
+            String zipFilePath = "D:/temp/picture/Pictures.zip";
             // 创建目录"D:/temp/picture"
             File zipFile = new File(zipFilePath);
             File zipParentFile = zipFile.getParentFile();
@@ -190,7 +200,7 @@ public class FileUtilTest {
             System.out.printf("压缩文件完成：filePath=%s, zipFilePath=%s, costTime=%sms%n",
                     filePath, zipFilePath, (end - begin));
             // 解压文件
-            String destDir = FileUtil.convertSeparator("D:/temp/picture/Pictures");
+            String destDir = "D:/temp/picture/Pictures";
             FileUtil.unzip(zipFilePath, destDir);
             System.out.printf("压缩文件完成：zipFilePath=%s, destDir=%s, costTime=%sms%n",
                     zipFilePath, destDir, (System.currentTimeMillis() - end));
@@ -203,7 +213,7 @@ public class FileUtilTest {
     public void testRead() {
         URL url = Main.class.getResource("/txt/sensitive_word.txt");
         assert url != null;
-        String filePath = FileUtil.convertSeparator(url.getPath());
+        String filePath = url.getPath();
         try {
             System.out.println(filePath);
             System.out.println(FileUtil.read(filePath));
@@ -216,7 +226,7 @@ public class FileUtilTest {
     public void testWrite() {
         URL url = Main.class.getResource("/txt");
         assert url != null;
-        String filePath = FileUtil.convertSeparator(url.getPath() + File.separator + StringUtil.random(10));
+        String filePath = url.getPath() + File.separator + StringUtil.random(10);
         try {
             System.out.println(filePath);
             FileUtil.write("哈哈哈哈", filePath);

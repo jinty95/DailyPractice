@@ -7,8 +7,8 @@ import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.zip.*;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
@@ -42,29 +42,6 @@ public final class FileUtil {
     }
 
     /**
-     * 拆分文件路径
-     *
-     * @param filePath 文件路径
-     * @return 文件目录、文件名、后缀(可能无后缀)
-     */
-    public static String[] splitFilePath(String filePath) {
-        String[] arr = new String[3];
-        if (StringUtil.isBlank(filePath)) {
-            return arr;
-        }
-        int index1 = filePath.lastIndexOf(File.separator);
-        int index2 = filePath.lastIndexOf(FILE_TYPE_MARK);
-        arr[0] = filePath.substring(0, index1);
-        if (index2 < index1) {
-            arr[1] = filePath.substring(index1 + 1);
-        } else {
-            arr[1] = filePath.substring(index1 + 1, index2);
-            arr[2] = filePath.substring(index2 + 1);
-        }
-        return arr;
-    }
-
-    /**
      * 转换文件路径分隔符，使其符合当前系统
      *
      * @param filePath 文件路径
@@ -74,11 +51,11 @@ public final class FileUtil {
         if (StringUtil.isBlank(filePath)) {
             return filePath;
         }
-        // Windows系统的文件分隔符为 \
-        filePath = filePath.replace("\\", File.separator);
-        // Linux系统的文件分隔符为 /
-        filePath = filePath.replace("/", File.separator);
-        return filePath;
+        // 直接用File.separator，如果值为'\'，会抛出IllegalArgumentException：character to be escaped is missing
+        String replacement = Matcher.quoteReplacement(File.separator);
+        // Windows系统的文件分隔符为'\'
+        // Linux系统的文件分隔符为'/'
+        return filePath.replaceAll("[\\\\/]+", replacement);
     }
 
     /**
@@ -94,6 +71,8 @@ public final class FileUtil {
         }
         StringBuilder sb = new StringBuilder();
         for (String filePath : filePaths) {
+            // 转换文件路径分隔符，使其符合当前系统
+            filePath = convertSeparator(filePath);
             if (sb.length() == 0) {
                 sb.append(filePath);
             } else {
@@ -108,6 +87,31 @@ public final class FileUtil {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 拆分文件路径
+     *
+     * @param filePath 文件路径
+     * @return 文件目录、文件名、后缀(可能无后缀)
+     */
+    public static String[] splitFilePath(String filePath) {
+        String[] arr = new String[3];
+        if (StringUtil.isBlank(filePath)) {
+            return arr;
+        }
+        // 转换文件路径分隔符，使其符合当前系统
+        filePath = convertSeparator(filePath);
+        int index1 = filePath.lastIndexOf(File.separator);
+        int index2 = filePath.lastIndexOf(FILE_TYPE_MARK);
+        arr[0] = filePath.substring(0, index1);
+        if (index2 < index1) {
+            arr[1] = filePath.substring(index1 + 1);
+        } else {
+            arr[1] = filePath.substring(index1 + 1, index2);
+            arr[2] = filePath.substring(index2 + 1);
+        }
+        return arr;
     }
 
     /**
