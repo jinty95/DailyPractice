@@ -92,34 +92,25 @@ public class DDLParser {
             if (curWord.getType() == DDLWordType.TABLE_NAME) {
                 // 表名
                 if (CREATE_TABLE.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, CREATE_TABLE.length()))) {
-                    idx += (CREATE_TABLE.length() - 1);
-                    continue;
-                }
-                if (Character.isWhitespace(c)) {
+                    // "CREATE TABLE"后面出现"`"，开始获取表名
+                    idx = CharArrayUtil.indexOf(charArr, idx, '`');
                     continue;
                 }
                 if (c == '`') {
-                    if (!curWord.isEmpty()) {
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord();
-                    }
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord();
                 } else {
                     curWord.append(c);
                 }
             } else if (curWord.getType() == DDLWordType.FIELD_NAME) {
                 // 字段名
-                if (Character.isWhitespace(c)) {
-                    continue;
-                }
                 if (c == '`') {
-                    if (!curWord.isEmpty()) {
-                        fieldOrder++;
-                        curWord.setFieldOrder(fieldOrder);
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord(fieldOrder);
-                    }
+                    fieldOrder++;
+                    curWord.setFieldOrder(fieldOrder);
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord(fieldOrder);
                 } else {
                     curWord.append(c);
                 }
@@ -185,30 +176,28 @@ public class DDLParser {
             } else if (curWord.getType() == DDLWordType.FIELD_COMMENT) {
                 // 字段说明
                 if (COMMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, COMMENT.length()))) {
-                    idx = (CharArrayUtil.indexOf(charArr, idx, '\'') - 1);
+                    // "COMMENT"后面出现"'"，开始获取字段说明
+                    idx = CharArrayUtil.indexOf(charArr, idx, '\'');
                     continue;
                 }
                 if (c == '\'') {
-                    if (!curWord.isEmpty()) {
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord(fieldOrder);
-                    }
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord(fieldOrder);
                 } else {
                     curWord.append(c);
                 }
             } else if (curWord.getType() == DDLWordType.PRIMARY_KEY) {
                 // 主键索引
                 if (PRIMARY_KEY.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, PRIMARY_KEY.length()))) {
-                    idx = (CharArrayUtil.indexOf(charArr, idx, '`') - 1);
+                    // "PRIMARY KEY"后面出现"`"，开始获取主键字段
+                    idx = CharArrayUtil.indexOf(charArr, idx, '`');
                     continue;
                 }
                 if (c == '`') {
-                    if (!curWord.isEmpty()) {
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord();
-                    }
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord();
                 } else {
                     curWord.append(c);
                 }
@@ -225,15 +214,14 @@ public class DDLParser {
             } else if (curWord.getType() == DDLWordType.TABLE_COMMENT) {
                 // 表说明
                 if (TABLE_COMMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, TABLE_COMMENT.length()))) {
-                    idx = (CharArrayUtil.indexOf(charArr, idx, '\'') - 1);
+                    // "COMMENT="后面出现"'"，开始获取表说明
+                    idx = CharArrayUtil.indexOf(charArr, idx, '\'');
                     continue;
                 }
                 if (c == '\'') {
-                    if (!curWord.isEmpty()) {
-                        words.add(curWord);
-                        lastWord = curWord;
-                        curWord = new DDLWord();
-                    }
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord();
                 } else {
                     curWord.append(c);
                 }
