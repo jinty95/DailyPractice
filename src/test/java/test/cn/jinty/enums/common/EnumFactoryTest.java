@@ -32,4 +32,9 @@ public class EnumFactoryTest {
         System.out.println(JSON.toJSONString(list));
     }
 
+    @Test
+    public void testGet3() {
+        EnumFactory.get("SpecialCharEnum").forEach(System.out::println);
+    }
+
 }

@@ -1,5 +1,6 @@
 package cn.jinty.util;
 
+import cn.jinty.enums.SpecialCharEnum;
 import cn.jinty.util.collection.ArrayUtil;
 import cn.jinty.util.collection.SetUtil;
 
@@ -35,9 +36,14 @@ public final class StringUtil {
             'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
-    // 特殊字符 (取键盘上的所有特殊字符，半角)
-    private static final char[] SPECIAL_CHAR = "~`!@#$%^&*()-_+={[}]|\\:;\"'<,>.?/\r\n\t ".toCharArray();
-    private static final Set<Character> SPECIAL_CHAR_SET = SetUtil.asSet(SPECIAL_CHAR);
+    // 特殊字符
+    private static final Set<Character> SPECIAL_CHAR_SET = new HashSet<>();
+
+    static {
+        for (SpecialCharEnum specialCharEnum : SpecialCharEnum.values()) {
+            SPECIAL_CHAR_SET.add(specialCharEnum.getCode());
+        }
+    }
 
     // 随机数
     private static final Random RANDOM = new Random();
