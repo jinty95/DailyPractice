@@ -42,9 +42,10 @@ public class ListUtilTest {
 
     @Test
     public void testFromString() {
-        System.out.println(ListUtil.fromString("", ""));
+        System.out.println(ListUtil.fromString(null, ","));
+        System.out.println(ListUtil.fromString("   ", ""));
         System.out.println(ListUtil.fromString("A,B,C", ","));
-        System.out.println(ListUtil.fromString("A\r\nB\nC\rD\tE\fF G,H.I;J", "\\s+|[,.;]"));
+        System.out.println(ListUtil.fromString("A\r\nB\nC\rD\tE\fF G,H, I,  J,,,, K , L", "[\\s,]+"));
     }
 
     @Test

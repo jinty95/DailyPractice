@@ -63,6 +63,16 @@ public final class StringUtil {
     }
 
     /**
+     * 字符串非空判断
+     *
+     * @param s 字符串
+     * @return 是否非空
+     */
+    public static boolean isNotEmpty(String s) {
+        return !isEmpty(s);
+    }
+
+    /**
      * 字符串空白判断
      *
      * @param s 字符串
@@ -70,6 +80,16 @@ public final class StringUtil {
      */
     public static boolean isBlank(String s) {
         return isEmpty(s) || s.trim().length() == 0;
+    }
+
+    /**
+     * 字符串非空白判断
+     *
+     * @param s 字符串
+     * @return 是否非空白
+     */
+    public static boolean isNotBlank(String s) {
+        return !isBlank(s);
     }
 
     /**
@@ -113,7 +133,7 @@ public final class StringUtil {
     }
 
     /**
-     * 去除字符串的前后"空格"
+     * 去除字符串的前后"空白符"
      *
      * @param s 字符串
      * @return 字符串
@@ -126,7 +146,7 @@ public final class StringUtil {
     }
 
     /**
-     * 去除字符串的前后"空格及指定字符"
+     * 去除字符串的前后"空白符及指定字符"
      *
      * @param s    字符串
      * @param trim 指定字符
@@ -441,38 +461,52 @@ public final class StringUtil {
     /**
      * 字符串追加
      *
-     * @param origin   原串
-     * @param append   追加串
-     * @param separate 分隔符
+     * @param origin    原串
+     * @param append    追加串
+     * @param separator 分隔符
      * @return 字符串
      */
-    public static String append(String origin, String append, String separate) {
+    public static String append(String origin, String append, String separator) {
         if (isEmpty(origin)) {
             return append;
         }
-        return origin + separate + append;
+        return origin + separator + append;
     }
 
     /**
      * 集合以分隔符连接成字符串
      *
-     * @param coll     集合
-     * @param separate 分隔符
-     * @param <T>      泛型
+     * @param coll      集合
+     * @param separator 分隔符
+     * @param <T>       泛型
      * @return 字符串
      */
-    public static <T> String join(Collection<T> coll, String separate) {
+    public static <T> String join(Collection<T> coll, String separator) {
         if (coll == null || coll.isEmpty()) {
             return EMPTY;
         }
-        if (separate == null) {
-            separate = EMPTY;
+        if (separator == null) {
+            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
         for (T one : coll) {
-            res.append(one.toString()).append(separate);
+            res.append(one.toString()).append(separator);
         }
-        return res.substring(0, res.length() - separate.length());
+        return res.substring(0, res.length() - separator.length());
+    }
+
+    /**
+     * 将字符串按照分隔符切分为多个字符串
+     *
+     * @param s         字符串
+     * @param separator 分隔符 (支持正则表达式)
+     * @return 多个字符串
+     */
+    public static String[] split(String s, String separator) {
+        if (isEmpty(s)) {
+            return new String[0];
+        }
+        return s.split(separator);
     }
 
     /**

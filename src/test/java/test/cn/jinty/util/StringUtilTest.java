@@ -30,6 +30,10 @@ public class StringUtilTest {
         System.out.println(StringUtil.isEmpty(null));
         System.out.println(StringUtil.isEmpty(""));
         System.out.println(StringUtil.isEmpty("abc"));
+        System.out.println();
+        System.out.println(StringUtil.isNotEmpty(null));
+        System.out.println(StringUtil.isNotEmpty(""));
+        System.out.println(StringUtil.isNotEmpty("abc"));
     }
 
     @Test
@@ -37,6 +41,14 @@ public class StringUtilTest {
         System.out.println(StringUtil.isBlank(null));
         System.out.println(StringUtil.isBlank(""));
         System.out.println(StringUtil.isBlank("    "));
+        System.out.println(StringUtil.isBlank("\r\n\t"));
+        System.out.println(StringUtil.isBlank("abc"));
+        System.out.println();
+        System.out.println(StringUtil.isNotBlank(null));
+        System.out.println(StringUtil.isNotBlank(""));
+        System.out.println(StringUtil.isNotBlank("    "));
+        System.out.println(StringUtil.isNotBlank("\r\n\t"));
+        System.out.println(StringUtil.isNotBlank("abc"));
     }
 
     @Test
@@ -188,6 +200,14 @@ public class StringUtilTest {
         System.out.println(StringUtil.join(Arrays.asList('D', 'E', 'F', 'G'), ""));
         System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), ","));
         System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "和"));
+    }
+
+    @Test
+    public void testSplit() {
+        System.out.println(Arrays.toString(StringUtil.split(null, ",")));
+        System.out.println(Arrays.toString(StringUtil.split("   ", "")));
+        System.out.println(Arrays.toString(StringUtil.split("A,B,C", ",")));
+        System.out.println(Arrays.toString(StringUtil.split("A\r\nB\nC\rD\tE\fF G,H, I,  J,,,, K , L", "[\\s,]+")));
     }
 
     @Test
