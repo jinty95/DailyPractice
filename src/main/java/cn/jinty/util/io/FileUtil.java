@@ -7,6 +7,7 @@ import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.zip.*;
@@ -513,6 +514,29 @@ public final class FileUtil {
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(content.getBytes());
         }
+    }
+
+    /**
+     * 根据相对路径获取绝对路径
+     * 1、当path以"/"开头，那么在classpath(即/target/classes)下寻找资源
+     * 2、当path不以"/"开头，那么在FileUtil.class所在的目录下寻找资源
+     *
+     * @param path       路径
+     * @param isRelative 是否相对
+     * @return 绝对路径
+     */
+    public static String getAbsolutePath(String path, boolean isRelative) {
+        if (StringUtil.isBlank(path)) {
+            return StringUtil.EMPTY;
+        }
+        if (!isRelative) {
+            return path;
+        }
+        URL url = FileUtil.class.getResource(path);
+        if (url == null) {
+            return StringUtil.EMPTY;
+        }
+        return url.getPath();
     }
 
 }

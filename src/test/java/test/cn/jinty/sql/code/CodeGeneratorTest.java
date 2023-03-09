@@ -1,6 +1,5 @@
 package test.cn.jinty.sql.code;
 
-import cn.jinty.Main;
 import cn.jinty.sql.code.CodeGenerator;
 import cn.jinty.sql.mapper.MySqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
@@ -9,7 +8,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,24 +74,14 @@ public class CodeGeneratorTest {
 
     // 从文件读取DDL
     private String getDDLFromFile(String filePath, boolean isRelative) throws IOException {
-        String ddlFilePath = filePath;
-        if (isRelative) {
-            URL url = Main.class.getResource(filePath);
-            assert url != null;
-            ddlFilePath = url.getPath();
-        }
+        String ddlFilePath = FileUtil.getAbsolutePath(filePath, isRelative);
         System.out.println("DDL文件路径：" + ddlFilePath);
         return FileUtil.read(ddlFilePath);
     }
 
     // 从目录读取多个DDL
     private List<String> getDDLFromDir(String dirPath, boolean isRelative) throws IOException {
-        String ddlDirPath = dirPath;
-        if (isRelative) {
-            URL url = Main.class.getResource(dirPath);
-            assert url != null;
-            ddlDirPath = url.getPath();
-        }
+        String ddlDirPath = FileUtil.getAbsolutePath(dirPath, isRelative);
         System.out.println("DDL目录路径：" + ddlDirPath);
         List<File> ddlFiles = FileUtil.scanFilesOfRoot(new File(ddlDirPath));
         List<String> ddlList = new ArrayList<>();
@@ -107,12 +95,7 @@ public class CodeGeneratorTest {
 
     // 获取模板的绝对路径
     private String getTemplateFilePath(String filePath, boolean isRelative) {
-        String templateFilePath = filePath;
-        if (isRelative) {
-            URL url = Main.class.getResource(filePath);
-            assert url != null;
-            templateFilePath = url.getPath();
-        }
+        String templateFilePath = FileUtil.getAbsolutePath(filePath, isRelative);
         System.out.println("模板文件路径：" + templateFilePath);
         return templateFilePath;
     }

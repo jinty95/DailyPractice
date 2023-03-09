@@ -1,16 +1,14 @@
 package test.cn.jinty.util.io;
 
-import cn.jinty.Main;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.StringUtil;
-import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.collection.ListUtil;
+import cn.jinty.util.io.FileUtil;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -112,11 +110,7 @@ public class FileUtilTest {
 
     @Test
     public void testScanFilesOfRoot() {
-        // 以"/"开头，则在classpath下寻找，否则在调用类所在目录下寻找，返回一个URL对象
-        // classpath即"/target/classes"目录
-        URL url = Main.class.getResource("enums");
-        assert url != null;
-        String path = url.getPath();
+        String path = FileUtil.getAbsolutePath("/cn/jinty/enums", true);
         File root = new File(path);
         List<File> files = FileUtil.scanFilesOfRoot(root);
         System.out.println("根路径：" + path);
@@ -170,10 +164,9 @@ public class FileUtilTest {
     @Test
     public void testParseProperties() {
         try {
-            URL url = Main.class.getResource("/properties/application.properties");
-            assert url != null;
-            System.out.println("文件路径：" + url.getPath());
-            System.out.println("文件内容：" + FileUtil.parseProperties(url.getPath()));
+            String path = FileUtil.getAbsolutePath("/properties/application.properties", true);
+            System.out.println("文件路径：" + path);
+            System.out.println("文件内容：" + FileUtil.parseProperties(path));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,9 +204,7 @@ public class FileUtilTest {
 
     @Test
     public void testRead() {
-        URL url = Main.class.getResource("/txt/sensitive_word.txt");
-        assert url != null;
-        String filePath = url.getPath();
+        String filePath = FileUtil.getAbsolutePath("/txt/sensitive_word.txt", true);
         try {
             System.out.println(filePath);
             System.out.println(FileUtil.read(filePath));
@@ -224,15 +215,24 @@ public class FileUtilTest {
 
     @Test
     public void testWrite() {
-        URL url = Main.class.getResource("/txt");
-        assert url != null;
-        String filePath = url.getPath() + File.separator + StringUtil.random(10);
+        String filePath = FileUtil.getAbsolutePath("/txt", true) + File.separator + StringUtil.random(10);
         try {
             System.out.println(filePath);
             FileUtil.write("哈哈哈哈", filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testGetAbsolutePath() {
+        System.out.println(FileUtil.getAbsolutePath("D:/Users/jintai.wang/Pictures", false));
+        System.out.println(FileUtil.getAbsolutePath("/sql", true));
+        System.out.println(FileUtil.getAbsolutePath("/template", true));
+        System.out.println(FileUtil.getAbsolutePath("/cn", true));
+        System.out.println(FileUtil.getAbsolutePath("/cn/jinty/enums", true));
+        System.out.println(FileUtil.getAbsolutePath("IOUtil.class", true));
+        System.out.println(FileUtil.getAbsolutePath("DateUtil.class", true));
     }
 
 }
