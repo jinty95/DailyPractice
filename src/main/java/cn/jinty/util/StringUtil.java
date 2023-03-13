@@ -2,7 +2,6 @@ package cn.jinty.util;
 
 import cn.jinty.enums.SpecialCharEnum;
 import cn.jinty.util.collection.ArrayUtil;
-import cn.jinty.util.collection.SetUtil;
 
 import java.util.*;
 
@@ -480,14 +479,13 @@ public final class StringUtil {
     }
 
     /**
-     * 集合以分隔符连接成字符串
+     * 将集合以分隔符连接成字符串
      *
      * @param coll      集合
      * @param separator 分隔符
-     * @param <T>       泛型
      * @return 字符串
      */
-    public static <T> String join(Collection<T> coll, String separator) {
+    public static String join(Collection<?> coll, String separator) {
         if (coll == null || coll.isEmpty()) {
             return EMPTY;
         }
@@ -495,7 +493,28 @@ public final class StringUtil {
             separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
-        for (T one : coll) {
+        for (Object one : coll) {
+            res.append(one.toString()).append(separator);
+        }
+        return res.substring(0, res.length() - separator.length());
+    }
+
+    /**
+     * 将对象数组以分隔符连接成字符串
+     *
+     * @param separator 分隔符
+     * @param arr       对象数组
+     * @return 字符串
+     */
+    public static String join(String separator, Object... arr) {
+        if (arr == null || arr.length == 0) {
+            return EMPTY;
+        }
+        if (separator == null) {
+            separator = EMPTY;
+        }
+        StringBuilder res = new StringBuilder();
+        for (Object one : arr) {
             res.append(one.toString()).append(separator);
         }
         return res.substring(0, res.length() - separator.length());

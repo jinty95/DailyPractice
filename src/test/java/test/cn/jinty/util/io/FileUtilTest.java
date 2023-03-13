@@ -45,6 +45,8 @@ public class FileUtilTest {
     public void testConcatBySeparator() {
         System.out.println(FileUtil.concatBySeparator("D:\\", "\\Users\\", "\\jintai.wang", "Pictures"));
         System.out.println(FileUtil.concatBySeparator("D:/", "/Users/", "/jintai.wang", "Pictures"));
+        System.out.println(FileUtil.concatBySeparator("D:/", "\\Users/", "\\/jintai.wang\\", "\\//\\Pictures"));
+        System.out.println(FileUtil.concatBySeparator("D:/", "\\Users/", "\\/jintai.wang\\", "\\//\\Pictures//"));
     }
 
     @Test

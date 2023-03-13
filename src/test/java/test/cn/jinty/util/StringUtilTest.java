@@ -200,6 +200,14 @@ public class StringUtilTest {
         System.out.println(StringUtil.join(Arrays.asList('D', 'E', 'F', 'G'), ""));
         System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), ","));
         System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "和"));
+        System.out.println();
+        System.out.println(StringUtil.join("", null));
+        System.out.println(StringUtil.join("", 'D', 'E', 'F', 'G'));
+        System.out.println(StringUtil.join(",", 1, 2, 3));
+        System.out.println(StringUtil.join(",", new int[]{1, 2, 3}));
+        System.out.println(StringUtil.join(",", new Integer[]{1, 2, 3}));
+        System.out.println(StringUtil.join("和", new String[]{"我们", "你们", "他们"}));
+        System.out.println(StringUtil.join("和", new String[]{"我们", "你们", "他们"}, new String[]{"我们", "你们", "他们"}));
     }
 
     @Test

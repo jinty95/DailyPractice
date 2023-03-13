@@ -61,7 +61,6 @@ public final class FileUtil {
 
     /**
      * 使用文件路径分隔符，将各部分连接起来
-     * (在连接点处，两个连续的分隔符仅保留一个)
      *
      * @param filePaths 各部分路径
      * @return 文件路径
@@ -70,24 +69,9 @@ public final class FileUtil {
         if (filePaths == null || filePaths.length == 0) {
             return StringUtil.EMPTY;
         }
-        StringBuilder sb = new StringBuilder();
-        for (String filePath : filePaths) {
-            // 转换文件路径分隔符，使其符合当前系统
-            filePath = convertSeparator(filePath);
-            if (sb.length() == 0) {
-                sb.append(filePath);
-            } else {
-                if (sb.charAt(sb.length() - 1) != File.separatorChar) {
-                    sb.append(File.separatorChar);
-                }
-                if (filePath.startsWith(File.separator)) {
-                    sb.append(filePath.substring(1));
-                } else {
-                    sb.append(filePath);
-                }
-            }
-        }
-        return sb.toString();
+        String filePath = StringUtil.join(File.separator, (Object[]) filePaths);
+        // 转换文件路径分隔符，使其符合当前系统
+        return convertSeparator(filePath);
     }
 
     /**
