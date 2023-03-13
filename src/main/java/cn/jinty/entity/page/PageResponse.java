@@ -40,7 +40,7 @@ public class PageResponse<T> extends PageRequest {
     /**
      * 空结果
      *
-     * @param <T> 泛型
+     * @param <T> 类型
      * @return 分页响应体
      */
     public static <T> PageResponse<T> empty() {
@@ -51,7 +51,7 @@ public class PageResponse<T> extends PageRequest {
      * 空结果
      *
      * @param pageRequest 分页请求体
-     * @param <T>         泛型
+     * @param <T>         类型
      * @return 分页响应体
      */
     public static <T> PageResponse<T> empty(PageRequest pageRequest) {

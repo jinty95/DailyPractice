@@ -22,7 +22,7 @@ public final class ListUtil {
      *
      * @param list 原始列表
      * @param num  每组个数
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 分组结果
      */
     public static <T> List<List<T>> splitByNum(List<T> list, int num) {
@@ -46,7 +46,7 @@ public final class ListUtil {
      * 数组转列表
      *
      * @param array 数组
-     * @param <T>   泛型
+     * @param <T>   类型
      * @return 列表
      */
     @SafeVarargs
@@ -63,7 +63,7 @@ public final class ListUtil {
      * 列表 -> 字符串
      *
      * @param list 列表
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 字符串
      */
     public static <T> String toString(List<T> list) {
@@ -75,7 +75,7 @@ public final class ListUtil {
      *
      * @param list      列表
      * @param separator 分隔符
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 字符串
      */
     public static <T> String toString(List<T> list, String separator) {
@@ -89,7 +89,7 @@ public final class ListUtil {
      * @param separator 分隔符
      * @param open      全局起始符
      * @param close     全局终止符
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 字符串
      */
     public static <T> String toString(List<T> list, String separator, String open, String close) {
@@ -105,7 +105,7 @@ public final class ListUtil {
      * @param close     全局终止符
      * @param before    元素前修饰符
      * @param after     元素后修饰符
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 字符串
      */
     public static <T> String toString(List<T> list, String separator, String open, String close, String before, String after) {
@@ -150,7 +150,7 @@ public final class ListUtil {
      *
      * @param list      列表
      * @param condition 条件
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 符合条件的元素列表
      */
     public static <T> List<T> select(List<T> list, Predicate<T> condition) {

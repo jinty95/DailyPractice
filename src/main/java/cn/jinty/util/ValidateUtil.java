@@ -59,7 +59,7 @@ public final class ValidateUtil {
      * 非空校验 - 集合
      *
      * @param coll 集合
-     * @param <T>  泛型
+     * @param <T>  类型
      */
     public static <T> void notEmpty(Collection<T> coll) {
         notEmpty(coll, "集合不能为空");
@@ -70,7 +70,7 @@ public final class ValidateUtil {
      *
      * @param coll 集合
      * @param msg  提示信息
-     * @param <T>  泛型
+     * @param <T>  类型
      */
     public static <T> void notEmpty(Collection<T> coll, String msg) {
         if (coll == null || coll.isEmpty()) {

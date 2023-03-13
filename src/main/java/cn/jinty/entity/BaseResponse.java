@@ -30,7 +30,7 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 成功响应
      *
-     * @param <T> 泛型
+     * @param <T> 类型
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success() {
@@ -41,7 +41,7 @@ public class BaseResponse<T> {
      * 构造器 - 成功响应
      *
      * @param data 具体内容
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success(T data) {
@@ -53,7 +53,7 @@ public class BaseResponse<T> {
      *
      * @param message 提示信息
      * @param data    具体内容
-     * @param <T>     泛型
+     * @param <T>     类型
      * @return 成功响应
      */
     public static <T> BaseResponse<T> success(String message, T data) {
@@ -63,7 +63,7 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 失败响应
      *
-     * @param <T> 泛型
+     * @param <T> 类型
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail() {
@@ -74,7 +74,7 @@ public class BaseResponse<T> {
      * 构造器 - 失败响应
      *
      * @param message 提示信息
-     * @param <T>     泛型
+     * @param <T>     类型
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail(String message) {
@@ -86,7 +86,7 @@ public class BaseResponse<T> {
      *
      * @param code    响应码
      * @param message 提示信息
-     * @param <T>     泛型
+     * @param <T>     类型
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail(String code, String message) {
@@ -97,7 +97,7 @@ public class BaseResponse<T> {
      * 构造器 - 失败响应
      *
      * @param error 错误
-     * @param <T>   泛型
+     * @param <T>   类型
      * @return 失败响应
      */
     public static <T> BaseResponse<T> fail(ResponseCodeEnum error) {

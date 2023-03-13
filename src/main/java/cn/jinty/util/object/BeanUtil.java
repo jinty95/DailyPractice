@@ -42,7 +42,7 @@ public final class BeanUtil {
      *
      * @param source 源对象
      * @param clz    目标类型
-     * @param <T>    泛型
+     * @param <T>    类型
      * @return 目标对象
      */
     public static <T> T copy(Object source, Class<T> clz)
@@ -57,7 +57,7 @@ public final class BeanUtil {
      *
      * @param sources 源对象列表
      * @param clz     目标类型
-     * @param <T>     泛型
+     * @param <T>     类型
      * @return 目标对象列表
      */
     public static <T> List<T> copyList(List<?> sources, Class<T> clz)
@@ -86,7 +86,7 @@ public final class BeanUtil {
      *
      * @param source 源对象
      * @param clz    目标类型
-     * @param <T>    泛型
+     * @param <T>    类型
      * @return 目标对象
      */
     public static <T> T deepCopy(Object source, Class<T> clz) {
@@ -98,7 +98,7 @@ public final class BeanUtil {
      *
      * @param sources 源对象列表
      * @param clz     目标类型
-     * @param <T>     泛型
+     * @param <T>     类型
      * @return 目标对象列表
      */
     public static <T> List<T> deepCopyList(List<?> sources, Class<T> clz) {
@@ -115,7 +115,7 @@ public final class BeanUtil {
      *
      * @param map   Map对象
      * @param clazz 目标类型
-     * @param <T>   泛型
+     * @param <T>   类型
      * @return Bean对象
      */
     public static <T> T mapToBean(Map<String, Object> map, Class<T> clazz)

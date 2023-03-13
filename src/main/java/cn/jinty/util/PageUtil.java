@@ -54,7 +54,7 @@ public final class PageUtil {
      * @param list     列表
      * @param pageNum  页码
      * @param pageSize 页面大小
-     * @param <T>      泛型
+     * @param <T>      类型
      * @return 一页数据
      */
     public static <T> List<T> getPage(List<T> list, int pageNum, int pageSize) {

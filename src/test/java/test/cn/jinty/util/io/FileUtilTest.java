@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * 文件 - 工具类 - 测试
@@ -168,7 +169,11 @@ public class FileUtilTest {
         try {
             String path = FileUtil.getAbsolutePath("/properties/application.properties", true);
             System.out.println("文件路径：" + path);
-            System.out.println("文件内容：" + FileUtil.parseProperties(path));
+            System.out.println("文件内容：");
+            Properties prop = FileUtil.parseProperties(path);
+            for (Object key : prop.keySet()) {
+                System.out.println("key=" + key + ", value=" + prop.get(key));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

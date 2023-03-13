@@ -2,7 +2,6 @@ package cn.jinty.util.object;
 
 import cn.jinty.annotation.FieldName;
 import cn.jinty.util.DateUtil;
-import cn.jinty.util.StringUtil;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -42,6 +41,38 @@ public final class ObjectUtil {
     }
 
     /**
+     * 如果值为空，返回默认值
+     *
+     * @param value        值
+     * @param defaultValue 默认值
+     * @param <T>          类型
+     * @return 值或默认值
+     */
+    public static <T> T ifNull(T value, T defaultValue) {
+        return value != null ? value : defaultValue;
+    }
+
+    /**
+     * 返回第一个非空值
+     *
+     * @param values 值数组
+     * @param <T>    类型
+     * @return 第一个非空值
+     */
+    @SafeVarargs
+    public static <T> T firstNotNull(T... values) {
+        if (values == null || values.length == 0) {
+            return null;
+        }
+        for (T value : values) {
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 是否相等
      *
      * @param o1 对象1
@@ -72,13 +103,13 @@ public final class ObjectUtil {
     }
 
     /**
-     * 对象空字段设置默认值
+     * 给对象空字段设置默认值
      * (包括8种基本类型包装类、字符串、日期、大整数、大小数、列表、集合、映射)
      *
      * @param obj 对象
-     * @param <T> 泛型
+     * @param <T> 类型
      */
-    public static <T> void setDefaultWhenNull(T obj) {
+    public static <T> void setDefault(T obj) {
         if (isNull(obj)) {
             return;
         }
@@ -134,7 +165,7 @@ public final class ObjectUtil {
      *
      * @param o1  对象1
      * @param o2  对象2
-     * @param <T> 泛型
+     * @param <T> 类型
      * @return 差异描述
      */
     public static <T> List<String> diff(T o1, T o2) {
@@ -177,7 +208,7 @@ public final class ObjectUtil {
      *
      * @param str   字符串
      * @param clazz 目标类型
-     * @param <T>   泛型
+     * @param <T>   类型
      * @return 目标对象
      */
     public static <T> T strToObj(String str, Class<T> clazz) {
@@ -192,12 +223,12 @@ public final class ObjectUtil {
      *
      * @param str       字符串
      * @param className 目标类型名称
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 目标对象
      */
     @SuppressWarnings("unchecked")
     public static <T> T strToObj(String str, String className) {
-        if (StringUtil.isBlank(str) || StringUtil.isBlank(className)) {
+        if (isNull(str) || isNull(className)) {
             return null;
         }
         if (!STR_TO_OBJ_SUPPORTED_CLASS_NAME.contains(className)) {

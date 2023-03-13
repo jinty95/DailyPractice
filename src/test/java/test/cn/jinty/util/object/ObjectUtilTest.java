@@ -22,6 +22,31 @@ import java.util.Map;
 public class ObjectUtilTest {
 
     @Test
+    public void testIfNull() {
+        Object obj = ObjectUtil.ifNull(123, "A");
+        System.out.println(obj);
+        obj = ObjectUtil.ifNull(null, "A");
+        System.out.println(obj);
+        obj = ObjectUtil.ifNull("A", 123);
+        System.out.println(obj);
+        Integer i = ObjectUtil.ifNull(123, 456);
+        System.out.println(i);
+        i = ObjectUtil.ifNull(null, 456);
+        System.out.println(i);
+        String str = ObjectUtil.ifNull("ABC", "DEF");
+        System.out.println(str);
+        str = ObjectUtil.ifNull(null, "DEF");
+        System.out.println(str);
+    }
+
+    @Test
+    public void testFirstNotNull() {
+        System.out.println(ObjectUtil.firstNotNull(123, 456, 789));
+        System.out.println(ObjectUtil.firstNotNull(null, 456, 789));
+        System.out.println(ObjectUtil.firstNotNull(null, null, 789));
+    }
+
+    @Test
     public void testGetAllFields() {
         for (Field field : ObjectUtil.getAllFields(Obj.class)) {
             System.out.println(field.getName());
@@ -29,10 +54,10 @@ public class ObjectUtilTest {
     }
 
     @Test
-    public void testSetDefaultWhenNull() {
+    public void testSetDefault() {
         Obj obj = new Obj();
         System.out.println("原对象：" + obj);
-        ObjectUtil.setDefaultWhenNull(obj);
+        ObjectUtil.setDefault(obj);
         System.out.println("设置默认值后：" + obj);
     }
 
@@ -42,7 +67,7 @@ public class ObjectUtilTest {
         Obj o2 = new Obj();
         o1.setCol11(Arrays.asList(1, 2, 3));
         o2.setCol11(Arrays.asList(1, 3, 2));
-        ObjectUtil.setDefaultWhenNull(o2);
+        ObjectUtil.setDefault(o2);
         for (String diff : ObjectUtil.diff(o1, o2)) {
             System.out.println(diff);
         }

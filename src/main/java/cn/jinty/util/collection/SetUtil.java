@@ -33,7 +33,7 @@ public final class SetUtil {
      * 数组转集合
      *
      * @param array 数组
-     * @param <T>   泛型
+     * @param <T>   类型
      * @return 集合
      */
     @SuppressWarnings("all")
@@ -50,7 +50,7 @@ public final class SetUtil {
      *
      * @param set1 集合1
      * @param set2 集合2
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 并集
      */
     public static <T> Set<T> union(Set<T> set1, Set<T> set2) {
@@ -73,7 +73,7 @@ public final class SetUtil {
      *
      * @param set1 集合1
      * @param set2 集合2
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 交集
      */
     public static <T> Set<T> intersect(Set<T> set1, Set<T> set2) {
@@ -94,7 +94,7 @@ public final class SetUtil {
      *
      * @param set1 集合1
      * @param set2 集合2
-     * @param <T>  泛型
+     * @param <T>  类型
      * @return 差集 (元素属于集合1但不属于集合2)
      */
     public static <T> Set<T> subtract(Set<T> set1, Set<T> set2) {
@@ -118,7 +118,7 @@ public final class SetUtil {
      *
      * @param set       集合
      * @param condition 条件
-     * @param <T>       泛型
+     * @param <T>       类型
      * @return 符合条件的元素集合
      */
     public static <T> Set<T> select(Set<T> set, Predicate<T> condition) {

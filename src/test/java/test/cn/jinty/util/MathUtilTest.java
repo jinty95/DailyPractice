@@ -1,6 +1,7 @@
 package test.cn.jinty.util;
 
 import cn.jinty.util.MathUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -236,7 +237,7 @@ public class MathUtilTest {
     @Test
     public void testGenMultiplicationTable() {
         for (List<String> list : MathUtil.genMultiplicationTable()) {
-            System.out.println(list);
+            System.out.println(ListUtil.toString(list, ", "));
         }
     }
 
