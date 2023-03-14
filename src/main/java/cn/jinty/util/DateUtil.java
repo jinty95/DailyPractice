@@ -995,10 +995,10 @@ public final class DateUtil {
     }
 
     /**
-     * 判断时间是星期几 (英文)
+     * 根据时间返回星期 (英文)
      *
      * @param date 时间
-     * @return 星期几 (英文)
+     * @return 星期 (英文)
      */
     public static String getDayOfWeekEn(Date date) {
         checkNull(date);
@@ -1008,16 +1008,64 @@ public final class DateUtil {
     }
 
     /**
-     * 判断时间是星期几 (中文)
+     * 根据时间返回星期 (中文)
      *
      * @param date 时间
-     * @return 星期几 (中文)
+     * @return 星期 (中文)
      */
     public static String getDayOfWeekCn(Date date) {
         checkNull(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return DAY_OF_WEEK_CN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
+    }
+
+    /**
+     * 是否为周工作日 (星期一至星期五的任何一天)
+     *
+     * @param date 时间
+     * @return 是否
+     */
+    public static boolean isWeekday(Date date) {
+        int dayOfWeek = get(date, Calendar.DAY_OF_WEEK);
+        return dayOfWeek >= Calendar.MONDAY && dayOfWeek <= Calendar.FRIDAY;
+    }
+
+    /**
+     * 是否为周末 (星期六或星期天)
+     *
+     * @param date 时间
+     * @return 是否
+     */
+    public static boolean isWeekend(Date date) {
+        int dayOfWeek = get(date, Calendar.DAY_OF_WEEK);
+        return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
+    }
+
+    /**
+     * 是否为工作日
+     *
+     * @param date              时间
+     * @param specialWorkdays   特殊工作日 (精确到天)
+     * @param statutoryHolidays 法定节假日 (精确到天)
+     * @return 是否
+     */
+    public static boolean isWorkday(Date date, Set<Date> specialWorkdays, Set<Date> statutoryHolidays) {
+        date = getDayBegin(date);
+        return specialWorkdays.contains(date) || (!statutoryHolidays.contains(date) && isWeekday(date));
+    }
+
+    /**
+     * 是否为假日
+     *
+     * @param date              时间
+     * @param specialWorkdays   特殊工作日 (精确到天)
+     * @param statutoryHolidays 法定节假日 (精确到天)
+     * @return 是否
+     */
+    public static boolean isHoliday(Date date, Set<Date> specialWorkdays, Set<Date> statutoryHolidays) {
+        date = getDayBegin(date);
+        return statutoryHolidays.contains(date) || (!specialWorkdays.contains(date) && isWeekend(date));
     }
 
     /**

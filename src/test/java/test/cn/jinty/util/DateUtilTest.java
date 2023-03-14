@@ -384,6 +384,39 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testIsWeekdayOrWeekend() {
+        Date date = new Date();
+        for (int i = 1; i <= 14; i++) {
+            System.out.printf("%s, %s, 是周工作日? %s, 是周末? %s%n",
+                    DateUtil.format(date), DateUtil.getDayOfWeekCn(date), DateUtil.isWeekday(date), DateUtil.isWeekend(date));
+            date = DateUtil.add(date, 1, Calendar.DATE);
+        }
+    }
+
+    @Test
+    public void testIsWorkdayOrHoliday() {
+
+        // 实际应用时，把这些配置在配置文件或者数据库，每年根据当年的法定节假日及调班日而手动维护。
+        Set<Date> specialWorkdays = new HashSet<>();
+        specialWorkdays.add(DateUtil.buildDate(2023, 1, 28));
+        specialWorkdays.add(DateUtil.buildDate(2023, 1, 29));
+
+        Set<Date> statutoryHolidays = new HashSet<>();
+        for (int i = 21; i <= 27; i++) {
+            statutoryHolidays.add(DateUtil.buildDate(2023, 1, i));
+        }
+
+        Date date = DateUtil.buildDate(2023, 1, 21);
+        for (int i = 1; i <= 14; i++) {
+            System.out.printf("%s, %s, 是工作日? %s, 是假日? %s%n", DateUtil.format(date), DateUtil.getDayOfWeekCn(date),
+                    DateUtil.isWorkday(date, specialWorkdays, statutoryHolidays),
+                    DateUtil.isHoliday(date, specialWorkdays, statutoryHolidays));
+            date = DateUtil.add(date, 1, Calendar.DATE);
+        }
+
+    }
+
+    @Test
     public void testGetDayNum() {
         for (int i = 2020; i <= 2022; i++) {
             System.out.printf("%d年有%d天%n", i, DateUtil.getDayNumOfYear(i));
