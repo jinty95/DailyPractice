@@ -157,4 +157,43 @@ public final class ListUtil {
         return CollectionUtil.select(list, condition, new ArrayList<>());
     }
 
+    /**
+     * 求笛卡尔积
+     *
+     * @param lists 多个数据组
+     * @param <T>   元素类型
+     * @return 笛卡尔积
+     */
+    public static <T> List<List<T>> cartesianProduct(List<List<T>> lists) {
+        List<List<T>> results = new ArrayList<>();
+        return cartesianProduct(lists, lists.size() - 1, results);
+    }
+
+    /**
+     * 求笛卡尔积
+     *
+     * @param lists   多个数据组
+     * @param index   当前应处理的数据组
+     * @param <T>     元素类型
+     * @param results 笛卡尔积
+     */
+    private static <T> List<List<T>> cartesianProduct(List<List<T>> lists, int index, List<List<T>> results) {
+        if (CollectionUtil.isEmpty(lists) || index < 0 || index >= lists.size()) {
+            return results;
+        }
+        List<List<T>> nextResults = new ArrayList<>();
+        for (T one : lists.get(index)) {
+            if (CollectionUtil.isEmpty(results)) {
+                nextResults.add(asList(one));
+            } else {
+                for (List<T> result : results) {
+                    List<T> nextResult = new ArrayList<>(result);
+                    nextResult.add(0, one);
+                    nextResults.add(nextResult);
+                }
+            }
+        }
+        return cartesianProduct(lists, index - 1, nextResults);
+    }
+
 }

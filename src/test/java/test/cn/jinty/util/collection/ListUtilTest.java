@@ -58,4 +58,17 @@ public class ListUtilTest {
         System.out.println("无限制：" + ListUtil.select(list, null));
     }
 
+    @Test
+    public void textCartesianProduct() {
+        List<List<Integer>> lists = ListUtil.asList(
+                ListUtil.asList(1, 2, 3),
+                ListUtil.asList(4, 5),
+                ListUtil.asList(6, 7, 8),
+                ListUtil.asList(9, 10)
+        );
+        List<List<Integer>> results = ListUtil.cartesianProduct(lists);
+        System.out.println(results.size());
+        results.forEach(System.out::println);
+    }
+
 }
