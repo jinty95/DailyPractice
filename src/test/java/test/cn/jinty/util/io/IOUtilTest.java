@@ -1,11 +1,14 @@
 package test.cn.jinty.util.io;
 
 import cn.jinty.enums.BinaryUnitEnum;
-import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.StringUtil;
+import cn.jinty.util.io.IOUtil;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;

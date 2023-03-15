@@ -13,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cn.jinty.sql.code.JavaEntityTemplatePlaceholderEnum.*;
+import static cn.jinty.sql.code.JavaEntityTemplatePlaceholderEnum.AUTHOR;
+import static cn.jinty.sql.code.JavaEntityTemplatePlaceholderEnum.PACKAGE_NAME;
 
 /**
  * 代码生成器 - 测试

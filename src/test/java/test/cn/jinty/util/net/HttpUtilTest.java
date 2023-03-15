@@ -1,14 +1,10 @@
 package test.cn.jinty.util.net;
 
-import cn.jinty.entity.KeyValue;
 import cn.jinty.enums.ContentTypeEnum;
 import cn.jinty.util.net.HttpUtil;
 import cn.jinty.util.net.SslUtil;
-import com.alibaba.fastjson.JSONObject;
-import okhttp3.*;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,72 +66,6 @@ public class HttpUtilTest {
             SslUtil.ignoreSsl();
             System.out.println(HttpUtil.doGet(url));
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /* OKHTTP */
-
-    @Test
-    public void testSend() {
-
-        // GET请求
-        String url = "http://www.baidu.com/s";
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        Response response;
-        try {
-            response = HttpUtil.send(request);
-            System.out.printf("发起请求：请求=%s, 响应=%s%n", request, response.body().string());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // POST请求 普通表单
-        RequestBody body = new FormBody.Builder()
-                .add("wd", "如何学习java")
-                .build();
-        request = new Request.Builder()
-                .url(url)
-                .header("Content-Type", ContentTypeEnum.URL_ENCODED.getCode())
-                .post(body)
-                .build();
-        try {
-            response = HttpUtil.send(request);
-            System.out.printf("发起请求：请求=%s, 响应=%s%n", request, response.body().string());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //  POST请求 JSON
-        MediaType JSON = MediaType.parse(ContentTypeEnum.JSON.getCode());
-        body = RequestBody.create(JSON, "{\"key\":1}");
-        request = new Request.Builder()
-                .url(url)
-                .header("Content-Type", ContentTypeEnum.JSON.getCode())
-                .post(body)
-                .build();
-        try {
-            response = HttpUtil.send(request);
-            System.out.printf("发起请求：请求=%s, 响应=%s%n", request, response.body().string());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Test
-    public void testSendJson() {
-
-        String url = "https://www.baidu.com/s";
-        String json = JSONObject.toJSONString(new KeyValue<>("name", "me"));
-        System.out.println("url=" + url);
-        System.out.println("body=" + json);
-        try {
-            System.out.println("result=" + HttpUtil.sendJson(url, json));
-        } catch (IOException e) {
             e.printStackTrace();
         }
 

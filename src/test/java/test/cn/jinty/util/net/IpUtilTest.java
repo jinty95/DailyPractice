@@ -1,7 +1,7 @@
 package test.cn.jinty.util.net;
 
-import cn.jinty.util.net.IpUtil;
 import cn.jinty.util.StringUtil;
+import cn.jinty.util.net.IpUtil;
 import org.junit.Test;
 
 /**

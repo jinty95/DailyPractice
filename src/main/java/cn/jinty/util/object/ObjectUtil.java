@@ -178,11 +178,11 @@ public final class ObjectUtil {
         return diffs;
     }
 
-    // 字符串转对象所支持的所有类型(字符串、八种基础类型、大整数、大小数、日期)
-    @SuppressWarnings("rawtypes")
-    public static Class[] STR_TO_OBJ_SUPPORTED_CLASS = new Class[]{
-            String.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class,
-            Character.class, Boolean.class, BigInteger.class, BigDecimal.class, Date.class
+    // 字符串转对象所支持的所有类型(八种基础类型、字符串、大整数、大小数、日期)
+    public static Class<?>[] STR_TO_OBJ_SUPPORTED_CLASS = new Class<?>[]{
+            Boolean.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Character.class,
+            boolean.class, byte.class, short.class, int.class, long.class, float.class, double.class, char.class,
+            String.class, BigInteger.class, BigDecimal.class, Date.class
     };
     public static Set<String> STR_TO_OBJ_SUPPORTED_CLASS_NAME = Arrays.stream(STR_TO_OBJ_SUPPORTED_CLASS)
             .map(Class::getName).collect(Collectors.toSet());
@@ -219,24 +219,24 @@ public final class ObjectUtil {
             throw new IllegalArgumentException("不支持将字符串转成该类型：" + className);
         }
         Object obj = null;
-        if (String.class.getName().equals(className)) {
-            obj = str;
-        } else if (Byte.class.getName().equals(className)) {
-            obj = Byte.parseByte(str);
-        } else if (Short.class.getName().equals(className)) {
-            obj = Short.parseShort(str);
-        } else if (Integer.class.getName().equals(className)) {
-            obj = Integer.parseInt(str);
-        } else if (Long.class.getName().equals(className)) {
-            obj = Long.parseLong(str);
-        } else if (Float.class.getName().equals(className)) {
-            obj = Float.parseFloat(str);
-        } else if (Double.class.getName().equals(className)) {
-            obj = Double.parseDouble(str);
-        } else if (Character.class.getName().equals(className)) {
-            obj = str.charAt(0);
-        } else if (Boolean.class.getName().equals(className)) {
+        if (Boolean.class.getName().equals(className) || boolean.class.getName().equals(className)) {
             obj = Boolean.parseBoolean(str);
+        } else if (Byte.class.getName().equals(className) || byte.class.getName().equals(className)) {
+            obj = Byte.parseByte(str);
+        } else if (Short.class.getName().equals(className) || short.class.getName().equals(className)) {
+            obj = Short.parseShort(str);
+        } else if (Integer.class.getName().equals(className) || int.class.getName().equals(className)) {
+            obj = Integer.parseInt(str);
+        } else if (Long.class.getName().equals(className) || long.class.getName().equals(className)) {
+            obj = Long.parseLong(str);
+        } else if (Float.class.getName().equals(className) || float.class.getName().equals(className)) {
+            obj = Float.parseFloat(str);
+        } else if (Double.class.getName().equals(className) || double.class.getName().equals(className)) {
+            obj = Double.parseDouble(str);
+        } else if (Character.class.getName().equals(className) || char.class.getName().equals(className)) {
+            obj = str.charAt(0);
+        } else if (String.class.getName().equals(className)) {
+            obj = str;
         } else if (BigInteger.class.getName().equals(className)) {
             obj = new BigInteger(str);
         } else if (BigDecimal.class.getName().equals(className)) {

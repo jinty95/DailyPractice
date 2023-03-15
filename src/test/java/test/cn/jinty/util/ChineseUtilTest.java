@@ -40,18 +40,4 @@ public class ChineseUtilTest {
         }
     }
 
-    @Test
-    public void testGetPinYin() {
-        System.out.println(ChineseUtil.pinYin("我是谁"));
-        // 多音字无法正确识别
-        System.out.println(ChineseUtil.pinYin("差不多"));
-        System.out.println(ChineseUtil.pinYin("出差"));
-    }
-
-    @Test
-    public void testGetShortPinYin() {
-        System.out.println(ChineseUtil.shortPinYin("我试试"));
-        System.out.println(ChineseUtil.shortPinYin("永远的神"));
-    }
-
 }

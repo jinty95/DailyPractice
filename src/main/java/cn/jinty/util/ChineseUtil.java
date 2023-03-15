@@ -1,9 +1,5 @@
 package cn.jinty.util;
 
-import com.github.stuxuhai.jpinyin.PinyinException;
-import com.github.stuxuhai.jpinyin.PinyinFormat;
-import com.github.stuxuhai.jpinyin.PinyinHelper;
-
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
@@ -120,40 +116,6 @@ public final class ChineseUtil {
      */
     public static String randomFullName() {
         return randomSurname() + randomName();
-    }
-
-    /**
-     * 汉字转拼音(无声调)
-     *
-     * @param chinese 汉字
-     * @return 拼音
-     */
-    public static String pinYin(String chinese) {
-        if (StringUtil.isBlank(chinese)) return null;
-        try {
-            return PinyinHelper.convertToPinyinString(
-                    chinese, " ", PinyinFormat.WITHOUT_TONE
-            );
-        } catch (PinyinException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 汉字转拼音首字母缩写
-     *
-     * @param chinese 汉字
-     * @return 拼音首字母缩写
-     */
-    public static String shortPinYin(String chinese) {
-        if (StringUtil.isBlank(chinese)) return null;
-        try {
-            return PinyinHelper.getShortPinyin(chinese);
-        } catch (PinyinException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

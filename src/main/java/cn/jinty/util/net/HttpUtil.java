@@ -1,7 +1,6 @@
 package cn.jinty.util.net;
 
 import cn.jinty.enums.ContentTypeEnum;
-import okhttp3.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -152,48 +151,6 @@ public final class HttpUtil {
         }
         // 返回其它响应码时
         throw new IOException(String.format("error! responseCode = %d", responseCode));
-    }
-
-    // OKHTTP客户端
-    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient();
-
-    /**
-     * 发起请求
-     *
-     * @param request 请求
-     * @return 响应
-     * @throws IOException IO异常
-     */
-    public static Response send(Request request) throws IOException {
-        if (request == null) {
-            throw new IllegalArgumentException("HTTP请求不能为空");
-        }
-        Call call = OK_HTTP_CLIENT.newCall(request);
-        return call.execute();
-    }
-
-    /**
-     * 发起请求 - JSON请求体
-     *
-     * @param url  请求路径
-     * @param json 请求体
-     * @return 响应体
-     * @throws IOException IO异常
-     */
-    public static String sendJson(String url, String json) throws IOException {
-        String result = null;
-        MediaType mediaType = MediaType.parse(ContentTypeEnum.JSON.getCode());
-        RequestBody body = RequestBody.create(mediaType, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .header("Content-Type", ContentTypeEnum.JSON.getCode())
-                .post(body)
-                .build();
-        Response response = send(request);
-        if (response.isSuccessful() && response.body() != null) {
-            result = response.body().string();
-        }
-        return result;
     }
 
 }

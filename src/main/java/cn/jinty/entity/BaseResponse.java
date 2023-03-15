@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static cn.jinty.enums.ResponseCodeEnum.*;
+import static cn.jinty.enums.ResponseCodeEnum.FAIL;
+import static cn.jinty.enums.ResponseCodeEnum.SUCCESS;
 
 /**
  * 基础响应体

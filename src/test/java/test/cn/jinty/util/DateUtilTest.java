@@ -1,8 +1,8 @@
 package test.cn.jinty.util;
 
-import cn.jinty.enums.CycleTypeEnum;
 import cn.jinty.entity.date.DateRange;
 import cn.jinty.entity.date.Week;
+import cn.jinty.enums.CycleTypeEnum;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;

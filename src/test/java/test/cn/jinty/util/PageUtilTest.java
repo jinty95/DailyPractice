@@ -1,7 +1,7 @@
 package test.cn.jinty.util;
 
-import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.PageUtil;
+import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
 import java.util.List;
