@@ -87,22 +87,6 @@ public final class ObjectUtil {
     }
 
     /**
-     * 获取类的所有属性(包括父类属性)
-     *
-     * @param clazz 类
-     * @return 所有属性
-     */
-    public static List<Field> getAllFields(Class<?> clazz) {
-        List<Field> result = new ArrayList<>();
-        while (clazz != null) {
-            Field[] fields = clazz.getDeclaredFields();
-            result.addAll(Arrays.asList(fields));
-            clazz = clazz.getSuperclass();
-        }
-        return result;
-    }
-
-    /**
      * 给对象空字段设置默认值
      * (包括8种基本类型包装类、字符串、日期、大整数、大小数、列表、集合、映射)
      *
@@ -114,7 +98,7 @@ public final class ObjectUtil {
             return;
         }
         Class<?> clazz = obj.getClass();
-        List<Field> fields = getAllFields(clazz);
+        List<Field> fields = ClassUtil.getAllField(clazz);
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
@@ -174,7 +158,7 @@ public final class ObjectUtil {
             return diffs;
         }
         Class<?> clazz = o1 != null ? o1.getClass() : o2.getClass();
-        List<Field> fields = getAllFields(clazz);
+        List<Field> fields = ClassUtil.getAllField(clazz);
         for (Field field : fields) {
             try {
                 field.setAccessible(true);

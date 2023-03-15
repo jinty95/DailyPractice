@@ -7,11 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 对象 - 工具类 - 测试
@@ -44,13 +42,6 @@ public class ObjectUtilTest {
         System.out.println(ObjectUtil.firstNotNull(123, 456, 789));
         System.out.println(ObjectUtil.firstNotNull(null, 456, 789));
         System.out.println(ObjectUtil.firstNotNull(null, null, 789));
-    }
-
-    @Test
-    public void testGetAllFields() {
-        for (Field field : ObjectUtil.getAllFields(Obj.class)) {
-            System.out.println(field.getName());
-        }
     }
 
     @Test

@@ -144,6 +144,7 @@ public final class BeanUtil {
 
     /**
      * 将一个Bean转为一个Map
+     * (实现上是一种浅拷贝)
      *
      * @param bean Bean对象
      * @return Map对象
