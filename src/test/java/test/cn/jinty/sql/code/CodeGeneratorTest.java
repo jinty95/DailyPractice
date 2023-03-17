@@ -3,11 +3,13 @@ package test.cn.jinty.sql.code;
 import cn.jinty.sql.code.CodeGenerator;
 import cn.jinty.sql.mapper.MySqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
+import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.io.FileUtil;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +32,7 @@ public class CodeGeneratorTest {
             // 获取DDL
             String ddl = getDDLFromFile("/sql/base_table.sql", true);
             // 指定模板路径
-            String templateFilePath = getTemplateFilePath("/template/java_entity_template.txt", true);
+            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
             // 指定输出目录
             String targetDir = "D:/temp/codegen";
             // 生成Java文件
@@ -50,7 +52,7 @@ public class CodeGeneratorTest {
             // 获取DDL
             List<String> ddlList = getDDLFromDir("/sql", true);
             // 指定模板路径
-            String templateFilePath = getTemplateFilePath("/template/java_entity_template.txt", true);
+            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
             // 指定输出目录
             String targetDir = "D:/temp/codegen";
             // 生成Java文件
@@ -62,6 +64,28 @@ public class CodeGeneratorTest {
                 CodeGenerator.genJavaEntity(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
             }
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testBatchGenJavaEntity1() {
+        try {
+            // 获取DDL
+            List<String> ddlList = getDDLFromDB();
+            // 指定模板路径
+            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
+            // 指定输出目录
+            String targetDir = "D:/temp/codegen";
+            // 生成Java文件
+            TypeMapper typeMapper = new MySqlTypeMapper();
+            for (String ddl : ddlList) {
+                Map<String, String> valueMapper = new HashMap<>();
+                valueMapper.put(PACKAGE_NAME.name(), "cn.jinty.entity");
+                valueMapper.put(AUTHOR.name(), "Jinty");
+                CodeGenerator.genJavaEntity(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -94,11 +118,19 @@ public class CodeGeneratorTest {
         return ddlList;
     }
 
-    // 获取模板的绝对路径
-    private String getTemplateFilePath(String filePath, boolean isRelative) {
-        String templateFilePath = FileUtil.getAbsolutePath(filePath, isRelative);
-        System.out.println("模板文件路径：" + templateFilePath);
-        return templateFilePath;
+    // 从数据库获取所有DDL
+    private List<String> getDDLFromDB() throws Exception {
+        List<String> ddlList = new ArrayList<>();
+        try (Connection conn = JdbcUtil.getDefaultConnection()) {
+            String sql = "show tables";
+            List<Map<String, String>> tables = JdbcUtil.executeQuery(conn, sql);
+            for (Map<String, String> table : tables) {
+                sql = String.format("show create table `%s`", table.entrySet().iterator().next().getValue());
+                List<Map<String, String>> createTable = JdbcUtil.executeQuery(conn, sql);
+                ddlList.add(createTable.get(0).get("Create Table"));
+            }
+        }
+        return ddlList;
     }
 
 }

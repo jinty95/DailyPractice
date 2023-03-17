@@ -3,10 +3,8 @@ package cn.jinty.util.object;
 import cn.jinty.util.DateUtil;
 
 import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,15 +23,15 @@ public final class BeanUtil {
     }
 
     /**
-     * 将一个Map转为一个Bean (浅拷贝，即直接赋值，而不是先克隆再赋值)
+     * 将一个Map转为一个Bean
      *
      * @param map   Map对象
      * @param clazz 目标类型
      * @param <T>   类型
      * @return Bean对象
+     * @throws Exception 异常
      */
-    public static <T> T mapToBean(Map<String, String> map, Class<T> clazz)
-            throws InstantiationException, IllegalAccessException, IntrospectionException, InvocationTargetException {
+    public static <T> T mapToBean(Map<String, String> map, Class<T> clazz) throws Exception {
         if (map == null) {
             return null;
         }
@@ -41,7 +39,9 @@ public final class BeanUtil {
         if (map.isEmpty()) {
             return bean;
         }
-        // 借助"内省"获取类的属性及get/set方法
+        // "内省"获取类的属性及get/set方法
+        // "内省"通过get/set方法访问类的属性，不会破坏类的封装性
+        // "内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : propertyDescriptors) {
@@ -58,18 +58,20 @@ public final class BeanUtil {
     }
 
     /**
-     * 将一个Bean转为一个Map (浅拷贝，即直接赋值，而不是先克隆再赋值)
+     * 将一个Bean转为一个Map
      *
      * @param bean Bean对象
      * @return Map对象
+     * @throws Exception 异常
      */
-    public static Map<String, String> beanToMap(Object bean)
-            throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+    public static Map<String, String> beanToMap(Object bean) throws Exception {
         if (bean == null) {
             return null;
         }
         Map<String, String> map = new HashMap<>();
-        // 借助"内省"获取类的属性及get/set方法
+        // "内省"获取类的属性及get/set方法
+        // "内省"通过get/set方法访问类的属性，不会破坏类的封装性
+        // "内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
         BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : propertyDescriptors) {
