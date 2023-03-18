@@ -12,9 +12,9 @@ CREATE TABLE `attachment` (
   `file_size` BIGINT NOT NULL DEFAULT 0 COMMENT '文件大小',
   `remark` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '备注',
   `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
-  `creator` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
+  `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',
   `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',
+  `updated_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',
   `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_source_table_source_id` (`source_table`, `source_id`) USING BTREE

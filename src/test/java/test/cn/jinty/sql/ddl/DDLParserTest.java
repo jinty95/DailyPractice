@@ -30,9 +30,9 @@ public class DDLParserTest {
                 "  `file_size` BIGINT NOT NULL DEFAULT 0 COMMENT '文件大小',\n" +
                 "  `remark` VARCHAR(200) NOT NULL DEFAULT '' COMMENT '备注',\n" +
                 "  `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',\n" +
-                "  `creator` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',\n" +
+                "  `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',\n" +
                 "  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
-                "  `updater` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',\n" +
+                "  `updated_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '更新者',\n" +
                 "  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
                 "  PRIMARY KEY (`id`) USING BTREE,\n" +
                 "  INDEX `idx_source_table_source_id` (`source_table`, `source_id`) USING BTREE\n" +
