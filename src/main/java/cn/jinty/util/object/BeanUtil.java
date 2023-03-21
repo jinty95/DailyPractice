@@ -12,7 +12,12 @@ import java.util.Map;
 
 /**
  * Bean - 工具类
+ * <p>
  * Bean就是一个数据对象，只包含属性和基础方法(get/set/toString等)，而没有其它功能
+ * <p>
+ * Bean的解析有"反射"和"内省"两种方式，一般使用"内省"，好处如下：
+ * 1、"内省"获取get/set，通过get/set访问类的属性，不会破坏类的封装性
+ * 2、"内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
  *
  * @author Jinty
  * @date 2022/4/29
@@ -23,7 +28,7 @@ public final class BeanUtil {
     }
 
     /**
-     * 将一个Map转为一个Bean
+     * 将Map转为Bean
      *
      * @param map   Map对象
      * @param clazz 目标类型
@@ -39,9 +44,6 @@ public final class BeanUtil {
         if (map.isEmpty()) {
             return bean;
         }
-        // "内省"获取类的属性及get/set方法
-        // "内省"通过get/set方法访问类的属性，不会破坏类的封装性
-        // "内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
         BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : propertyDescriptors) {
@@ -51,6 +53,9 @@ public final class BeanUtil {
                 continue;
             }
             Method setter = descriptor.getWriteMethod();
+            if (setter == null) {
+                continue;
+            }
             Class<?> type = descriptor.getPropertyType();
             setter.invoke(bean, ObjectUtil.strToObj(propertyValue, type));
         }
@@ -58,7 +63,7 @@ public final class BeanUtil {
     }
 
     /**
-     * 将一个Bean转为一个Map
+     * 将Bean转为Map
      *
      * @param bean Bean对象
      * @return Map对象
@@ -69,9 +74,6 @@ public final class BeanUtil {
             return null;
         }
         Map<String, String> map = new HashMap<>();
-        // "内省"获取类的属性及get/set方法
-        // "内省"通过get/set方法访问类的属性，不会破坏类的封装性
-        // "内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
         BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : propertyDescriptors) {
@@ -81,12 +83,56 @@ public final class BeanUtil {
                 continue;
             }
             Method getter = descriptor.getReadMethod();
+            if (getter == null) {
+                continue;
+            }
             Object propertyValue = getter.invoke(bean);
             Class<?> type = descriptor.getPropertyType();
             map.put(propertyName, propertyValue == null ? null :
                     type == Date.class ? DateUtil.format((Date) propertyValue) : propertyValue.toString());
         }
         return map;
+    }
+
+    /**
+     * Bean字段拷贝 (浅拷贝)
+     *
+     * @param source 来源对象
+     * @param target 目标对象
+     * @throws Exception 异常
+     */
+    public static void copy(Object source, Object target) throws Exception {
+        if (source == null || target == null) {
+            return;
+        }
+        // 来源类字段
+        BeanInfo sourceBeanInfo = Introspector.getBeanInfo(source.getClass());
+        PropertyDescriptor[] sourcePropertyDescriptors = sourceBeanInfo.getPropertyDescriptors();
+        Map<String, PropertyDescriptor> sourcePropertyMap = new HashMap<>();
+        for (PropertyDescriptor sourceProperty : sourcePropertyDescriptors) {
+            sourcePropertyMap.put(sourceProperty.getName(), sourceProperty);
+        }
+        // 目标类字段
+        BeanInfo targetBeanInfo = Introspector.getBeanInfo(target.getClass());
+        PropertyDescriptor[] targetPropertyDescriptors = targetBeanInfo.getPropertyDescriptors();
+        // 匹配名称相同的字段，判断可赋值则直接赋值
+        for (PropertyDescriptor targetProperty : targetPropertyDescriptors) {
+            PropertyDescriptor sourceProperty = sourcePropertyMap.get(targetProperty.getName());
+            if (sourceProperty == null
+                    || !ClassUtil.isAssignableFrom(targetProperty.getPropertyType(), sourceProperty.getPropertyType())) {
+                continue;
+            }
+            Method getter = sourceProperty.getReadMethod();
+            if (getter == null) {
+                continue;
+            }
+            Object value = getter.invoke(source);
+            Method setter = targetProperty.getWriteMethod();
+            if (setter == null) {
+                continue;
+            }
+            setter.invoke(target, value);
+        }
     }
 
 }

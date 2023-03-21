@@ -2,12 +2,15 @@ package test.cn.jinty.util.object;
 
 import cn.jinty.entity.TreeNode1;
 import cn.jinty.entity.TreeNode2;
+import cn.jinty.entity.tuple.Pair;
+import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.object.ClassUtil;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 类 - 工具类 - 测试
@@ -64,6 +67,26 @@ public class ClassUtilTest {
         System.out.println("所有超类：");
         for (Class<?> clazz : ClassUtil.getAllSuper(ArrayList.class)) {
             System.out.println(clazz.getName());
+        }
+    }
+
+    @Test
+    public void testIsAssignableFrom() {
+        List<Pair<Class<?>, Class<?>>> list = ListUtil.asList(
+                new Pair<>(String.class, String.class),
+                new Pair<>(Object.class, Object.class),
+                new Pair<>(String.class, Object.class),
+                new Pair<>(Object.class, String.class),
+                new Pair<>(int.class, Integer.class),
+                new Pair<>(Integer.class, int.class),
+                new Pair<>(boolean.class, Boolean.class),
+                new Pair<>(Boolean.class, boolean.class)
+        );
+        for (Pair<Class<?>, Class<?>> pair : list) {
+            Class<?> target = pair.getLeft();
+            Class<?> source = pair.getRight();
+            System.out.printf("%s 可以被 %s 赋值: %s%n",
+                    target.getName(), source.getName(), ClassUtil.isAssignableFrom(target, source));
         }
     }
 

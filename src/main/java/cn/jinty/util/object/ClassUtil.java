@@ -113,4 +113,45 @@ public final class ClassUtil {
         return result;
     }
 
+    // 包装类 -> 基本类型
+    private static final Map<Class<?>, Class<?>> WRAP_TO_PRIMITIVE_MAP = new HashMap<>();
+    // 基本类型 -> 包装类
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TO_WRAP_MAP = new HashMap<>();
+
+    static {
+        WRAP_TO_PRIMITIVE_MAP.put(Boolean.class, boolean.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Byte.class, byte.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Short.class, short.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Integer.class, int.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Long.class, long.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Float.class, float.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Double.class, double.class);
+        WRAP_TO_PRIMITIVE_MAP.put(Character.class, char.class);
+
+        for (Map.Entry<Class<?>, Class<?>> entry : WRAP_TO_PRIMITIVE_MAP.entrySet()) {
+            PRIMITIVE_TO_WRAP_MAP.put(entry.getValue(), entry.getKey());
+        }
+    }
+
+    /**
+     * 目标类型是否可以被来源类型赋值
+     * 1、同类可以相互赋值
+     * 2、子类可以赋值给父类
+     * 3、基本类型与包装类可以相互赋值
+     *
+     * @param target 目标类型
+     * @param source 来源类型
+     * @return 是否
+     */
+    public static boolean isAssignableFrom(Class<?> target, Class<?> source) {
+        if (target.isAssignableFrom(source)) {
+            return true;
+        }
+        if (target.isPrimitive()) {
+            return WRAP_TO_PRIMITIVE_MAP.get(source) == target;
+        } else {
+            return PRIMITIVE_TO_WRAP_MAP.get(source) == target;
+        }
+    }
+
 }
