@@ -3,6 +3,7 @@ package test.cn.jinty.json;
 import cn.jinty.entity.BaseResponse;
 import cn.jinty.entity.KeyValue;
 import cn.jinty.entity.page.PageResponse;
+import cn.jinty.util.StringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -10,6 +11,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * FastJson - 测试
@@ -22,9 +24,13 @@ public class FastJsonTest {
     private JSONObject build() {
         JSONObject json = new JSONObject();
         KeyValue<String, String> kv = new KeyValue<>("name", "hello");
+        // 值为对象
         json.put("key1", kv);
+        // 值为对象JSON字符串
         json.put("key2", JSON.toJSONString(kv));
+        // 值为数组
         json.put("key3", new int[]{1, 2, 3});
+        // 值为数组JSON字符串
         json.put("key4", JSON.toJSONString(new int[]{1, 2, 3}));
         json.put("key5", "hi");
         json.put("key6", null);
@@ -73,16 +79,20 @@ public class FastJsonTest {
         // 值为对象，解析为对象
         System.out.println(json.get("key1"));
         System.out.println(json.getJSONObject("key1").toJavaObject(KeyValue.class));
+        System.out.println(JSON.parseObject(json.getString("key1"), KeyValue.class));
         System.out.println();
         // 值为对象JSON字符串，解析为对象
+        System.out.println(json.get("key2"));
         System.out.println(json.getJSONObject("key2").toJavaObject(KeyValue.class));
         System.out.println(JSON.parseObject(json.getString("key2"), KeyValue.class));
         System.out.println();
         // 值为数组，解析为数组
         System.out.println(json.get("key3"));
         System.out.println(Arrays.toString(json.getJSONArray("key3").toArray()));
+        System.out.println(Arrays.toString(JSON.parseArray(json.getString("key3")).toArray()));
         System.out.println();
-        // 值为数组JSON字符串，解析为对象
+        // 值为数组JSON字符串，解析为数组
+        System.out.println(json.get("key4"));
         System.out.println(Arrays.toString(json.getJSONArray("key4").toArray()));
         System.out.println(Arrays.toString(JSON.parseArray(json.getString("key4")).toArray()));
         System.out.println();
@@ -122,6 +132,22 @@ public class FastJsonTest {
         System.out.println(json.getByte("key2"));
         System.out.println(json.getByte("key3"));
         System.out.println(json.getByte("key4"));
+    }
+
+    @Test
+    public void testParseMap() {
+        String[] jsonList = {
+                "",
+                "{}",
+                "{\"id\":1, \"name\":\"2\", \"age\":\"23\"}",
+                "{\\\"id\\\":1, \\\"name\\\":\\\"2\\\", \\\"age\\\":\\\"23\\\"}",
+                "{\\\\\\\"id\\\\\\\":1, \\\\\\\"name\\\\\\\":\\\\\\\"2\\\\\\\", \\\\\\\"age\\\\\\\":\\\\\\\"23\\\\\\\"}"
+        };
+        for (String json : jsonList) {
+            Map map = JSON.parseObject(StringUtil.unescapeAll(json), Map.class);
+            System.out.println("json字符串: " + json);
+            System.out.println("解析成Map: " + map);
+        }
     }
 
 }

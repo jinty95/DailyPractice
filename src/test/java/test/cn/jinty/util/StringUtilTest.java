@@ -81,8 +81,8 @@ public class StringUtilTest {
         System.out.println(StringUtil.trim("\"hello\"", "\""));
         System.out.println(StringUtil.trim("  \"  hello  \"  ", "\""));
         System.out.println(StringUtil.trim(" ' hello world ' ", "'"));
-        System.out.println(StringUtil.trim("ok yes", "$$"));
-        System.out.println(StringUtil.trim(" $$ ok yes $$ ", "$$"));
+        System.out.println(StringUtil.trim("ok yes", "$"));
+        System.out.println(StringUtil.trim(" $ $ ok yes $ $ ", "$"));
         System.out.println(StringUtil.trim(StringUtil.trim(" \"' ok yes '\" ", "\""), "'"));
     }
 
@@ -358,6 +358,21 @@ public class StringUtilTest {
         System.out.println("最长公共子序列：" + StringUtil.longestCommonSubsequence(s1, s2));
         for (String diff : StringUtil.diff(s1, s2)) {
             System.out.println("差异部分：" + diff);
+        }
+    }
+
+    @Test
+    public void testEscapeAndUnescape() {
+        String s = "{\"id\":1,\r\n\"name\":\"2\\3\"}";
+        System.out.println(s);
+        for (int i = 0; i < 5; i++) {
+            s = StringUtil.escape(s);
+            System.out.println(s);
+        }
+        System.out.println("\n" + s);
+        for (int i = 0; i < 5; i++) {
+            s = StringUtil.unescape(s);
+            System.out.println(s);
         }
     }
 

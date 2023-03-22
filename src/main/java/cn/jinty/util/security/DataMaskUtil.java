@@ -86,7 +86,7 @@ public final class DataMaskUtil {
         return StringUtil.repeat(MASK, 4) + mail.substring(index);
     }
 
-    public static final Pattern ADDRESS_PATTERN = Pattern.compile("([区县镇])(.*)");
+    public static final Pattern ADDRESS_PATTERN = Pattern.compile("(区.+市|市.+市|区|县|镇)(.*)");
 
     /**
      * 地址脱敏 (保留"区/县/镇"之前，或者保留前6)
