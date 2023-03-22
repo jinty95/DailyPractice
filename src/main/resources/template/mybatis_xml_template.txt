@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${MAPPER_FULL_NAME}">
+
+    <!-- 查询结果映射 -->
+    <resultMap id="baseResultMap" type="${ENTITY_FULL_NAME}">
+        ${RESULT_MAP}
+    </resultMap>
+
+    <!-- 表的所有字段 -->
+    <sql id="baseColumns">
+        ${COLUMNS}
+    </sql>
+
+    <!-- 基础查询条件 -->
+    <sql id="baseSelectCondition">
+        ${SELECT_CONDITION}
+    </sql>
+
+    <!-- 插入数据(忽略空字段) -->
+    <insert id="insert" parameterType="${ENTITY_FULL_NAME}" ${INSERT_GEN_KEY}>
+        insert into `${TABLE_NAME}`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            ${INSERT_COLUMNS}
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            ${INSERT_VALUES}
+        </trim>
+    </insert>
+
+    <!-- 批量插入数据(空字段填充默认值) -->
+    <insert id="batchInsert" parameterType="${ENTITY_FULL_NAME}" ${INSERT_GEN_KEY}>
+        insert into `${TABLE_NAME}` (
+            ${BATCH_INSERT_COLUMNS}
+        )
+        values
+        ${BATCH_INSERT_VALUES}
+    </insert>
+
+    <!-- 根据主键更新数据(忽略空字段) -->
+    <update id="updateByPk" parameterType="${ENTITY_FULL_NAME}">
+        update `${TABLE_NAME}`
+        <set>
+            ${UPDATE_COLUMNS}
+        </set>
+        where ${PK_CONDITION}
+    </update>
+
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByPk" parameterType="${PK_PARAM_TYPE}">
+        delete from `${TABLE_NAME}`
+        where ${PK_CONDITION}
+    </delete>
+
+    <!-- 根据主键查询数据 -->
+    <select id="selectByPk" parameterType="${PK_PARAM_TYPE}" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where ${PK_CONDITION}
+    </select>
+
+    <!-- 查询数据(条件忽略空字段) -->
+    <select id="select" parameterType="${ENTITY_FULL_NAME}" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+</mapper>

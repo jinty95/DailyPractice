@@ -32,4 +32,7 @@ public class Column {
     // 是否主键
     private Boolean isPrimaryKey = false;
 
+    // 是否自增
+    private Boolean isAutoIncrement = false;
+
 }

@@ -22,6 +22,7 @@ public enum DDLWordType {
     FIELD_TYPE("字段类型"),
     FIELD_LENGTH("字段长度"),
     FIELD_NULLABLE("字段可空"),
+    FIELD_AUTO_INCREMENT("字段自增"),
     FIELD_DEFAULT("字段默认值"),
     FIELD_COMMENT("字段说明"),
 
@@ -40,7 +41,8 @@ public enum DDLWordType {
      */
     public static boolean isField(DDLWordType wordType) {
         return wordType == FIELD_NAME || wordType == FIELD_TYPE || wordType == FIELD_LENGTH
-                || wordType == FIELD_NULLABLE || wordType == FIELD_DEFAULT || wordType == FIELD_COMMENT;
+                || wordType == FIELD_NULLABLE || wordType == FIELD_AUTO_INCREMENT
+                || wordType == FIELD_DEFAULT || wordType == FIELD_COMMENT ;
     }
 
     /**

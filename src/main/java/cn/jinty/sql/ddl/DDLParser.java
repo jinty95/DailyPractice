@@ -43,11 +43,9 @@ public class DDLParser {
                 } else if (word.getType() == DDLWordType.FIELD_LENGTH) {
                     column.setLength(word.getText().toString());
                 } else if (word.getType() == DDLWordType.FIELD_NULLABLE) {
-                    if (NOT_NULL.equalsIgnoreCase(word.getText().toString())) {
-                        column.setIsNullable(false);
-                    } else {
-                        column.setIsNullable(true);
-                    }
+                    column.setIsNullable(!NOT_NULL.equalsIgnoreCase(word.getText().toString()));
+                } else if (word.getType() == DDLWordType.FIELD_AUTO_INCREMENT) {
+                    column.setIsAutoIncrement(AUTO_INCREMENT.equalsIgnoreCase(word.getText().toString()));
                 } else if (word.getType() == DDLWordType.FIELD_DEFAULT) {
                     column.setDefaultValue(word.getText().toString());
                 } else if (word.getType() == DDLWordType.FIELD_COMMENT) {
@@ -155,6 +153,15 @@ public class DDLParser {
                     curWord = new DDLWord(fieldOrder);
                     idx += (NOT_NULL.length() - 1);
                 }
+            } else if (curWord.getType() == DDLWordType.FIELD_AUTO_INCREMENT) {
+                // 字段自增
+                if (AUTO_INCREMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, AUTO_INCREMENT.length()))) {
+                    curWord.append(charArr, idx - 1, AUTO_INCREMENT.length());
+                    words.add(curWord);
+                    lastWord = curWord;
+                    curWord = new DDLWord(fieldOrder);
+                    idx += (AUTO_INCREMENT.length() - 1);
+                }
             } else if (curWord.getType() == DDLWordType.FIELD_DEFAULT) {
                 // 字段默认值
                 if (DEFAULT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx - 1, DEFAULT.length()))) {
@@ -257,6 +264,9 @@ public class DDLParser {
                 || NOT_NULL.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, NOT_NULL.length())))
                 && DDLWordType.isField(lastWord.getType())) {
             curWord.setType(DDLWordType.FIELD_NULLABLE);
+        } else if (AUTO_INCREMENT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, AUTO_INCREMENT.length()))
+                && DDLWordType.isField(lastWord.getType())) {
+            curWord.setType(DDLWordType.FIELD_AUTO_INCREMENT);
         } else if (DEFAULT.equalsIgnoreCase(CharArrayUtil.toString(charArr, idx, DEFAULT.length()))
                 && DDLWordType.isField(lastWord.getType())) {
             curWord.setType(DDLWordType.FIELD_DEFAULT);

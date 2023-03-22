@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * MySql类型映射器
+ * Mysql类型映射器
  *
  * @author Jinty
  * @date 2023/3/6
  **/
-public class MySqlTypeMapper implements TypeMapper {
+public class MysqlTypeMapper implements TypeMapper {
 
     private static final Map<String, String> SQL_TO_JAVA = new HashMap<>();
     private static final Map<String, String> JAVA_TO_SQL = new HashMap<>();

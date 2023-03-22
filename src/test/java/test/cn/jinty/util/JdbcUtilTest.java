@@ -2,7 +2,7 @@ package test.cn.jinty.util;
 
 import cn.jinty.util.JdbcUtil;
 import org.junit.Test;
-import test.cn.jinty.sql.code.Job;
+import cn.jinty.entity.Job;
 
 import java.sql.Connection;
 import java.util.Arrays;
@@ -139,7 +139,7 @@ public class JdbcUtilTest {
         }
     }
 
-    // 获取MySql数据库所有的建表语句
+    // 获取Mysql数据库所有的建表语句
     @Test
     public void executeShowCreateTable() {
         try (Connection conn = JdbcUtil.getDefaultConnection()) {

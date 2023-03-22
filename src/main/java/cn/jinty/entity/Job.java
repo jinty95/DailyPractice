@@ -1,4 +1,4 @@
-package test.cn.jinty.sql.code;
+package cn.jinty.entity;
 
 import lombok.Data;
 
