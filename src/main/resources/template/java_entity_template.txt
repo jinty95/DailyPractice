@@ -1,14 +1,18 @@
-package ${PACKAGE_NAME};
+package ${BASE_PACKAGE}.entity;
 
 import lombok.Data;
 
+${IMPORT_CLASS}
+
 /**
- * ${CLASS_DESC}
+ * ${TABLE_COMMENT}
  *
  * @author ${AUTHOR}
  * @date ${DATE}
  */
 @Data
 public class ${CLASS_NAME} {
-    ${FIELDS}
+
+    ${CLASS_FIELDS}
+
 }

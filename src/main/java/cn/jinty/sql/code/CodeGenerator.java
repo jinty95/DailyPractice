@@ -8,14 +8,10 @@ import cn.jinty.util.DateUtil;
 import cn.jinty.util.StringUtil;
 import cn.jinty.util.io.FileUtil;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static cn.jinty.sql.code.JavaEntityTemplatePlaceholderEnum.*;
-import static cn.jinty.sql.code.MybatisXmlTemplatePlaceholderEnum.*;
+import static cn.jinty.sql.code.TemplatePlaceholderEnum.*;
 
 /**
  * 代码生成器
@@ -26,98 +22,108 @@ import static cn.jinty.sql.code.MybatisXmlTemplatePlaceholderEnum.*;
 public class CodeGenerator {
 
     /**
-     * 根据DDL生成Java实体类
+     * 根据DDL及模板文件，生成代码文件
      *
      * @param ddl              DDL
      * @param typeMapper       类型映射
-     * @param valueMapper      值映射(用于替换模板的占位符)
+     * @param data             用于填充模板占位符的数据
      * @param templateFilePath 模板文件路径
-     * @param targetDir        输出文件目录
+     * @param targetDir        目标文件目录
+     * @param targetFileSuffix 目标文件后缀
      * @throws IOException IO异常
      */
-    public static void genJavaEntity(String ddl, TypeMapper typeMapper, Map<String, String> valueMapper,
-                                     String templateFilePath, String targetDir) throws IOException {
-
-        // 解析DDL
-        Table table = DDLParser.parse(ddl);
-
-        // 基于表信息渲染数据
-        String className = StringUtil.snakeToCamel(table.getName(), true);
-        String classDesc = table.getComment();
-        String date = DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1);
-        StringBuilder fields = new StringBuilder();
-        for (Column column : table.getColumns()) {
-            // 通过类型映射确定字段类型
-            String fieldType = typeMapper.sqlTypeToJavaType(column.getType());
-            String fieldName = StringUtil.snakeToCamel(column.getName(), false);
-            fields.append("\n");
-            fields.append("    // ").append(column.getComment()).append("\n");
-            fields.append(String.format("    private %s %s;\n", fieldType, fieldName));
-        }
-
-        // 写入值映射
-        valueMapper.put(CLASS_NAME.name(), className);
-        valueMapper.put(CLASS_DESC.name(), classDesc);
-        valueMapper.put(DATE.name(), date);
-        valueMapper.put(FIELDS.name(), fields.toString());
-
-        // 获取模板，替换占位符
+    public static void generate(String ddl, TypeMapper typeMapper, Map<String, String> data,
+                                String templateFilePath, String targetDir, String targetFileSuffix) throws IOException {
+        prepareData(ddl, typeMapper, data);
         String template = FileUtil.read(templateFilePath);
-        for (JavaEntityTemplatePlaceholderEnum placeholder : JavaEntityTemplatePlaceholderEnum.values()) {
-            String value = valueMapper.get(placeholder.name());
-            if (value == null) {
-                continue;
-            }
-            template = template.replace(String.format("${%s}", placeholder.name()), value);
-        }
-
-        // 输出到指定文件
-        String packageName = valueMapper.getOrDefault(PACKAGE_NAME.name(), StringUtil.EMPTY);
-        packageName = packageName.replace(".", File.separator);
-        String targetFilePath = FileUtil.concatBySeparator(targetDir, packageName, className + ".java");
+        template = fillWithData(template, data);
+        String className = data.getOrDefault(CLASS_NAME.name(), "");
+        String targetFilePath = FileUtil.concatBySeparator(targetDir, className + targetFileSuffix);
         FileUtil.write(template, targetFilePath);
-        System.out.println(String.format("根据DDL生成Java实体类代码，执行成功：targetFilePath=%s", targetFilePath));
+        System.out.println(String.format("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n",
+                templateFilePath, targetFilePath));
+    }
 
+    /* 以下为内部函数 */
+
+    /**
+     * 向模板占位符填充数据
+     *
+     * @param template 带有占位符模板内容
+     * @param data     用于填充模板占位符的数据
+     */
+    private static String fillWithData(String template, Map<String, String> data) {
+        for (TemplatePlaceholderEnum placeholder : TemplatePlaceholderEnum.values()) {
+            String value = data.get(placeholder.name());
+            if (value != null) {
+                template = template.replace(String.format("${%s}", placeholder.name()), value);
+            }
+        }
+        return template;
     }
 
     /**
-     * 根据DDL生成Mybatis的XML文件
+     * 解析DDL，构造用于填充模板占位符的数据
      *
-     * @param ddl              DDL
-     * @param typeMapper       类型映射
-     * @param valueMapper      值映射(用于替换模板的占位符)
-     * @param templateFilePath 模板文件路径
-     * @param targetDir        输出文件目录
-     * @throws IOException IO异常
+     * @param ddl        DDL
+     * @param typeMapper 类型映射
+     * @param data       用于填充模板占位符的数据
      */
-    public static void genMybatisXml(String ddl, TypeMapper typeMapper, Map<String, String> valueMapper,
-                                     String templateFilePath, String targetDir) throws IOException {
+    private static void prepareData(String ddl, TypeMapper typeMapper, Map<String, String> data) {
 
         // 解析DDL
         Table table = DDLParser.parse(ddl);
-
-        // 基于表信息渲染数据
-        String entityPackageName = valueMapper.getOrDefault(ENTITY_PACKAGE_NAME.name(), StringUtil.EMPTY);
-        String entityClassName = StringUtil.snakeToCamel(table.getName(), true);
-        String entityFullName = entityPackageName + "." + entityClassName;
-
-        String mapperPackageName = valueMapper.getOrDefault(MAPPER_PACKAGE_NAME.name(), StringUtil.EMPTY);
-        String mapperClassName = entityClassName + "Mapper";
-        String mapperFullName = mapperPackageName + "." + mapperClassName;
-
-        StringBuilder resultMap = new StringBuilder();
-        StringBuilder columns = new StringBuilder();
-        StringBuilder selectCondition = new StringBuilder();
-        StringBuilder insertColumns = new StringBuilder();
-        StringBuilder insertValues = new StringBuilder();
-        StringBuilder batchInsertColumns = new StringBuilder();
-        StringBuilder batchInsertValues = new StringBuilder();
-        StringBuilder updateColumns = new StringBuilder();
-
-        batchInsertValues.append("<foreach item=\"item\" collection=\"list\" index=\"index\" separator=\",\">\n            ");
-        batchInsertValues.append("(\n            ");
-
         List<Column> columnList = table.getColumns();
+
+        // 构造用于替换模板占位符的数据
+        data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1));
+        data.put(TABLE_NAME.name(), table.getName());
+        data.put(TABLE_COMMENT.name(), table.getComment());
+        data.put(CLASS_NAME.name(), StringUtil.snakeToCamel(table.getName(), true));
+
+        StringBuilder classFields = new StringBuilder();
+        StringBuilder importClass = new StringBuilder();
+        Set<Class<?>> alreadyImport = new HashSet<>();
+        for (Column column : columnList) {
+            Class<?> fieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
+            String fieldType = fieldClass.getSimpleName();
+            String fieldName = StringUtil.snakeToCamel(column.getName(), false);
+            classFields.append("\n");
+            classFields.append("    // ").append(column.getComment()).append("\n");
+            classFields.append(String.format("    private %s %s;\n", fieldType, fieldName));
+            if (!fieldClass.getName().startsWith("java.lang") && !alreadyImport.contains(fieldClass)) {
+                alreadyImport.add(fieldClass);
+                importClass.append(String.format("import %s;\n", fieldClass.getName()));
+            }
+        }
+        data.put(CLASS_FIELDS.name(), classFields.toString().trim());
+        data.put(IMPORT_CLASS.name(), importClass.toString().trim());
+
+        for (Column column : columnList) {
+            if (column.getIsPrimaryKey()) {
+                data.put(PK_COLUMN_NAME.name(), column.getName());
+                data.put(PK_FIELD_NAME.name(), StringUtil.snakeToCamel(column.getName(), false));
+                Class<?> pkFiledClass = typeMapper.sqlTypeToJavaClass(column.getType());
+                data.put(PK_FIELD_CLASS.name(), pkFiledClass.getName());
+                data.put(PK_FIELD_TYPE.name(), pkFiledClass.getSimpleName());
+                break;
+            }
+        }
+
+        StringBuilder tableColumns = new StringBuilder();
+        StringBuilder sqlResultMap = new StringBuilder();
+        StringBuilder sqlSelectCondition = new StringBuilder();
+        StringBuilder sqlInsertDefaultColumns = new StringBuilder();
+        StringBuilder sqlInsertDefaultValues = new StringBuilder();
+        StringBuilder sqlInsertColumns = new StringBuilder();
+        StringBuilder sqlInsertValues = new StringBuilder();
+        StringBuilder sqlBatchInsertColumns = new StringBuilder();
+        StringBuilder sqlBatchInsertValues = new StringBuilder();
+        StringBuilder sqlUpdateColumns = new StringBuilder();
+
+        sqlBatchInsertValues.append("<foreach item=\"item\" collection=\"list\" index=\"index\" separator=\",\">\n            ");
+        sqlBatchInsertValues.append("(\n            ");
+
         for (int i = 0; i < columnList.size(); i++) {
             Column column = columnList.get(i);
             String columnName = column.getName();
@@ -127,68 +133,51 @@ public class CodeGenerator {
             boolean changeLine = (i + 1) % 8 == 0;
 
             if (column.getIsPrimaryKey()) {
-                resultMap.append(String.format("<id column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
+                sqlResultMap.append(String.format("<id column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
             } else {
-                resultMap.append(String.format("<result column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
+                sqlResultMap.append(String.format("<result column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
             }
 
-            columns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n        " : "");
+            tableColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n        " : "");
 
-            selectCondition.append(String.format("<if test=\"%s != null\"> and `%s` = #{%s} </if>\n        ", propertyName, columnName, propertyName));
+            sqlSelectCondition.append(String.format("<if test=\"%s != null\"> and `%s` = #{%s} </if>\n        ", propertyName, columnName, propertyName));
 
             if (column.getIsPrimaryKey() && column.getIsAutoIncrement()) {
-                valueMapper.put(INSERT_GEN_KEY.name(), String.format("useGeneratedKeys=\"true\" keyProperty=\"%s\"", propertyName));
+                data.put(SQL_INSERT_GEN_KEY.name(), String.format("useGeneratedKeys=\"true\" keyProperty=\"%s\"", propertyName));
             } else {
-                insertColumns.append(String.format("<if test=\"%s != null\">`%s`,</if>\n            ", propertyName, columnName));
+                sqlInsertDefaultColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n            " : "");
 
-                insertValues.append(String.format("<if test=\"%s != null\">#{%s},</if>\n            ", propertyName, propertyName));
+                sqlInsertDefaultValues.append(defaultValue).append(commaOrNot).append(changeLine ? "\n            " : "");
 
-                batchInsertColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n            " : "");
+                sqlInsertColumns.append(String.format("<if test=\"%s != null\">`%s`,</if>\n            ", propertyName, columnName));
 
-                batchInsertValues.append(String.format("<choose><when test=\"item.%s != null\">#{item.%s}%s</when><otherwise>%s%s</otherwise></choose>\n            ",
+                sqlInsertValues.append(String.format("<if test=\"%s != null\">#{%s},</if>\n            ", propertyName, propertyName));
+
+                sqlBatchInsertColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n            " : "");
+
+                sqlBatchInsertValues.append(String.format("<choose><when test=\"item.%s != null\">#{item.%s}%s</when><otherwise>%s%s</otherwise></choose>\n            ",
                         propertyName, propertyName, commaOrNot, defaultValue, commaOrNot));
             }
 
-            if (column.getIsPrimaryKey()) {
-                valueMapper.put(PK_PARAM_TYPE.name(), "java.lang." + typeMapper.sqlTypeToJavaType(column.getType()));
-                valueMapper.put(PK_CONDITION.name(), String.format("`%s` = #{%s}", columnName, propertyName));
-            } else {
-                updateColumns.append(String.format("<if test=\"%s != null\"> `%s` = #{%s}, </if>\n            ", propertyName, columnName, propertyName));
+            if (!column.getIsPrimaryKey()) {
+                sqlUpdateColumns.append(String.format("<if test=\"%s != null\"> `%s` = #{%s}, </if>\n            ", propertyName, columnName, propertyName));
             }
 
         }
 
-        batchInsertValues.append(")\n        ");
-        batchInsertValues.append("</foreach>");
+        sqlBatchInsertValues.append(")\n        ");
+        sqlBatchInsertValues.append("</foreach>");
 
-        // 写入值映射
-        valueMapper.put(MAPPER_FULL_NAME.name(), mapperFullName);
-        valueMapper.put(ENTITY_FULL_NAME.name(), entityFullName);
-        valueMapper.put(TABLE_NAME.name(), table.getName());
-        valueMapper.put(RESULT_MAP.name(), resultMap.toString().trim());
-        valueMapper.put(COLUMNS.name(), columns.toString().trim());
-        valueMapper.put(SELECT_CONDITION.name(), selectCondition.toString().trim());
-        valueMapper.put(INSERT_COLUMNS.name(), insertColumns.toString().trim());
-        valueMapper.put(INSERT_VALUES.name(), insertValues.toString().trim());
-        valueMapper.put(BATCH_INSERT_COLUMNS.name(), batchInsertColumns.toString().trim());
-        valueMapper.put(BATCH_INSERT_VALUES.name(), batchInsertValues.toString().trim());
-        valueMapper.put(UPDATE_COLUMNS.name(), updateColumns.toString().trim());
-
-        // 获取模板，替换占位符
-        String template = FileUtil.read(templateFilePath);
-        for (MybatisXmlTemplatePlaceholderEnum placeholder : MybatisXmlTemplatePlaceholderEnum.values()) {
-            String value = valueMapper.get(placeholder.name());
-            if (value == null) {
-                continue;
-            }
-            template = template.replace(String.format("${%s}", placeholder.name()), value);
-        }
-
-        // 输出到指定文件
-        mapperPackageName = mapperPackageName.replace(".", File.separator);
-        String targetFilePath = FileUtil.concatBySeparator(targetDir, mapperPackageName, mapperClassName + ".xml");
-        FileUtil.write(template, targetFilePath);
-        System.out.println(String.format("根据DDL生成Mybatis的XML文件，执行成功：targetFilePath=%s", targetFilePath));
+        data.put(TABLE_COLUMNS.name(), tableColumns.toString().trim());
+        data.put(SQL_RESULT_MAP.name(), sqlResultMap.toString().trim());
+        data.put(SQL_SELECT_CONDITION.name(), sqlSelectCondition.toString().trim());
+        data.put(SQL_INSERT_DEFAULT_COLUMNS.name(), sqlInsertDefaultColumns.toString().trim());
+        data.put(SQL_INSERT_DEFAULT_VALUES.name(), sqlInsertDefaultValues.toString().trim());
+        data.put(SQL_INSERT_COLUMNS.name(), sqlInsertColumns.toString().trim());
+        data.put(SQL_INSERT_VALUES.name(), sqlInsertValues.toString().trim());
+        data.put(SQL_BATCH_INSERT_COLUMNS.name(), sqlBatchInsertColumns.toString().trim());
+        data.put(SQL_BATCH_INSERT_VALUES.name(), sqlBatchInsertValues.toString().trim());
+        data.put(SQL_UPDATE_COLUMNS.name(), sqlUpdateColumns.toString().trim());
 
     }
 

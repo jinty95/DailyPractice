@@ -1,0 +1,51 @@
+package ${BASE_PACKAGE}.mapper;
+
+import org.apache.ibatis.annotations.Param;
+import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+
+import java.util.List;
+
+/**
+ * ${TABLE_COMMENT} - Mapper
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+public interface ${CLASS_NAME}Mapper {
+
+    /**
+     * 插入数据(字段都填充默认值)
+     */
+    int insertDefault();
+
+    /**
+     * 插入数据(忽略空字段)
+     */
+    int insert(${CLASS_NAME} item);
+
+    /**
+     * 批量插入数据(空字段填充默认值)
+     */
+    int batchInsert(@Param("list") List<${CLASS_NAME}> list);
+
+    /**
+     * 根据主键更新数据(忽略空字段)
+     */
+    int updateByPk(${CLASS_NAME} item);
+
+    /**
+     * 根据主键删除数据
+     */
+    int deleteByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+
+    /**
+     * 根据主键查询数据
+     */
+    ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+
+    /**
+     * 查询数据(条件忽略空字段)
+     */
+    List<${CLASS_NAME}> select(${CLASS_NAME} item);
+
+}

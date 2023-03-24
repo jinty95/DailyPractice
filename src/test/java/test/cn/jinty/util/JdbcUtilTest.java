@@ -2,7 +2,7 @@ package test.cn.jinty.util;
 
 import cn.jinty.util.JdbcUtil;
 import org.junit.Test;
-import cn.jinty.entity.Job;
+import test.cn.jinty.sql.code.Job;
 
 import java.sql.Connection;
 import java.util.Arrays;

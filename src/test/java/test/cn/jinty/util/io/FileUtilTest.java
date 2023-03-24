@@ -1,7 +1,9 @@
 package test.cn.jinty.util.io;
 
+import cn.jinty.Main;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
+import cn.jinty.util.DateUtil;
 import cn.jinty.util.StringUtil;
 import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.io.FileUtil;
@@ -238,8 +240,8 @@ public class FileUtilTest {
         System.out.println(FileUtil.getAbsolutePath("/template", true));
         System.out.println(FileUtil.getAbsolutePath("/cn", true));
         System.out.println(FileUtil.getAbsolutePath("/cn/jinty/enums", true));
-        System.out.println(FileUtil.getAbsolutePath("IOUtil.class", true));
-        System.out.println(FileUtil.getAbsolutePath("DateUtil.class", true));
+        System.out.println(FileUtil.getAbsolutePath("io/IOUtil.class", true, DateUtil.class));
+        System.out.println(FileUtil.getAbsolutePath("util/DateUtil.class", true, Main.class));
     }
 
 }

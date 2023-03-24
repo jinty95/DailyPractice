@@ -1,5 +1,6 @@
 package test.cn.jinty.sql.code;
 
+import cn.jinty.Main;
 import cn.jinty.sql.code.CodeGenerator;
 import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
@@ -15,8 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cn.jinty.sql.code.JavaEntityTemplatePlaceholderEnum.*;
-import static cn.jinty.sql.code.MybatisXmlTemplatePlaceholderEnum.*;
+import static cn.jinty.sql.code.TemplatePlaceholderEnum.AUTHOR;
+import static cn.jinty.sql.code.TemplatePlaceholderEnum.BASE_PACKAGE;
 
 /**
  * 代码生成器 - 测试
@@ -27,84 +28,16 @@ import static cn.jinty.sql.code.MybatisXmlTemplatePlaceholderEnum.*;
 public class CodeGeneratorTest {
 
     @Test
-    public void testGenJavaEntity() {
-        try {
-            // 获取DDL
-            String ddl = getDDLFromFile("/sql/base_table.sql", true);
-            // 指定模板路径
-            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
-            // 指定输出目录
-            String targetDir = "D:/temp/codegen";
-            // 生成Java文件
-            TypeMapper typeMapper = new MysqlTypeMapper();
-            Map<String, String> valueMapper = new HashMap<>();
-            valueMapper.put(PACKAGE_NAME.name(), "cn.jinty.entity");
-            valueMapper.put(AUTHOR.name(), "Jinty");
-            CodeGenerator.genJavaEntity(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void testGen() {
+        gen(getDDL());
     }
 
     @Test
-    public void testBatchGenJavaEntity() {
+    public void testBatchGen() {
         try {
-            // 获取DDL
-            List<String> ddlList = getDDLFromDir("/sql", true);
-            // 指定模板路径
-            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
-            // 指定输出目录
-            String targetDir = "D:/temp/codegen";
-            // 生成Java文件
-            TypeMapper typeMapper = new MysqlTypeMapper();
-            for (String ddl : ddlList) {
-                Map<String, String> valueMapper = new HashMap<>();
-                valueMapper.put(PACKAGE_NAME.name(), "cn.jinty.entity");
-                valueMapper.put(AUTHOR.name(), "Jinty");
-                CodeGenerator.genJavaEntity(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
+            for (String ddl : getDDLFromDB()) {
+                gen(ddl);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testBatchGenJavaEntity1() {
-        try {
-            // 获取DDL
-            List<String> ddlList = getDDLFromDB();
-            // 指定模板路径
-            String templateFilePath = FileUtil.getAbsolutePath("/template/java_entity_template.txt", true);
-            // 指定输出目录
-            String targetDir = "D:/temp/codegen";
-            // 生成Java文件
-            TypeMapper typeMapper = new MysqlTypeMapper();
-            for (String ddl : ddlList) {
-                Map<String, String> valueMapper = new HashMap<>();
-                valueMapper.put(PACKAGE_NAME.name(), "cn.jinty.entity");
-                valueMapper.put(AUTHOR.name(), "Jinty");
-                CodeGenerator.genJavaEntity(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testGenMybatisXml() {
-        try {
-            // 获取DDL
-            String ddl = getDDL();
-            // 指定模板路径
-            String templateFilePath = FileUtil.getAbsolutePath("/template/mybatis_xml_template.txt", true);
-            // 指定输出目录
-            String targetDir = "D:/temp/codegen";
-            // 生成Mybatis的XML文件
-            TypeMapper typeMapper = new MysqlTypeMapper();
-            Map<String, String> valueMapper = new HashMap<>();
-            valueMapper.put(ENTITY_PACKAGE_NAME.name(), "cn.jinty.entity");
-            valueMapper.put(MAPPER_PACKAGE_NAME.name(), "cn.jinty.mapper");
-            CodeGenerator.genMybatisXml(ddl, typeMapper, valueMapper, templateFilePath, targetDir);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,6 +101,54 @@ public class CodeGeneratorTest {
             }
         }
         return ddlList;
+    }
+
+    // 获取生成文件目录
+    private String getTargetDir(String lastPackage) {
+        String dir = FileUtil.getAbsolutePath("sql", true, Main.class);
+        String basePackage = getBasePackage().replace(".", File.separator);
+        return FileUtil.concatBySeparator(dir, basePackage, lastPackage);
+    }
+
+    // 获取包名
+    private String getBasePackage() {
+        return "codegen";
+    }
+
+    // 获取作者
+    private String getAuthor() {
+        return "Jinty";
+    }
+
+    // 获取包名及作者
+    private Map<String, String> getData() {
+        Map<String, String> data = new HashMap<>();
+        data.put(BASE_PACKAGE.name(), getBasePackage());
+        data.put(AUTHOR.name(), getAuthor());
+        return data;
+    }
+
+    // 生成文件
+    private void gen(String ddl, String relativeTemplateFilePath, String targetDir, String targetFileSuffix) {
+        try {
+            // 指定模板路径
+            String templateFilePath = FileUtil.getAbsolutePath(relativeTemplateFilePath, true);
+            // 指定类型映射
+            TypeMapper typeMapper = new MysqlTypeMapper();
+            // 指定包名及作者
+            Map<String, String> data = getData();
+            // 生成文件
+            CodeGenerator.generate(ddl, typeMapper, data, templateFilePath, targetDir, targetFileSuffix);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 生成文件
+    private void gen(String ddl) {
+        gen(ddl, "/template/java_entity_template.txt", getTargetDir("entity"), ".java");
+        gen(ddl, "/template/mybatis_xml_template.txt", getTargetDir("mapper"), "Mapper.xml");
+        gen(ddl, "/template/mybatis_mapper_template.txt", getTargetDir("mapper"), "Mapper.java");
     }
 
 }

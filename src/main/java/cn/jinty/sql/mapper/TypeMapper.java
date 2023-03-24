@@ -14,6 +14,14 @@ public interface TypeMapper {
      * @param sqlType 数据库类型
      * @return Java类型
      */
+    Class<?> sqlTypeToJavaClass(String sqlType);
+
+    /**
+     * 数据库类型 -> Java类型
+     *
+     * @param sqlType 数据库类型
+     * @return Java类型
+     */
     String sqlTypeToJavaType(String sqlType);
 
     /**

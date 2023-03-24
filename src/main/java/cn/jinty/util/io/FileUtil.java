@@ -510,13 +510,30 @@ public final class FileUtil {
      * @return 绝对路径
      */
     public static String getAbsolutePath(String path, boolean isRelative) {
+        return getAbsolutePath(path, isRelative, FileUtil.class);
+    }
+
+    /**
+     * 根据相对路径获取绝对路径
+     * 1、当path以"/"开头，那么在classpath(即/target/classes)下寻找资源
+     * 2、当path不以"/"开头，那么在relativeClass所在的目录下寻找资源
+     *
+     * @param path          路径
+     * @param isRelative    是否相对
+     * @param relativeClass 相对的类
+     * @return 绝对路径
+     */
+    public static String getAbsolutePath(String path, boolean isRelative, Class<?> relativeClass) {
         if (StringUtil.isBlank(path)) {
             return StringUtil.EMPTY;
         }
         if (!isRelative) {
             return path;
         }
-        URL url = FileUtil.class.getResource(path);
+        if (relativeClass == null) {
+            relativeClass = FileUtil.class;
+        }
+        URL url = relativeClass.getResource(path);
         if (url == null) {
             return StringUtil.EMPTY;
         }
