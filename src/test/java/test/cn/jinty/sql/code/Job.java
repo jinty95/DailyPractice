@@ -8,12 +8,12 @@ import java.util.Date;
  * 作业表
  *
  * @author Jinty
- * @date 2023/03/17
+ * @date 2023/03/25
  */
 @Data
 public class Job {
-    
-    // 主键ID
+
+    // 自增ID
     private Long id;
 
     // 作业类型

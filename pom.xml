@@ -50,10 +50,16 @@
             <version>8.0.30</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+
     </dependencies>
 
-    <!-- 使用JDK8编译 -->
     <build>
+        <!-- 使用JDK8编译 -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -64,6 +70,45 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <!-- 默认情况下，只有/resources下的资源文件会打包，/java下的资源文件不会打包 -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.txt</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.txt</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.txt</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.txt</include>
+                </includes>
+            </testResource>
+        </testResources>
     </build>
 
 </project>
