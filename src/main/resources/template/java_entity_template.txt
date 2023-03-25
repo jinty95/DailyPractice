@@ -13,6 +13,10 @@ ${IMPORT_CLASS}
 @Data
 public class ${CLASS_NAME} {
 
-    ${CLASS_FIELDS}
-
+    // ${PK_COLUMN_COMMENT}
+    private ${PK_FIELD_TYPE} ${PK_FIELD_NAME};
+${FOR_EACH}
+    // ${COLUMN_COMMENT}
+    private ${FIELD_TYPE} ${FIELD_NAME};
+${END_FOR_EACH}
 }

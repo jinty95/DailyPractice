@@ -1,5 +1,8 @@
 package cn.jinty.sql.code;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 模板占位符 - 枚举
  * (数据库字段为COLUMN，实体类字段为FIELD)
@@ -21,29 +24,42 @@ public enum TemplatePlaceholderEnum {
 
     // 类
     CLASS_NAME,
-    CLASS_FIELDS,
+
+    // 类字段
+    FIELD_CLASS,
+    FIELD_TYPE,
+    FIELD_NAME,
 
     // 表
     TABLE_NAME,
     TABLE_COMMENT,
-    TABLE_COLUMNS,
+
+    // 表字段
+    COLUMN_NAME,
+    COLUMN_TYPE,
+    COLUMN_DEFAULT,
+    COLUMN_COMMENT,
 
     // 主键
     PK_FIELD_CLASS,
     PK_FIELD_TYPE,
     PK_FIELD_NAME,
     PK_COLUMN_NAME,
+    PK_COLUMN_TYPE,
+    PK_COLUMN_COMMENT,
 
-    // SQL元素
-    SQL_RESULT_MAP,
-    SQL_SELECT_CONDITION,
-    SQL_UPDATE_COLUMNS,
-    SQL_INSERT_GEN_KEY,
-    SQL_INSERT_DEFAULT_COLUMNS,
-    SQL_INSERT_DEFAULT_VALUES,
-    SQL_INSERT_COLUMNS,
-    SQL_INSERT_VALUES,
-    SQL_BATCH_INSERT_COLUMNS,
-    SQL_BATCH_INSERT_VALUES,
+    // 遍历(字段)
+    FOR_EACH,
+    END_FOR_EACH,
+
+    ;
+
+    // 类字段、表字段
+    public static List<TemplatePlaceholderEnum> fieldAndColumn() {
+        return Arrays.asList(
+                FIELD_CLASS, FIELD_TYPE, FIELD_NAME,
+                COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, COLUMN_COMMENT
+        );
+    }
 
 }

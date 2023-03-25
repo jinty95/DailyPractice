@@ -34,9 +34,13 @@ public class CodeGenerator {
      */
     public static void generate(String ddl, TypeMapper typeMapper, Map<String, String> data,
                                 String templateFilePath, String targetDir, String targetFileSuffix) throws IOException {
-        prepareData(ddl, typeMapper, data);
+        // 准备数据
+        List<Map<String, String>> columnData = new ArrayList<>();
+        prepareData(ddl, typeMapper, data, columnData);
+        // 替换数据
         String template = FileUtil.read(templateFilePath);
-        template = fillWithData(template, data);
+        template = fillWithData(template, data, columnData);
+        // 生成文件
         String className = data.getOrDefault(CLASS_NAME.name(), "");
         String targetFilePath = FileUtil.concatBySeparator(targetDir, className + targetFileSuffix);
         FileUtil.write(template, targetFilePath);
@@ -49,15 +53,52 @@ public class CodeGenerator {
     /**
      * 向模板占位符填充数据
      *
-     * @param template 带有占位符模板内容
-     * @param data     用于填充模板占位符的数据
+     * @param template   带有占位符模板内容
+     * @param data       基本数据(直接替换)
+     * @param columnData 字段数据(循环替换)
      */
-    private static String fillWithData(String template, Map<String, String> data) {
-        for (TemplatePlaceholderEnum placeholder : TemplatePlaceholderEnum.values()) {
-            String value = data.get(placeholder.name());
-            if (value != null) {
-                template = template.replace(String.format("${%s}", placeholder.name()), value);
+    private static String fillWithData(String template, Map<String, String> data, List<Map<String, String>> columnData) {
+        List<TemplatePlaceholderEnum> columnPlaceholderEnums = TemplatePlaceholderEnum.fieldAndColumn();
+        // 1、直接替换
+        for (TemplatePlaceholderEnum placeholderEnum : TemplatePlaceholderEnum.values()) {
+            if (columnPlaceholderEnums.contains(placeholderEnum)) {
+                continue;
             }
+            String value = data.get(placeholderEnum.name());
+            String placeholder = String.format("${%s}", placeholderEnum.name());
+            if (value != null && template.contains(placeholder)) {
+                template = template.replace(placeholder, value);
+            }
+        }
+        // 2、循环替换
+        String foreachPlaceholder = String.format("${%s}", FOR_EACH.name());
+        String endForeachPlaceholder = String.format("${%s}", END_FOR_EACH.name());
+        // foreach定位
+        int foreach = template.indexOf(foreachPlaceholder);
+        int endForeach = template.indexOf(endForeachPlaceholder);
+        // foreach可能有多个，按顺序逐个处理
+        while (foreach != -1 && endForeach != -1 && foreach < endForeach) {
+            // foreach内容提取
+            String content = template.substring(foreach + foreachPlaceholder.length(), endForeach);
+            // foreach内容处理
+            StringBuilder contentList = new StringBuilder();
+            for (Map<String, String> columnMap : columnData) {
+                String replaceContent = content;
+                for (TemplatePlaceholderEnum columnPlaceholderEnum : columnPlaceholderEnums) {
+                    String value = columnMap.get(columnPlaceholderEnum.name());
+                    String columnPlaceholder = String.format("${%s}", columnPlaceholderEnum.name());
+                    if (value != null && replaceContent.contains(columnPlaceholder)) {
+                        replaceContent = replaceContent.replace(columnPlaceholder, value);
+                    }
+                }
+                contentList.append(replaceContent);
+            }
+            // foreach占位符替换为以上内容
+            template = template.substring(0, foreach) + contentList
+                    + template.substring(endForeach + endForeachPlaceholder.length());
+            // 寻找下一个foreach
+            foreach = template.indexOf(foreachPlaceholder);
+            endForeach = template.indexOf(endForeachPlaceholder);
         }
         return template;
     }
@@ -67,117 +108,60 @@ public class CodeGenerator {
      *
      * @param ddl        DDL
      * @param typeMapper 类型映射
-     * @param data       用于填充模板占位符的数据
+     * @param data       基本数据(直接替换)
+     * @param columnData 字段数据(循环替换)
      */
-    private static void prepareData(String ddl, TypeMapper typeMapper, Map<String, String> data) {
+    private static void prepareData(String ddl, TypeMapper typeMapper,
+                                    Map<String, String> data, List<Map<String, String>> columnData) {
 
         // 解析DDL
         Table table = DDLParser.parse(ddl);
         List<Column> columnList = table.getColumns();
 
-        // 构造用于替换模板占位符的数据
-        data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1));
-        data.put(TABLE_NAME.name(), table.getName());
-        data.put(TABLE_COMMENT.name(), table.getComment());
-        data.put(CLASS_NAME.name(), StringUtil.snakeToCamel(table.getName(), true));
-
-        StringBuilder classFields = new StringBuilder();
         StringBuilder importClass = new StringBuilder();
         Set<Class<?>> alreadyImport = new HashSet<>();
+
+        // 构造字段数据(不包括主键)
         for (Column column : columnList) {
             Class<?> fieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
-            String fieldType = fieldClass.getSimpleName();
             String fieldName = StringUtil.snakeToCamel(column.getName(), false);
-            classFields.append("\n");
-            classFields.append("    // ").append(column.getComment()).append("\n");
-            classFields.append(String.format("    private %s %s;\n", fieldType, fieldName));
+            if (!column.getIsPrimaryKey()) {
+                Map<String, String> columnMap = new HashMap<>();
+                columnMap.put(COLUMN_NAME.name(), column.getName());
+                columnMap.put(COLUMN_TYPE.name(), column.getType());
+                columnMap.put(COLUMN_DEFAULT.name(), column.getDefaultValue());
+                columnMap.put(COLUMN_COMMENT.name(), column.getComment());
+                columnMap.put(FIELD_CLASS.name(), fieldClass.getName());
+                columnMap.put(FIELD_TYPE.name(), fieldClass.getSimpleName());
+                columnMap.put(FIELD_NAME.name(), fieldName);
+                columnData.add(columnMap);
+            }
+            // 判断字段类型是否需要导入
             if (!fieldClass.getName().startsWith("java.lang") && !alreadyImport.contains(fieldClass)) {
                 alreadyImport.add(fieldClass);
                 importClass.append(String.format("import %s;\n", fieldClass.getName()));
             }
         }
-        data.put(CLASS_FIELDS.name(), classFields.toString().trim());
-        data.put(IMPORT_CLASS.name(), importClass.toString().trim());
 
+        // 构造基本数据
+        data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1));
+        data.put(IMPORT_CLASS.name(), importClass.toString().trim());
+        data.put(CLASS_NAME.name(), StringUtil.snakeToCamel(table.getName(), true));
+        data.put(TABLE_NAME.name(), table.getName());
+        data.put(TABLE_COMMENT.name(), table.getComment());
         for (Column column : columnList) {
             if (column.getIsPrimaryKey()) {
                 data.put(PK_COLUMN_NAME.name(), column.getName());
-                data.put(PK_FIELD_NAME.name(), StringUtil.snakeToCamel(column.getName(), false));
-                Class<?> pkFiledClass = typeMapper.sqlTypeToJavaClass(column.getType());
-                data.put(PK_FIELD_CLASS.name(), pkFiledClass.getName());
-                data.put(PK_FIELD_TYPE.name(), pkFiledClass.getSimpleName());
+                data.put(PK_COLUMN_TYPE.name(), column.getType());
+                data.put(PK_COLUMN_COMMENT.name(), column.getComment());
+                Class<?> pkFieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
+                String pkFieldName = StringUtil.snakeToCamel(column.getName(), false);
+                data.put(PK_FIELD_CLASS.name(), pkFieldClass.getName());
+                data.put(PK_FIELD_TYPE.name(), pkFieldClass.getSimpleName());
+                data.put(PK_FIELD_NAME.name(), pkFieldName);
                 break;
             }
         }
-
-        StringBuilder tableColumns = new StringBuilder();
-        StringBuilder sqlResultMap = new StringBuilder();
-        StringBuilder sqlSelectCondition = new StringBuilder();
-        StringBuilder sqlInsertDefaultColumns = new StringBuilder();
-        StringBuilder sqlInsertDefaultValues = new StringBuilder();
-        StringBuilder sqlInsertColumns = new StringBuilder();
-        StringBuilder sqlInsertValues = new StringBuilder();
-        StringBuilder sqlBatchInsertColumns = new StringBuilder();
-        StringBuilder sqlBatchInsertValues = new StringBuilder();
-        StringBuilder sqlUpdateColumns = new StringBuilder();
-
-        sqlBatchInsertValues.append("<foreach item=\"item\" collection=\"list\" index=\"index\" separator=\",\">\n            ");
-        sqlBatchInsertValues.append("(\n            ");
-
-        for (int i = 0; i < columnList.size(); i++) {
-            Column column = columnList.get(i);
-            String columnName = column.getName();
-            String propertyName = StringUtil.snakeToCamel(columnName, false);
-            String defaultValue = column.getDefaultValue();
-            String commaOrNot = i < columnList.size() - 1 ? ", " : "";
-            boolean changeLine = (i + 1) % 8 == 0;
-
-            if (column.getIsPrimaryKey()) {
-                sqlResultMap.append(String.format("<id column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
-            } else {
-                sqlResultMap.append(String.format("<result column=\"%s\" property=\"%s\"/>\n        ", columnName, propertyName));
-            }
-
-            tableColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n        " : "");
-
-            sqlSelectCondition.append(String.format("<if test=\"%s != null\"> and `%s` = #{%s} </if>\n        ", propertyName, columnName, propertyName));
-
-            if (column.getIsPrimaryKey() && column.getIsAutoIncrement()) {
-                data.put(SQL_INSERT_GEN_KEY.name(), String.format("useGeneratedKeys=\"true\" keyProperty=\"%s\"", propertyName));
-            } else {
-                sqlInsertDefaultColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n            " : "");
-
-                sqlInsertDefaultValues.append(defaultValue).append(commaOrNot).append(changeLine ? "\n            " : "");
-
-                sqlInsertColumns.append(String.format("<if test=\"%s != null\">`%s`,</if>\n            ", propertyName, columnName));
-
-                sqlInsertValues.append(String.format("<if test=\"%s != null\">#{%s},</if>\n            ", propertyName, propertyName));
-
-                sqlBatchInsertColumns.append('`').append(columnName).append('`').append(commaOrNot).append(changeLine ? "\n            " : "");
-
-                sqlBatchInsertValues.append(String.format("<choose><when test=\"item.%s != null\">#{item.%s}%s</when><otherwise>%s%s</otherwise></choose>\n            ",
-                        propertyName, propertyName, commaOrNot, defaultValue, commaOrNot));
-            }
-
-            if (!column.getIsPrimaryKey()) {
-                sqlUpdateColumns.append(String.format("<if test=\"%s != null\"> `%s` = #{%s}, </if>\n            ", propertyName, columnName, propertyName));
-            }
-
-        }
-
-        sqlBatchInsertValues.append(")\n        ");
-        sqlBatchInsertValues.append("</foreach>");
-
-        data.put(TABLE_COLUMNS.name(), tableColumns.toString().trim());
-        data.put(SQL_RESULT_MAP.name(), sqlResultMap.toString().trim());
-        data.put(SQL_SELECT_CONDITION.name(), sqlSelectCondition.toString().trim());
-        data.put(SQL_INSERT_DEFAULT_COLUMNS.name(), sqlInsertDefaultColumns.toString().trim());
-        data.put(SQL_INSERT_DEFAULT_VALUES.name(), sqlInsertDefaultValues.toString().trim());
-        data.put(SQL_INSERT_COLUMNS.name(), sqlInsertColumns.toString().trim());
-        data.put(SQL_INSERT_VALUES.name(), sqlInsertValues.toString().trim());
-        data.put(SQL_BATCH_INSERT_COLUMNS.name(), sqlBatchInsertColumns.toString().trim());
-        data.put(SQL_BATCH_INSERT_VALUES.name(), sqlBatchInsertValues.toString().trim());
-        data.put(SQL_UPDATE_COLUMNS.name(), sqlUpdateColumns.toString().trim());
 
     }
 
