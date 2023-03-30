@@ -90,17 +90,9 @@ public class CodeGeneratorTest {
 
     // 从数据库获取所有DDL
     private List<String> getDDLFromDB() throws Exception {
-        List<String> ddlList = new ArrayList<>();
         try (Connection conn = JdbcUtil.getDefaultConnection()) {
-            String sql = "show tables";
-            List<Map<String, String>> tables = JdbcUtil.executeQuery(conn, sql);
-            for (Map<String, String> table : tables) {
-                sql = String.format("show create table `%s`", table.entrySet().iterator().next().getValue());
-                List<Map<String, String>> createTable = JdbcUtil.executeQuery(conn, sql);
-                ddlList.add(createTable.get(0).get("Create Table"));
-            }
+            return JdbcUtil.getAllCreateTable(conn);
         }
-        return ddlList;
     }
 
     // 获取生成文件目录

@@ -301,10 +301,10 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testCountOccur() {
-        System.out.println(StringUtil.countOccur("", null));
-        System.out.println(StringUtil.countOccur("AAAAAAA", "AA"));
-        System.out.println(StringUtil.countOccur("ABABABA", "ABA"));
+    public void testCount() {
+        System.out.println(StringUtil.count("", null));
+        System.out.println(StringUtil.count("AAAAAAA", "AA"));
+        System.out.println(StringUtil.count("ABABABA", "ABA"));
     }
 
     @Test

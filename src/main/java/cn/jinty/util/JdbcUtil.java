@@ -256,4 +256,23 @@ public final class JdbcUtil {
         }
     }
 
+    /**
+     * 获取数据库所有的建表语句
+     *
+     * @param conn 数据库连接
+     * @return 所有的建表语句
+     * @throws SQLException SQL异常
+     */
+    public static List<String> getAllCreateTable(Connection conn) throws SQLException {
+        List<String> ddlList = new ArrayList<>();
+        String sql = "show tables";
+        List<Map<String, String>> tables = JdbcUtil.executeQuery(conn, sql);
+        for (Map<String, String> table : tables) {
+            sql = String.format("show create table `%s`", table.entrySet().iterator().next().getValue());
+            List<Map<String, String>> createTable = JdbcUtil.executeQuery(conn, sql);
+            ddlList.add(createTable.get(0).get("Create Table"));
+        }
+        return ddlList;
+    }
+
 }

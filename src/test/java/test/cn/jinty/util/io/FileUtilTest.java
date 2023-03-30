@@ -4,6 +4,7 @@ import cn.jinty.Main;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.DateUtil;
+import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.StringUtil;
 import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.io.FileUtil;
@@ -11,8 +12,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -242,6 +245,64 @@ public class FileUtilTest {
         System.out.println(FileUtil.getAbsolutePath("/cn/jinty/enums", true));
         System.out.println(FileUtil.getAbsolutePath("io/IOUtil.class", true, DateUtil.class));
         System.out.println(FileUtil.getAbsolutePath("util/DateUtil.class", true, Main.class));
+    }
+
+    @Test
+    public void testReadLine() {
+        String filePath = FileUtil.getAbsolutePath("/txt/sensitive_word.txt", true);
+        try {
+            List<String> lines = FileUtil.readLine(filePath);
+            System.out.println(filePath);
+            for (int i = 0; i < lines.size(); i++) {
+                System.out.printf("第%d行：%s\n", (i + 1), lines.get(i));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDiffLine() {
+        String filePath1 = "D:\\temp\\tmp1.txt";
+        String filePath2 = "D:\\temp\\tmp2.txt";
+        try {
+            List<Map<Integer, String>> diffLines = FileUtil.diffLine(filePath1, filePath2);
+            System.out.println("两个文件的差异");
+            System.out.println();
+            Map<Integer, String> diffLines1 = diffLines.get(0);
+            diffLines1.forEach((key, value) -> System.out.println("- " + key + ": " + value));
+            System.out.println();
+            Map<Integer, String> diffLines2 = diffLines.get(1);
+            diffLines2.forEach((key, value) -> System.out.println("+ " + key + ": " + value));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDiffDbCreateTable() {
+        try {
+            String driver = "com.mysql.cj.jdbc.Driver";
+            String url = "jdbc:mysql://ip:3306/%s";
+            String user = "user";
+            String password = "password";
+            Connection conn1 = JdbcUtil.getConnection(driver, String.format(url, "xxx"), user, password);
+            Connection conn2 = JdbcUtil.getConnection(driver, String.format(url, "xxx_prod"), user, password);
+            String filePath1 = "D:\\temp\\xxx.sql";
+            String filePath2 = "D:\\temp\\xxx_prod.sql";
+            FileUtil.write(ListUtil.toString(JdbcUtil.getAllCreateTable(conn1), ";\n\n"), filePath1);
+            FileUtil.write(ListUtil.toString(JdbcUtil.getAllCreateTable(conn2), ";\n\n"), filePath2);
+            List<Map<Integer, String>> diffLines = FileUtil.diffLine(filePath1, filePath2);
+            System.out.println("两个数据库的建表语句差异");
+            System.out.println();
+            Map<Integer, String> diffLines1 = diffLines.get(0);
+            diffLines1.forEach((key, value) -> System.out.println("- " + key + ": " + value));
+            System.out.println();
+            Map<Integer, String> diffLines2 = diffLines.get(1);
+            diffLines2.forEach((key, value) -> System.out.println("+ " + key + ": " + value));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

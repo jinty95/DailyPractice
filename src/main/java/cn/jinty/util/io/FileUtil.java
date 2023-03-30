@@ -540,4 +540,119 @@ public final class FileUtil {
         return url.getPath();
     }
 
+    /**
+     * 按行读取文件内容 (每行的内容不包括换行符)
+     *
+     * @param filePath 文件路径
+     * @return 字符串列表
+     * @throws IOException IO异常
+     */
+    public static List<String> readLine(String filePath) throws IOException {
+        List<String> lines = new ArrayList<>();
+        if (StringUtil.isBlank(filePath)) {
+            return lines;
+        }
+        File file = new File(filePath);
+        if (!existFile(file)) {
+            return lines;
+        }
+        try (FileReader fr = new FileReader(file);
+             BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            return lines;
+        }
+    }
+
+    /**
+     * 获取两个文件的差异行
+     *
+     * @param filePath1 文件路径1
+     * @param filePath2 文件路径2
+     * @return 差异行(行号 - > 行内容)
+     * @throws IOException IO异常
+     */
+    public static List<Map<Integer, String>> diffLine(String filePath1, String filePath2) throws IOException {
+        // 公共行
+        List<Map<Integer, String>> commonLines = commonLine(filePath1, filePath2);
+        // 文件1减去公共行
+        List<String> lines1 = readLine(filePath1);
+        Map<Integer, String> commonLines1 = commonLines.get(0);
+        Map<Integer, String> diffLines1 = new HashMap<>();
+        for (int i = 0; i < lines1.size(); i++) {
+            if (commonLines1.containsKey(i + 1)) {
+                continue;
+            }
+            diffLines1.put(i + 1, lines1.get(i));
+        }
+        // 文件2减去公共行
+        List<String> lines2 = readLine(filePath2);
+        Map<Integer, String> commonLines2 = commonLines.get(1);
+        Map<Integer, String> diffLines2 = new HashMap<>();
+        for (int i = 0; i < lines2.size(); i++) {
+            if (commonLines2.containsKey(i + 1)) {
+                continue;
+            }
+            diffLines2.put(i + 1, lines2.get(i));
+        }
+        return Arrays.asList(diffLines1, diffLines2);
+    }
+
+    /**
+     * 获取两个文件的公共行
+     *
+     * @param filePath1 文件路径1
+     * @param filePath2 文件路径2
+     * @return 公共行(行号 - > 行内容)
+     * @throws IOException IO异常
+     */
+    public static List<Map<Integer, String>> commonLine(String filePath1, String filePath2) throws IOException {
+        List<String> lines1 = readLine(filePath1);
+        List<String> lines2 = readLine(filePath2);
+        int[][] dp = getDpArrayForCommonLine(lines1, lines2);
+        int max = dp[lines1.size()][lines2.size()];
+        Map<Integer, String> commonLines1 = new HashMap<>();
+        Map<Integer, String> commonLines2 = new HashMap<>();
+        int idx1 = lines1.size();
+        int idx2 = lines2.size();
+        while (max > 0) {
+            if (idx2 > 0 && dp[idx1][idx2] == dp[idx1][idx2 - 1]) {
+                idx2--;
+            } else if (idx1 > 0 && dp[idx1][idx2] == dp[idx1 - 1][idx2]) {
+                idx1--;
+            } else {
+                commonLines1.put(idx1, lines1.get(idx1 - 1));
+                commonLines2.put(idx2, lines2.get(idx2 - 1));
+                max--;
+                idx1--;
+                idx2--;
+            }
+        }
+        return Arrays.asList(commonLines1, commonLines2);
+    }
+
+    /**
+     * 获取动态规划数组 (用于求两个文件的公共行)
+     *
+     * @param lines1 文件1的行
+     * @param lines2 文件2的行
+     * @return 动态规划数组
+     */
+    private static int[][] getDpArrayForCommonLine(List<String> lines1, List<String> lines2) {
+        // dp[i][j]表示lines1[0...i-1]与lines2[0...j-1]的公共行数量
+        int[][] dp = new int[lines1.size() + 1][lines2.size() + 1];
+        for (int i = 0; i < lines1.size(); i++) {
+            for (int j = 0; j < lines2.size(); j++) {
+                if (lines1.get(i).equals(lines2.get(j))) {
+                    dp[i + 1][j + 1] = dp[i][j] + 1;
+                } else {
+                    dp[i + 1][j + 1] = Math.max(dp[i + 1][j], dp[i][j + 1]);
+                }
+            }
+        }
+        return dp;
+    }
+
 }

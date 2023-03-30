@@ -755,7 +755,7 @@ public final class StringUtil {
      * @param sub 子串
      * @return 出现次数
      */
-    public static int countOccur(String s, String sub) {
+    public static int count(String s, String sub) {
         if (isEmpty(s) || isEmpty(sub)) {
             return 0;
         }
