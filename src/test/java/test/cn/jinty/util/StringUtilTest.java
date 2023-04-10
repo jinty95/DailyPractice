@@ -185,8 +185,8 @@ public class StringUtilTest {
 
     @Test
     public void testAppend() {
-        System.out.println(StringUtil.append(null, "1", ","));
         System.out.println(StringUtil.append(null, null, null));
+        System.out.println(StringUtil.append(null, "1", ","));
         System.out.println(StringUtil.append("1", null, null));
         System.out.println(StringUtil.append("", "1", ","));
         System.out.println(StringUtil.append("1", "2", ","));
@@ -212,10 +212,18 @@ public class StringUtilTest {
 
     @Test
     public void testSplit() {
-        System.out.println(Arrays.toString(StringUtil.split(null, ",")));
-        System.out.println(Arrays.toString(StringUtil.split("   ", "")));
-        System.out.println(Arrays.toString(StringUtil.split("A,B,C", ",")));
-        System.out.println(Arrays.toString(StringUtil.split("A\r\nB\nC\rD\tE\fF G,H, I,  J,,,, K , L", "[\\s,]+")));
+        String[][] arr = {
+                {null, ","},
+                {"   ", null},
+                {"   ", ""},
+                {"A,B,C", ","},
+                {"A\r\nB\nC\rD\tE\fF G,H, I,  J,,,, K , L", "[\\s,]+"},
+                {"A", ","}
+        };
+        for (String[] a : arr) {
+            System.out.println(Arrays.toString(StringUtil.split(a[0], a[1])));
+            System.out.println(StringUtil.splitAndGetFirst(a[0], a[1]));
+        }
     }
 
     @Test
@@ -232,8 +240,9 @@ public class StringUtilTest {
     @Test
     public void testRepeat1() {
         System.out.println(StringUtil.repeat(null, null, 1));
-        System.out.println(StringUtil.repeat("", null, 2));
-        System.out.println(StringUtil.repeat(null, ",", 2));
+        System.out.println(StringUtil.repeat("a", null, 2));
+        System.out.println(StringUtil.repeat("a", null, 1));
+        System.out.println(StringUtil.repeat("", "-", 5));
         System.out.println(StringUtil.repeat("a", "-", 5));
         System.out.println(StringUtil.repeat("aa", ",", 10));
     }

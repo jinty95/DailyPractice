@@ -32,7 +32,7 @@ public enum YesNoEnum implements EnumInterface<Byte> {
     static {
         codeMap = new HashMap<>();
         descMap = new HashMap<>();
-        for (YesNoEnum one : YesNoEnum.values()) {
+        for (YesNoEnum one : values()) {
             codeMap.put(one.getCode(), one);
             descMap.put(one.getDesc(), one);
         }

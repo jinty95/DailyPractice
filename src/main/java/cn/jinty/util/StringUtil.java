@@ -144,7 +144,7 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String trim(String s) {
-        if (isEmpty(s)) {
+        if (s == null) {
             return EMPTY;
         }
         return s.trim();
@@ -473,7 +473,10 @@ public final class StringUtil {
      */
     public static String append(String origin, String append, String separator) {
         if (isEmpty(origin)) {
-            return append;
+            return append == null ? EMPTY : append;
+        }
+        if (append == null || separator == null) {
+            return origin;
         }
         return origin + separator + append;
     }
@@ -486,11 +489,8 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String join(Collection<?> coll, String separator) {
-        if (coll == null || coll.isEmpty()) {
+        if (coll == null || coll.isEmpty() || separator == null) {
             return EMPTY;
-        }
-        if (separator == null) {
-            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
         for (Object one : coll) {
@@ -507,11 +507,8 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String join(String separator, Object... arr) {
-        if (arr == null || arr.length == 0) {
+        if (arr == null || arr.length == 0 || separator == null) {
             return EMPTY;
-        }
-        if (separator == null) {
-            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
         for (Object one : arr) {
@@ -528,10 +525,22 @@ public final class StringUtil {
      * @return 多个字符串
      */
     public static String[] split(String s, String separator) {
-        if (isEmpty(s)) {
+        if (s == null || separator == null) {
             return new String[0];
         }
         return s.split(separator);
+    }
+
+    /**
+     * 将字符串按照分隔符切分，返回切分后的第一个字符串
+     *
+     * @param s         字符串
+     * @param separator 分隔符 (支持正则表达式)
+     * @return 第一个字符串
+     */
+    public static String splitAndGetFirst(String s, String separator) {
+        String[] arr = split(s, separator);
+        return arr.length == 0 ? EMPTY : arr[0];
     }
 
     /**
@@ -543,14 +552,7 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String repeat(String s, int times) {
-        if (isEmpty(s) || times <= 0) {
-            return EMPTY;
-        }
-        StringBuilder res = new StringBuilder(s);
-        for (int i = 1; i < times; i++) {
-            res.append(s);
-        }
-        return res.toString();
+        return repeat(s, EMPTY, times);
     }
 
     /**
@@ -563,8 +565,11 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String repeat(String s, String separator, int times) {
-        if (s == null || separator == null) {
-            return repeat(s, times);
+        if (s == null || times <= 0) {
+            return EMPTY;
+        }
+        if (separator == null) {
+            return times == 1 ? s : EMPTY;
         }
         StringBuilder res = new StringBuilder(s);
         for (int i = 1; i < times; i++) {
