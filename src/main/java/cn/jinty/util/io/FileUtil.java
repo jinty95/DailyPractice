@@ -580,7 +580,7 @@ public final class FileUtil {
         // 文件1减去公共行
         List<String> lines1 = readLine(filePath1);
         Map<Integer, String> commonLines1 = commonLines.get(0);
-        Map<Integer, String> diffLines1 = new HashMap<>();
+        Map<Integer, String> diffLines1 = new TreeMap<>();
         for (int i = 0; i < lines1.size(); i++) {
             if (commonLines1.containsKey(i + 1)) {
                 continue;
@@ -590,7 +590,7 @@ public final class FileUtil {
         // 文件2减去公共行
         List<String> lines2 = readLine(filePath2);
         Map<Integer, String> commonLines2 = commonLines.get(1);
-        Map<Integer, String> diffLines2 = new HashMap<>();
+        Map<Integer, String> diffLines2 = new TreeMap<>();
         for (int i = 0; i < lines2.size(); i++) {
             if (commonLines2.containsKey(i + 1)) {
                 continue;
@@ -613,8 +613,8 @@ public final class FileUtil {
         List<String> lines2 = readLine(filePath2);
         int[][] dp = getDpArrayForCommonLine(lines1, lines2);
         int max = dp[lines1.size()][lines2.size()];
-        Map<Integer, String> commonLines1 = new HashMap<>();
-        Map<Integer, String> commonLines2 = new HashMap<>();
+        Map<Integer, String> commonLines1 = new TreeMap<>();
+        Map<Integer, String> commonLines2 = new TreeMap<>();
         int idx1 = lines1.size();
         int idx2 = lines2.size();
         while (max > 0) {
