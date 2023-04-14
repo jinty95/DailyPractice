@@ -16,6 +16,22 @@ public final class IOUtil {
     }
 
     /**
+     * 关闭IO流，忽略异常
+     *
+     * @param io IO流
+     */
+    public static void closeQuietly(Closeable io) {
+        if (io == null) {
+            return;
+        }
+        try {
+            io.close();
+        } catch (IOException e) {
+            // 忽略异常
+        }
+    }
+
+    /**
      * 输入流转为字节数组
      *
      * @param is 输入流

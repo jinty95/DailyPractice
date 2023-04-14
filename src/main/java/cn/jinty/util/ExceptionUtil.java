@@ -1,5 +1,10 @@
 package cn.jinty.util;
 
+import cn.jinty.util.io.IOUtil;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
+
 /**
  * 异常 - 工具类
  *
@@ -38,7 +43,19 @@ public final class ExceptionUtil {
      * @return 异常堆栈
      */
     public static String getStackTrace(Throwable e) {
-        return getStackTrace(e, false);
+        //return getStackTrace(e, false);
+        ByteArrayOutputStream os = null;
+        PrintWriter pw = null;
+        try {
+            os = new ByteArrayOutputStream();
+            pw = new PrintWriter(os);
+            e.printStackTrace(pw);
+            pw.flush();
+            return os.toString();
+        } finally {
+            IOUtil.closeQuietly(pw);
+            IOUtil.closeQuietly(os);
+        }
     }
 
     /**

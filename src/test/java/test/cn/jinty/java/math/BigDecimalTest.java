@@ -23,7 +23,7 @@ public class BigDecimalTest {
                 System.out.println(new BigDecimal(num));
             } catch (Exception ex) {
                 try {
-                    throw new IllegalArgumentException(null, ex);
+                    throw new IllegalArgumentException("非法参数异常", ex);
                 } catch (Exception e) {
                     System.out.println("解析数字失败：num=" + num + ", error=" + ExceptionUtil.getMessage(e) + ", deepError=" + ExceptionUtil.getDeepMessage(e));
                     String stackTrace = ExceptionUtil.getStackTrace(e);
