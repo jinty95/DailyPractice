@@ -7,9 +7,7 @@ import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.zip.*;
 
 import static cn.jinty.enums.BinaryUnitEnum.*;
@@ -23,106 +21,6 @@ import static cn.jinty.enums.BinaryUnitEnum.*;
 public final class FileUtil {
 
     private FileUtil() {
-    }
-
-    // 文件类型标志
-    public static final String FILE_TYPE_MARK = ".";
-
-    /**
-     * 获取文件类型
-     *
-     * @param filePath 文件路径
-     * @return 文件类型
-     */
-    public static String getFileType(String filePath) {
-        if (StringUtil.isBlank(filePath)) {
-            return StringUtil.EMPTY;
-        }
-        int index = filePath.lastIndexOf(FILE_TYPE_MARK);
-        return filePath.substring(index + 1);
-    }
-
-    /**
-     * 转换文件路径分隔符，使其符合当前系统
-     *
-     * @param filePath 文件路径
-     * @return 文件路径
-     */
-    public static String convertSeparator(String filePath) {
-        if (StringUtil.isBlank(filePath)) {
-            return filePath;
-        }
-        // 直接用File.separator，如果值为'\'，会抛出IllegalArgumentException：character to be escaped is missing
-        String replacement = Matcher.quoteReplacement(File.separator);
-        // Windows系统的文件分隔符为'\'
-        // Linux系统的文件分隔符为'/'
-        return filePath.replaceAll("[\\\\/]+", replacement);
-    }
-
-    /**
-     * 使用文件路径分隔符，将各部分连接起来
-     *
-     * @param filePaths 各部分路径
-     * @return 文件路径
-     */
-    public static String concatBySeparator(String... filePaths) {
-        if (filePaths == null || filePaths.length == 0) {
-            return StringUtil.EMPTY;
-        }
-        String filePath = StringUtil.join(File.separator, (Object[]) filePaths);
-        // 转换文件路径分隔符，使其符合当前系统
-        return convertSeparator(filePath);
-    }
-
-    /**
-     * 拆分文件路径
-     *
-     * @param filePath 文件路径
-     * @return 文件目录、文件名、后缀(可能无后缀)
-     */
-    public static String[] splitFilePath(String filePath) {
-        String[] arr = new String[3];
-        if (StringUtil.isBlank(filePath)) {
-            return arr;
-        }
-        // 转换文件路径分隔符，使其符合当前系统
-        filePath = convertSeparator(filePath);
-        int index1 = filePath.lastIndexOf(File.separator);
-        int index2 = filePath.lastIndexOf(FILE_TYPE_MARK);
-        arr[0] = filePath.substring(0, index1);
-        if (index2 < index1) {
-            arr[1] = filePath.substring(index1 + 1);
-        } else {
-            arr[1] = filePath.substring(index1 + 1, index2);
-            arr[2] = filePath.substring(index2 + 1);
-        }
-        return arr;
-    }
-
-    /**
-     * 是否在硬盘上存在对应文件(不是目录)
-     *
-     * @param file 文件
-     * @return 是否
-     */
-    public static boolean existFile(File file) {
-        return file != null && file.exists() && file.isFile();
-    }
-
-    /**
-     * 文件 -> 字节数组
-     *
-     * @param file 文件
-     * @return 字节数组
-     * @throws IOException IO异常
-     */
-    public static byte[] getBytes(File file) throws IOException {
-        if (!existFile(file)) {
-            return new byte[0];
-        }
-        try (InputStream is = new FileInputStream(file)) {
-            return IOUtil.getBytes(is);
-        }
     }
 
     /**
@@ -141,6 +39,52 @@ public final class FileUtil {
         String prefix = String.format("data:%s;base64,", fileType.getMimeType());
         String base64 = Base64.getEncoder().encodeToString(bytes);
         return prefix + base64;
+    }
+
+    /**
+     * 是否存在文件或目录
+     *
+     * @param file 文件或目录
+     * @return 是否存在
+     */
+    public static boolean exists(File file) {
+        return file != null && file.exists();
+    }
+
+    /**
+     * 是否存在文件
+     *
+     * @param file 文件
+     * @return 是否存在
+     */
+    public static boolean existFile(File file) {
+        return exists(file) && file.isFile();
+    }
+
+    /**
+     * 是否存在目录
+     *
+     * @param file 目录
+     * @return 是否存在
+     */
+    public static boolean existDir(File file) {
+        return exists(file) && file.isDirectory();
+    }
+
+    /**
+     * 文件 -> 字节数组
+     *
+     * @param file 文件
+     * @return 字节数组
+     * @throws IOException IO异常
+     */
+    public static byte[] getBytes(File file) throws IOException {
+        if (!existFile(file)) {
+            return new byte[0];
+        }
+        try (InputStream is = new FileInputStream(file)) {
+            return IOUtil.getBytes(is);
+        }
     }
 
     /**
@@ -199,6 +143,36 @@ public final class FileUtil {
     }
 
     /**
+     * 检查文件是否带有UTF-8对应的BOM
+     *
+     * @param file 文件
+     * @return 是否
+     * @throws IOException IO异常
+     */
+    public static boolean hasUtf8Bom(File file) throws IOException {
+        byte[] bytes = getBytes(file);
+        return bytes.length >= 3 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF;
+    }
+
+    /**
+     * 解析.properties文件
+     *
+     * @param file .properties文件
+     * @return Properties对象
+     * @throws IOException IO异常
+     */
+    public static Properties parseProperties(File file) throws IOException {
+        Properties properties = new Properties();
+        if (!existFile(file)) {
+            return properties;
+        }
+        try (InputStream is = new FileInputStream(file)) {
+            properties.load(is);
+            return properties;
+        }
+    }
+
+    /**
      * 扫描根路径下面的所有文件
      *
      * @param root 根路径
@@ -227,29 +201,63 @@ public final class FileUtil {
     }
 
     /**
-     * 根据绝对路径在磁盘上创建文件
+     * 删除文件
+     * (如果是目录，那么只有空目录可以删除成功)
      *
-     * @param filePath 绝对路径
+     * @param file 文件
+     * @return 是否成功删除
+     */
+    public static boolean deleteFile(File file) {
+        if (file == null) {
+            return false;
+        }
+        return file.delete();
+    }
+
+    /**
+     * 删除文件
+     * (如果是目录，那么只有空目录可以删除成功)
+     *
+     * @param files 文件列表
+     * @return 是否成功删除所有文件
+     */
+    public static boolean deleteFiles(List<File> files) {
+        if (CollectionUtil.isEmpty(files)) {
+            return false;
+        }
+        boolean flag = true;
+        for (File file : files) {
+            flag &= deleteFile(file);
+        }
+        return flag;
+    }
+
+    /**
+     * 在磁盘上创建文件
+     *
+     * @param file 文件对象
      * @return 文件对象
      * @throws IOException IO异常
      */
-    public static File createFile(String filePath) throws IOException {
-        if (StringUtil.isBlank(filePath)) {
+    public static File createFile(File file) throws IOException {
+        // 文件为空直接返回空
+        if (file == null) {
             return null;
         }
-        // 文件存在直接返回
-        File file = new File(filePath);
+        // 文件存在
         if (file.exists()) {
-            return file;
-        }
-        // 文件不存在，判断目录是否存在，不存在时创建目录
-        File folder = file.getParentFile();
-        if (folder != null && !folder.exists()) {
-            if (!folder.mkdirs()) {
+            // 如果是目录直接返回空
+            if (file.isDirectory()) {
                 return null;
             }
+            // 如果是文件直接返回自身
+            return file;
         }
-        // 创建文件
+        // 文件不存在，判断目录是否存在，目录不存在时创建目录
+        if (createDir(file.getParentFile()) == null) {
+            return null;
+        }
+        // 保证目录存在后，创建文件
         if (!file.createNewFile()) {
             return null;
         }
@@ -257,119 +265,55 @@ public final class FileUtil {
     }
 
     /**
-     * 根据绝对路径在磁盘上创建目录
+     * 磁盘上创建目录
      *
-     * @param folderPath 绝对路径
+     * @param dir 目录对象
      * @return 目录对象
      */
-    public static File createFolder(String folderPath) {
-        if (StringUtil.isBlank(folderPath)) {
+    public static File createDir(File dir) {
+        // 目录为空直接返回空
+        if (dir == null) {
             return null;
         }
-        File folder = new File(folderPath);
-        if (folder.exists()) {
-            return folder;
-        }
-        if (!folder.mkdirs()) {
-            return null;
-        }
-        return folder;
-    }
-
-    /**
-     * 删除文件
-     * (如果是目录，那么只有空目录可以删除成功)
-     *
-     * @param filePath 文件路径
-     * @return 是否成功删除(不存在的文件视为成功删除)
-     */
-    public static boolean deleteFile(String filePath) {
-        return deleteFiles(Collections.singletonList(filePath));
-    }
-
-    /**
-     * 删除文件
-     * (如果是目录，那么只有空目录可以删除成功)
-     *
-     * @param filePaths 多个文件路径
-     * @return 是否成功删除所有文件(不存在的文件视为成功删除)
-     */
-    public static boolean deleteFiles(List<String> filePaths) {
-        if (CollectionUtil.isEmpty(filePaths)) {
-            return true;
-        }
-        boolean flag = true;
-        for (String filePath : filePaths) {
-            File file = new File(filePath);
-            if (file.exists()) {
-                flag &= file.delete();
+        // 目录存在
+        if (dir.exists()) {
+            // 如果是文件直接返回空
+            if (dir.isFile()) {
+                return null;
             }
+            // 如果是目录直接返回自身
+            return dir;
         }
-        return flag;
-    }
-
-    /**
-     * 检查文件是否带有UTF-8对应的BOM
-     *
-     * @param file 文件
-     * @return 是否
-     * @throws IOException IO异常
-     */
-    public static boolean hasUtf8Bom(File file) throws IOException {
-        byte[] bytes = getBytes(file);
-        return bytes.length >= 3 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF;
-    }
-
-    /**
-     * 解析.properties文件
-     *
-     * @param filePath 文件路径
-     * @return Properties对象
-     * @throws IOException IO异常
-     */
-    public static Properties parseProperties(String filePath) throws IOException {
-        Properties properties = new Properties();
-        if (StringUtil.isBlank(filePath)) {
-            return properties;
+        // 目录不存在时创建目录
+        if (!dir.mkdirs()) {
+            return null;
         }
-        File file = new File(filePath);
-        if (!file.exists()) {
-            return properties;
-        }
-        try (InputStream is = new FileInputStream(file)) {
-            properties.load(is);
-            return properties;
-        }
+        return dir;
     }
 
     /**
      * 压缩文件
      *
-     * @param filePath    待压缩的文件路径
-     * @param zipFilePath 压缩包的文件路径
+     * @param file    待压缩文件
+     * @param zipFile 压缩包文件
      * @throws IOException IO异常
      */
-    public static void zip(String filePath, String zipFilePath) throws IOException {
-        zip(Collections.singletonList(filePath), zipFilePath);
+    public static void zip(File file, File zipFile) throws IOException {
+        zip(Collections.singletonList(file), zipFile);
     }
 
     /**
      * 压缩文件
      *
-     * @param filePaths   多个待压缩的文件路径
-     * @param zipFilePath 压缩包的文件路径
+     * @param files   多个待压缩文件
+     * @param zipFile 压缩包文件
      * @throws IOException IO异常
      */
-    public static void zip(List<String> filePaths, String zipFilePath) throws IOException {
-        if (CollectionUtil.isEmpty(filePaths) || StringUtil.isBlank(zipFilePath)) {
-            return;
-        }
-        File zipFile = new File(zipFilePath);
+    public static void zip(List<File> files, File zipFile) throws IOException {
         try (FileOutputStream fos = new FileOutputStream(zipFile);
              CheckedOutputStream cos = new CheckedOutputStream(fos, new CRC32());
              ZipOutputStream zos = new ZipOutputStream(cos)) {
-            for (String filePath : filePaths) {
-                File file = new File(filePath);
+            for (File file : files) {
                 zip(file, zos, "");
             }
         }
@@ -380,7 +324,7 @@ public final class FileUtil {
      *
      * @param file    待压缩的文件
      * @param zos     压缩输出流
-     * @param baseDir 文件目录(用于保证压缩后内部目录结构不改变)
+     * @param baseDir 压缩包内部根目录
      * @throws IOException IO异常
      */
     public static void zip(File file, ZipOutputStream zos, String baseDir) throws IOException {
@@ -415,47 +359,43 @@ public final class FileUtil {
         ZipEntry entry = new ZipEntry(baseDir + file.getName());
         zos.putNextEntry(entry);
         try (FileInputStream fis = new FileInputStream(file)) {
-            IOUtil.inputStreamToOutputStream(fis, zos);
+            IOUtil.copy(fis, zos);
         }
     }
 
     /**
      * 解压文件
      *
-     * @param zipFilePath 压缩包的文件路径
-     * @param destDir     解压后的目录路径
+     * @param zipFile 压缩包文件
+     * @param destDir 解压后的目录路径
      * @throws IOException IO异常
      */
-    public static void unzip(String zipFilePath, String destDir) throws IOException {
-        if (StringUtil.isBlank(zipFilePath) || StringUtil.isBlank(destDir)) {
-            return;
-        }
-        File checkZipFile = new File(zipFilePath);
-        if (!checkZipFile.exists()) {
+    public static void unzip(File zipFile, String destDir) throws IOException {
+        if (!existFile(zipFile) || StringUtil.isBlank(destDir)) {
             return;
         }
         if (!destDir.endsWith(File.separator)) {
             destDir = destDir + File.separator;
         }
         // 开始解压
-        ZipFile zipFile = new ZipFile(zipFilePath);
-        Enumeration<?> enumeration = zipFile.entries();
+        ZipFile unzipFile = new ZipFile(zipFile);
+        Enumeration<?> enumeration = unzipFile.entries();
         while (enumeration.hasMoreElements()) {
             // 解压对象
-            ZipEntry zipEntry = (ZipEntry) enumeration.nextElement();
-            String destPath = destDir + zipEntry.getName();
+            ZipEntry unzipEntry = (ZipEntry) enumeration.nextElement();
+            String destPath = destDir + unzipEntry.getName();
             // 如果是目录
-            if (zipEntry.isDirectory()) {
-                createFolder(destPath);
+            if (unzipEntry.isDirectory()) {
+                createDir(new File(destPath));
                 continue;
             }
             // 如果是文件
-            File file = createFile(destPath);
+            File file = createFile(new File(destPath));
             assert file != null;
-            try (InputStream is = zipFile.getInputStream(zipEntry);
+            try (InputStream is = unzipFile.getInputStream(unzipEntry);
                  CheckedInputStream cis = new CheckedInputStream(is, new CRC32());
                  FileOutputStream fos = new FileOutputStream(file)) {
-                IOUtil.inputStreamToOutputStream(cis, fos);
+                IOUtil.copy(cis, fos);
             }
         }
     }
@@ -463,15 +403,11 @@ public final class FileUtil {
     /**
      * 将文件读取为字符串 (UTF-8)
      *
-     * @param filePath 文件路径
+     * @param file 文件
      * @return 字符串
      * @throws IOException IO异常
      */
-    public static String read(String filePath) throws IOException {
-        if (StringUtil.isBlank(filePath)) {
-            return StringUtil.EMPTY;
-        }
-        File file = new File(filePath);
+    public static String read(File file) throws IOException {
         if (!existFile(file)) {
             return StringUtil.EMPTY;
         }
@@ -483,15 +419,15 @@ public final class FileUtil {
     /**
      * 将字符串写入文件中 (UTF-8)
      *
-     * @param content  字符串
-     * @param filePath 文件路径
+     * @param content 字符串
+     * @param file    文件
      * @throws IOException IO异常
      */
-    public static void write(String content, String filePath) throws IOException {
-        if (StringUtil.isBlank(content) || StringUtil.isBlank(filePath)) {
+    public static void write(String content, File file) throws IOException {
+        if (StringUtil.isBlank(content)) {
             return;
         }
-        File file = createFile(filePath);
+        file = createFile(file);
         if (file == null) {
             return;
         }
@@ -501,58 +437,14 @@ public final class FileUtil {
     }
 
     /**
-     * 根据相对路径获取绝对路径
-     * 1、当path以"/"开头，那么在classpath(即/target/classes)下寻找资源
-     * 2、当path不以"/"开头，那么在FileUtil.class所在的目录下寻找资源
-     *
-     * @param path       路径
-     * @param isRelative 是否相对
-     * @return 绝对路径
-     */
-    public static String getAbsolutePath(String path, boolean isRelative) {
-        return getAbsolutePath(path, isRelative, FileUtil.class);
-    }
-
-    /**
-     * 根据相对路径获取绝对路径
-     * 1、当path以"/"开头，那么在classpath(即/target/classes)下寻找资源
-     * 2、当path不以"/"开头，那么在relativeClass所在的目录下寻找资源
-     *
-     * @param path          路径
-     * @param isRelative    是否相对
-     * @param relativeClass 相对的类
-     * @return 绝对路径
-     */
-    public static String getAbsolutePath(String path, boolean isRelative, Class<?> relativeClass) {
-        if (StringUtil.isBlank(path)) {
-            return StringUtil.EMPTY;
-        }
-        if (!isRelative) {
-            return path;
-        }
-        if (relativeClass == null) {
-            relativeClass = FileUtil.class;
-        }
-        URL url = relativeClass.getResource(path);
-        if (url == null) {
-            return StringUtil.EMPTY;
-        }
-        return url.getPath();
-    }
-
-    /**
      * 按行读取文件内容 (每行的内容不包括换行符)
      *
-     * @param filePath 文件路径
+     * @param file 文件
      * @return 字符串列表
      * @throws IOException IO异常
      */
-    public static List<String> readLine(String filePath) throws IOException {
+    public static List<String> readLine(File file) throws IOException {
         List<String> lines = new ArrayList<>();
-        if (StringUtil.isBlank(filePath)) {
-            return lines;
-        }
-        File file = new File(filePath);
         if (!existFile(file)) {
             return lines;
         }
@@ -569,16 +461,16 @@ public final class FileUtil {
     /**
      * 获取两个文件的差异行
      *
-     * @param filePath1 文件路径1
-     * @param filePath2 文件路径2
+     * @param file1 文件1
+     * @param file2 文件2
      * @return 差异行(行号 - > 行内容)
      * @throws IOException IO异常
      */
-    public static List<Map<Integer, String>> diffLine(String filePath1, String filePath2) throws IOException {
+    public static List<Map<Integer, String>> diffLine(File file1, File file2) throws IOException {
         // 公共行
-        List<Map<Integer, String>> commonLines = commonLine(filePath1, filePath2);
+        List<Map<Integer, String>> commonLines = commonLine(file1, file2);
         // 文件1减去公共行
-        List<String> lines1 = readLine(filePath1);
+        List<String> lines1 = readLine(file1);
         Map<Integer, String> commonLines1 = commonLines.get(0);
         Map<Integer, String> diffLines1 = new TreeMap<>();
         for (int i = 0; i < lines1.size(); i++) {
@@ -588,7 +480,7 @@ public final class FileUtil {
             diffLines1.put(i + 1, lines1.get(i));
         }
         // 文件2减去公共行
-        List<String> lines2 = readLine(filePath2);
+        List<String> lines2 = readLine(file2);
         Map<Integer, String> commonLines2 = commonLines.get(1);
         Map<Integer, String> diffLines2 = new TreeMap<>();
         for (int i = 0; i < lines2.size(); i++) {
@@ -603,14 +495,14 @@ public final class FileUtil {
     /**
      * 获取两个文件的公共行
      *
-     * @param filePath1 文件路径1
-     * @param filePath2 文件路径2
+     * @param file1 文件1
+     * @param file2 文件2
      * @return 公共行(行号 - > 行内容)
      * @throws IOException IO异常
      */
-    public static List<Map<Integer, String>> commonLine(String filePath1, String filePath2) throws IOException {
-        List<String> lines1 = readLine(filePath1);
-        List<String> lines2 = readLine(filePath2);
+    public static List<Map<Integer, String>> commonLine(File file1, File file2) throws IOException {
+        List<String> lines1 = readLine(file1);
+        List<String> lines2 = readLine(file2);
         int[][] dp = getDpArrayForCommonLine(lines1, lines2);
         int max = dp[lines1.size()][lines2.size()];
         Map<Integer, String> commonLines1 = new TreeMap<>();

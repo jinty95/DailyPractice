@@ -6,8 +6,10 @@ import cn.jinty.sql.entity.Table;
 import cn.jinty.sql.mapper.TypeMapper;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.StringUtil;
+import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -38,12 +40,12 @@ public class CodeGenerator {
         List<Map<String, String>> columnData = new ArrayList<>();
         prepareData(ddl, typeMapper, data, columnData);
         // 替换数据
-        String template = FileUtil.read(templateFilePath);
+        String template = FileUtil.read(new File(templateFilePath));
         template = fillWithData(template, data, columnData);
         // 生成文件
         String className = data.getOrDefault(CLASS_NAME.name(), "");
-        String targetFilePath = FileUtil.concatBySeparator(targetDir, className + targetFileSuffix);
-        FileUtil.write(template, targetFilePath);
+        String targetFilePath = FilePathUtil.concatBySeparator(targetDir, className + targetFileSuffix);
+        FileUtil.write(template, new File(targetFilePath));
         System.out.println(String.format("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n",
                 templateFilePath, targetFilePath));
     }

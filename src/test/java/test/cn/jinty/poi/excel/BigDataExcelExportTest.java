@@ -10,12 +10,14 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * 大数据Excel导出 - 测试
@@ -140,9 +142,9 @@ public class BigDataExcelExportTest {
         // 将多个Excel文件压缩为一个压缩包，然后删除这些Excel文件
         try {
             String zipFilePath = "D:\\temp\\BigDataExcelExportTest3.zip";
-            FileUtil.zip(fileNames, zipFilePath);
+            FileUtil.zip(fileNames.stream().map(File::new).collect(Collectors.toList()), new File(zipFilePath));
             System.out.printf("压缩多个Excel文件，生成压缩包=%s%n", zipFilePath);
-            FileUtil.deleteFiles(fileNames);
+            FileUtil.deleteFiles(fileNames.stream().map(File::new).collect(Collectors.toList()));
             System.out.printf("删除多个Excel文件，文件列表=%s%n%n", fileNames);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import cn.jinty.sql.code.CodeGenerator;
 import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
 import cn.jinty.util.JdbcUtil;
+import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 import org.junit.Test;
 
@@ -69,21 +70,21 @@ public class CodeGeneratorTest {
 
     // 从文件读取DDL
     private String getDDLFromFile(String filePath, boolean isRelative) throws IOException {
-        String ddlFilePath = FileUtil.getAbsolutePath(filePath, isRelative);
+        String ddlFilePath = FilePathUtil.getAbsolutePath(filePath, isRelative);
         System.out.println("DDL文件路径：" + ddlFilePath);
-        return FileUtil.read(ddlFilePath);
+        return FileUtil.read(new File(ddlFilePath));
     }
 
     // 从目录读取多个DDL
     private List<String> getDDLFromDir(String dirPath, boolean isRelative) throws IOException {
-        String ddlDirPath = FileUtil.getAbsolutePath(dirPath, isRelative);
+        String ddlDirPath = FilePathUtil.getAbsolutePath(dirPath, isRelative);
         System.out.println("DDL目录路径：" + ddlDirPath);
         List<File> ddlFiles = FileUtil.scanFilesOfRoot(new File(ddlDirPath));
         List<String> ddlList = new ArrayList<>();
         for (File ddlFile : ddlFiles) {
             String ddlFilePath = ddlFile.getAbsolutePath();
             System.out.println("DDL文件路径：" + ddlFilePath);
-            ddlList.add(FileUtil.read(ddlFilePath));
+            ddlList.add(FileUtil.read(new File(ddlFilePath)));
         }
         return ddlList;
     }
@@ -97,9 +98,9 @@ public class CodeGeneratorTest {
 
     // 获取生成文件目录
     private String getTargetDir(String lastPackage) {
-        String dir = FileUtil.getAbsolutePath("sql", true, Main.class);
+        String dir = FilePathUtil.getAbsolutePath("sql", true, Main.class);
         String basePackage = getBasePackage().replace(".", File.separator);
-        return FileUtil.concatBySeparator(dir, basePackage, lastPackage);
+        return FilePathUtil.concatBySeparator(dir, basePackage, lastPackage);
     }
 
     // 获取包名
@@ -124,7 +125,7 @@ public class CodeGeneratorTest {
     private void gen(String ddl, String relativeTemplateFilePath, String targetDir, String targetFileSuffix) {
         try {
             // 指定模板路径
-            String templateFilePath = FileUtil.getAbsolutePath(relativeTemplateFilePath, true);
+            String templateFilePath = FilePathUtil.getAbsolutePath(relativeTemplateFilePath, true);
             // 指定类型映射
             TypeMapper typeMapper = new MysqlTypeMapper();
             // 指定包名及作者

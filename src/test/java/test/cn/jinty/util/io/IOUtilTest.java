@@ -37,7 +37,7 @@ public class IOUtilTest {
         byte[] bytes = {0, 0, 0, 1};
         InputStream is = new ByteArrayInputStream(bytes);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        IOUtil.inputStreamToOutputStream(is, os);
+        IOUtil.copy(is, os);
         System.out.println(Arrays.toString(os.toByteArray()));
         os.flush();
         System.out.println(Arrays.toString(os.toByteArray()));

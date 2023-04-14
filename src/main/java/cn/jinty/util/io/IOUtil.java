@@ -47,19 +47,19 @@ public final class IOUtil {
         is.read(bytes);
         return bytes;*/
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            inputStreamToOutputStream(is, os);
+            copy(is, os);
             return os.toByteArray();
         }
     }
 
     /**
-     * 从输入流读取，写入到输出流
+     * 将输入流的内容拷贝到输出流
      *
      * @param is 输入流
      * @param os 输出流
      * @throws IOException IO异常
      */
-    public static void inputStreamToOutputStream(InputStream is, OutputStream os) throws IOException {
+    public static void copy(InputStream is, OutputStream os) throws IOException {
         if (is == null || os == null) {
             return;
         }
