@@ -17,19 +17,19 @@ public class EnumFactoryTest {
 
     @Test
     public void testGet1() {
-        System.out.println(EnumFactory.get("YesNoEnum"));
-        System.out.println(EnumFactory.get("OperationEnum"));
-        System.out.println(EnumFactory.get("EntityEnum"));
-        System.out.println(EnumFactory.get("FileTypeEnum"));
-        System.out.println(EnumFactory.get("BinaryUnitEnum"));
-        System.out.println(EnumFactory.get("ContentTypeEnum"));
-        System.out.println(EnumFactory.get("CycleTypeEnum"));
+        String[] keys = {"YesNoEnum", "OperationEnum", "EntityEnum", "FileTypeEnum",
+                "BinaryUnitEnum", "ContentTypeEnum", "CycleTypeEnum", "TimeUnitEnum"};
+        for (String key : keys) {
+            System.out.println(EnumFactory.get(key));
+        }
     }
 
     @Test
     public void testGet2() {
         List<KeyValue<String, String>> list = EnumFactory.get("ResponseCodeEnum");
         System.out.println(JSON.toJSONString(list));
+        System.out.println();
+        list.forEach(System.out::println);
     }
 
     @Test

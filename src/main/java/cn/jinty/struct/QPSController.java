@@ -58,4 +58,9 @@ public class QPSController {
         return container[position] + time - System.currentTimeMillis();
     }
 
+    @Override
+    public String toString() {
+        return limit + "/" + time + "ms";
+    }
+
 }

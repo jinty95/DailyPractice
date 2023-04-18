@@ -29,6 +29,7 @@ public final class EnumFactory {
         set(ContentTypeEnum.class.getSimpleName(), ContentTypeEnum.values());
         set(CycleTypeEnum.class.getSimpleName(), CycleTypeEnum.values());
         set(SpecialCharEnum.class.getSimpleName(), SpecialCharEnum.values());
+        set(TimeUnitEnum.class.getSimpleName(), TimeUnitEnum.values());
     }
 
     /**

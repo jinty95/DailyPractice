@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 特殊字符 - 枚举
+ * 枚举 - 特殊字符
  * (取键盘上的所有特殊字符，半角)
  *
  * @author Jinty

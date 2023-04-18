@@ -3,6 +3,7 @@ package test.cn.jinty.util;
 import cn.jinty.entity.date.DateRange;
 import cn.jinty.entity.date.Week;
 import cn.jinty.enums.CycleTypeEnum;
+import cn.jinty.enums.TimeUnitEnum;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
@@ -496,7 +497,7 @@ public class DateUtilTest {
         System.out.println();
         long second = 1656518400L;
         System.out.println("时间戳(秒)：" + second);
-        Date d2 = new Date(second * DateUtil.SECOND);
+        Date d2 = new Date(TimeUnitEnum.SECOND.toMillis(second));
         System.out.println("时间：" + DateUtil.format(d2));
     }
 
@@ -505,12 +506,12 @@ public class DateUtilTest {
         Date date = DateUtil.buildDate(2022, 6, 30);
         System.out.println("时间：" + DateUtil.format(date));
         System.out.println("时间戳(毫秒)：" + date.getTime());
-        System.out.println("时间戳(秒)：" + date.getTime() / DateUtil.SECOND);
-        System.out.println("时间戳(分)：" + date.getTime() / DateUtil.MINUTE);
-        System.out.println("时间戳(时)：" + date.getTime() / DateUtil.HOUR);
-        System.out.println("时间戳(日)：" + date.getTime() / DateUtil.DAY);
-        System.out.println("时间戳(月)：" + date.getTime() / DateUtil.MONTH);
-        System.out.println("时间戳(年)：" + date.getTime() / DateUtil.YEAR);
+        System.out.println("时间戳(秒)：" + TimeUnitEnum.SECOND.fromMills(date.getTime()));
+        System.out.println("时间戳(分)：" + TimeUnitEnum.MINUTE.fromMills(date.getTime()));
+        System.out.println("时间戳(时)：" + TimeUnitEnum.HOUR.fromMills(date.getTime()));
+        System.out.println("时间戳(日)：" + TimeUnitEnum.DAY.fromMills(date.getTime()));
+        System.out.println("时间戳(月)：" + TimeUnitEnum.MONTH.fromMills(date.getTime()));
+        System.out.println("时间戳(年)：" + TimeUnitEnum.YEAR.fromMills(date.getTime()));
     }
 
 }

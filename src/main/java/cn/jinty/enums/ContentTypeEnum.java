@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * HTTP - Content-Type - 枚举
+ * 枚举 - HTTP Content-Type
  *
  * @author Jinty
  * @date 2022/7/6

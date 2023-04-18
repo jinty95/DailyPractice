@@ -10,6 +10,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static cn.jinty.enums.TimeUnitEnum.*;
+
 /**
  * 时间 - 工具类
  *
@@ -20,17 +22,6 @@ public final class DateUtil {
 
     private DateUtil() {
     }
-
-    /**
-     * 时间单位 (毫秒表示)
-     */
-    public static final long MILLISECOND = 1L;
-    public static final long SECOND = MILLISECOND * 1000L;
-    public static final long MINUTE = SECOND * 60L;
-    public static final long HOUR = MINUTE * 60L;
-    public static final long DAY = HOUR * 24L;
-    public static final long MONTH = DAY * 30L;
-    public static final long YEAR = DAY * 365L;
 
     /**
      * 常用的时间格式
@@ -426,15 +417,15 @@ public final class DateUtil {
         if (year1 == year2) {
             // 两端在同一年
             diff2 = BigDecimal.valueOf(end.getTime() - begin.getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP);
         } else {
             // 两端不在同一年
             diff2 = BigDecimal.valueOf(getYearEnd(begin).getTime() - begin.getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP);
             diff2 = BigDecimal.valueOf(end.getTime() - getYearBegin(end).getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c2.getActualMaximum(Calendar.DAY_OF_YEAR)), 2, RoundingMode.HALF_UP)
                     .add(diff2);
         }
@@ -475,15 +466,15 @@ public final class DateUtil {
         if (year1 == year2 && month1 == month2) {
             // 两端在同一个月
             diff2 = BigDecimal.valueOf(end.getTime() - begin.getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP);
         } else {
             // 两端不在同一个月
             diff2 = BigDecimal.valueOf(getMonthEnd(begin).getTime() - begin.getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c1.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP);
             diff2 = BigDecimal.valueOf(end.getTime() - getMonthBegin(end).getTime())
-                    .divide(BigDecimal.valueOf(DAY), 7, RoundingMode.HALF_UP)
+                    .divide(BigDecimal.valueOf(DAY.getMillis()), 7, RoundingMode.HALF_UP)
                     .divide(BigDecimal.valueOf(c2.getActualMaximum(Calendar.DAY_OF_MONTH)), 2, RoundingMode.HALF_UP)
                     .add(diff2);
         }
@@ -499,7 +490,7 @@ public final class DateUtil {
      * @return 相差天数
      */
     public static BigDecimal getDiffDay(Date begin, Date end) {
-        return getDiff(begin, end, DAY);
+        return getDiff(begin, end, DAY.getMillis());
     }
 
     /**
@@ -510,7 +501,7 @@ public final class DateUtil {
      * @return 相差小时数
      */
     public static BigDecimal getDiffHour(Date begin, Date end) {
-        return getDiff(begin, end, HOUR);
+        return getDiff(begin, end, HOUR.getMillis());
     }
 
     /**
@@ -521,7 +512,7 @@ public final class DateUtil {
      * @return 相差分钟数
      */
     public static BigDecimal getDiffMinute(Date begin, Date end) {
-        return getDiff(begin, end, MINUTE);
+        return getDiff(begin, end, MINUTE.getMillis());
     }
 
     /**
@@ -532,7 +523,7 @@ public final class DateUtil {
      * @return 相差秒数
      */
     public static BigDecimal getDiffSecond(Date begin, Date end) {
-        return getDiff(begin, end, SECOND);
+        return getDiff(begin, end, SECOND.getMillis());
     }
 
     /**
