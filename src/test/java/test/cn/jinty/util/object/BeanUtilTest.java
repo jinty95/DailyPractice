@@ -41,29 +41,103 @@ public class BeanUtilTest {
     }
 
     @Test
-    public void testCopy() {
+    public void testCopyByIntrospect() {
+        System.out.println("基于[内省]拷贝对象");
+        long totalBegin = System.currentTimeMillis();
         try {
-            Person1 p1 = new Person1();
-            p1.setId(11);
-            p1.setName("kin");
-            p1.setAge(22);
-            p1.setSalary(99.9);
-            p1.setScore(100L);
-            p1.setBirthday(new Date());
-            p1.setIsDeleted(true);
-            p1.setRemark("备注一下可以吗");
-            System.out.println("原对象：" + p1);
-            for (int i = 1; i <= 10; i++) {
-                long begin = System.currentTimeMillis();
+            Person1 p1 = buildPerson1();
+            //System.out.println("原对象：" + p1);
+            for (int i = 1; i <= total; i++) {
+                //long begin = System.currentTimeMillis();
                 Person2 p2 = new Person2();
                 BeanUtil.copy(p1, p2);
-                long end = System.currentTimeMillis();
-                System.out.println("复制对象" + i + "：" + p2);
-                System.out.println("耗时：" + (end - begin) + "ms");
+                //long end = System.currentTimeMillis();
+                //System.out.println("拷贝对象" + i + "：" + p2);
+                //System.out.println("耗时：" + (end - begin) + "ms");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        long totalEnd = System.currentTimeMillis();
+        System.out.println("总耗时：" + (totalEnd - totalBegin) + "ms");
+    }
+
+    @Test
+    public void testCopyByReflect() {
+        System.out.println("基于[反射]拷贝对象");
+        long totalBegin = System.currentTimeMillis();
+        try {
+            Person1 p1 = buildPerson1();
+            //System.out.println("原对象：" + p1);
+            for (int i = 1; i <= total; i++) {
+                //long begin = System.currentTimeMillis();
+                Person2 p2 = new Person2();
+                BeanUtil.copyByReflect(p1, p2);
+                //long end = System.currentTimeMillis();
+                //System.out.println("拷贝对象" + i + "：" + p2);
+                //System.out.println("耗时：" + (end - begin) + "ms");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long totalEnd = System.currentTimeMillis();
+        System.out.println("总耗时：" + (totalEnd - totalBegin) + "ms");
+    }
+
+    @Test
+    public void testCopyByGetSet() {
+        System.out.println("基于[Get/Set]拷贝对象");
+        long totalBegin = System.currentTimeMillis();
+        try {
+            Person1 p1 = buildPerson1();
+            //System.out.println("原对象：" + p1);
+            for (int i = 1; i <= total; i++) {
+                //long begin = System.currentTimeMillis();
+                Person2 p2 = new Person2();
+                p2.setId(p1.getId());
+                p2.setName(p1.getName());
+                p2.setAge(p1.getAge());
+                p2.setSalary(p1.getSalary());
+                p2.setScore(p1.getScore());
+                p2.setBirthday(p1.getBirthday());
+                p2.setIsDeleted(p1.getIsDeleted());
+                p2.setRemark(p1.getRemark());
+                //long end = System.currentTimeMillis();
+                //System.out.println("拷贝对象" + i + "：" + p2);
+                //System.out.println("耗时：" + (end - begin) + "ms");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long totalEnd = System.currentTimeMillis();
+        System.out.println("总耗时：" + (totalEnd - totalBegin) + "ms");
+    }
+
+    private static int total;
+
+    @Test
+    public void testCopy() {
+        total = 1000000;
+        testCopyByIntrospect();
+        testCopyByReflect();
+        testCopyByGetSet();
+        // 测试耗时如下：
+        // 内省：1538ms
+        // 反射：644ms
+        // Get/Set：34ms
+    }
+
+    private Person1 buildPerson1() {
+        Person1 p1 = new Person1();
+        p1.setId(11);
+        p1.setName("kin");
+        p1.setAge(22);
+        p1.setSalary(99.9);
+        p1.setScore(100L);
+        p1.setBirthday(new Date());
+        p1.setIsDeleted(true);
+        p1.setRemark("备注一下可以吗");
+        return p1;
     }
 
     @Data

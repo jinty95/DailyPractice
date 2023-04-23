@@ -5,9 +5,11 @@ import cn.jinty.util.DateUtil;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,8 +18,8 @@ import java.util.Map;
  * Bean就是一个数据对象，只包含属性和基础方法(get/set/toString等)，而没有其它功能
  * <p>
  * Bean的解析有"反射"和"内省"两种方式，一般使用"内省"，好处如下：
- * 1、"内省"获取get/set，通过get/set访问类的属性，不会破坏类的封装性
- * 2、"内省"有缓存机制，多次"内省"比多次"反射"的性能消耗更低
+ * 1、"内省"获取public修饰的get/set，以此访问类的属性，不会破坏类的封装性
+ * 2、"内省"有缓存机制，除了首次执行耗时比较长，后续执行耗时都比较短
  *
  * @author Jinty
  * @date 2022/4/29
@@ -95,7 +97,7 @@ public final class BeanUtil {
     }
 
     /**
-     * Bean字段拷贝 (浅拷贝)
+     * Bean字段拷贝(浅拷贝)，基于内省实现
      *
      * @param source 来源对象
      * @param target 目标对象
@@ -132,6 +134,37 @@ public final class BeanUtil {
                 continue;
             }
             setter.invoke(target, value);
+        }
+    }
+
+    /**
+     * Bean字段拷贝(浅拷贝)，基于反射实现
+     *
+     * @param source 来源对象
+     * @param target 目标对象
+     * @throws Exception 异常
+     */
+    public static void copyByReflect(Object source, Object target) throws Exception {
+        if (source == null || target == null) {
+            return;
+        }
+        // 来源类字段
+        List<Field> sourceFields = ClassUtil.getAllField(source.getClass());
+        Map<String, Field> sourceFieldMap = new HashMap<>();
+        for (Field sourceField : sourceFields) {
+            sourceFieldMap.put(sourceField.getName(), sourceField);
+        }
+        // 目标类字段
+        List<Field> targetFields = ClassUtil.getAllField(target.getClass());
+        // 匹配名称相同的字段，判断可赋值则直接赋值
+        for (Field targetField : targetFields) {
+            Field sourceField = sourceFieldMap.get(targetField.getName());
+            if (sourceField == null || !ClassUtil.isAssignableFrom(targetField.getType(), sourceField.getType())) {
+                continue;
+            }
+            sourceField.setAccessible(true);
+            targetField.setAccessible(true);
+            targetField.set(target, sourceField.get(source));
         }
     }
 
