@@ -2,8 +2,11 @@ package test.cn.jinty.config;
 
 import cn.jinty.config.Config;
 import cn.jinty.config.ConfigService;
+import cn.jinty.util.StringUtil;
+import cn.jinty.util.collection.CollectionUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,12 +29,27 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public String getValueOrDefault(String type, String key, String defaultValue) {
-        return defaultValue;
+        String value = getValue(type, key);
+        return StringUtil.isEmpty(value) ? defaultValue : value;
     }
 
     @Override
     public List<Config> list(String type) {
-        return new ArrayList<>();
+        return Arrays.asList(
+                new Config(type, "xxx", "xxx", "xxx", "xxx"),
+                new Config(type, "yyy", "yyy", "yyy", "yyy")
+        );
+    }
+
+    @Override
+    public List<String> listKey(String type) {
+        return Arrays.asList("xxx", "yyy");
+    }
+
+    @Override
+    public List<String> listKeyOrDefault(String type, List<String> defaultKeys) {
+        List<String> keys = listKey(type);
+        return CollectionUtil.isEmpty(keys) ? defaultKeys : keys;
     }
 
 }

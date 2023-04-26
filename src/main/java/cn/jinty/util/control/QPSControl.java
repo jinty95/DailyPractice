@@ -1,14 +1,14 @@
-package cn.jinty.struct;
+package cn.jinty.util.control;
 
 /**
- * QPS控制器
+ * QPS控制
  * 使用数组存储每个请求到来的时间，前 N 次请求顺利通过，并填满数组。
  * 后续请求到来时，判断当前时间是否比数组中最早的时间晚 1 个时间单位，是则通过，否则拒绝。
  *
  * @author Jinty
  * @date 2022/6/28
  **/
-public class QPSController {
+public class QPSControl {
 
     // 单位时间请求限制次数
     private final int limit;
@@ -28,7 +28,7 @@ public class QPSController {
      * @param limit 单位时间请求限制次数
      * @param time  时间单位(毫秒表示)
      */
-    public QPSController(int limit, long time) {
+    public QPSControl(int limit, long time) {
         this.limit = limit;
         this.time = time;
         this.container = new long[limit];

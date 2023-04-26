@@ -1,6 +1,6 @@
-package test.cn.jinty.struct;
+package test.cn.jinty.util.control;
 
-import cn.jinty.struct.QPSController;
+import cn.jinty.util.control.QPSControl;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * QPS控制器 - 测试
+ * QPS控制 - 测试
  *
  * @author Jinty
  * @date 2022/6/28
  **/
-public class QPSControllerTest {
+public class QPSControlTest {
 
     @Test
     public void test() {
         long begin = System.currentTimeMillis();
         int requestCount = 500;
-        QPSController qpsController = new QPSController(100, TimeUnit.SECONDS.toMillis(1));
+        QPSControl qpsController = new QPSControl(100, TimeUnit.SECONDS.toMillis(1));
         List<Thread> threads = new ArrayList<>();
         for (int i = 1; i <= requestCount; i++) {
             final int j = i;

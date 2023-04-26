@@ -46,4 +46,21 @@ public interface ConfigService {
      */
     List<Config> list(String type);
 
+    /**
+     * 根据 "类型" 查询 "键列表"
+     *
+     * @param type 类型
+     * @return 键列表
+     */
+    List<String> listKey(String type);
+
+    /**
+     * 根据 "类型" 查询 "键列表"，不存在时返回 "默认值"
+     *
+     * @param type        类型
+     * @param defaultKeys 默认值
+     * @return 键列表
+     */
+    List<String> listKeyOrDefault(String type, List<String> defaultKeys);
+
 }

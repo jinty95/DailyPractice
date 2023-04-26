@@ -3,6 +3,8 @@ package test.cn.jinty.config;
 import cn.jinty.config.ConfigService;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 /**
  * 配置 - Service - 测试
  *
@@ -19,8 +21,10 @@ public class ConfigServiceTest {
         String key = "bbb";
         System.out.println(configService.get(type, key));
         System.out.println(configService.getValue(type, key));
-        System.out.println(configService.getValueOrDefault(type, key, "yyy"));
+        System.out.println(configService.getValueOrDefault(type, key, "aaa"));
         System.out.println(configService.list(type));
+        System.out.println(configService.listKey(type));
+        System.out.println(configService.listKeyOrDefault(type, Arrays.asList("aaa", "bbb")));
     }
 
 }
