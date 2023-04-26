@@ -1,6 +1,7 @@
 package ${BASE_PACKAGE}.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 ${IMPORT_CLASS}
 
@@ -11,6 +12,7 @@ ${IMPORT_CLASS}
  * @date ${DATE}
  */
 @Data
+@NoArgsConstructor
 public class ${CLASS_NAME} {
 
     // ${PK_COLUMN_COMMENT}

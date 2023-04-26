@@ -17,8 +17,41 @@ public final class FilePathUtil {
     private FilePathUtil() {
     }
 
-    // 文件类型标志
-    public static final String FILE_TYPE_MARK = ".";
+    /**
+     * 根据"类文件路径+基础包名"获取类全限定名
+     *
+     * @param classFilePath 类文件路径
+     * @param basePackage   基础包名
+     * @return 类全限定名
+     */
+    public static String getClassName(String classFilePath, String basePackage) {
+        if (StringUtil.isBlank(classFilePath) || StringUtil.isBlank(basePackage)) {
+            return StringUtil.EMPTY;
+        }
+        classFilePath = convertSeparator(classFilePath).replace(File.separator, ".");
+        int index1 = classFilePath.indexOf(basePackage);
+        int index2 = classFilePath.lastIndexOf(".class");
+        if (index1 == -1 || index2 == -1) {
+            return StringUtil.EMPTY;
+        }
+        return classFilePath.substring(index1, index2);
+    }
+
+    /**
+     * 获取文件名称 (不包含文件后缀)
+     *
+     * @param filePath 文件路径
+     * @return 文件名称
+     */
+    public static String getFileName(String filePath) {
+        if (StringUtil.isBlank(filePath)) {
+            return StringUtil.EMPTY;
+        }
+        filePath = convertSeparator(filePath);
+        int index1 = filePath.lastIndexOf(File.separator);
+        int index2 = filePath.lastIndexOf('.');
+        return filePath.substring(index1 + 1, index2);
+    }
 
     /**
      * 获取文件类型
@@ -30,7 +63,7 @@ public final class FilePathUtil {
         if (StringUtil.isBlank(filePath)) {
             return StringUtil.EMPTY;
         }
-        int index = filePath.lastIndexOf(FILE_TYPE_MARK);
+        int index = filePath.lastIndexOf('.');
         return filePath.substring(index + 1);
     }
 
@@ -62,7 +95,6 @@ public final class FilePathUtil {
             return StringUtil.EMPTY;
         }
         String filePath = StringUtil.join(File.separator, (Object[]) filePaths);
-        // 转换文件路径分隔符，使其符合当前系统
         return convertSeparator(filePath);
     }
 
@@ -77,10 +109,9 @@ public final class FilePathUtil {
         if (StringUtil.isBlank(filePath)) {
             return arr;
         }
-        // 转换文件路径分隔符，使其符合当前系统
         filePath = convertSeparator(filePath);
         int index1 = filePath.lastIndexOf(File.separator);
-        int index2 = filePath.lastIndexOf(FILE_TYPE_MARK);
+        int index2 = filePath.lastIndexOf('.');
         arr[0] = filePath.substring(0, index1);
         if (index2 < index1) {
             arr[1] = filePath.substring(index1 + 1);

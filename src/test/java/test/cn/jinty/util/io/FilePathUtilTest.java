@@ -21,6 +21,20 @@ public class FilePathUtilTest {
     }
 
     @Test
+    public void testGetClassName() {
+        System.out.println(FilePathUtil.getClassName(
+                "D:/target/classes/cn/jinty/enums/BinaryUnitEnum.class", "cn.jinty"));
+        System.out.println(FilePathUtil.getClassName(
+                "/target/classes/cn/jinty/enums/BinaryUnitEnum.class", "cn.jinty"));
+    }
+
+    @Test
+    public void testGetFileName() {
+        System.out.println(FilePathUtil.getFileName("abc.txt"));
+        System.out.println(FilePathUtil.getFileName("/aa/aa/abc.txt"));
+    }
+
+    @Test
     public void testGetFileType() {
         File file = getFile();
         System.out.println(file.getAbsolutePath());

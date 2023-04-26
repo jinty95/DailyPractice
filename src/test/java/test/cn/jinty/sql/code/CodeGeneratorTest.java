@@ -47,6 +47,7 @@ public class CodeGeneratorTest {
     /* 以下为内部函数 */
 
     // 直接写DDL
+    // 注意：表名和字段名的`不能省略，否则解析会出错
     private String getDDL() {
         return "# 作业表\n" +
                 "DROP TABLE IF EXISTS `job`;\n" +
