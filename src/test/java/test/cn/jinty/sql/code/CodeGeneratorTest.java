@@ -143,6 +143,8 @@ public class CodeGeneratorTest {
         gen(ddl, "/template/java_entity_template.txt", getTargetDir("entity"), ".java");
         gen(ddl, "/template/mybatis_xml_template.txt", getTargetDir("mapper"), "Mapper.xml");
         gen(ddl, "/template/mybatis_mapper_template.txt", getTargetDir("mapper"), "Mapper.java");
+        gen(ddl, "/template/java_service_template.txt", getTargetDir("service"), "Service.java");
+        gen(ddl, "/template/java_service_impl_template.txt", getTargetDir("service/impl"), "ServiceImpl.java");
     }
 
 }

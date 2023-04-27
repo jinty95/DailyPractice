@@ -15,7 +15,7 @@ public abstract class GrayControl {
      *
      * @return 是否
      */
-    protected abstract boolean isControl();
+    protected abstract boolean isControlled();
 
     /**
      * 是否被选中
@@ -35,7 +35,7 @@ public abstract class GrayControl {
      * @return 是否
      */
     public boolean toNewFeature(String key) {
-        if (!isControl()) {
+        if (!isControlled()) {
             return true;
         }
         return isSelected(key);

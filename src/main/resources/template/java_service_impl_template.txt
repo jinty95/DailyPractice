@@ -1,0 +1,49 @@
+package ${BASE_PACKAGE}.service.impl;
+
+import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+import ${BASE_PACKAGE}.service.${CLASS_NAME}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * ${TABLE_COMMENT} - ServiceImpl
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@Slf4j
+@Service
+public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
+
+    @Autowired
+    private ${CLASS_NAME}Mapper mapper;
+
+    @Override
+    public boolean insert(${CLASS_NAME} item) {
+        return mapper.insert(item) > 0;
+    }
+
+    @Override
+    public boolean batchInsert(List<${CLASS_NAME}> list) {
+        return mapper.batchInsert(list) > 0;
+    }
+
+    @Override
+    public boolean updateByPk(${CLASS_NAME} item) {
+        return mapper.updateByPk(item) > 0;
+    }
+
+    @Override
+    public ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
+        return mapper.selectByPk(${PK_FIELD_NAME});
+    }
+
+    @Override
+    public List<${CLASS_NAME}> select(${CLASS_NAME} item) {
+        return mapper.select(item);
+    }
+
+}

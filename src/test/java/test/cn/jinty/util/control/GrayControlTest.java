@@ -14,13 +14,13 @@ import java.util.List;
  **/
 public class GrayControlTest {
 
-    public static boolean isControl = true;
+    public static boolean isControlled = true;
     public static List<String> keys = Arrays.asList("1", "2", "3");
 
     public static class MyGrayControl extends GrayControl {
         @Override
-        protected boolean isControl() {
-            return isControl;
+        protected boolean isControlled() {
+            return isControlled;
         }
 
         @Override
@@ -33,13 +33,13 @@ public class GrayControlTest {
 
     @Test
     public void test() {
-        for (boolean isControl : new boolean[]{true, false}) {
-            GrayControlTest.isControl = isControl;
+        for (boolean isControlled : new boolean[]{true, false}) {
+            GrayControlTest.isControlled = isControlled;
             for (String key : new String[]{"1", "2", "3", "4", "5", "6"}) {
                 boolean toNewFeature = grayControl.toNewFeature(key);
                 boolean toOldFeature = grayControl.toOldFeature(key);
-                System.out.printf("灰度控制：isControl=%s, keys=%s, key=%s, => %s\n",
-                        isControl, keys, key, toNewFeature ? "toNewFeature" : "toOldFeature");
+                System.out.printf("灰度控制：isControlled=%s, keys=%s, key=%s, => %s\n",
+                        isControlled, keys, key, toNewFeature ? "toNewFeature" : "toOldFeature");
             }
             System.out.println();
         }

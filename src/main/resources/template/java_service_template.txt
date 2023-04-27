@@ -1,0 +1,40 @@
+package ${BASE_PACKAGE}.service;
+
+import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+
+import java.util.List;
+
+/**
+ * ${TABLE_COMMENT} - Service
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+public interface ${CLASS_NAME}Service {
+
+    /**
+     * 插入数据(忽略空字段)
+     */
+    boolean insert(${CLASS_NAME} item);
+
+    /**
+     * 批量插入数据(空字段填充默认值)
+     */
+    boolean batchInsert(List<${CLASS_NAME}> list);
+
+    /**
+     * 根据主键更新数据(忽略空字段)
+     */
+    boolean updateByPk(${CLASS_NAME} item);
+
+    /**
+     * 根据主键查询数据
+     */
+    ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+
+    /**
+     * 查询数据(条件忽略空字段)
+     */
+    List<${CLASS_NAME}> select(${CLASS_NAME} item);
+
+}
