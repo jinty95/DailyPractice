@@ -1,7 +1,11 @@
 @startuml
 
+'活动图：就是平常说的流程图，用于描述系统的活动
+
 '起点
 start
+'设置条件语句的结束样式
+skinparam ConditionEndStyle hline
 
 '活动标签(activity label)以冒号开始，以分号结束
 '默认按定义顺序自动连接
@@ -73,6 +77,19 @@ fork again
     #yellow\green:doing;
 end fork {聚合}
 note right: 并行处理
+
+'分割
+split
+    '隐藏输入连接线
+    -[hidden]->
+    :A;
+split again
+    -[hidden]->
+    :B;
+split again
+    :C;
+    :D;
+end split
 
 '终点
 stop

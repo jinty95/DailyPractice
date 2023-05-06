@@ -1,5 +1,7 @@
 @startuml
 
+'对象图：用于描述对象以及对象间的关系
+
 '对象定义
 object "Object1" as o1
 object "Object2" as o2

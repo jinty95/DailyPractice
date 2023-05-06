@@ -1,0 +1,28 @@
+@startuml
+
+'状态图：用来对系统的行为进行抽象描述，主要描述状态以及状态间的关系
+
+'定义状态
+state "INIT" as i
+state "DOING" as d
+state "FINISH" as f
+state "CANCEL" as c
+
+'状态描述
+i: 初始状态
+i: 就是一开始的状态
+d: 运行中
+d: 就是处理中的意思
+f: 已结束
+c: 已取消
+
+'状态关系(-表示横线，--表示竖线)
+[*] --> i
+i -> d
+d -> f
+f --> [*]
+i --> c
+d --> c
+c --> [*]
+
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+
+'泳道图：属于活动图的一种，侧重活动属于哪个对象，同一对象的活动写在一条泳道里面
+
+'定义泳道：|#颜色|名称| 显示名
+|#pink|f| fisherman
+|c| cook
+|#gold|e| eater
+
+'泳道中的活动
+|f|
+start
+:go fish;
+|c|
+:fry fish;
+|e|
+:eat fish;
+stop
+
+@enduml
