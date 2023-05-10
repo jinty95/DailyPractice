@@ -233,6 +233,36 @@ public final class FileUtil {
     }
 
     /**
+     * 在给定目录下，删除所有指定类型的文件
+     *
+     * @param root     文件目录
+     * @param fileType 文件类型
+     * @return 是否成功删除所有指定类型的文件
+     */
+    public static boolean deleteFiles(File root, String fileType) {
+        List<File> files = scanFilesOfRoot(root);
+        if (CollectionUtil.isEmpty(files)) {
+            return false;
+        }
+        boolean flag = true;
+        int totalCount = 0;
+        int successCount = 0;
+        for (File file : files) {
+            if (StringUtil.equalsIgnoreCase(fileType, FilePathUtil.getFileType(file.getAbsolutePath()))) {
+                boolean success = deleteFile(file);
+                flag &= success;
+                totalCount++;
+                if (success) {
+                    successCount++;
+                }
+            }
+        }
+        System.out.printf("在目录[%s]下扫描类型为[%s]的文件，扫描到的文件数为[%s]，成功删除的文件数为[%s]，返回[%s]\n",
+                root.getAbsolutePath(), fileType, totalCount, successCount, flag);
+        return flag;
+    }
+
+    /**
      * 在磁盘上创建文件
      *
      * @param file 文件对象

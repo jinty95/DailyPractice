@@ -39,6 +39,7 @@ public class FilePathUtilTest {
         File file = getFile();
         System.out.println(file.getAbsolutePath());
         System.out.println(FilePathUtil.getFileType(file.getAbsolutePath()));
+        System.out.println(FilePathUtil.getFileType("/aaa/bbb/ccc"));
     }
 
     @Test

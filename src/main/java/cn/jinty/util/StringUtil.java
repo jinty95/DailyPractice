@@ -125,6 +125,20 @@ public final class StringUtil {
     }
 
     /**
+     * 字符串判等 (忽略大小写)
+     *
+     * @param a 字符串
+     * @param b 字符串
+     * @return 是否相等 (忽略大小写)
+     */
+    public static boolean equalsIgnoreCase(String a, String b) {
+        if (a == null) {
+            return b == null;
+        }
+        return a.equalsIgnoreCase(b);
+    }
+
+    /**
      * 字符串长度
      *
      * @param s 字符串

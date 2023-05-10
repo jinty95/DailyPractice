@@ -128,6 +128,11 @@ public class FileUtilTest {
     }
 
     @Test
+    public void testDeleteFiles() {
+        FileUtil.deleteFiles(new File("D:/code/vis/return-inv"), "iml");
+    }
+
+    @Test
     public void testCreateFile() {
         // 最后一级路径表示一个没有后缀的文件名
         String filePath = "D:/Users/jintai.wang/Pictures/yyy/yyy";

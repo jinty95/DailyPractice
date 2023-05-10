@@ -64,6 +64,9 @@ public final class FilePathUtil {
             return StringUtil.EMPTY;
         }
         int index = filePath.lastIndexOf('.');
+        if (index == -1) {
+            return StringUtil.EMPTY;
+        }
         return filePath.substring(index + 1);
     }
 
