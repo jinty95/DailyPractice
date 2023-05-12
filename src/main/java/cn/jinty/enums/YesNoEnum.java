@@ -15,18 +15,18 @@ import java.util.Map;
  **/
 @Getter
 @AllArgsConstructor
-public enum YesNoEnum implements EnumInterface<Byte> {
+public enum YesNoEnum implements EnumInterface<Integer> {
 
-    N((byte) 0, "否"),
-    Y((byte) 1, "是");
+    N(0, "否"),
+    Y(1, "是");
 
     // 编码
-    private final Byte code;
+    private final Integer code;
     // 描述
     private final String desc;
 
     // 枚举静态化
-    private final static Map<Byte, YesNoEnum> codeMap;
+    private final static Map<Integer, YesNoEnum> codeMap;
     private final static Map<String, YesNoEnum> descMap;
 
     static {
@@ -39,7 +39,7 @@ public enum YesNoEnum implements EnumInterface<Byte> {
     }
 
     // 判断编码是否在枚举范围内
-    public static boolean containsCode(Byte code) {
+    public static boolean containsCode(Integer code) {
         return codeMap.containsKey(code);
     }
 
@@ -49,7 +49,7 @@ public enum YesNoEnum implements EnumInterface<Byte> {
     }
 
     // 根据编码解析为枚举对象
-    public static YesNoEnum parseByCode(Byte code) {
+    public static YesNoEnum parseByCode(Integer code) {
         return codeMap.get(code);
     }
 
@@ -59,13 +59,13 @@ public enum YesNoEnum implements EnumInterface<Byte> {
     }
 
     // 编码转为描述
-    public static String codeToDesc(Byte code) {
+    public static String codeToDesc(Integer code) {
         YesNoEnum res = parseByCode(code);
         return res == null ? null : res.getDesc();
     }
 
     // 描述转为编码
-    public static Byte descToCode(String desc) {
+    public static Integer descToCode(String desc) {
         YesNoEnum res = parseByDesc(desc);
         return res == null ? null : res.getCode();
     }

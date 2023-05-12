@@ -50,4 +50,17 @@ public class FinanceUtilTest {
         System.out.println(Arrays.toString(FinanceUtil.splitAvg(BigDecimal.valueOf(800), 19)));
     }
 
+    @Test
+    public void testTransToChineseCapitalAmount() {
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("0010000.0100")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("0000000.0000")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("100000000.0000")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("100000015.0000")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("123406789.1200")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("123456789.1200")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("103213.83")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("1994.1115")));
+        System.out.println(FinanceUtil.transToChineseCapitalAmount(new BigDecimal("19941115")));
+    }
+
 }

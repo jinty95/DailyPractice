@@ -470,11 +470,9 @@ public class DateUtilTest {
 
     @Test
     public void testGetChineseZodiac() {
-        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(2023, 1, 1)));
-        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(2022, 1, 1)));
-        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1995, 1, 1)));
-        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1970, 1, 1)));
-        System.out.println(DateUtil.getChineseZodiac(DateUtil.buildDate(1, 1, 1)));
+        for (int i = DateUtil.get(new Date(), Calendar.YEAR); i >= 1900; i--) {
+            System.out.println(i + " -> " + DateUtil.getChineseZodiac(DateUtil.buildDate(i, 1, 1)));
+        }
     }
 
     @Test
