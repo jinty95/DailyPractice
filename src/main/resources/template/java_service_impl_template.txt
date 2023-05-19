@@ -23,27 +23,52 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
 
     @Override
     public boolean insert(${CLASS_NAME} item) {
-        return mapper.insert(item) > 0;
+        try {
+            return mapper.insert(item) > 0;
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-保存失败：item=%s", item), e);
+            throw new RuntimeException("${TABLE_COMMENT}-保存失败");
+        }
     }
 
     @Override
     public boolean batchInsert(List<${CLASS_NAME}> list) {
-        return mapper.batchInsert(list) > 0;
+        try {
+            return mapper.batchInsert(list) > 0;
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-批量保存失败：list=%s", list), e);
+            throw new RuntimeException("${TABLE_COMMENT}-批量保存失败");
+        }
     }
 
     @Override
     public boolean updateByPk(${CLASS_NAME} item) {
-        return mapper.updateByPk(item) > 0;
+        try {
+            return mapper.updateByPk(item) > 0;
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-更新失败：item=%s", item), e);
+            throw new RuntimeException("${TABLE_COMMENT}-更新失败");
+        }
     }
 
     @Override
     public ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
-        return mapper.selectByPk(${PK_FIELD_NAME});
+        try {
+            return mapper.selectByPk(${PK_FIELD_NAME});
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-查询失败：${PK_FIELD_NAME}=%s", ${PK_FIELD_NAME}), e);
+            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+        }
     }
 
     @Override
     public List<${CLASS_NAME}> select(${CLASS_NAME} item) {
-        return mapper.select(item);
+        try {
+            return mapper.select(item);
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-查询失败：item=%s", item), e);
+            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+        }
     }
 
 }
