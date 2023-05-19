@@ -30,6 +30,13 @@ public class ClassUtilTest {
     }
 
     @Test
+    public void testGetField() {
+        System.out.println("类：" + TreeNode1.class.getName());
+        System.out.println("字段：" + ClassUtil.getField(TreeNode1.class, "id"));
+        System.out.println("字段：" + ClassUtil.getField(TreeNode1.class, "level"));
+    }
+
+    @Test
     public void testGetAllMethod() {
         System.out.println("类：" + TreeNode2.class.getName());
         System.out.println("所有方法：");
@@ -41,6 +48,13 @@ public class ClassUtilTest {
         for (Method method : ClassUtil.getAllMethod(Method.class)) {
             System.out.println(method.getName());
         }
+    }
+
+    @Test
+    public void testGetMethod() {
+        System.out.println("类：" + TreeNode1.class.getName());
+        System.out.println("方法：" + ClassUtil.getMethod(TreeNode1.class, "getId"));
+        System.out.println("方法：" + ClassUtil.getMethod(TreeNode1.class, "setLevel"));
     }
 
     @Test
@@ -68,6 +82,18 @@ public class ClassUtilTest {
         for (Class<?> clazz : ClassUtil.getAllSuper(ArrayList.class)) {
             System.out.println(clazz.getName());
         }
+    }
+
+    @Test
+    public void testToPrimitiveType() {
+        System.out.println(ClassUtil.toPrimitiveType(Integer.class));
+        System.out.println(ClassUtil.toPrimitiveType(Boolean.class));
+    }
+
+    @Test
+    public void testToWrapType() {
+        System.out.println(ClassUtil.toWrapType(int.class));
+        System.out.println(ClassUtil.toWrapType(double.class));
     }
 
     @Test

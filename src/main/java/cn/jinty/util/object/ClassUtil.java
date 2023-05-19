@@ -32,6 +32,23 @@ public final class ClassUtil {
     }
 
     /**
+     * 根据属性名获取类的属性 (包括父类属性)
+     *
+     * @param clazz     类
+     * @param fieldName 属性名
+     * @return 属性对象
+     */
+    public static Field getField(Class<?> clazz, String fieldName) {
+        List<Field> fields = getAllField(clazz);
+        for (Field field : fields) {
+            if (field.getName().equals(fieldName)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 获取类的所有方法 (包括父类方法)
      *
      * @param clazz 类
@@ -45,6 +62,23 @@ public final class ClassUtil {
             clazz = clazz.getSuperclass();
         }
         return result;
+    }
+
+    /**
+     * 根据方法名获取类的方法 (包括父类方法)
+     *
+     * @param clazz      类
+     * @param methodName 方法名
+     * @return 方法对象
+     */
+    public static Method getMethod(Class<?> clazz, String methodName) {
+        List<Method> methods = getAllMethod(clazz);
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                return method;
+            }
+        }
+        return null;
     }
 
     /**
@@ -87,7 +121,7 @@ public final class ClassUtil {
      */
     public static List<Class<?>> getAllSuperclass(Class<?> clazz) {
         List<Class<?>> result = new ArrayList<>();
-        while (true) {
+        while (clazz != null) {
             Class<?> superclass = clazz.getSuperclass();
             if (superclass == null) {
                 break;
@@ -131,6 +165,26 @@ public final class ClassUtil {
         for (Map.Entry<Class<?>, Class<?>> entry : WRAP_TO_PRIMITIVE_MAP.entrySet()) {
             PRIMITIVE_TO_WRAP_MAP.put(entry.getValue(), entry.getKey());
         }
+    }
+
+    /**
+     * 包装类 -> 基本类型
+     *
+     * @param wrapType 包装类
+     * @return 基本类型
+     */
+    public static Class<?> toPrimitiveType(Class<?> wrapType) {
+        return WRAP_TO_PRIMITIVE_MAP.get(wrapType);
+    }
+
+    /**
+     * 基本类型 -> 包装类
+     *
+     * @param primitiveType 基本类型
+     * @return 包装类
+     */
+    public static Class<?> toWrapType(Class<?> primitiveType) {
+        return PRIMITIVE_TO_WRAP_MAP.get(primitiveType);
     }
 
     /**
