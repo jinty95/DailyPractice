@@ -1,6 +1,7 @@
 package cn.jinty.util.collection;
 
 import cn.jinty.util.StringUtil;
+import cn.jinty.util.object.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +144,34 @@ public final class ListUtil {
      */
     public static List<String> fromString(String s, String separator) {
         return asList(StringUtil.split(s, separator));
+    }
+
+    /**
+     * 比较两个列表是否相等
+     * 1、元素数量相等
+     * 2、相同位置的元素相等
+     *
+     * @param list1 列表1
+     * @param list2 列表2
+     * @param <T>   元素类型
+     * @return 元素类型
+     */
+    public static <T> boolean equals(List<T> list1, List<T> list2) {
+        if (list1 == list2) {
+            return true;
+        }
+        if (list1 == null || list2 == null) {
+            return false;
+        }
+        if (list1.size() != list2.size()) {
+            return false;
+        }
+        for (int i = 0; i < list1.size(); i++) {
+            if (!ObjectUtil.equals(list1.get(i), list2.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

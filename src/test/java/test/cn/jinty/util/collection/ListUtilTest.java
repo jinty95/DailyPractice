@@ -3,7 +3,7 @@ package test.cn.jinty.util.collection;
 import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ public class ListUtilTest {
 
     @Test
     public void testSplitByNum() {
-        List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
         System.out.println(ListUtil.splitByNum(list, 3));
         System.out.println(ListUtil.splitByNum(list, 4));
         System.out.println(ListUtil.splitByNum(list, 5));
@@ -46,6 +46,15 @@ public class ListUtilTest {
         System.out.println(ListUtil.fromString("   ", ""));
         System.out.println(ListUtil.fromString("A,B,C", ","));
         System.out.println(ListUtil.fromString("A\r\nB\nC\rD\tE\fF G,H, I,  J,,,, K , L", "[\\s,]+"));
+    }
+
+    @Test
+    public void testEquals() {
+        System.out.println(ListUtil.equals(null, null));
+        System.out.println(ListUtil.equals(null, new ArrayList<>()));
+        System.out.println(ListUtil.equals(new ArrayList<>(), new ArrayList<>()));
+        System.out.println(ListUtil.equals(ListUtil.asList(1, 2, 3), ListUtil.asList(1, 2, 3)));
+        System.out.println(ListUtil.equals(ListUtil.asList(1, 2, 3), ListUtil.asList(4, 5, 6)));
     }
 
     @Test
