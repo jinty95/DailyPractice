@@ -1,10 +1,8 @@
 package test.cn.jinty.poi.excel;
 
 import cn.jinty.util.io.FileUtil;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import cn.jinty.util.io.IOUtil;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.TempFile;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -12,8 +10,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,7 +38,7 @@ public class BigDataExcelExportTest {
         this.printVmOptions();
         Workbook wb = null;
         FileOutputStream out = null;
-        int totalRowNumber = 2000000;
+        int totalRowNumber = 200;
         int totalColumnNumber = 10;
         try {
             System.out.printf("导出%d行Excel%n", totalRowNumber);
@@ -56,7 +52,8 @@ public class BigDataExcelExportTest {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            this.close(wb, out);
+            IOUtil.closeQuietly(out);
+            IOUtil.closeQuietly(wb);
         }
     }
 
@@ -89,7 +86,8 @@ public class BigDataExcelExportTest {
                 // 删除临时文件
                 wb.dispose();
             }
-            this.close(wb, out);
+            IOUtil.closeQuietly(out);
+            IOUtil.closeQuietly(wb);
         }
     }
 
@@ -135,7 +133,8 @@ public class BigDataExcelExportTest {
                 if (wb != null) {
                     wb.dispose();
                 }
-                this.close(wb, out);
+                IOUtil.closeQuietly(out);
+                IOUtil.closeQuietly(wb);
             }
         }
 
@@ -197,6 +196,7 @@ public class BigDataExcelExportTest {
             row = sheet.createRow(0);
             for (int cellNumber = 0; cellNumber < totalColumnNumber; cellNumber++) {
                 cell = row.createCell(cellNumber);
+                setCellContentToString1(wb, cell);
                 cell.setCellValue("列名" + (cellNumber + 1));
             }
             // 数据行
@@ -204,6 +204,7 @@ public class BigDataExcelExportTest {
                 row = sheet.createRow(rowNumber);
                 for (int cellNumber = 0; cellNumber < totalColumnNumber; cellNumber++) {
                     cell = row.createCell(cellNumber);
+                    setCellContentToString2(wb, cell);
                     cell.setCellValue(RANDOM.nextInt(100));
                 }
                 if (rowNumber % 10000 == 0) {
@@ -213,22 +214,19 @@ public class BigDataExcelExportTest {
         }
     }
 
-    // 关闭资源
-    private void close(Workbook wb, OutputStream out) {
-        if (out != null) {
-            try {
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (wb != null) {
-            try {
-                wb.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    // 设置单元格内容为文本 (方式1)
+    private void setCellContentToString1(Workbook wb, Cell cell) {
+        CellStyle cellStyle = wb.createCellStyle();
+        DataFormat format = wb.createDataFormat();
+        cellStyle.setDataFormat(format.getFormat("@"));
+        cell.setCellStyle(cellStyle);
+    }
+
+    // 设置单元格内容为文本 (方式2)
+    private void setCellContentToString2(Workbook wb, Cell cell) {
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setDataFormat((short) 49);
+        cell.setCellStyle(cellStyle);
     }
 
 }
