@@ -116,6 +116,16 @@ public class FileUtilTest {
     }
 
     @Test
+    public void testScanDirsOfRoot() {
+        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums", true);
+        File root = new File(path);
+        List<File> files = FileUtil.scanDirsOfRoot(root);
+        System.out.println("根路径：" + path);
+        System.out.println("根路径下所有目录：");
+        System.out.println(ListUtil.toString(files, "\n"));
+    }
+
+    @Test
     public void testDeleteFile() {
         // 非空目录，无法删除
         String dirPath = "D:/Users/jintai.wang/Pictures/xxx";
@@ -130,6 +140,28 @@ public class FileUtilTest {
     @Test
     public void testDeleteFiles() {
         FileUtil.deleteFiles(new File("D:/code/vis/return-inv"), "iml");
+    }
+
+    @Test
+    public void testDeleteDir() {
+        String dir1 = "D:\\temp\\codegen\\xxx";
+        FileUtil.createDir(new File(dir1));
+        for (int i = 1; i <= 10; i++) {
+            try {
+                FileUtil.createFile(new File(dir1 + "\\" + i + ".txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        String dir2 = "D:\\temp\\codegen\\yyy";
+        FileUtil.createDir(new File(dir2));
+        System.out.println();
+        FileUtil.deleteDirs(Arrays.asList(new File(dir1), new File(dir2)));
+    }
+
+    @Test
+    public void testDeleteDirs() {
+        FileUtil.deleteDirs(new File("D:\\temp\\codegen\\cn"), "aa");
     }
 
     @Test

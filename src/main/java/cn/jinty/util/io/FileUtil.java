@@ -173,13 +173,13 @@ public final class FileUtil {
     }
 
     /**
-     * 扫描根路径下面的所有文件
+     * 扫描根路径下面的所有文件 (不包括目录)
      *
      * @param root 根路径
      * @return 所有文件
      */
     public static List<File> scanFilesOfRoot(File root) {
-        if (root == null || !root.exists()) {
+        if (!exists(root)) {
             return new ArrayList<>();
         }
         List<File> results = new ArrayList<>();
@@ -201,6 +201,34 @@ public final class FileUtil {
     }
 
     /**
+     * 扫描根路径下面的所有目录 (不包括文件)
+     *
+     * @param root 根路径
+     * @return 所有目录
+     */
+    public static List<File> scanDirsOfRoot(File root) {
+        if (!exists(root)) {
+            return new ArrayList<>();
+        }
+        List<File> results = new ArrayList<>();
+        // 如果是文件，直接返回
+        if (root.isFile()) {
+            return results;
+        }
+        // 如果是目录，直接添加，然后递归扫描下一层
+        if (root.isDirectory()) {
+            results.add(root);
+            File[] files = root.listFiles();
+            if (files != null && files.length > 0) {
+                for (File file : files) {
+                    results.addAll(scanDirsOfRoot(file));
+                }
+            }
+        }
+        return results;
+    }
+
+    /**
      * 删除文件
      * (如果是目录，那么只有空目录可以删除成功)
      *
@@ -211,7 +239,9 @@ public final class FileUtil {
         if (file == null) {
             return false;
         }
-        return file.delete();
+        boolean flag = file.delete();
+        System.out.printf("删除文件[%s]，结果[%s]\n", file.getAbsolutePath(), flag);
+        return flag;
     }
 
     /**
@@ -235,8 +265,8 @@ public final class FileUtil {
     /**
      * 在给定目录下，删除所有指定类型的文件
      *
-     * @param root     文件目录
-     * @param fileType 文件类型
+     * @param root     目录
+     * @param fileType 文件类型 (不区分大小写)
      * @return 是否成功删除所有指定类型的文件
      */
     public static boolean deleteFiles(File root, String fileType) {
@@ -244,11 +274,13 @@ public final class FileUtil {
         if (CollectionUtil.isEmpty(files)) {
             return false;
         }
+        boolean hasMatch = false;
         boolean flag = true;
         int totalCount = 0;
         int successCount = 0;
         for (File file : files) {
             if (StringUtil.equalsIgnoreCase(fileType, FilePathUtil.getFileType(file.getAbsolutePath()))) {
+                hasMatch = true;
                 boolean success = deleteFile(file);
                 flag &= success;
                 totalCount++;
@@ -257,8 +289,85 @@ public final class FileUtil {
                 }
             }
         }
+        flag &= hasMatch;
         System.out.printf("在目录[%s]下扫描类型为[%s]的文件，扫描到的文件数为[%s]，成功删除的文件数为[%s]，返回[%s]\n",
                 root.getAbsolutePath(), fileType, totalCount, successCount, flag);
+        return flag;
+    }
+
+    /**
+     * 删除整个目录 (包括目录及目录下所有内容)
+     * 深度优先搜索，先删除目录下的内容，后删除目录本身
+     *
+     * @param dir 目录
+     * @return 是否成功删除整个目录
+     */
+    public static boolean deleteDir(File dir) {
+        if (!exists(dir)) {
+            return false;
+        }
+        if (dir.isFile()) {
+            return deleteFile(dir);
+        }
+        boolean flag = true;
+        File[] files = dir.listFiles();
+        if (files != null && files.length > 0) {
+            for (File file : files) {
+                flag &= deleteDir(file);
+            }
+        }
+        flag &= dir.delete();
+        System.out.printf("删除目录[%s]，结果[%s]\n", dir.getAbsolutePath(), flag);
+        return flag;
+    }
+
+    /**
+     * 删除所有给定的目录 (包括目录及目录下所有内容)
+     *
+     * @param dirs 目录列表
+     * @return 是否成功删除所有给定的目录
+     */
+    public static boolean deleteDirs(List<File> dirs) {
+        if (CollectionUtil.isEmpty(dirs)) {
+            return false;
+        }
+        boolean flag = true;
+        for (File dir : dirs) {
+            flag &= deleteDir(dir);
+        }
+        return flag;
+    }
+
+    /**
+     * 在给定目录下，删除所有指定名称的整个目录
+     *
+     * @param root    目录
+     * @param dirName 目录名称 (不区分大小写)
+     * @return 是否成功删除所有指定名称的整个目录
+     */
+    public static boolean deleteDirs(File root, String dirName) {
+        List<File> dirs = scanDirsOfRoot(root);
+        if (CollectionUtil.isEmpty(dirs)) {
+            return false;
+        }
+        boolean hasMatch = false;
+        boolean flag = true;
+        int totalCount = 0;
+        int successCount = 0;
+        for (File dir : dirs) {
+            if (StringUtil.equalsIgnoreCase(dirName, dir.getName())) {
+                hasMatch = true;
+                boolean success = deleteDir(dir);
+                flag &= success;
+                totalCount++;
+                if (success) {
+                    successCount++;
+                }
+            }
+        }
+        flag &= hasMatch;
+        System.out.printf("在目录[%s]下扫描名称为[%s]的目录，扫描到的目录数为[%s]，成功删除的目录数为[%s]，返回[%s]\n",
+                root.getAbsolutePath(), dirName, totalCount, successCount, flag);
         return flag;
     }
 
@@ -291,6 +400,7 @@ public final class FileUtil {
         if (!file.createNewFile()) {
             return null;
         }
+        System.out.printf("创建文件[%s]\n", file.getAbsolutePath());
         return file;
     }
 
@@ -318,6 +428,7 @@ public final class FileUtil {
         if (!dir.mkdirs()) {
             return null;
         }
+        System.out.printf("创建目录[%s]\n", dir.getAbsolutePath());
         return dir;
     }
 
