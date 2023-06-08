@@ -11,15 +11,15 @@ import java.util.Random;
 public class RockPaperScissors {
 
     // 随机数
-    private final static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     // 猜拳可选项
-    public final static String[] CHOICES = new String[]{"rock", "paper", "scissors"};
-    public final static String[] CHOICES_CN = new String[]{"石头", "布", "剪刀"};
+    public static final String[] CHOICES = new String[]{"rock", "paper", "scissors"};
+    public static final String[] CHOICES_CN = new String[]{"石头", "布", "剪刀"};
 
     // 结果
-    public final static String[] RESULTS = new String[]{"draw game", "winner p1", "winner p2"};
-    public final static String[] RESULTS_CN = new String[]{"平局", "玩家1获胜", "玩家2获胜"};
+    public static final String[] RESULTS = new String[]{"draw game", "winner p1", "winner p2"};
+    public static final String[] RESULTS_CN = new String[]{"平局", "玩家1获胜", "玩家2获胜"};
 
     /**
      * 进行一次游戏 (公平)

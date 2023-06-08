@@ -54,10 +54,12 @@ public final class SslUtil {
 
         public void checkServerTrusted(X509Certificate[] certs, String authType)
                 throws CertificateException {
+            // do nothing
         }
 
         public void checkClientTrusted(X509Certificate[] certs, String authType)
                 throws CertificateException {
+            // do nothing
         }
 
     }

@@ -1,12 +1,9 @@
 package cn.jinty.util;
 
-import cn.jinty.util.collection.ArrayUtil;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 
 /**
  * 财务 - 工具类
@@ -99,11 +96,11 @@ public final class FinanceUtil {
     }
 
     // 中文大写数字
-    private final static String[] CHINESE_CAPITAL_NUMBER = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
+    private static final String[] CHINESE_CAPITAL_NUMBER = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
     // 中文大写整数进位 (最大万亿)
-    private final static String[] CHINESE_CAPITAL_INTEGER_CARRY = {"万", "仟", "佰", "拾", "亿", "仟", "佰", "拾", "万", "仟", "佰", "拾", ""};
+    private static final String[] CHINESE_CAPITAL_INTEGER_CARRY = {"万", "仟", "佰", "拾", "亿", "仟", "佰", "拾", "万", "仟", "佰", "拾", ""};
     // 中文大写小数进位 (最小分)
-    private final static String[] CHINESE_CAPITAL_DECIMAL_CARRY = {"角", "分"};
+    private static final String[] CHINESE_CAPITAL_DECIMAL_CARRY = {"角", "分"};
 
     /**
      * 将金额转成中文大写金额

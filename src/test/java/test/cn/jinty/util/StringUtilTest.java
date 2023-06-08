@@ -194,14 +194,20 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testJoin() {
+    public void testJoin1() {
         System.out.println(StringUtil.join(null, ""));
+        System.out.println(StringUtil.join(Arrays.asList(null, null), ""));
         System.out.println(StringUtil.join(new ArrayList<>(), ""));
         System.out.println(StringUtil.join(Arrays.asList('D', 'E', 'F', 'G'), ""));
         System.out.println(StringUtil.join(Arrays.asList(1, 2, 3), ","));
         System.out.println(StringUtil.join(Arrays.asList("我们", "你们", "他们"), "和"));
-        System.out.println();
-        System.out.println(StringUtil.join("", null));
+    }
+
+    @Test
+    public void testJoin2() {
+        System.out.println(StringUtil.join("_", null));
+        System.out.println(StringUtil.join(null, null, null));
+        System.out.println(StringUtil.join("_", null, 2, null));
         System.out.println(StringUtil.join("", 'D', 'E', 'F', 'G'));
         System.out.println(StringUtil.join(",", 1, 2, 3));
         System.out.println(StringUtil.join(",", new int[]{1, 2, 3}));

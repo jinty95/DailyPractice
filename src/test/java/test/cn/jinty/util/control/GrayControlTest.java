@@ -29,7 +29,7 @@ public class GrayControlTest {
         }
     }
 
-    private final static GrayControl grayControl = new MyGrayControl();
+    private static final GrayControl grayControl = new MyGrayControl();
 
     @Test
     public void test() {

@@ -40,9 +40,7 @@ public class Subject {
 
     //发送通知
     private void notifyObserver() {
-        observerSet.forEach(one -> {
-            one.notify(this.msg);
-        });
+        observerSet.forEach(one -> one.notify(this.msg));
     }
 
 }

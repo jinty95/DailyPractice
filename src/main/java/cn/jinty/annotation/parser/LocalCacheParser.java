@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
  **/
 public class LocalCacheParser implements CacheParser {
 
-    private final static LRUCache<String, Object> lruCache = new LRUCache<>(10000);
+    private static final LRUCache<String, Object> lruCache = new LRUCache<>(10000);
 
     @Override
     public Object invoke(Object obj, Method method, Object[] args) throws Exception {

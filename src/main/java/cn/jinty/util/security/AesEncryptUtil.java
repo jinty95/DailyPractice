@@ -18,7 +18,7 @@ public final class AesEncryptUtil {
     }
 
     public static final String AES = "AES";
-    public static final String AES_ECB_PKCS5Padding = "AES/ECB/PKCS5Padding";
+    public static final String AES_ECB_PKCS5_PADDING = "AES/ECB/PKCS5Padding";
     public static final int KEY_SIZE = 128;
 
     /**
@@ -66,7 +66,7 @@ public final class AesEncryptUtil {
      * @throws Exception 异常
      */
     public static String aesEncrypt(String content, String keyStr) throws Exception {
-        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5Padding);
+        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5_PADDING);
         cipher.init(Cipher.ENCRYPT_MODE, parseAesKey(keyStr));
         return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes()));
     }
@@ -80,7 +80,7 @@ public final class AesEncryptUtil {
      * @throws Exception 异常
      */
     public static String aesDecrypt(String content, String keyStr) throws Exception {
-        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5Padding);
+        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5_PADDING);
         cipher.init(Cipher.DECRYPT_MODE, parseAesKey(keyStr));
         return new String(cipher.doFinal(Base64.getDecoder().decode(content)));
     }

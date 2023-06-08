@@ -103,8 +103,8 @@ public final class JdbcUtil {
         for (Map<String, String> map : mapList) {
             if (snakeToCamel) {
                 Map<String, String> camelMap = new HashMap<>();
-                for (String column : map.keySet()) {
-                    camelMap.put(StringUtil.snakeToCamel(column, false), map.get(column));
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    camelMap.put(StringUtil.snakeToCamel(entry.getKey(), false), entry.getValue());
                 }
                 objList.add(BeanUtil.mapToBean(camelMap, resultType));
             } else {

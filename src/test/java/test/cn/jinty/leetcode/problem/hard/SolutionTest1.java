@@ -15,7 +15,7 @@ import java.util.List;
  **/
 public class SolutionTest1 {
 
-    private final static Solution1 solution = new Solution1();
+    private static final Solution1 solution = new Solution1();
 
     @Test
     public void testVerticalTraversal() {

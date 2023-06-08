@@ -1,7 +1,5 @@
 package cn.jinty.util.collection;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Collection;
 import java.util.function.Predicate;
 
@@ -60,7 +58,7 @@ public final class CollectionUtil {
      * @param <R>       输出类型
      * @return 输出结果
      */
-    public static <T, R extends Collection<? super T>> R select(Collection<T> coll, Predicate<T> condition, @NotNull R result) {
+    public static <T, R extends Collection<? super T>> R select(Collection<T> coll, Predicate<T> condition, R result) {
         if (isEmpty(coll)) {
             return result;
         }

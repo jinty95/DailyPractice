@@ -14,9 +14,9 @@ import java.util.Random;
  **/
 public class ThreadLocalTest {
 
-    private final static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
-    private final static ThreadLocal<Integer> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<Integer> THREAD_LOCAL = new ThreadLocal<>();
 
     @Test
     public void test() {

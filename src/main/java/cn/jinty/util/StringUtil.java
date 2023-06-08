@@ -508,7 +508,7 @@ public final class StringUtil {
         }
         StringBuilder res = new StringBuilder();
         for (Object one : coll) {
-            res.append(one.toString()).append(separator);
+            res.append(one == null ? null : one.toString()).append(separator);
         }
         return res.substring(0, res.length() - separator.length());
     }
@@ -526,7 +526,7 @@ public final class StringUtil {
         }
         StringBuilder res = new StringBuilder();
         for (Object one : arr) {
-            res.append(one.toString()).append(separator);
+            res.append(one == null ? null : one.toString()).append(separator);
         }
         return res.substring(0, res.length() - separator.length());
     }

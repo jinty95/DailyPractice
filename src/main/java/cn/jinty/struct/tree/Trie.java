@@ -15,13 +15,13 @@ public class Trie {
     public static class TrieNode {
 
         //对应的字符是否为词的终点
-        public Boolean flag;
+        public boolean flag;
 
         //字符集及其后续
         public Map<Character, TrieNode> data;
 
         //构造器
-        private TrieNode(Boolean flag, HashMap<Character, TrieNode> data) {
+        private TrieNode(boolean flag, HashMap<Character, TrieNode> data) {
             this.flag = flag;
             this.data = data;
         }

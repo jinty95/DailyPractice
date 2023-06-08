@@ -90,8 +90,11 @@ public final class BeanUtil {
             }
             Object propertyValue = getter.invoke(bean);
             Class<?> type = descriptor.getPropertyType();
-            map.put(propertyName, propertyValue == null ? null :
-                    type == Date.class ? DateUtil.format((Date) propertyValue) : propertyValue.toString());
+            if (propertyValue == null) {
+                map.put(propertyName, null);
+            } else {
+                map.put(propertyName, type == Date.class ? DateUtil.format((Date) propertyValue) : propertyValue.toString());
+            }
         }
         return map;
     }

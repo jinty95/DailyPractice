@@ -261,7 +261,6 @@ public final class MathUtil {
      * @param a 被除数
      * @param b 除数
      * @return 整数结果
-     * @throws IllegalArgumentException 除数不能为0
      */
     public static int divide(int a, int b) {
         //非法除数

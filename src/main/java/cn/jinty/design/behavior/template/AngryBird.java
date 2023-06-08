@@ -8,7 +8,7 @@ package cn.jinty.design.behavior.template;
  **/
 public class AngryBird extends Game {
 
-    private final static String name = AngryBird.class.getSimpleName();
+    private static final String name = AngryBird.class.getSimpleName();
 
     @Override
     protected void startup() {

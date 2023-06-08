@@ -26,8 +26,8 @@ public enum YesNoEnum implements EnumInterface<Integer> {
     private final String desc;
 
     // 枚举静态化
-    private final static Map<Integer, YesNoEnum> codeMap;
-    private final static Map<String, YesNoEnum> descMap;
+    private static final Map<Integer, YesNoEnum> codeMap;
+    private static final Map<String, YesNoEnum> descMap;
 
     static {
         codeMap = new HashMap<>();

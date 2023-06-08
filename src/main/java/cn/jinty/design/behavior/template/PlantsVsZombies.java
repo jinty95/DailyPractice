@@ -8,7 +8,7 @@ package cn.jinty.design.behavior.template;
  **/
 public class PlantsVsZombies extends Game {
 
-    private final static String name = PlantsVsZombies.class.getSimpleName();
+    private static final String name = PlantsVsZombies.class.getSimpleName();
 
     @Override
     protected void startup() {
