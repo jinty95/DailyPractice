@@ -215,6 +215,20 @@ public class DateUtilTest {
     }
 
     @Test
+    public void testFormatDiff() {
+        Date[][] dates = new Date[][]{
+                {DateUtil.buildDate(2002, 9, 1), new Date()},
+                {DateUtil.buildDate(2019, 7, 3), new Date()},
+                {new Date(), DateUtil.buildDate(2023, 11, 23)}
+        };
+        for (Date[] date : dates) {
+            String diff = DateUtil.formatDiff(DateUtil.getDiff(date[0], date[1]));
+            System.out.printf("%s 到 %s 相差%n%s%n", DateUtil.format(date[0], DateUtil.FORMAT_DATETIME_MILLI),
+                    DateUtil.format(date[1], DateUtil.FORMAT_DATETIME_MILLI), diff);
+        }
+    }
+
+    @Test
     public void testIsTarget() {
         System.out.println(DateUtil.isTarget(new Date(), 1, Calendar.DATE));
         System.out.println(DateUtil.isTarget(new Date(), 11, Calendar.MONTH));

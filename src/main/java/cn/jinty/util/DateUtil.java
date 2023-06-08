@@ -253,12 +253,7 @@ public final class DateUtil {
      * @return 时间
      */
     public static Date buildDate(int year, int month, int date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1);
-        calendar.set(Calendar.DATE, date);
-        return calendar.getTime();
+        return buildDate(year, month, date, 0, 0, 0);
     }
 
     /**
@@ -273,6 +268,22 @@ public final class DateUtil {
      * @return 时间
      */
     public static Date buildDate(int year, int month, int date, int hour, int minute, int second) {
+        return buildDate(year, month, date, hour, minute, second, 0);
+    }
+
+    /**
+     * 根据输入数值构建时间对象
+     *
+     * @param year        年
+     * @param month       月
+     * @param date        日
+     * @param hour        时
+     * @param minute      分
+     * @param second      秒
+     * @param millisecond 毫秒
+     * @return 时间
+     */
+    public static Date buildDate(int year, int month, int date, int hour, int minute, int second, int millisecond) {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
@@ -281,6 +292,7 @@ public final class DateUtil {
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.MILLISECOND, millisecond);
         return calendar.getTime();
     }
 
@@ -536,6 +548,23 @@ public final class DateUtil {
     public static long getDiff(Date begin, Date end) {
         checkNull(begin, end);
         return begin.getTime() - end.getTime();
+    }
+
+    /**
+     * 格式化时间差
+     *
+     * @param diff 时间差(毫秒数)
+     * @return 格式化时间差
+     */
+    public static String formatDiff(long diff) {
+        String format = "%s天%s小时%s分钟%s秒%s毫秒";
+        diff = Math.abs(diff);
+        long day = diff / DAY.getMillis();
+        long hour = (diff % DAY.getMillis()) / HOUR.getMillis();
+        long min = (diff % HOUR.getMillis()) / MINUTE.getMillis();
+        long sec = (diff % MINUTE.getMillis()) / SECOND.getMillis();
+        long milli = diff % SECOND.getMillis();
+        return String.format(format, day, hour, min, sec, milli);
     }
 
     /**
