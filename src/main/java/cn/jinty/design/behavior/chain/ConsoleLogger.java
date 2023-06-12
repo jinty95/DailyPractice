@@ -1,5 +1,7 @@
 package cn.jinty.design.behavior.chain;
 
+import java.util.Date;
+
 /**
  * 控制台日志
  *
@@ -8,13 +10,18 @@ package cn.jinty.design.behavior.chain;
  */
 public class ConsoleLogger extends Logger {
 
-    public ConsoleLogger(int level) {
+    public ConsoleLogger(LEVEL level) {
         this.level = level;
     }
 
     @Override
-    public void write(int level, String msg) {
-        System.out.println("ConsoleLogger write : level=" + level + ",msg=" + msg);
+    public boolean canWrite(LEVEL level) {
+        return level.getLevel() >= this.level.getLevel();
+    }
+
+    @Override
+    public void write(LEVEL level, String msg) {
+        System.out.printf("[%s][%s][%s]: %s%n", this.getClass().getSimpleName(), new Date(), level, msg);
     }
 
 }

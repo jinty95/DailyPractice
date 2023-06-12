@@ -1,5 +1,7 @@
 package cn.jinty.design.behavior.chain;
 
+import java.util.Date;
+
 /**
  * 文件日志
  *
@@ -8,13 +10,18 @@ package cn.jinty.design.behavior.chain;
  */
 public class FileLogger extends Logger {
 
-    public FileLogger(int level) {
-        super.level = level;
+    public FileLogger(LEVEL level) {
+        this.level = level;
     }
 
     @Override
-    public void write(int level, String msg) {
-        System.out.println("FileLogger write : level=" + level + ",msg=" + msg);
+    public boolean canWrite(LEVEL level) {
+        return level.getLevel() == this.level.getLevel();
+    }
+
+    @Override
+    public void write(LEVEL level, String msg) {
+        System.out.printf("[%s][%s][%s]: %s%n", this.getClass().getSimpleName(), new Date(), level, msg);
     }
 
 }

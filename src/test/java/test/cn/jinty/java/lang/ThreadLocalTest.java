@@ -23,13 +23,19 @@ public class ThreadLocalTest {
         List<Thread> list = new ArrayList<>();
         for (int i = 1; i <= 100; i++) {
             list.add(new Thread(() -> {
-                set();
-                get();
+                try {
+                    set();
+                    get();
+                } finally {
+                    remove();
+                }
                 get();
             }));
         }
         for (Thread t : list) {
             t.start();
+        }
+        for (Thread t : list) {
             try {
                 t.join();
             } catch (InterruptedException e) {
@@ -41,14 +47,18 @@ public class ThreadLocalTest {
     private void set() {
         int val = RANDOM.nextInt(100);
         THREAD_LOCAL.set(val);
-        System.out.printf("设置线程局部变量：currentThread=%s, val=%s\n", Thread.currentThread(), val);
+        System.out.printf("线程局部变量[设置]：currentThread=%s, val=%s%n", Thread.currentThread(), val);
     }
 
     private void get() {
         Integer val = THREAD_LOCAL.get();
-        System.out.printf("获取线程局部变量：currentThread=%s, val=%s\n", Thread.currentThread(), val);
+        System.out.printf("线程局部变量[获取]：currentThread=%s, val=%s%n", Thread.currentThread(), val);
+    }
+
+    private void remove() {
         // 使用完手动调用remove，避免内存泄漏
         THREAD_LOCAL.remove();
+        System.out.printf("线程局部变量[移除]：currentThread=%s%n", Thread.currentThread());
     }
 
 }
