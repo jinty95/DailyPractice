@@ -78,4 +78,16 @@ public final class ValidateUtil {
         }
     }
 
+    /**
+     * 非假校验
+     *
+     * @param flag 任何条件判定的结果
+     * @param msg  提示信息
+     */
+    public static void notFalse(boolean flag, String msg) {
+        if (!flag) {
+            throw new RuntimeException(msg);
+        }
+    }
+
 }

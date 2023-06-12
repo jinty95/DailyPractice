@@ -55,4 +55,17 @@ public class ValidateUtilTest {
         }
     }
 
+    @Test
+    public void testNotFalse() {
+        int limit = 500;
+        for (int i = 100; i <= 1000; i += 100) {
+            try {
+                ValidateUtil.notFalse(i <= limit, "输入" + i + "超过上限" + limit);
+                System.out.println("校验通过：i=" + i);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

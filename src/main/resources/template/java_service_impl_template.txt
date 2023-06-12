@@ -62,11 +62,11 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public List<${CLASS_NAME}> select(${CLASS_NAME} item) {
+    public List<${CLASS_NAME}> select(${CLASS_NAME} param) {
         try {
-            return mapper.select(item);
+            return mapper.select(param);
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-查询失败：item=%s", item), e);
+            log.error(String.format("${TABLE_COMMENT}-查询失败：param=%s", param), e);
             throw new RuntimeException("${TABLE_COMMENT}-查询失败");
         }
     }

@@ -46,6 +46,6 @@ public interface ${CLASS_NAME}Mapper {
     /**
      * 查询数据(条件忽略空字段)
      */
-    List<${CLASS_NAME}> select(${CLASS_NAME} item);
+    List<${CLASS_NAME}> select(${CLASS_NAME} param);
 
 }
