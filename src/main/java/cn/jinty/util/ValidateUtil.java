@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.exception.ValidateException;
+
 import java.util.Collection;
 
 /**
@@ -30,7 +32,7 @@ public final class ValidateUtil {
      */
     public static void notNull(Object obj, String msg) {
         if (obj == null) {
-            throw new RuntimeException(msg);
+            throw new ValidateException(msg);
         }
     }
 
@@ -51,7 +53,7 @@ public final class ValidateUtil {
      */
     public static void notBlank(String str, String msg) {
         if (str == null || str.length() == 0 || str.trim().length() == 0) {
-            throw new RuntimeException(msg);
+            throw new ValidateException(msg);
         }
     }
 
@@ -74,7 +76,7 @@ public final class ValidateUtil {
      */
     public static <T> void notEmpty(Collection<T> coll, String msg) {
         if (coll == null || coll.isEmpty()) {
-            throw new RuntimeException(msg);
+            throw new ValidateException(msg);
         }
     }
 
@@ -86,7 +88,7 @@ public final class ValidateUtil {
      */
     public static void notFalse(boolean flag, String msg) {
         if (!flag) {
-            throw new RuntimeException(msg);
+            throw new ValidateException(msg);
         }
     }
 
