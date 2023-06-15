@@ -29,6 +29,7 @@ public enum TemplatePlaceholderEnum {
     FIELD_CLASS,
     FIELD_TYPE,
     FIELD_NAME,
+    FIELD_NAME_UPPER_FIRST,
 
     // 表
     TABLE_NAME,
@@ -44,6 +45,7 @@ public enum TemplatePlaceholderEnum {
     PK_FIELD_CLASS,
     PK_FIELD_TYPE,
     PK_FIELD_NAME,
+    PK_FIELD_NAME_UPPER_FIRST,
     PK_COLUMN_NAME,
     PK_COLUMN_TYPE,
     PK_COLUMN_COMMENT,
@@ -57,7 +59,7 @@ public enum TemplatePlaceholderEnum {
     // 类字段、表字段
     public static List<TemplatePlaceholderEnum> fieldAndColumn() {
         return Arrays.asList(
-                FIELD_CLASS, FIELD_TYPE, FIELD_NAME,
+                FIELD_CLASS, FIELD_TYPE, FIELD_NAME, FIELD_NAME_UPPER_FIRST,
                 COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, COLUMN_COMMENT
         );
     }

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,25 +35,33 @@ public class MybatisTest {
     public void testSelect() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
-        Job job = jobMapper.selectByPk(1L);
+
+        Job job = jobMapper.selectById(1L);
         System.out.println("根据主键查询：result=" + job);
+
+        List<Job> jobList = jobMapper.selectByIds(Arrays.asList(1L, 2L));
+        System.out.println("根据主键批量查询：result=" + jobList);
+
         Job param = new Job();
         param.setIsDeleted(0);
         param.setJobType("UPDATE_GOODS");
-        List<Job> jobList = jobMapper.select(param);
+        jobList = jobMapper.select(param);
         System.out.println("根据条件查询：param=" + param);
         System.out.println("result=" + jobList);
     }
+
+    // 注意：Update/Insert/Delete执行完都要commit，否则数据库不会受影响
 
     @Test
     public void testUpdate() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
-        Job job = jobMapper.selectByPk(1L);
+
+        Job job = jobMapper.selectById(1L);
         job.setUpdatedBy("me");
-        int effect = jobMapper.updateByPk(job);
+        int effect = jobMapper.updateById(job);
         System.out.println("更新数据：effect=" + effect);
-        // 不加commit数据库不会受影响
+
         sqlSession.commit();
     }
 
@@ -60,6 +69,7 @@ public class MybatisTest {
     public void testInsert() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+
         int effect = jobMapper.insertDefault();
         System.out.println("插入数据：effect=" + effect);
         Job job = new Job();
@@ -74,7 +84,7 @@ public class MybatisTest {
         }
         effect = jobMapper.batchInsert(jobList);
         System.out.println("批量插入数据：effect=" + effect);
-        // 不加commit数据库不会受影响
+
         sqlSession.commit();
     }
 
@@ -82,10 +92,15 @@ public class MybatisTest {
     public void testDelete() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+
         Long id = 10L;
-        int effect = jobMapper.deleteByPk(id);
+        int effect = jobMapper.deleteById(id);
         System.out.println("删除数据：effect=" + effect + ", id=" + id);
-        // 不加commit数据库不会受影响
+        sqlSession.commit();
+
+        List<Long> ids = Arrays.asList(10L, 11L, 12L);
+        effect = jobMapper.deleteByIds(ids);
+        System.out.println("批量删除数据：effect=" + effect + ", ids=" + ids);
         sqlSession.commit();
     }
 

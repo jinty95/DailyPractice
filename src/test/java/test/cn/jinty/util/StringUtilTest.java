@@ -87,6 +87,28 @@ public class StringUtilTest {
     }
 
     @Test
+    public void testUpperFirst() {
+        System.out.println(StringUtil.upperFirst(null));
+        System.out.println(StringUtil.upperFirst(""));
+        System.out.println(StringUtil.upperFirst("1"));
+        System.out.println(StringUtil.upperFirst("嘿"));
+        System.out.println(StringUtil.upperFirst("a"));
+        System.out.println(StringUtil.upperFirst("abc"));
+        System.out.println(StringUtil.upperFirst("helloWorld"));
+    }
+
+    @Test
+    public void testLowerFirst() {
+        System.out.println(StringUtil.lowerFirst(null));
+        System.out.println(StringUtil.lowerFirst(""));
+        System.out.println(StringUtil.lowerFirst("1"));
+        System.out.println(StringUtil.lowerFirst("呵呵"));
+        System.out.println(StringUtil.lowerFirst("A"));
+        System.out.println(StringUtil.lowerFirst("Abc"));
+        System.out.println(StringUtil.lowerFirst("HelloWorld"));
+    }
+
+    @Test
     public void testIsLetter() {
         System.out.println(StringUtil.isLetter("Hello"));
         System.out.println(StringUtil.isLetter("12345"));

@@ -42,9 +42,9 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public boolean updateByPk(${CLASS_NAME} item) {
+    public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item) {
         try {
-            return mapper.updateByPk(item) > 0;
+            return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
         } catch (Exception e) {
             log.error(String.format("${TABLE_COMMENT}-更新失败：item=%s", item), e);
             throw new RuntimeException("${TABLE_COMMENT}-更新失败");
@@ -52,11 +52,21 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
+    public ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
         try {
-            return mapper.selectByPk(${PK_FIELD_NAME});
+            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
         } catch (Exception e) {
             log.error(String.format("${TABLE_COMMENT}-查询失败：${PK_FIELD_NAME}=%s", ${PK_FIELD_NAME}), e);
+            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+        }
+    }
+
+    @Override
+    public List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s) {
+        try {
+            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s);
+        } catch (Exception e) {
+            log.error(String.format("${TABLE_COMMENT}-查询失败：${PK_FIELD_NAME}s=%s", ${PK_FIELD_NAME}s), e);
             throw new RuntimeException("${TABLE_COMMENT}-查询失败");
         }
     }

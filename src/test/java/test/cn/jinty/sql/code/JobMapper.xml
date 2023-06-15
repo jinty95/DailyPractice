@@ -52,7 +52,7 @@
             `job_type`, `job_desc`, `process_status`, `result_status`, `start_time`, `end_time`, `duration`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            '', '', 'INIT', 'PENDING', '0000-01-01 00:00:00', '0000-01-01 00:00:00', 0, 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP, 
+            '', '', 'INIT', 'PENDING', '0000-01-01 00:00:00', '0000-01-01 00:00:00', '0', '0', '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP,
         </trim>
     </insert>
 
@@ -106,8 +106,8 @@
                 <choose><when test="item.resultStatus != null">#{item.resultStatus}, </when><otherwise>'PENDING', </otherwise></choose>
                 <choose><when test="item.startTime != null">#{item.startTime}, </when><otherwise>'0000-01-01 00:00:00', </otherwise></choose>
                 <choose><when test="item.endTime != null">#{item.endTime}, </when><otherwise>'0000-01-01 00:00:00', </otherwise></choose>
-                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>0, </otherwise></choose>
-                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>'0', </otherwise></choose>
+                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>'0', </otherwise></choose>
                 <choose><when test="item.createdBy != null">#{item.createdBy}, </when><otherwise>'', </otherwise></choose>
                 <choose><when test="item.createTime != null">#{item.createTime}, </when><otherwise>CURRENT_TIMESTAMP, </otherwise></choose>
                 <choose><when test="item.updatedBy != null">#{item.updatedBy}, </when><otherwise>'', </otherwise></choose>
@@ -118,7 +118,7 @@
     </insert>
 
     <!-- 根据主键更新数据(忽略空字段) -->
-    <update id="updateByPk" parameterType="test.cn.jinty.sql.code.Job">
+    <update id="updateById" parameterType="test.cn.jinty.sql.code.Job">
         update `job`
         <set>
             <if test="jobType != null"> `job_type` = #{jobType}, </if>
@@ -139,16 +139,35 @@
     </update>
 
     <!-- 根据主键删除数据 -->
-    <delete id="deleteByPk" parameterType="java.lang.Long">
+    <delete id="deleteById" parameterType="java.lang.Long">
         delete from `job`
         where `id` = #{id}
     </delete>
 
+    <!-- 根据主键批量删除数据 -->
+    <delete id="deleteByIds" parameterType="java.lang.Long">
+        delete from `job`
+        where `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
     <!-- 根据主键查询数据 -->
-    <select id="selectByPk" parameterType="java.lang.Long" resultMap="baseResultMap">
+    <select id="selectById" parameterType="java.lang.Long" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
         where `id` = #{id}
+    </select>
+
+    <!-- 根据主键批量查询数据 -->
+    <select id="selectByIds" parameterType="java.lang.Long" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `job`
+        where `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </select>
 
     <!-- 查询数据(条件忽略空字段) -->

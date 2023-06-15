@@ -25,12 +25,17 @@ public interface ${CLASS_NAME}Service {
     /**
      * 根据主键更新数据(忽略空字段)
      */
-    boolean updateByPk(${CLASS_NAME} item);
+    boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item);
 
     /**
      * 根据主键查询数据
      */
-    ${CLASS_NAME} selectByPk(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+    ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+
+    /**
+     * 根据主键批量查询数据
+     */
+    List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
 
     /**
      * 查询数据(条件忽略空字段)

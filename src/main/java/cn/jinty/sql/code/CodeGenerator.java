@@ -63,6 +63,7 @@ public class CodeGenerator {
         List<TemplatePlaceholderEnum> columnPlaceholderEnums = TemplatePlaceholderEnum.fieldAndColumn();
         // 1、直接替换
         for (TemplatePlaceholderEnum placeholderEnum : TemplatePlaceholderEnum.values()) {
+            // 排除循环替换的部分
             if (columnPlaceholderEnums.contains(placeholderEnum)) {
                 continue;
             }
@@ -136,6 +137,7 @@ public class CodeGenerator {
                 columnMap.put(FIELD_CLASS.name(), fieldClass.getName());
                 columnMap.put(FIELD_TYPE.name(), fieldClass.getSimpleName());
                 columnMap.put(FIELD_NAME.name(), fieldName);
+                columnMap.put(FIELD_NAME_UPPER_FIRST.name(), StringUtil.upperFirst(fieldName));
                 columnData.add(columnMap);
             }
             // 判断字段类型是否需要导入
@@ -161,6 +163,7 @@ public class CodeGenerator {
                 data.put(PK_FIELD_CLASS.name(), pkFieldClass.getName());
                 data.put(PK_FIELD_TYPE.name(), pkFieldClass.getSimpleName());
                 data.put(PK_FIELD_NAME.name(), pkFieldName);
+                data.put(PK_FIELD_NAME_UPPER_FIRST.name(), StringUtil.upperFirst(pkFieldName));
                 break;
             }
         }

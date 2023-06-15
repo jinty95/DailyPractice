@@ -63,7 +63,7 @@
     </insert>
 
     <!-- 根据主键更新数据(忽略空字段) -->
-    <update id="updateByPk" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}">
+    <update id="updateBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}">
         update `${TABLE_NAME}`
         <set>
             ${FOR_EACH}<if test="${FIELD_NAME} != null"> `${COLUMN_NAME}` = #{${FIELD_NAME}}, </if>
@@ -73,16 +73,35 @@
     </update>
 
     <!-- 根据主键删除数据 -->
-    <delete id="deleteByPk" parameterType="${PK_FIELD_CLASS}">
+    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${PK_FIELD_CLASS}">
         delete from `${TABLE_NAME}`
         where `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
     </delete>
 
+    <!-- 根据主键批量删除数据 -->
+    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}s" parameterType="${PK_FIELD_CLASS}">
+        delete from `${TABLE_NAME}`
+        where `${PK_COLUMN_NAME}` in
+        <foreach item="${PK_FIELD_NAME}" collection="${PK_FIELD_NAME}s" index="index" separator="," open="(" close=")">
+            #{${PK_FIELD_NAME}}
+        </foreach>
+    </delete>
+
     <!-- 根据主键查询数据 -->
-    <select id="selectByPk" parameterType="${PK_FIELD_CLASS}" resultMap="baseResultMap">
+    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${PK_FIELD_CLASS}" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `${TABLE_NAME}`
         where `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
+    </select>
+
+    <!-- 根据主键批量查询数据 -->
+    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}s" parameterType="${PK_FIELD_CLASS}" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where `${PK_COLUMN_NAME}` in
+        <foreach item="${PK_FIELD_NAME}" collection="${PK_FIELD_NAME}s" index="index" separator="," open="(" close=")">
+            #{${PK_FIELD_NAME}}
+        </foreach>
     </select>
 
     <!-- 查询数据(条件忽略空字段) -->

@@ -189,6 +189,34 @@ public final class StringUtil {
     }
 
     /**
+     * 将首字母转为大写
+     *
+     * @param s 字符串
+     * @return 字符串
+     */
+    public static String upperFirst(String s) {
+        if (isEmpty(s)) {
+            return EMPTY;
+        }
+        String upperFirst = String.valueOf(Character.toUpperCase(s.charAt(0)));
+        return s.length() == 1 ? upperFirst : (upperFirst + s.substring(1));
+    }
+
+    /**
+     * 将首字母转为小写
+     *
+     * @param s 字符串
+     * @return 字符串
+     */
+    public static String lowerFirst(String s) {
+        if (isEmpty(s)) {
+            return EMPTY;
+        }
+        String lowerFirst = String.valueOf(Character.toLowerCase(s.charAt(0)));
+        return s.length() == 1 ? lowerFirst : (lowerFirst + s.substring(1));
+    }
+
+    /**
      * 字符串是否全为字母
      *
      * @param s 字符串
