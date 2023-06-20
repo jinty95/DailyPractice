@@ -1,9 +1,6 @@
 package cn.jinty;
 
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Locale;
 
@@ -30,17 +27,9 @@ public class Main {
         }
 
         System.out.println();
-        String[] arr = {"abc"};
+        String[] arr = {"upload_Workflow_Attachment"};
         for (String a : arr) {
-            System.out.println("字符串：" + a + "，转大写：" + a.toUpperCase() + "，长度：" + a.length());
-            System.out.println();
-        }
-
-        try {
-            System.out.println(URLEncoder.encode("jintai.wang", "UTF-8"));
-            System.out.println(URLDecoder.decode("jintai.wang", "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            System.out.printf("字符串=%s, 大写=%s, 小写=%s, 长度=%s%n", a, a.toUpperCase(), a.toLowerCase(), a.length());
         }
 
     }

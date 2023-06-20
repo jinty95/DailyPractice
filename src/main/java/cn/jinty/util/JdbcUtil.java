@@ -3,6 +3,7 @@ package cn.jinty.util;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.object.BeanUtil;
+import cn.jinty.util.string.NameStringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,7 +105,7 @@ public final class JdbcUtil {
             if (snakeToCamel) {
                 Map<String, String> camelMap = new HashMap<>();
                 for (Map.Entry<String, String> entry : map.entrySet()) {
-                    camelMap.put(StringUtil.snakeToCamel(entry.getKey(), false), entry.getValue());
+                    camelMap.put(NameStringUtil.snakeToCamel(entry.getKey(), false), entry.getValue());
                 }
                 objList.add(BeanUtil.mapToBean(camelMap, resultType));
             } else {

@@ -3,10 +3,10 @@ package test.cn.jinty.util.io;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.JdbcUtil;
-import cn.jinty.util.StringUtil;
 import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.string.RandomStringUtil;
 import org.junit.Test;
 
 import java.io.File;
@@ -237,7 +237,7 @@ public class FileUtilTest {
 
     @Test
     public void testWrite() {
-        String filePath = FilePathUtil.getAbsolutePath("/txt", true) + File.separator + StringUtil.random(10);
+        String filePath = FilePathUtil.getAbsolutePath("/txt", true) + File.separator + RandomStringUtil.random(10);
         try {
             System.out.println(filePath);
             FileUtil.write("哈哈哈哈", new File(filePath));

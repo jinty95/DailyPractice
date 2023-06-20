@@ -3,7 +3,7 @@ package test.cn.jinty.entity;
 import cn.jinty.entity.tuple.Pair;
 import cn.jinty.entity.tuple.Triple;
 import cn.jinty.util.DateUtil;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import org.junit.Test;
 
 import java.util.ArrayList;

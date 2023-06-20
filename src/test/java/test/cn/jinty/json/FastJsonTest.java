@@ -3,7 +3,7 @@ package test.cn.jinty.json;
 import cn.jinty.entity.BaseResponse;
 import cn.jinty.entity.KeyValue;
 import cn.jinty.entity.page.PageResponse;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.EscapeStringUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -144,7 +144,7 @@ public class FastJsonTest {
                 "{\\\\\\\"id\\\\\\\":1, \\\\\\\"name\\\\\\\":\\\\\\\"2\\\\\\\", \\\\\\\"age\\\\\\\":\\\\\\\"23\\\\\\\"}"
         };
         for (String json : jsonList) {
-            Map map = JSON.parseObject(StringUtil.unescapeAll(json), Map.class);
+            Map map = JSON.parseObject(EscapeStringUtil.unescapeAll(json), Map.class);
             System.out.println("json字符串: " + json);
             System.out.println("解析成Map: " + map);
         }

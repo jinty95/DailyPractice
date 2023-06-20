@@ -1,6 +1,6 @@
 package cn.jinty.util.security;
 
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.HexStringUtil;
 
 import java.security.MessageDigest;
 
@@ -51,7 +51,7 @@ public final class MessageDigestUtil {
      */
     public static String md5Str(String s) throws Exception {
         // 字节流转换成十六进制的字符串形式
-        return StringUtil.bytesToHex(md5(s));
+        return HexStringUtil.bytesToHex(md5(s));
     }
 
     /**
@@ -87,7 +87,7 @@ public final class MessageDigestUtil {
      */
     public static String sha1Str(String s) throws Exception {
         // 字节流转换成十六进制的字符串形式
-        return StringUtil.bytesToHex(sha1(s));
+        return HexStringUtil.bytesToHex(sha1(s));
     }
 
 }

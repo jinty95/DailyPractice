@@ -1,7 +1,7 @@
 package test.cn.jinty.util.io;
 
 import cn.jinty.enums.BinaryUnitEnum;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.io.IOUtil;
 import org.junit.Test;
 

@@ -23,6 +23,10 @@ public final class RegexUtil {
     public static final String NUMBER = "\\d";
     // 匹配任意一个非"数字"
     public static final String NOT_NUMBER = "\\D";
+    // 匹配任意一个"字母"
+    public static final String LETTER = "[a-zA-Z]";
+    // 匹配任意一个非"字母"
+    public static final String NOT_LETTER = "[^a-zA-Z]";
     // 匹配任意一个"数字/字母/下划线"
     public static final String NUMBER_LETTER_UNDERLINE = "\\w";
     // 匹配任意一个非"数字/字母/下划线"

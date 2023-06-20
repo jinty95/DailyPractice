@@ -1,5 +1,7 @@
 package cn.jinty.util;
 
+import cn.jinty.util.string.RandomStringUtil;
+
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -96,7 +98,7 @@ public final class IdUtil {
         // 17位时间
         String date = DateUtil.format(new Date(), DateUtil.FORMAT_DATETIME_MILLI_2);
         // 5位随机数
-        String random = StringUtil.randomDigit(5);
+        String random = RandomStringUtil.randomDigit(5);
         return date + random;
     }
 

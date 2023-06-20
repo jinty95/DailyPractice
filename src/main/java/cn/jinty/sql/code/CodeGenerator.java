@@ -5,7 +5,8 @@ import cn.jinty.sql.entity.Column;
 import cn.jinty.sql.entity.Table;
 import cn.jinty.sql.mapper.TypeMapper;
 import cn.jinty.util.DateUtil;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.NameStringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 
@@ -127,7 +128,7 @@ public class CodeGenerator {
         // 构造字段数据(不包括主键)
         for (Column column : columnList) {
             Class<?> fieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
-            String fieldName = StringUtil.snakeToCamel(column.getName(), false);
+            String fieldName = NameStringUtil.snakeToCamel(column.getName(), false);
             if (!column.getIsPrimaryKey()) {
                 Map<String, String> columnMap = new HashMap<>();
                 columnMap.put(COLUMN_NAME.name(), column.getName());
@@ -150,7 +151,7 @@ public class CodeGenerator {
         // 构造基本数据
         data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1));
         data.put(IMPORT_CLASS.name(), importClass.toString().trim());
-        data.put(CLASS_NAME.name(), StringUtil.snakeToCamel(table.getName(), true));
+        data.put(CLASS_NAME.name(), NameStringUtil.snakeToCamel(table.getName(), true));
         data.put(TABLE_NAME.name(), table.getName());
         data.put(TABLE_COMMENT.name(), table.getComment());
         for (Column column : columnList) {
@@ -159,7 +160,7 @@ public class CodeGenerator {
                 data.put(PK_COLUMN_TYPE.name(), column.getType());
                 data.put(PK_COLUMN_COMMENT.name(), column.getComment());
                 Class<?> pkFieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
-                String pkFieldName = StringUtil.snakeToCamel(column.getName(), false);
+                String pkFieldName = NameStringUtil.snakeToCamel(column.getName(), false);
                 data.put(PK_FIELD_CLASS.name(), pkFieldClass.getName());
                 data.put(PK_FIELD_TYPE.name(), pkFieldClass.getSimpleName());
                 data.put(PK_FIELD_NAME.name(), pkFieldName);

@@ -1,6 +1,6 @@
 package cn.jinty.util.collection;
 
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.object.ObjectUtil;
 
 import java.util.ArrayList;

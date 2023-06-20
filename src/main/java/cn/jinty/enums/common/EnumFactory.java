@@ -1,7 +1,7 @@
 package cn.jinty.enums.common;
 
 import cn.jinty.entity.KeyValue;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 

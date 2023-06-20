@@ -1,6 +1,6 @@
 package test.cn.jinty.util.security;
 
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.security.CustomEncryptUtil;
 import org.junit.Test;
 

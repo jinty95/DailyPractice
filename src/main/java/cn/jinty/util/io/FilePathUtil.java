@@ -1,6 +1,6 @@
 package cn.jinty.util.io;
 
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 
 import java.io.File;
 import java.net.URL;

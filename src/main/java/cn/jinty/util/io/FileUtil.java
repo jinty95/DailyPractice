@@ -2,7 +2,7 @@ package cn.jinty.util.io;
 
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;

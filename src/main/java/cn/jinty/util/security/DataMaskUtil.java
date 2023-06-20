@@ -1,6 +1,6 @@
 package cn.jinty.util.security;
 
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

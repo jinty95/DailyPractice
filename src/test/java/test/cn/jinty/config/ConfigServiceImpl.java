@@ -2,10 +2,9 @@ package test.cn.jinty.config;
 
 import cn.jinty.config.Config;
 import cn.jinty.config.ConfigService;
-import cn.jinty.util.StringUtil;
+import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.collection.CollectionUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
