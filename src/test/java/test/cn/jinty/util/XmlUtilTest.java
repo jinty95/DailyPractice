@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,9 +23,12 @@ public class XmlUtilTest {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)  // 这个注解用于解决这个报错：2 counts of IllegalAnnotationExceptions 类的两个属性具有相同名称 "id"
+    @XmlRootElement(name = "MyField")
     static class XmlObj {
+        @XmlElement(name = "ID")
         private Long id;
+        @XmlElement(name = "Name")
         private String name;
     }
 
