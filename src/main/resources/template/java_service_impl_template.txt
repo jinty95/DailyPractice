@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     @Override
     public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item) {
         try {
+            item.setUpdateTime(new Date());
             return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
         } catch (Exception e) {
             log.error(String.format("${TABLE_COMMENT}-更新失败：item=%s", item), e);

@@ -30,6 +30,7 @@ public interface ${CLASS_NAME}Mapper {
 
     /**
      * 根据主键更新数据(忽略空字段)
+     * 注意：更新语句中包含了update_time字段，会导致ON UPDATE CURRENT_TIMESTAMP失效，使用时需要手动赋予当前时间
      */
     int updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item);
 
