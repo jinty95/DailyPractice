@@ -1,6 +1,6 @@
-package test.cn.jinty.util;
+package test.cn.jinty.util.math;
 
-import cn.jinty.util.MathUtil;
+import cn.jinty.util.math.MathUtil;
 import cn.jinty.util.collection.ListUtil;
 import org.junit.Test;
 
@@ -202,24 +202,6 @@ public class MathUtilTest {
         System.out.println(Arrays.toString(MathUtil.split(100, 5)));
         System.out.println(Arrays.toString(MathUtil.split(100, 8)));
         System.out.println(Arrays.toString(MathUtil.split(100, 10)));
-    }
-
-    @Test
-    public void testIntegerAdd() {
-        Integer a = null, b = null;
-        System.out.println(MathUtil.add(a, b));
-        System.out.println(MathUtil.add(null, 1));
-        System.out.println(MathUtil.add(1, null));
-        System.out.println(MathUtil.add(1, 1));
-    }
-
-    @Test
-    public void testLongAdd() {
-        Long a = null, b = null;
-        System.out.println(MathUtil.add(a, b));
-        System.out.println(MathUtil.add(null, 1L));
-        System.out.println(MathUtil.add(1L, null));
-        System.out.println(MathUtil.add(1L, 1L));
     }
 
     @Test

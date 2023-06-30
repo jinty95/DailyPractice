@@ -1,4 +1,4 @@
-package cn.jinty.util;
+package cn.jinty.util.math;
 
 import cn.jinty.util.collection.ArrayUtil;
 
@@ -17,6 +17,7 @@ public final class MathUtil {
     private MathUtil() {
     }
 
+    // 随机数
     private static final Random RANDOM = new Random();
 
     // 数字与字母
@@ -396,40 +397,6 @@ public final class MathUtil {
         // 打乱数组
         ArrayUtil.shuffle(result);
         return result;
-    }
-
-    /**
-     * 包装类加法 - Integer
-     *
-     * @param a 操作数1
-     * @param b 操作数2
-     * @return 和
-     */
-    public static Integer add(Integer a, Integer b) {
-        if (a == null) {
-            return b;
-        }
-        if (b == null) {
-            return a;
-        }
-        return a + b;
-    }
-
-    /**
-     * 包装类加法 - Long
-     *
-     * @param a 操作数1
-     * @param b 操作数2
-     * @return 和
-     */
-    public static Long add(Long a, Long b) {
-        if (a == null) {
-            return b;
-        }
-        if (b == null) {
-            return a;
-        }
-        return a + b;
     }
 
     /**

@@ -1,6 +1,6 @@
 package cn.jinty.util.security;
 
-import cn.jinty.util.MathUtil;
+import cn.jinty.util.math.MathUtil;
 
 import java.util.Base64;
 

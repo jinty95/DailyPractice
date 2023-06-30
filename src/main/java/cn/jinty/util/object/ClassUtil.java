@@ -16,6 +16,16 @@ public final class ClassUtil {
     }
 
     /**
+     * 获取对象的类型
+     *
+     * @param obj 对象
+     * @return 类型
+     */
+    public static Class<?> getClass(Object obj) {
+        return obj == null ? null : obj.getClass();
+    }
+
+    /**
      * 获取类的所有属性 (包括父类属性)
      *
      * @param clazz 类
