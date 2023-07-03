@@ -27,7 +27,7 @@ public class Main {
         }
 
         System.out.println();
-        String[] arr = {"upload_Workflow_Attachment"};
+        String[] arr = {"abc"};
         for (String a : arr) {
             System.out.printf("字符串=%s, 大写=%s, 小写=%s, 长度=%s%n", a, a.toUpperCase(), a.toLowerCase(), a.length());
         }

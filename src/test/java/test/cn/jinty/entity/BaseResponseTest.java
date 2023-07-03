@@ -5,8 +5,7 @@ import cn.jinty.entity.page.PageRequest;
 import cn.jinty.entity.page.PageResponse;
 import org.junit.Test;
 
-import static cn.jinty.enums.ResponseCodeEnum.LOGIN_ATTEMPT_EXCEED;
-import static cn.jinty.enums.ResponseCodeEnum.LOGIN_FAIL;
+import static cn.jinty.enums.ResponseCodeEnum.*;
 
 /**
  * 基础响应体 - 测试
@@ -32,9 +31,9 @@ public class BaseResponseTest {
         System.out.println(baseResponse1);
         BaseResponse<Long> baseResponse2 = BaseResponse.fail("不知道为什么反正就是失败了，真实乌鱼子！");
         System.out.println(baseResponse2);
-        BaseResponse<Float> baseResponse3 = BaseResponse.fail(LOGIN_FAIL.getCode(), LOGIN_FAIL.getDesc());
+        BaseResponse<Float> baseResponse3 = BaseResponse.fail(BIZ_LOGIN_FAIL.getCode(), BIZ_LOGIN_FAIL.getDesc());
         System.out.println(baseResponse3);
-        BaseResponse<Double> baseResponse4 = BaseResponse.fail(LOGIN_ATTEMPT_EXCEED);
+        BaseResponse<Double> baseResponse4 = BaseResponse.fail(BIZ_LOGIN_ATTEMPT_EXCEED);
         System.out.println(baseResponse4);
     }
 
