@@ -2,6 +2,7 @@ package cn.jinty.util;
 
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.object.BeanUtil;
 import cn.jinty.util.string.NameStringUtil;
 
@@ -276,6 +277,40 @@ public final class JdbcUtil {
             ddlList.add(createTable.get(0).get("Create Table"));
         }
         return ddlList;
+    }
+
+    /**
+     * 执行查询语句，基于游标方式读取结果集
+     * <p>
+     * 前提条件：
+     * 1、连接添加useCursorFetch=true参数；2、语句statement.setFetchSize(fetchSize)
+     * <p>
+     * 应用场景：
+     * 传统的分页查询，每次都是执行同样的SQL，然后再排序后分页，最后一次性将当前页的数据返回，如果是导出操作，每次都执行同样的SQL非常耗性能
+     * 上面这种场景，可以采用游标方式查询，只执行一次不分页的SQL，然后分批次一点一点拉取结果集，最后得到所有结果导出，性能可以提升很多
+     *
+     * @param conn      数据库连接
+     * @param sql       查询语句
+     * @param fetchSize 每次拉取结果集数量
+     * @return 查询结果
+     * @throws SQLException SQL异常
+     */
+    public static List<Map<String, String>> executeQueryByCursor(Connection conn, String sql, int fetchSize) throws SQLException {
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = conn.createStatement();
+            statement.setFetchSize(fetchSize);
+            resultSet = statement.executeQuery(sql);
+            return parseResultSet(resultSet);
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        }
     }
 
 }

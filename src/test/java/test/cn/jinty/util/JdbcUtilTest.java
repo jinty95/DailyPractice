@@ -1,13 +1,19 @@
 package test.cn.jinty.util;
 
 import cn.jinty.util.JdbcUtil;
+import cn.jinty.util.io.FilePathUtil;
+import cn.jinty.util.io.FileUtil;
 import org.junit.Test;
 import test.cn.jinty.sql.code.Job;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * JDBC - 工具类 - 测试
@@ -153,6 +159,36 @@ public class JdbcUtilTest {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void executeQueryByCursor() {
+        Properties properties;
+        Connection conn = null;
+        try {
+            properties = FileUtil.parseProperties(new File(
+                    FilePathUtil.getAbsolutePath("/properties/application.properties", true)));
+            String driver = properties.getProperty("db.driver");
+            String url = properties.getProperty("db.url") + "?useCursorFetch=true";
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+            conn = JdbcUtil.getConnection(driver, url, user, password);
+            String sql = "select * from `constant`";
+            List<Map<String, String>> rows = JdbcUtil.executeQueryByCursor(conn, sql, 3);
+            System.out.println("sql: " + sql);
+            System.out.println("result: " + rows.size());
+            rows.forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
