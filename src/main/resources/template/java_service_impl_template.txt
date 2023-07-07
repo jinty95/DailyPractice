@@ -19,6 +19,8 @@ import java.util.List;
 @Service
 public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
 
+    private static final String EVENT = "${TABLE_COMMENT}";
+
     @Autowired
     private ${CLASS_NAME}Mapper mapper;
 
@@ -27,8 +29,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         try {
             return mapper.insert(item) > 0;
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-保存失败：item=%s", item), e);
-            throw new RuntimeException("${TABLE_COMMENT}-保存失败");
+            log.error(String.format("%s-保存失败：item=%s", EVENT, item), e);
+            throw new RuntimeException(String.format("%s-保存失败", EVENT));
         }
     }
 
@@ -37,8 +39,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         try {
             return mapper.batchInsert(list) > 0;
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-批量保存失败：list=%s", list), e);
-            throw new RuntimeException("${TABLE_COMMENT}-批量保存失败");
+            log.error(String.format("%s-批量保存失败：list=%s", EVENT, list), e);
+            throw new RuntimeException(String.format("%s-批量保存失败", EVENT));
         }
     }
 
@@ -48,8 +50,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
             item.setUpdateTime(new Date());
             return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-更新失败：item=%s", item), e);
-            throw new RuntimeException("${TABLE_COMMENT}-更新失败");
+            log.error(String.format("%s-更新失败：item=%s", EVENT, item), e);
+            throw new RuntimeException(String.format("%s-更新失败", EVENT));
         }
     }
 
@@ -58,8 +60,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         try {
             return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-查询失败：${PK_FIELD_NAME}=%s", ${PK_FIELD_NAME}), e);
-            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}=%s", EVENT, ${PK_FIELD_NAME}), e);
+            throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 
@@ -68,8 +70,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         try {
             return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s);
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-查询失败：${PK_FIELD_NAME}s=%s", ${PK_FIELD_NAME}s), e);
-            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}s=%s", EVENT, ${PK_FIELD_NAME}s), e);
+            throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 
@@ -78,8 +80,8 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         try {
             return mapper.select(param);
         } catch (Exception e) {
-            log.error(String.format("${TABLE_COMMENT}-查询失败：param=%s", param), e);
-            throw new RuntimeException("${TABLE_COMMENT}-查询失败");
+            log.error(String.format("%s-查询失败：param=%s", EVENT, param), e);
+            throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 
