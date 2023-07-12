@@ -2,6 +2,7 @@ package cn.jinty.util.io;
 
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
+import cn.jinty.util.object.ObjectUtil;
 import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.collection.CollectionUtil;
 
@@ -600,6 +601,31 @@ public final class FileUtil {
     }
 
     /**
+     * 按行写入文件内容 (每行的内容添加一个换行符)
+     *
+     * @param lines 内容行
+     * @param file  文件
+     * @throws IOException IO异常
+     */
+    public static void writeLine(List<String> lines, File file) throws IOException {
+        if (CollectionUtil.isEmpty(lines)) {
+            return;
+        }
+        file = createFile(file);
+        if (file == null) {
+            return;
+        }
+        String newLine = ObjectUtil.ifNull(System.getProperty("line.separator"), "\n");
+        byte[] newLineBytes = newLine.getBytes();
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            for (String line : lines) {
+                fos.write(line.getBytes());
+                fos.write(newLineBytes);
+            }
+        }
+    }
+
+    /**
      * 获取两个文件的差异行
      *
      * @param file1 文件1
@@ -686,6 +712,20 @@ public final class FileUtil {
             }
         }
         return dp;
+    }
+
+    /**
+     * 去重，移除文件中的重复行
+     *
+     * @param file 文件
+     * @throws IOException IO异常
+     */
+    public static void removeDuplicateLine(File file) throws IOException {
+        List<String> lines = readLine(file);
+        List<String> newLines = new ArrayList<>(new HashSet<>(lines));
+        System.out.printf("文件[%s]，原数据行数[%s]，去重后数据行数[%s]%n",
+                file.getAbsolutePath(), lines.size(), newLines.size());
+        writeLine(newLines, file);
     }
 
 }

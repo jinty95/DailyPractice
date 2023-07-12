@@ -307,4 +307,14 @@ public class FileUtilTest {
         }
     }
 
+    @Test
+    public void testRemoveDuplicateLine() {
+        String filePath = "D:\\temp\\number.log";
+        try {
+            FileUtil.removeDuplicateLine(new File(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
