@@ -2,8 +2,6 @@ package cn.jinty.util.object;
 
 import cn.jinty.util.DateUtil;
 
-import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -30,7 +28,7 @@ public final class BeanUtil {
     }
 
     /**
-     * 将Map转为Bean
+     * 将Map转为Bean，基于内省实现
      *
      * @param map   Map对象
      * @param clazz 目标类型
@@ -46,8 +44,7 @@ public final class BeanUtil {
         if (map.isEmpty()) {
             return bean;
         }
-        BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        PropertyDescriptor[] propertyDescriptors = IntrospectUtil.getPropertyDescriptors(clazz);
         for (PropertyDescriptor descriptor : propertyDescriptors) {
             String propertyName = descriptor.getName();
             String propertyValue = map.get(propertyName);
@@ -65,7 +62,7 @@ public final class BeanUtil {
     }
 
     /**
-     * 将Bean转为Map
+     * 将Bean转为Map，基于内省实现
      *
      * @param bean Bean对象
      * @return Map对象
@@ -76,8 +73,7 @@ public final class BeanUtil {
             return null;
         }
         Map<String, String> map = new HashMap<>();
-        BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+        PropertyDescriptor[] propertyDescriptors = IntrospectUtil.getPropertyDescriptors(bean.getClass());
         for (PropertyDescriptor descriptor : propertyDescriptors) {
             String propertyName = descriptor.getName();
             // 排除类本身
@@ -111,15 +107,9 @@ public final class BeanUtil {
             return;
         }
         // 来源类字段
-        BeanInfo sourceBeanInfo = Introspector.getBeanInfo(source.getClass());
-        PropertyDescriptor[] sourcePropertyDescriptors = sourceBeanInfo.getPropertyDescriptors();
-        Map<String, PropertyDescriptor> sourcePropertyMap = new HashMap<>();
-        for (PropertyDescriptor sourceProperty : sourcePropertyDescriptors) {
-            sourcePropertyMap.put(sourceProperty.getName(), sourceProperty);
-        }
+        Map<String, PropertyDescriptor> sourcePropertyMap = IntrospectUtil.getPropertyDescriptorMap(source.getClass());
         // 目标类字段
-        BeanInfo targetBeanInfo = Introspector.getBeanInfo(target.getClass());
-        PropertyDescriptor[] targetPropertyDescriptors = targetBeanInfo.getPropertyDescriptors();
+        PropertyDescriptor[] targetPropertyDescriptors = IntrospectUtil.getPropertyDescriptors(target.getClass());
         // 匹配名称相同的字段，判断可赋值则直接赋值
         for (PropertyDescriptor targetProperty : targetPropertyDescriptors) {
             PropertyDescriptor sourceProperty = sourcePropertyMap.get(targetProperty.getName());

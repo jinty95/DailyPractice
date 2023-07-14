@@ -2,6 +2,7 @@ package cn.jinty.util.object;
 
 import cn.jinty.annotation.FieldName;
 import cn.jinty.util.DateUtil;
+import cn.jinty.util.string.StringUtil;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -138,8 +139,8 @@ public final class ObjectUtil {
                     field.set(obj, new HashMap<>());
                 }
             } catch (IllegalAccessException e) {
-                System.out.println(String.format("对象空字段设置默认值异常：obj=%s, field=%s, error=%s",
-                        obj, field.getName(), e.getClass().getSimpleName()));
+                System.out.printf("对象空字段设置默认值异常：obj=%s, field=%s, error=%s%n",
+                        obj, field.getName(), e.getClass().getSimpleName());
             }
         }
     }
@@ -171,8 +172,8 @@ public final class ObjectUtil {
                     diffs.add(diff);
                 }
             } catch (IllegalAccessException e) {
-                System.out.println(String.format("比较对象差异异常：o1=%s, o2=%s, field=%s, error=%s",
-                        o1, o2, field.getName(), e.getClass().getSimpleName()));
+                System.out.printf("比较对象差异异常：o1=%s, o2=%s, field=%s, error=%s%n",
+                        o1, o2, field.getName(), e.getClass().getSimpleName());
             }
         }
         return diffs;
@@ -196,7 +197,7 @@ public final class ObjectUtil {
      * @return 目标对象
      */
     public static <T> T strToObj(String str, Class<T> clazz) {
-        if (clazz == null) {
+        if (isNull(str) || isNull(clazz)) {
             return null;
         }
         return strToObj(str, clazz.getName());
@@ -214,6 +215,9 @@ public final class ObjectUtil {
     public static <T> T strToObj(String str, String className) {
         if (isNull(str) || isNull(className)) {
             return null;
+        }
+        if (StringUtil.isBlank(str)) {
+            return String.class.getName().equals(className) ? (T) str : null;
         }
         if (!STR_TO_OBJ_SUPPORTED_CLASS_NAME.contains(className)) {
             throw new IllegalArgumentException("不支持将字符串转成该类型：" + className);

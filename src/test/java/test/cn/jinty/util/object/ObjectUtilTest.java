@@ -65,11 +65,10 @@ public class ObjectUtilTest {
     }
 
     @Test
-    @SuppressWarnings({"rawtypes", "unchecked"})
     public void testStrToObj() {
         String str = "1";
         System.out.println("字符串：" + str);
-        for (Class clazz : ObjectUtil.STR_TO_OBJ_SUPPORTED_CLASS) {
+        for (Class<?> clazz : ObjectUtil.STR_TO_OBJ_SUPPORTED_CLASS) {
             System.out.printf("转成%s：%s%n", clazz.getSimpleName(), ObjectUtil.strToObj(str, clazz));
         }
         //System.out.printf("转成%s：%s%n", Map.class.getSimpleName(), ObjectUtil.strToObj(str, Map.class));

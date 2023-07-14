@@ -16,6 +16,23 @@ public final class IOUtil {
     }
 
     /**
+     * 关闭IO流
+     *
+     * @param io IO流
+     */
+    public static void close(Closeable io) {
+        if (io == null) {
+            return;
+        }
+        try {
+            io.close();
+        } catch (IOException e) {
+            System.out.println("关闭IO流异常");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 关闭IO流，忽略异常
      *
      * @param io IO流
