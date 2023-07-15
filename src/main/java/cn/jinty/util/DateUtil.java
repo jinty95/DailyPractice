@@ -123,7 +123,7 @@ public final class DateUtil {
             }
             return sdf.parse(dateStr);
         } catch (ParseException e) {
-            System.out.println(String.format("解析时间失败：dateStr=%s, format=%s, error=%s", dateStr, format, e.getMessage()));
+            System.out.printf("解析时间失败：dateStr=%s, format=%s, error=%s%n", dateStr, format, e.getMessage());
             return null;
         }
     }

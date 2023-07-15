@@ -47,8 +47,8 @@ public class CodeGenerator {
         String className = data.getOrDefault(CLASS_NAME.name(), "");
         String targetFilePath = FilePathUtil.concatBySeparator(targetDir, className + targetFileSuffix);
         FileUtil.write(template, new File(targetFilePath));
-        System.out.println(String.format("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n",
-                templateFilePath, targetFilePath));
+        System.out.printf("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n%n",
+                templateFilePath, targetFilePath);
     }
 
     /* 以下为内部函数 */

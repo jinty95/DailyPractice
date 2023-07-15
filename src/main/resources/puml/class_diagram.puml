@@ -1,0 +1,53 @@
+@startuml
+
+'类图：用于描述类的结构以及类与类之间的关系
+
+'类定义
+class PageRequest<<T>> {
+    Integer pageNum
+    Integer pageSize
+    <<T>> param
+}
+'类注释
+note left of PageRequest::pageNum
+    页码(从1开始)
+end note
+note left of PageRequest::pageSize
+    单页大小(例如10)
+end note
+note left of PageRequest::param
+    其它参数
+end note
+
+class PageResponse<<T>> {
+    Integer total
+    List<<T>> list
+}
+note left of PageResponse::total
+    数据总行数
+end note
+note left of PageResponse::list
+    当前页数据
+end note
+
+class BaseResponse<<T>> {
+    String code
+    String msg
+    <<T>> data
+}
+note left of BaseResponse::code
+    响应码
+    200 - 成功
+    其它 - 失败
+end note
+note left of BaseResponse::msg
+    提示信息
+end note
+note left of BaseResponse::data
+    具体数据
+end note
+
+'类关系
+'BaseResponse *-- PageResponse : 包含 >
+
+@enduml

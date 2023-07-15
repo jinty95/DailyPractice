@@ -78,6 +78,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     @Override
     public List<${CLASS_NAME}> select(${CLASS_NAME} param) {
         try {
+            param.setIsDeleted(0);
             return mapper.select(param);
         } catch (Exception e) {
             log.error(String.format("%s-查询失败：param=%s", EVENT, param), e);

@@ -23,7 +23,7 @@ public class BaseResponse<T> {
     private String code;
 
     // 提示信息
-    private String message;
+    private String msg;
 
     // 具体内容
     private T data;
@@ -52,13 +52,13 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 成功响应
      *
-     * @param message 提示信息
-     * @param data    具体内容
-     * @param <T>     类型
+     * @param msg  提示信息
+     * @param data 具体内容
+     * @param <T>  类型
      * @return 成功响应
      */
-    public static <T> BaseResponse<T> success(String message, T data) {
-        return new BaseResponse<>(SUCCESS.getCode(), message, data);
+    public static <T> BaseResponse<T> success(String msg, T data) {
+        return new BaseResponse<>(SUCCESS.getCode(), msg, data);
     }
 
     /**
@@ -74,24 +74,24 @@ public class BaseResponse<T> {
     /**
      * 构造器 - 失败响应
      *
-     * @param message 提示信息
-     * @param <T>     类型
+     * @param msg 提示信息
+     * @param <T> 类型
      * @return 失败响应
      */
-    public static <T> BaseResponse<T> fail(String message) {
-        return new BaseResponse<>(FAIL.getCode(), message, null);
+    public static <T> BaseResponse<T> fail(String msg) {
+        return new BaseResponse<>(FAIL.getCode(), msg, null);
     }
 
     /**
      * 构造器 - 失败响应
      *
-     * @param code    响应码
-     * @param message 提示信息
-     * @param <T>     类型
+     * @param code 响应码
+     * @param msg  提示信息
+     * @param <T>  类型
      * @return 失败响应
      */
-    public static <T> BaseResponse<T> fail(String code, String message) {
-        return new BaseResponse<>(code, message, null);
+    public static <T> BaseResponse<T> fail(String code, String msg) {
+        return new BaseResponse<>(code, msg, null);
     }
 
     /**

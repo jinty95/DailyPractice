@@ -140,7 +140,8 @@ public final class ExcelExportUtil {
         FileOutputStream out = null;
         try {
             // 使用SXSSFWorkbook，默认超过100行就写到临时文件，不会一直占用内存，避免内存溢出
-            workbook = new SXSSFWorkbook();
+            // 这里设置每200行写一次临时文件
+            workbook = new SXSSFWorkbook(200);
             // 设置临时文件不压缩，这样速度快一点
             workbook.setCompressTempFiles(false);
             // 将数据写入工作簿

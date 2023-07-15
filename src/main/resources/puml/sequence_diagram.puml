@@ -16,6 +16,10 @@ collections Collections as Foo6 #pink
 queue       Queue       as Foo7
 participant p1
 
+'定义actor的样式
+skinparam actorStyle awesome
+skinparam actorStyle hollow
+
 '隐藏未连线参与者
 hide unlinked
 
