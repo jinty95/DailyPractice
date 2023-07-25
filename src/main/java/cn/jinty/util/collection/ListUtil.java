@@ -1,10 +1,10 @@
 package cn.jinty.util.collection;
 
 import cn.jinty.util.string.StringUtil;
-import cn.jinty.util.object.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -167,7 +167,7 @@ public final class ListUtil {
             return false;
         }
         for (int i = 0; i < list1.size(); i++) {
-            if (!ObjectUtil.equals(list1.get(i), list2.get(i))) {
+            if (!Objects.equals(list1.get(i), list2.get(i))) {
                 return false;
             }
         }
@@ -223,6 +223,82 @@ public final class ListUtil {
             }
         }
         return cartesianProduct(lists, index - 1, nextResults);
+    }
+
+    /**
+     * 将两个列表合并
+     *
+     * @param list1 列表1
+     * @param list2 列表2
+     * @param <T>   元素类型
+     * @return 合并列表
+     */
+    public static <T> List<T> merge(List<T> list1, List<T> list2) {
+        List<T> newList = new ArrayList<>();
+        if (CollectionUtil.isNotEmpty(list1)) {
+            newList.addAll(list1);
+        }
+        if (CollectionUtil.isNotEmpty(list2)) {
+            newList.addAll(list2);
+        }
+        return newList;
+    }
+
+    /**
+     * 求两个列表的并集
+     *
+     * @param list1 列表1
+     * @param list2 列表2
+     * @param <T>   元素类型
+     * @return 并集
+     */
+    public static <T> List<T> union(List<T> list1, List<T> list2) {
+        return subtract(merge(list1, list2), intersect(list1, list2));
+    }
+
+    /**
+     * 求两个列表的差集
+     *
+     * @param list1 列表1
+     * @param list2 列表2
+     * @param <T>   元素类型
+     * @return 差集
+     */
+    public static <T> List<T> subtract(List<T> list1, List<T> list2) {
+        List<T> newList = new ArrayList<>();
+        if (CollectionUtil.isEmpty(list1)) {
+            return newList;
+        }
+        newList.addAll(list1);
+        if (CollectionUtil.isEmpty(list2)) {
+            return newList;
+        }
+        for (T one : list2) {
+            newList.remove(one);
+        }
+        return newList;
+    }
+
+    /**
+     * 求两个列表的交集
+     *
+     * @param list1 列表1
+     * @param list2 列表2
+     * @param <T>   元素类型
+     * @return 交集
+     */
+    public static <T> List<T> intersect(List<T> list1, List<T> list2) {
+        List<T> newList = new ArrayList<>();
+        if (CollectionUtil.isEmpty(list1) || CollectionUtil.isEmpty(list2)) {
+            return newList;
+        }
+        List<T> tmpList1 = new ArrayList<>(list1);
+        for (T one : list2) {
+            if (tmpList1.remove(one)) {
+                newList.add(one);
+            }
+        }
+        return newList;
     }
 
 }

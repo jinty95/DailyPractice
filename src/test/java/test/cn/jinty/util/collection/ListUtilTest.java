@@ -80,4 +80,39 @@ public class ListUtilTest {
         results.forEach(System.out::println);
     }
 
+    @Test
+    public void testMerge() {
+        System.out.println(ListUtil.merge(null, null));
+        System.out.println(ListUtil.merge(null, new ArrayList<>()));
+        System.out.println(ListUtil.merge(ListUtil.asList(1, 2, 1), null));
+        System.out.println(ListUtil.merge(ListUtil.asList(1, 2, 1, 2), ListUtil.asList(1, 2, 1)));
+    }
+
+    @Test
+    public void testUnion() {
+        System.out.println(ListUtil.union(null, null));
+        System.out.println(ListUtil.union(null, new ArrayList<>()));
+        System.out.println(ListUtil.union(ListUtil.asList(1, 2, 1), null));
+        System.out.println(ListUtil.union(ListUtil.asList(1, 2, 1, 2), ListUtil.asList(1, 2, 1)));
+        System.out.println(ListUtil.union(ListUtil.asList(1, 2, 1), ListUtil.asList(1, 2, 1, 2)));
+    }
+
+    @Test
+    public void testSubtract() {
+        System.out.println(ListUtil.subtract(null, null));
+        System.out.println(ListUtil.subtract(null, new ArrayList<>()));
+        System.out.println(ListUtil.subtract(ListUtil.asList(1, 2, 1), null));
+        System.out.println(ListUtil.subtract(ListUtil.asList(1, 2, 1, 2), ListUtil.asList(1, 2, 1)));
+        System.out.println(ListUtil.subtract(ListUtil.asList(1, 2, 1), ListUtil.asList(1, 2, 1, 2)));
+    }
+
+    @Test
+    public void testIntersect() {
+        System.out.println(ListUtil.intersect(null, null));
+        System.out.println(ListUtil.intersect(null, new ArrayList<>()));
+        System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1), null));
+        System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1, 2), ListUtil.asList(1, 2, 1)));
+        System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1), ListUtil.asList(1, 2, 1, 2)));
+    }
+
 }

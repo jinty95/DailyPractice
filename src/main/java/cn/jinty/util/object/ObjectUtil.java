@@ -74,20 +74,6 @@ public final class ObjectUtil {
     }
 
     /**
-     * 是否相等
-     *
-     * @param o1 对象1
-     * @param o2 对象2
-     * @return 是否
-     */
-    public static boolean equals(Object o1, Object o2) {
-        if (o1 == null) {
-            return o2 == null;
-        }
-        return o1.equals(o2);
-    }
-
-    /**
      * 给对象空字段设置默认值
      * (包括8种基本类型包装类、字符串、日期、大整数、大小数、列表、集合、映射)
      *
@@ -165,7 +151,7 @@ public final class ObjectUtil {
                 field.setAccessible(true);
                 Object val1 = o1 != null ? field.get(o1) : null;
                 Object val2 = o2 != null ? field.get(o2) : null;
-                if (!equals(val1, val2)) {
+                if (!Objects.equals(val1, val2)) {
                     FieldName fieldName = field.getAnnotation(FieldName.class);
                     String name = fieldName != null ? fieldName.value() : field.getName();
                     String diff = String.format("[%s] %s -> %s", name, val1, val2);
