@@ -22,10 +22,10 @@ public class BaseResponse<T> {
     // 响应码：0-成功，1或其它-失败
     private String code;
 
-    // 提示信息
+    // 响应提示
     private String msg;
 
-    // 具体内容
+    // 响应内容
     private T data;
 
     /**

@@ -1,6 +1,5 @@
 package test.cn.jinty.sql.code;
 
-import cn.jinty.Main;
 import cn.jinty.sql.code.CodeGenerator;
 import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
@@ -12,10 +11,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cn.jinty.sql.code.TemplatePlaceholderEnum.AUTHOR;
 import static cn.jinty.sql.code.TemplatePlaceholderEnum.BASE_PACKAGE;
@@ -97,54 +93,36 @@ public class CodeGeneratorTest {
         }
     }
 
-    // 获取生成文件目录
-    private String getTargetDir(String lastPackage) {
-        String dir = FilePathUtil.getAbsolutePath("sql", true, Main.class);
-        String basePackage = getBasePackage().replace(".", File.separator);
-        return FilePathUtil.concatBySeparator(dir, basePackage, lastPackage);
-    }
-
-    // 获取包名
-    private String getBasePackage() {
-        return "codegen";
-    }
-
-    // 获取作者
-    private String getAuthor() {
-        return "Jinty";
-    }
-
-    // 获取包名及作者
-    private Map<String, String> getData() {
-        Map<String, String> data = new HashMap<>();
-        data.put(BASE_PACKAGE.name(), getBasePackage());
-        data.put(AUTHOR.name(), getAuthor());
-        return data;
-    }
-
     // 生成文件
-    private void gen(String ddl, String relativeTemplateFilePath, String targetDir, String targetFileSuffix) {
+    private void gen(String ddl) {
         try {
-            // 指定模板路径
-            String templateFilePath = FilePathUtil.getAbsolutePath(relativeTemplateFilePath, true);
+            // 解析配置文件
+            Properties props = FileUtil.parseProperties(new File(
+                    FilePathUtil.getAbsolutePath("/properties/codegen.properties", true)));
             // 指定类型映射
             TypeMapper typeMapper = new MysqlTypeMapper();
             // 指定包名及作者
-            Map<String, String> data = getData();
-            // 生成文件
-            CodeGenerator.generate(ddl, typeMapper, data, templateFilePath, targetDir, targetFileSuffix);
+            Map<String, String> data = new HashMap<>();
+            data.put(BASE_PACKAGE.name(), props.getProperty("basePackage"));
+            data.put(AUTHOR.name(), props.getProperty("author"));
+            // 指定生成哪些文件
+            for (String type : props.getProperty("genType").split(",")) {
+                // 指定模板路径
+                String templateFilePath = FilePathUtil.getAbsolutePath(
+                        props.getProperty("relativeTemplateFilePath." + type), true);
+                // 指定目标目录
+                String targetDir = FilePathUtil.concatBySeparator(props.getProperty("baseTargetDir"),
+                        props.getProperty("basePackage").replace(".", "/"),
+                        props.getProperty("targetDir." + type)
+                );
+                // 指定文件后缀
+                String targetFileSuffix = props.getProperty("targetFileSuffix." + type);
+                // 生成文件
+                CodeGenerator.generate(ddl, typeMapper, data, templateFilePath, targetDir, targetFileSuffix);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // 生成文件
-    private void gen(String ddl) {
-        gen(ddl, "/template/java_entity_template.txt", getTargetDir("entity"), ".java");
-        gen(ddl, "/template/mybatis_xml_template.txt", getTargetDir("mapper"), "Mapper.xml");
-        gen(ddl, "/template/mybatis_mapper_template.txt", getTargetDir("mapper"), "Mapper.java");
-        gen(ddl, "/template/java_service_template.txt", getTargetDir("service"), "Service.java");
-        gen(ddl, "/template/java_service_impl_template.txt", getTargetDir("service/impl"), "ServiceImpl.java");
     }
 
 }

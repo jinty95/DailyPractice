@@ -29,4 +29,6 @@ public class Person {
     public static List<String> getFields() {
         return Arrays.asList("id", "name", "age", "idCard", "phoneNum", "remark");
     }
+
+    // 标题和字段建议写到配置里面，这样如果运行时需求变更，直接修改模板和配置就可以了，不用改代码重新部署
 }
