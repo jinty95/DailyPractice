@@ -18,12 +18,12 @@
 
     <!-- 基础查询条件 -->
     <sql id="baseSelectCondition">
-        <if test="${PK_FIELD_NAME} != null"> and `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}} </if>
-        ${FOR_EACH}<if test="${FIELD_NAME} != null"> and `${COLUMN_NAME}` = #{${FIELD_NAME}} </if>
+        <if test="param.${PK_FIELD_NAME} != null"> and `${PK_COLUMN_NAME}` = #{param.${PK_FIELD_NAME}} </if>
+        ${FOR_EACH}<if test="param.${FIELD_NAME} != null"> and `${COLUMN_NAME}` = #{param.${FIELD_NAME}} </if>
         ${END_FOR_EACH}
     </sql>
 
-    <!-- 插入数据(字段都填充默认值) -->
+    <!-- 插入(字段都填充默认值) -->
     <insert id="insertDefault">
         insert into `${TABLE_NAME}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -34,21 +34,21 @@
         </trim>
     </insert>
 
-    <!-- 插入数据(忽略空字段) -->
-    <insert id="insert" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}" useGeneratedKeys="true" keyProperty="${PK_FIELD_NAME}">
+    <!-- 插入(忽略空字段) -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="item.${PK_FIELD_NAME}">
         insert into `${TABLE_NAME}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            ${FOR_EACH}<if test="${FIELD_NAME} != null">`${COLUMN_NAME}`,</if>
+            ${FOR_EACH}<if test="item.${FIELD_NAME} != null">`${COLUMN_NAME}`,</if>
             ${END_FOR_EACH}
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            ${FOR_EACH}<if test="${FIELD_NAME} != null">#{${FIELD_NAME}},</if>
+            ${FOR_EACH}<if test="item.${FIELD_NAME} != null">#{item.${FIELD_NAME}},</if>
             ${END_FOR_EACH}
         </trim>
     </insert>
 
-    <!-- 批量插入数据(空字段填充默认值) -->
-    <insert id="batchInsert" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}" useGeneratedKeys="true" keyProperty="${PK_FIELD_NAME}">
+    <!-- 批量插入(空字段填充默认值) -->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="${PK_FIELD_NAME}">
         insert into `${TABLE_NAME}`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             ${FOR_EACH}`${COLUMN_NAME}`, ${END_FOR_EACH}
@@ -62,24 +62,34 @@
         </foreach>
     </insert>
 
-    <!-- 根据主键更新数据(忽略空字段) -->
-    <update id="updateBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}">
+    <!-- 根据主键更新(忽略空字段) -->
+    <update id="updateBy${PK_FIELD_NAME_UPPER_FIRST}">
         update `${TABLE_NAME}`
         <set>
-            ${FOR_EACH}<if test="${FIELD_NAME} != null"> `${COLUMN_NAME}` = #{${FIELD_NAME}}, </if>
+            ${FOR_EACH}<if test="item.${FIELD_NAME} != null"> `${COLUMN_NAME}` = #{item.${FIELD_NAME}}, </if>
             ${END_FOR_EACH}
         </set>
-        where `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
+        where `is_deleted` = 0 and `${PK_COLUMN_NAME}` = #{item.${PK_FIELD_NAME}}
     </update>
 
-    <!-- 根据主键删除数据 -->
-    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${PK_FIELD_CLASS}">
+    <!-- 根据主键批量逻辑删除 -->
+    <update id="logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s">
+        update `${TABLE_NAME}`
+        set `is_deleted` = 1, `updated_by` = #{updatedBy}
+        where `is_deleted` = 0 and `${PK_COLUMN_NAME}` in
+        <foreach item="${PK_FIELD_NAME}" collection="${PK_FIELD_NAME}s" index="index" separator="," open="(" close=")">
+            #{${PK_FIELD_NAME}}
+        </foreach>
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}">
         delete from `${TABLE_NAME}`
         where `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
     </delete>
 
-    <!-- 根据主键批量删除数据 -->
-    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}s" parameterType="${PK_FIELD_CLASS}">
+    <!-- 根据主键批量删除 -->
+    <delete id="deleteBy${PK_FIELD_NAME_UPPER_FIRST}s">
         delete from `${TABLE_NAME}`
         where `${PK_COLUMN_NAME}` in
         <foreach item="${PK_FIELD_NAME}" collection="${PK_FIELD_NAME}s" index="index" separator="," open="(" close=")">
@@ -87,29 +97,49 @@
         </foreach>
     </delete>
 
-    <!-- 根据主键查询数据 -->
-    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}" parameterType="${PK_FIELD_CLASS}" resultMap="baseResultMap">
+    <!-- 根据主键查询 -->
+    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `${TABLE_NAME}`
-        where `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
+        where `is_deleted` = 0 and `${PK_COLUMN_NAME}` = #{${PK_FIELD_NAME}}
     </select>
 
-    <!-- 根据主键批量查询数据 -->
-    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}s" parameterType="${PK_FIELD_CLASS}" resultMap="baseResultMap">
+    <!-- 根据主键批量查询 -->
+    <select id="selectBy${PK_FIELD_NAME_UPPER_FIRST}s" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `${TABLE_NAME}`
-        where `${PK_COLUMN_NAME}` in
+        where `is_deleted` = 0 and `${PK_COLUMN_NAME}` in
         <foreach item="${PK_FIELD_NAME}" collection="${PK_FIELD_NAME}s" index="index" separator="," open="(" close=")">
             #{${PK_FIELD_NAME}}
         </foreach>
     </select>
 
-    <!-- 查询数据(条件忽略空字段) -->
-    <select id="select" parameterType="${BASE_PACKAGE}.entity.${CLASS_NAME}" resultMap="baseResultMap">
+    <!-- 查询(条件忽略空字段) -->
+    <select id="select" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `${TABLE_NAME}`
         where 1 = 1
         <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 数量查询(条件忽略空字段) -->
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 分页查询(条件忽略空字段) -->
+    <select id="selectByPage" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        order by id desc
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
     </select>
 
 </mapper>

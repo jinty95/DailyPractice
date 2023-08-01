@@ -1,6 +1,7 @@
 package ${BASE_PACKAGE}.service.impl;
 
 import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+import ${BASE_PACKAGE}.mapper.${CLASS_NAME}Mapper;
 import ${BASE_PACKAGE}.service.${CLASS_NAME}Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,20 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
+    public int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, String updatedBy) {
+        try {
+            int total = ${PK_FIELD_NAME}s.size();
+            int success = mapper.logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s, updatedBy);
+            log.info("{}-批量逻辑删除：${PK_FIELD_NAME}s={}, updatedBy={}, total={}, success={}, fail={}",
+                EVENT, ${PK_FIELD_NAME}s, updatedBy, total, success, total - success);
+            return success;
+        } catch (Exception e) {
+            log.error(String.format("%s-批量逻辑删除失败：${PK_FIELD_NAME}s=%s, updatedBy=%s", EVENT, ${PK_FIELD_NAME}s, updatedBy), e);
+            throw new RuntimeException(String.format("%s-批量逻辑删除失败", EVENT));
+        }
+    }
+
+    @Override
     public ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
         try {
             return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
@@ -83,6 +98,28 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
         } catch (Exception e) {
             log.error(String.format("%s-查询失败：param=%s", EVENT, param), e);
             throw new RuntimeException(String.format("%s-查询失败", EVENT));
+        }
+    }
+
+    @Override
+    public int count(${CLASS_NAME} param) {
+        try {
+            param.setIsDeleted(0);
+            return mapper.count(param);
+        } catch (Exception e) {
+            log.error(String.format("%s-数量查询失败：param=%s", EVENT, param), e);
+            throw new RuntimeException(String.format("%s-数量查询失败", EVENT));
+        }
+    }
+
+    @Override
+    public List<${CLASS_NAME}> selectByPage(${CLASS_NAME} param, Integer start, Integer length) {
+        try {
+            param.setIsDeleted(0);
+            return mapper.selectByPage(param, start, length);
+        } catch (Exception e) {
+            log.error(String.format("%s-分页查询失败：param=%s, start=%s, length=%s", EVENT, param, start, length), e);
+            throw new RuntimeException(String.format("%s-分页查询失败", EVENT));
         }
     }
 

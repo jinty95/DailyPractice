@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -124,6 +125,40 @@ public final class ExcelExportUtil {
     }
 
     /**
+     * 将数据写入工作簿，输出到输出流
+     *
+     * @param os                输出流
+     * @param sheetMaxRowNumber 表单页最大行数
+     * @param titles            标题列表
+     * @param fields            字段列表
+     * @param contents          数据列表
+     * @param <T>               数据类型
+     * @throws Exception 异常
+     */
+    public static <T> void writeContentToOutputStream(OutputStream os, int sheetMaxRowNumber, List<String> titles,
+                                                      List<String> fields, List<T> contents) throws Exception {
+        SXSSFWorkbook workbook = null;
+        try {
+            // 使用SXSSFWorkbook，默认超过100行就写到临时文件，不会一直占用内存，避免内存溢出
+            // 这里设置每200行写一次临时文件
+            workbook = new SXSSFWorkbook(200);
+            // 设置临时文件不压缩，这样速度快一点
+            workbook.setCompressTempFiles(false);
+            // 将数据写入工作簿
+            writeContentToWorkbook(workbook, sheetMaxRowNumber, titles, fields, contents);
+            // 输出到输出流
+            workbook.write(os);
+        } finally {
+            // 删除临时文件
+            if (workbook != null) {
+                workbook.dispose();
+            }
+            // 关闭流
+            IOUtil.closeQuietly(workbook);
+        }
+    }
+
+    /**
      * 将数据写入工作簿，输出为Excel文件
      *
      * @param filePath          文件路径
@@ -136,27 +171,15 @@ public final class ExcelExportUtil {
      */
     public static <T> void writeContentToFile(String filePath, int sheetMaxRowNumber, List<String> titles,
                                               List<String> fields, List<T> contents) throws Exception {
-        SXSSFWorkbook workbook = null;
-        FileOutputStream out = null;
+        FileOutputStream fos = null;
         try {
-            // 使用SXSSFWorkbook，默认超过100行就写到临时文件，不会一直占用内存，避免内存溢出
-            // 这里设置每200行写一次临时文件
-            workbook = new SXSSFWorkbook(200);
-            // 设置临时文件不压缩，这样速度快一点
-            workbook.setCompressTempFiles(false);
-            // 将数据写入工作簿
-            writeContentToWorkbook(workbook, sheetMaxRowNumber, titles, fields, contents);
-            // 输出为Excel文件
-            out = new FileOutputStream(filePath);
-            workbook.write(out);
+            // 构造输出流
+            fos = new FileOutputStream(filePath);
+            // 将数据写入工作簿，输出到输出流
+            writeContentToOutputStream(fos, sheetMaxRowNumber, titles, fields, contents);
         } finally {
-            // 删除临时文件
-            if (workbook != null) {
-                workbook.dispose();
-            }
             // 关闭流
-            IOUtil.closeQuietly(out);
-            IOUtil.closeQuietly(workbook);
+            IOUtil.closeQuietly(fos);
         }
     }
 

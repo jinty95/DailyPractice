@@ -29,70 +29,70 @@
 
     <!-- 基础查询条件 -->
     <sql id="baseSelectCondition">
-        <if test="id != null"> and `id` = #{id} </if>
-        <if test="jobType != null"> and `job_type` = #{jobType} </if>
-        <if test="jobDesc != null"> and `job_desc` = #{jobDesc} </if>
-        <if test="processStatus != null"> and `process_status` = #{processStatus} </if>
-        <if test="resultStatus != null"> and `result_status` = #{resultStatus} </if>
-        <if test="startTime != null"> and `start_time` = #{startTime} </if>
-        <if test="endTime != null"> and `end_time` = #{endTime} </if>
-        <if test="duration != null"> and `duration` = #{duration} </if>
-        <if test="isDeleted != null"> and `is_deleted` = #{isDeleted} </if>
-        <if test="createdBy != null"> and `created_by` = #{createdBy} </if>
-        <if test="createTime != null"> and `create_time` = #{createTime} </if>
-        <if test="updatedBy != null"> and `updated_by` = #{updatedBy} </if>
-        <if test="updateTime != null"> and `update_time` = #{updateTime} </if>
+        <if test="param.id != null"> and `id` = #{param.id} </if>
+        <if test="param.jobType != null"> and `job_type` = #{param.jobType} </if>
+        <if test="param.jobDesc != null"> and `job_desc` = #{param.jobDesc} </if>
+        <if test="param.processStatus != null"> and `process_status` = #{param.processStatus} </if>
+        <if test="param.resultStatus != null"> and `result_status` = #{param.resultStatus} </if>
+        <if test="param.startTime != null"> and `start_time` = #{param.startTime} </if>
+        <if test="param.endTime != null"> and `end_time` = #{param.endTime} </if>
+        <if test="param.duration != null"> and `duration` = #{param.duration} </if>
+        <if test="param.isDeleted != null"> and `is_deleted` = #{param.isDeleted} </if>
+        <if test="param.createdBy != null"> and `created_by` = #{param.createdBy} </if>
+        <if test="param.createTime != null"> and `create_time` = #{param.createTime} </if>
+        <if test="param.updatedBy != null"> and `updated_by` = #{param.updatedBy} </if>
+        <if test="param.updateTime != null"> and `update_time` = #{param.updateTime} </if>
         
     </sql>
 
-    <!-- 插入数据(字段都填充默认值) -->
+    <!-- 插入(字段都填充默认值) -->
     <insert id="insertDefault">
         insert into `job`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             `job_type`, `job_desc`, `process_status`, `result_status`, `start_time`, `end_time`, `duration`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            '', '', 'INIT', 'PENDING', '0000-01-01 00:00:00', '0000-01-01 00:00:00', '0', '0', '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP,
+            '', '', 'INIT', 'PENDING', '0001-01-01 00:00:00', '0001-01-01 00:00:00', 0, 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP,
         </trim>
     </insert>
 
-    <!-- 插入数据(忽略空字段) -->
-    <insert id="insert" parameterType="test.cn.jinty.sql.code.Job" useGeneratedKeys="true" keyProperty="id">
+    <!-- 插入(忽略空字段) -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="item.id">
         insert into `job`
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="jobType != null">`job_type`,</if>
-            <if test="jobDesc != null">`job_desc`,</if>
-            <if test="processStatus != null">`process_status`,</if>
-            <if test="resultStatus != null">`result_status`,</if>
-            <if test="startTime != null">`start_time`,</if>
-            <if test="endTime != null">`end_time`,</if>
-            <if test="duration != null">`duration`,</if>
-            <if test="isDeleted != null">`is_deleted`,</if>
-            <if test="createdBy != null">`created_by`,</if>
-            <if test="createTime != null">`create_time`,</if>
-            <if test="updatedBy != null">`updated_by`,</if>
-            <if test="updateTime != null">`update_time`,</if>
+            <if test="item.jobType != null">`job_type`,</if>
+            <if test="item.jobDesc != null">`job_desc`,</if>
+            <if test="item.processStatus != null">`process_status`,</if>
+            <if test="item.resultStatus != null">`result_status`,</if>
+            <if test="item.startTime != null">`start_time`,</if>
+            <if test="item.endTime != null">`end_time`,</if>
+            <if test="item.duration != null">`duration`,</if>
+            <if test="item.isDeleted != null">`is_deleted`,</if>
+            <if test="item.createdBy != null">`created_by`,</if>
+            <if test="item.createTime != null">`create_time`,</if>
+            <if test="item.updatedBy != null">`updated_by`,</if>
+            <if test="item.updateTime != null">`update_time`,</if>
             
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="jobType != null">#{jobType},</if>
-            <if test="jobDesc != null">#{jobDesc},</if>
-            <if test="processStatus != null">#{processStatus},</if>
-            <if test="resultStatus != null">#{resultStatus},</if>
-            <if test="startTime != null">#{startTime},</if>
-            <if test="endTime != null">#{endTime},</if>
-            <if test="duration != null">#{duration},</if>
-            <if test="isDeleted != null">#{isDeleted},</if>
-            <if test="createdBy != null">#{createdBy},</if>
-            <if test="createTime != null">#{createTime},</if>
-            <if test="updatedBy != null">#{updatedBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
+            <if test="item.jobType != null">#{item.jobType},</if>
+            <if test="item.jobDesc != null">#{item.jobDesc},</if>
+            <if test="item.processStatus != null">#{item.processStatus},</if>
+            <if test="item.resultStatus != null">#{item.resultStatus},</if>
+            <if test="item.startTime != null">#{item.startTime},</if>
+            <if test="item.endTime != null">#{item.endTime},</if>
+            <if test="item.duration != null">#{item.duration},</if>
+            <if test="item.isDeleted != null">#{item.isDeleted},</if>
+            <if test="item.createdBy != null">#{item.createdBy},</if>
+            <if test="item.createTime != null">#{item.createTime},</if>
+            <if test="item.updatedBy != null">#{item.updatedBy},</if>
+            <if test="item.updateTime != null">#{item.updateTime},</if>
             
         </trim>
     </insert>
 
-    <!-- 批量插入数据(空字段填充默认值) -->
-    <insert id="batchInsert" parameterType="test.cn.jinty.sql.code.Job" useGeneratedKeys="true" keyProperty="id">
+    <!-- 批量插入(空字段填充默认值) -->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
         insert into `job`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             `job_type`, `job_desc`, `process_status`, `result_status`, `start_time`, `end_time`, `duration`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
@@ -104,10 +104,10 @@
                 <choose><when test="item.jobDesc != null">#{item.jobDesc}, </when><otherwise>'', </otherwise></choose>
                 <choose><when test="item.processStatus != null">#{item.processStatus}, </when><otherwise>'INIT', </otherwise></choose>
                 <choose><when test="item.resultStatus != null">#{item.resultStatus}, </when><otherwise>'PENDING', </otherwise></choose>
-                <choose><when test="item.startTime != null">#{item.startTime}, </when><otherwise>'0000-01-01 00:00:00', </otherwise></choose>
-                <choose><when test="item.endTime != null">#{item.endTime}, </when><otherwise>'0000-01-01 00:00:00', </otherwise></choose>
-                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>'0', </otherwise></choose>
-                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>'0', </otherwise></choose>
+                <choose><when test="item.startTime != null">#{item.startTime}, </when><otherwise>'0001-01-01 00:00:00', </otherwise></choose>
+                <choose><when test="item.endTime != null">#{item.endTime}, </when><otherwise>'0001-01-01 00:00:00', </otherwise></choose>
+                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>0, </otherwise></choose>
                 <choose><when test="item.createdBy != null">#{item.createdBy}, </when><otherwise>'', </otherwise></choose>
                 <choose><when test="item.createTime != null">#{item.createTime}, </when><otherwise>CURRENT_TIMESTAMP, </otherwise></choose>
                 <choose><when test="item.updatedBy != null">#{item.updatedBy}, </when><otherwise>'', </otherwise></choose>
@@ -117,35 +117,35 @@
         </foreach>
     </insert>
 
-    <!-- 根据主键更新数据(忽略空字段) -->
-    <update id="updateById" parameterType="test.cn.jinty.sql.code.Job">
+    <!-- 根据主键更新(忽略空字段) -->
+    <update id="updateById">
         update `job`
         <set>
-            <if test="jobType != null"> `job_type` = #{jobType}, </if>
-            <if test="jobDesc != null"> `job_desc` = #{jobDesc}, </if>
-            <if test="processStatus != null"> `process_status` = #{processStatus}, </if>
-            <if test="resultStatus != null"> `result_status` = #{resultStatus}, </if>
-            <if test="startTime != null"> `start_time` = #{startTime}, </if>
-            <if test="endTime != null"> `end_time` = #{endTime}, </if>
-            <if test="duration != null"> `duration` = #{duration}, </if>
-            <if test="isDeleted != null"> `is_deleted` = #{isDeleted}, </if>
-            <if test="createdBy != null"> `created_by` = #{createdBy}, </if>
-            <if test="createTime != null"> `create_time` = #{createTime}, </if>
-            <if test="updatedBy != null"> `updated_by` = #{updatedBy}, </if>
-            <if test="updateTime != null"> `update_time` = #{updateTime}, </if>
+            <if test="item.jobType != null"> `job_type` = #{item.jobType}, </if>
+            <if test="item.jobDesc != null"> `job_desc` = #{item.jobDesc}, </if>
+            <if test="item.processStatus != null"> `process_status` = #{item.processStatus}, </if>
+            <if test="item.resultStatus != null"> `result_status` = #{item.resultStatus}, </if>
+            <if test="item.startTime != null"> `start_time` = #{item.startTime}, </if>
+            <if test="item.endTime != null"> `end_time` = #{item.endTime}, </if>
+            <if test="item.duration != null"> `duration` = #{item.duration}, </if>
+            <if test="item.isDeleted != null"> `is_deleted` = #{item.isDeleted}, </if>
+            <if test="item.createdBy != null"> `created_by` = #{item.createdBy}, </if>
+            <if test="item.createTime != null"> `create_time` = #{item.createTime}, </if>
+            <if test="item.updatedBy != null"> `updated_by` = #{item.updatedBy}, </if>
+            <if test="item.updateTime != null"> `update_time` = #{item.updateTime}, </if>
             
         </set>
-        where `id` = #{id}
+        where `id` = #{item.id}
     </update>
 
-    <!-- 根据主键删除数据 -->
-    <delete id="deleteById" parameterType="java.lang.Long">
+    <!-- 根据主键删除 -->
+    <delete id="deleteById">
         delete from `job`
         where `id` = #{id}
     </delete>
 
-    <!-- 根据主键批量删除数据 -->
-    <delete id="deleteByIds" parameterType="java.lang.Long">
+    <!-- 根据主键批量删除 -->
+    <delete id="deleteByIds">
         delete from `job`
         where `id` in
         <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
@@ -153,15 +153,15 @@
         </foreach>
     </delete>
 
-    <!-- 根据主键查询数据 -->
-    <select id="selectById" parameterType="java.lang.Long" resultMap="baseResultMap">
+    <!-- 根据主键查询 -->
+    <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
         where `id` = #{id}
     </select>
 
-    <!-- 根据主键批量查询数据 -->
-    <select id="selectByIds" parameterType="java.lang.Long" resultMap="baseResultMap">
+    <!-- 根据主键批量查询 -->
+    <select id="selectByIds" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
         where `id` in
@@ -170,12 +170,30 @@
         </foreach>
     </select>
 
-    <!-- 查询数据(条件忽略空字段) -->
-    <select id="select" parameterType="test.cn.jinty.sql.code.Job" resultMap="baseResultMap">
+    <!-- 查询(条件忽略空字段) -->
+    <select id="select" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
         where 1 = 1
         <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 数量查询(条件忽略空字段) -->
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from `job`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 分页查询(条件忽略空字段) -->
+    <select id="selectByPage" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `job`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        order by id desc
+        limit #{start}, #{length}
     </select>
 
 </mapper>

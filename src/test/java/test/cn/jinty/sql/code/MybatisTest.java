@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Mybatis - 测试
@@ -38,16 +39,30 @@ public class MybatisTest {
 
         Job job = jobMapper.selectById(1L);
         System.out.println("根据主键查询：result=" + job);
+        System.out.println();
 
         List<Job> jobList = jobMapper.selectByIds(Arrays.asList(1L, 2L));
         System.out.println("根据主键批量查询：result=" + jobList);
+        System.out.println();
 
         Job param = new Job();
         param.setIsDeleted(0);
         param.setJobType("UPDATE_GOODS");
         jobList = jobMapper.select(param);
         System.out.println("根据条件查询：param=" + param);
-        System.out.println("result=" + jobList);
+        jobList.forEach(System.out::println);
+        System.out.println();
+
+        param = new Job();
+        int count = jobMapper.count(param);
+        System.out.println("查询数量：count=" + count);
+
+        int start = 0;
+        int length = 5;
+        jobList = jobMapper.selectByPage(param, start, length);
+        System.out.println("分页查询：param=" + param);
+        jobList.forEach(System.out::println);
+        System.out.println();
     }
 
     // 注意：Update/Insert/Delete执行完都要commit，否则数据库不会受影响
@@ -83,7 +98,7 @@ public class MybatisTest {
             jobList.add(a);
         }
         effect = jobMapper.batchInsert(jobList);
-        System.out.println("批量插入数据：effect=" + effect);
+        System.out.println("批量插入数据：effect=" + effect + ", ids=" + jobList.stream().map(Job::getId).collect(Collectors.toList()));
 
         sqlSession.commit();
     }

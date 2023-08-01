@@ -31,9 +31,7 @@ public final class ValidateUtil {
      * @param msg 提示信息
      */
     public static void notNull(Object obj, String msg) {
-        if (obj == null) {
-            throw new ValidateException(msg);
-        }
+        notFalse(obj != null, msg);
     }
 
     /**
@@ -52,9 +50,7 @@ public final class ValidateUtil {
      * @param msg 提示信息
      */
     public static void notBlank(String str, String msg) {
-        if (str == null || str.length() == 0 || str.trim().length() == 0) {
-            throw new ValidateException(msg);
-        }
+        notFalse(str != null && str.length() != 0 && str.trim().length() != 0, msg);
     }
 
     /**
@@ -75,9 +71,7 @@ public final class ValidateUtil {
      * @param <T>  类型
      */
     public static <T> void notEmpty(Collection<T> coll, String msg) {
-        if (coll == null || coll.isEmpty()) {
-            throw new ValidateException(msg);
-        }
+        notFalse(coll != null && !coll.isEmpty(), msg);
     }
 
     /**

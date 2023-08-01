@@ -330,7 +330,10 @@ public final class StringUtil {
         if (isEmpty(origin)) {
             return append == null ? EMPTY : append;
         }
-        if (append == null || separator == null) {
+        if (separator == null) {
+            separator = EMPTY;
+        }
+        if (append == null) {
             return origin;
         }
         return origin + separator + append;
@@ -344,8 +347,11 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String join(Collection<?> coll, String separator) {
-        if (coll == null || coll.isEmpty() || separator == null) {
+        if (coll == null || coll.isEmpty()) {
             return EMPTY;
+        }
+        if (separator == null) {
+            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
         for (Object one : coll) {
@@ -362,8 +368,11 @@ public final class StringUtil {
      * @return 字符串
      */
     public static String join(String separator, Object... arr) {
-        if (arr == null || arr.length == 0 || separator == null) {
+        if (arr == null || arr.length == 0) {
             return EMPTY;
+        }
+        if (separator == null) {
+            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder();
         for (Object one : arr) {
@@ -424,7 +433,7 @@ public final class StringUtil {
             return EMPTY;
         }
         if (separator == null) {
-            return times == 1 ? s : EMPTY;
+            separator = EMPTY;
         }
         StringBuilder res = new StringBuilder(s);
         for (int i = 1; i < times; i++) {

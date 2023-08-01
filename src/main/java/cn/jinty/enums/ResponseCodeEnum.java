@@ -24,7 +24,7 @@ public enum ResponseCodeEnum implements EnumInterface<String> {
     HTTP_MOVED_TEMPORARILY("302", "临时重定向"),
     HTTP_BAD_REQUEST("400", "报文错误"),
     HTTP_UNAUTHORIZED("401", "未通过认证"),
-    HTTP_FORBIDDEN("403", "禁止访问"),
+    HTTP_FORBIDDEN("403", "无权限访问"),
     HTTP_NOT_FOUND("404", "资源不存在"),
     HTTP_INTERNAL_SERVER_ERROR("500", "服务器内部错误"),
     HTTP_BAD_GATEWAY("502", "网关错误"),

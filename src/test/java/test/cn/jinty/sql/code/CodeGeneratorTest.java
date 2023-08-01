@@ -1,11 +1,14 @@
 package test.cn.jinty.sql.code;
 
 import cn.jinty.sql.code.CodeGenerator;
+import cn.jinty.sql.ddl.DDLParser;
+import cn.jinty.sql.entity.Table;
 import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
 import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.string.StringUtil;
 import org.junit.Test;
 
 import java.io.File;
@@ -24,6 +27,21 @@ import static cn.jinty.sql.code.TemplatePlaceholderEnum.BASE_PACKAGE;
  **/
 public class CodeGeneratorTest {
 
+    // 解析配置文件
+    private static Properties props;
+
+    static {
+        try {
+            props = FileUtil.parseProperties(new File(
+                    FilePathUtil.getAbsolutePath("/properties/codegen.properties", true)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 插入与删除不需要考虑逻辑删除。
+    // 更新与查询默认针对非逻辑删除的数据，如果需要处理逻辑删除的数据，自行实现。
+    
     @Test
     public void testGen() {
         gen(getDDL());
@@ -31,13 +49,26 @@ public class CodeGeneratorTest {
 
     @Test
     public void testBatchGen() {
+        long begin = System.currentTimeMillis();
+        String targetTableNames = props.getProperty("targetTableNames");
+        Set<String> targetTableNameSet = new HashSet<>();
+        if (StringUtil.isNotBlank(targetTableNames) && !"*".equals(targetTableNames)) {
+            targetTableNameSet = new HashSet<>(Arrays.asList(targetTableNames.split(",")));
+        }
+        int cnt = 0;
         try {
             for (String ddl : getDDLFromDB()) {
-                gen(ddl);
+                Table table = DDLParser.parse(ddl);
+                if (targetTableNameSet.isEmpty() || targetTableNameSet.contains(table.getName())) {
+                    gen(ddl);
+                    cnt++;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        long end = System.currentTimeMillis();
+        System.out.printf("代码生成结束，一共生成%s个表的对应代码，耗时%s毫秒%n", cnt, (end - begin));
     }
 
     /* 以下为内部函数 */
@@ -53,8 +84,8 @@ public class CodeGeneratorTest {
                 "    `job_desc` VARCHAR(128) NOT NULL DEFAULT '' COMMENT '作业描述',\n" +
                 "    `process_status` VARCHAR(10) NOT NULL DEFAULT 'INIT' COMMENT '处理状态：INIT 初始，RUNNING 运行中，FINISHED 已结束，CANCELED 已取消',\n" +
                 "    `result_status` VARCHAR(10) NOT NULL DEFAULT 'PENDING' COMMENT '执行结果：PENDING 待定，SUCCESS 成功，FAIL 失败',\n" +
-                "    `start_time` DATETIME NOT NULL DEFAULT '0000-01-01 00:00:00' COMMENT '开始时间',\n" +
-                "    `end_time` DATETIME NOT NULL DEFAULT '0000-01-01 00:00:00' COMMENT '结束时间',\n" +
+                "    `start_time` DATETIME NOT NULL DEFAULT '0001-01-01 00:00:00' COMMENT '开始时间',\n" +
+                "    `end_time` DATETIME NOT NULL DEFAULT '0001-01-01 00:00:00' COMMENT '结束时间',\n" +
                 "    `duration` BIGINT NOT NULL DEFAULT 0 COMMENT '耗时(单位毫秒)',\n" +
                 "    `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',\n" +
                 "    `created_by` VARCHAR(64) NOT NULL DEFAULT '' COMMENT '创建者',\n" +
@@ -88,7 +119,11 @@ public class CodeGeneratorTest {
 
     // 从数据库获取所有DDL
     private List<String> getDDLFromDB() throws Exception {
-        try (Connection conn = JdbcUtil.getDefaultConnection()) {
+        String driver = props.getProperty("db.driver");
+        String url = props.getProperty("db.url");
+        String user = props.getProperty("db.user");
+        String password = props.getProperty("db.password");
+        try (Connection conn = JdbcUtil.getConnection(driver, url, user, password)) {
             return JdbcUtil.getAllCreateTable(conn);
         }
     }
@@ -96,9 +131,6 @@ public class CodeGeneratorTest {
     // 生成文件
     private void gen(String ddl) {
         try {
-            // 解析配置文件
-            Properties props = FileUtil.parseProperties(new File(
-                    FilePathUtil.getAbsolutePath("/properties/codegen.properties", true)));
             // 指定类型映射
             TypeMapper typeMapper = new MysqlTypeMapper();
             // 指定包名及作者

@@ -182,6 +182,7 @@ public class StringUtilTest {
         System.out.println(StringUtil.append(null, null, null));
         System.out.println(StringUtil.append(null, "1", ","));
         System.out.println(StringUtil.append("1", null, null));
+        System.out.println(StringUtil.append("1", "1", null));
         System.out.println(StringUtil.append("", "1", ","));
         System.out.println(StringUtil.append("1", "2", ","));
         System.out.println(StringUtil.append("1,2", "3", ","));
@@ -241,7 +242,7 @@ public class StringUtilTest {
     public void testRepeat1() {
         System.out.println(StringUtil.repeat(null, null, 1));
         System.out.println(StringUtil.repeat("a", null, 2));
-        System.out.println(StringUtil.repeat("a", null, 1));
+        System.out.println(StringUtil.repeat("a", null, 10));
         System.out.println(StringUtil.repeat("", "-", 5));
         System.out.println(StringUtil.repeat("a", "-", 5));
         System.out.println(StringUtil.repeat("aa", ",", 10));

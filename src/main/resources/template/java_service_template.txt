@@ -13,33 +13,48 @@ import java.util.List;
 public interface ${CLASS_NAME}Service {
 
     /**
-     * 插入数据(忽略空字段)
+     * 插入(忽略空字段)
      */
     boolean insert(${CLASS_NAME} item);
 
     /**
-     * 批量插入数据(空字段填充默认值)
+     * 批量插入(空字段填充默认值)
      */
     boolean batchInsert(List<${CLASS_NAME}> list);
 
     /**
-     * 根据主键更新数据(忽略空字段)
+     * 根据主键更新(忽略空字段)
      */
     boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item);
 
     /**
-     * 根据主键查询数据
+     * 根据主键批量逻辑删除
+     */
+    int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, String updatedBy);
+
+    /**
+     * 根据主键查询
      */
     ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
 
     /**
-     * 根据主键批量查询数据
+     * 根据主键批量查询
      */
     List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
 
     /**
-     * 查询数据(条件忽略空字段)
+     * 查询(条件忽略空字段)
      */
     List<${CLASS_NAME}> select(${CLASS_NAME} param);
+
+    /**
+     * 数量查询(条件忽略空字段)
+     */
+    int count(${CLASS_NAME} param);
+
+    /**
+     * 分页查询(条件忽略空字段)
+     */
+    List<${CLASS_NAME}> selectByPage(${CLASS_NAME} param, Integer start, Integer length);
 
 }
