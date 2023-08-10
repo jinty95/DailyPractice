@@ -26,23 +26,20 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testParseDateCompatibly() {
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("20220905")));
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("2022/9/5")));
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("2022/09/5")));
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("2022-9-05")));
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("2022-09-05")));
-        System.out.println(DateUtil.format(DateUtil.parseDateCompatibly("2022年9月5日")));
-    }
-
-    @Test
-    public void testParseDatetimeCompatibly() {
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("20220905193600")));
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("2022/9/5 19:36:0")));
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("2022/09/5 20:0:1")));
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("2022-9-05 0:0:0")));
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("2022-09-05 19:40:59")));
-        System.out.println(DateUtil.format(DateUtil.parseDatetimeCompatibly("2022年9月5日 19时40分59秒")));
+    public void testParseCompatibly() {
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("20220905")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/9/5")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/09/5")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-9-05")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-09-05")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022年9月5日")));
+        System.out.println();
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("20220905193600")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/9/5 19:36:0")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/09/5 20:0:1")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-9-05 0:0:0")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-09-05 19:40:59")));
+        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022年9月5日 19时40分59秒")));
     }
 
     @Test

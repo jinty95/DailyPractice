@@ -169,6 +169,24 @@ public final class DateUtil {
     }
 
     /**
+     * 解析时间 - 兼容常用的时间格式
+     *
+     * @param dateStr 时间字符串
+     * @return 时间对象
+     */
+    public static Date parseCompatibly(String dateStr) {
+        if (dateStr == null) {
+            return null;
+        }
+        dateStr = dateStr.trim();
+        if (dateStr.length() <= 11) {
+            return DateUtil.parseDateCompatibly(dateStr);
+        } else {
+            return DateUtil.parseDatetimeCompatibly(dateStr);
+        }
+    }
+
+    /**
      * 格式化时间
      *
      * @param date 时间对象
@@ -306,7 +324,9 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int hour, int minute, int second) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowHour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -331,7 +351,9 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int minute, int second) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowMinute = calendar.get(Calendar.MINUTE);
@@ -352,7 +374,9 @@ public final class DateUtil {
      * @return 下一个时间点
      */
     public static Date nextTime(Date date, int second) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int nowSecond = calendar.get(Calendar.SECOND);
@@ -389,7 +413,9 @@ public final class DateUtil {
      * @return 时间
      */
     public static Date add(Date date, int num, int unit) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(unit, num);
@@ -663,7 +689,9 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getDayBegin(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -680,7 +708,9 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getDayEnd(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -698,7 +728,9 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getWeekBegin(Date date, int firstDayOfWeek) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -718,7 +750,9 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getWeekEnd(Date date, int firstDayOfWeek) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
@@ -737,7 +771,9 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getMonthBegin(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.DATE, 1);
@@ -755,7 +791,9 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getMonthEnd(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         // 先获取下个月的开始时刻
@@ -777,7 +815,9 @@ public final class DateUtil {
      * @return 开始时刻
      */
     public static Date getYearBegin(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.MONTH, 0);
@@ -796,7 +836,9 @@ public final class DateUtil {
      * @return 结束时刻
      */
     public static Date getYearEnd(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.MONTH, 11);
@@ -1019,7 +1061,9 @@ public final class DateUtil {
      * @return 星期 (英文)
      */
     public static String getDayOfWeekEn(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return "";
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return DAY_OF_WEEK_EN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
@@ -1032,7 +1076,9 @@ public final class DateUtil {
      * @return 星期 (中文)
      */
     public static String getDayOfWeekCn(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return "";
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return DAY_OF_WEEK_CN[calendar.get(Calendar.DAY_OF_WEEK) - 1];
@@ -1211,7 +1257,9 @@ public final class DateUtil {
      * @return 星座
      */
     public static String getConstellation(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return "";
+        }
         int month = get(date, Calendar.MONTH);
         int day = get(date, Calendar.DATE);
         return day < CONSTELLATION_DAYS[month - 1] ? CONSTELLATIONS[month - 1] : CONSTELLATIONS[month];
@@ -1224,7 +1272,9 @@ public final class DateUtil {
      * @return 生肖
      */
     public static String getChineseZodiac(Date date) {
-        checkNull(date);
+        if (date == null) {
+            return "";
+        }
         int year = get(date, Calendar.YEAR);
         // 已知2022为虎年，以此为基准判断
         return year >= 2022 ? CHINESE_ZODIACS[(year - 2022 + 2) % 12] : CHINESE_ZODIACS[(12 - (2022 - year) % 12 + 2) % 12];
@@ -1239,7 +1289,7 @@ public final class DateUtil {
      */
     public static int getAge(Date date, Date birthday) {
         if (date == null) {
-            throw new IllegalArgumentException("当前时间不能为空");
+            date = new Date();
         }
         if (birthday == null) {
             throw new IllegalArgumentException("生日不能为空");

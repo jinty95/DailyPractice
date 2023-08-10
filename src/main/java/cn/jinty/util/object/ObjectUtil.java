@@ -232,12 +232,7 @@ public final class ObjectUtil {
         } else if (BigDecimal.class.getName().equals(className)) {
             obj = new BigDecimal(str);
         } else if (Date.class.getName().equals(className)) {
-            str = str.trim();
-            if (str.length() <= 11) {
-                obj = DateUtil.parseDateCompatibly(str);
-            } else {
-                obj = DateUtil.parseDatetimeCompatibly(str);
-            }
+            obj = DateUtil.parseCompatibly(str);
         }
         return (T) obj;
     }
