@@ -284,4 +284,14 @@ public class StringUtilTest {
         System.out.println(StringUtil.remove4ByteChar("\u2600\u2601\u231A\u270A\u270B\u270C"));
     }
 
+    @Test
+    public void testIsNumeric() {
+        String[] strs = {
+                null, "", "  ", "A", "A01", "0.1", "1", "200", "10086", "000000", "001"
+        };
+        for (String s : strs) {
+            System.out.printf("%s 是纯数字？ %s => 解析数字结果 %s%n", s, StringUtil.isNumeric(s), StringUtil.strToLong(s));
+        }
+    }
+
 }

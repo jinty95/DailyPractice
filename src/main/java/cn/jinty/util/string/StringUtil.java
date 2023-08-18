@@ -557,4 +557,42 @@ public final class StringUtil {
         return new String(bytes);
     }
 
+    /**
+     * 字符串是否为纯数字
+     *
+     * @param s 字符串
+     * @return 是否
+     */
+    public static boolean isNumeric(String s) {
+        if (isBlank(s)) {
+            return false;
+        }
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 字符串转int数字，无法转换时返回空
+     *
+     * @param s 字符串
+     * @return int数字
+     */
+    public static Integer strToInt(String s) {
+        return isNumeric(s) ? Integer.valueOf(s) : null;
+    }
+
+    /**
+     * 字符串转long数字，无法转换时返回空
+     *
+     * @param s 字符串
+     * @return long数字
+     */
+    public static Long strToLong(String s) {
+        return isNumeric(s) ? Long.valueOf(s) : null;
+    }
+
 }
