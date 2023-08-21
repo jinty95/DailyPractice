@@ -28,7 +28,17 @@ public final class IntrospectUtil {
      */
     public static PropertyDescriptor[] getPropertyDescriptors(Class<?> clazz) throws IntrospectionException {
         BeanInfo sourceBeanInfo = Introspector.getBeanInfo(clazz);
-        return sourceBeanInfo.getPropertyDescriptors();
+        PropertyDescriptor[] propertyDescriptors = sourceBeanInfo.getPropertyDescriptors();
+        // 排除"class"，这是"getClass"方法带来的，不是类中定义的一般属性
+        PropertyDescriptor[] newPropertyDescriptors = new PropertyDescriptor[propertyDescriptors.length - 1];
+        int i = 0;
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            if ("class".equals(propertyDescriptor.getName())) {
+                continue;
+            }
+            newPropertyDescriptors[i++] = propertyDescriptor;
+        }
+        return newPropertyDescriptors;
     }
 
     /**

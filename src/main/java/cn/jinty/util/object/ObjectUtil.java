@@ -4,7 +4,9 @@ import cn.jinty.annotation.FieldName;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.string.StringUtil;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
@@ -42,6 +44,44 @@ public final class ObjectUtil {
     }
 
     /**
+     * 是否全部为空
+     *
+     * @param objects 对象数组
+     * @return 是否
+     */
+    public static boolean isAllNull(Object... objects) {
+        if (objects == null || objects.length == 0) {
+            return true;
+        }
+        for (Object value : objects) {
+            if (value != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 返回第一个非空对象
+     *
+     * @param objects 对象数组
+     * @param <T>     类型
+     * @return 第一个非空对象
+     */
+    @SafeVarargs
+    public static <T> T firstNotNull(T... objects) {
+        if (objects == null || objects.length == 0) {
+            return null;
+        }
+        for (T value : objects) {
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 如果值为空，返回默认值
      *
      * @param value        值
@@ -51,26 +91,6 @@ public final class ObjectUtil {
      */
     public static <T> T ifNull(T value, T defaultValue) {
         return value != null ? value : defaultValue;
-    }
-
-    /**
-     * 返回第一个非空值
-     *
-     * @param values 值数组
-     * @param <T>    类型
-     * @return 第一个非空值
-     */
-    @SafeVarargs
-    public static <T> T firstNotNull(T... values) {
-        if (values == null || values.length == 0) {
-            return null;
-        }
-        for (T value : values) {
-            if (value != null) {
-                return value;
-            }
-        }
-        return null;
     }
 
     /**
@@ -235,6 +255,29 @@ public final class ObjectUtil {
             obj = DateUtil.parseCompatibly(str);
         }
         return (T) obj;
+    }
+
+    /**
+     * 是否对象的所有属性都为空 (通过getter判断)
+     *
+     * @param obj 对象
+     * @return 是否
+     * @throws Exception 异常
+     */
+    public static boolean isAllFieldNull(Object obj) throws Exception {
+        if (obj == null) {
+            return true;
+        }
+        for (PropertyDescriptor prop : IntrospectUtil.getPropertyDescriptors(obj.getClass())) {
+            Method getter = prop.getReadMethod();
+            if (getter == null) {
+                continue;
+            }
+            if (isNotNull(getter.invoke(obj))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

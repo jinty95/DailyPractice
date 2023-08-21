@@ -20,28 +20,22 @@ import java.util.List;
 public class ObjectUtilTest {
 
     @Test
-    public void testIfNull() {
-        Object obj = ObjectUtil.ifNull(123, "A");
-        System.out.println(obj);
-        obj = ObjectUtil.ifNull(null, "A");
-        System.out.println(obj);
-        obj = ObjectUtil.ifNull("A", 123);
-        System.out.println(obj);
-        Integer i = ObjectUtil.ifNull(123, 456);
-        System.out.println(i);
-        i = ObjectUtil.ifNull(null, 456);
-        System.out.println(i);
-        String str = ObjectUtil.ifNull("ABC", "DEF");
-        System.out.println(str);
-        str = ObjectUtil.ifNull(null, "DEF");
-        System.out.println(str);
-    }
-
-    @Test
     public void testFirstNotNull() {
         System.out.println(ObjectUtil.firstNotNull(123, 456, 789));
         System.out.println(ObjectUtil.firstNotNull(null, 456, 789));
         System.out.println(ObjectUtil.firstNotNull(null, null, 789));
+    }
+
+    @Test
+    public void testIfNull() {
+        Object obj = ObjectUtil.ifNull(null, null);
+        System.out.println(obj);
+        obj = ObjectUtil.ifNull(null, "A");
+        System.out.println(obj);
+        Integer i = ObjectUtil.ifNull(123, null);
+        System.out.println(i);
+        String str = ObjectUtil.ifNull("ABC", "");
+        System.out.println(str);
     }
 
     @Test
@@ -76,6 +70,20 @@ public class ObjectUtilTest {
         str = "2023年02月23日";
         System.out.println("字符串：" + str);
         System.out.printf("转成%s：%s%n", Date.class.getSimpleName(), ObjectUtil.strToObj(str, Date.class));
+    }
+
+    @Test
+    public void testIsAllFieldNull() {
+        try {
+            System.out.println(ObjectUtil.isAllFieldNull(null));
+            System.out.println(ObjectUtil.isAllFieldNull(new Object()));
+            SuperObj obj = new SuperObj();
+            System.out.println(ObjectUtil.isAllFieldNull(obj));
+            ObjectUtil.setDefault(obj);
+            System.out.println(ObjectUtil.isAllFieldNull(obj));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* 以下为内部类 */

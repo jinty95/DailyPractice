@@ -138,11 +138,6 @@ public class FileUtilTest {
     }
 
     @Test
-    public void testDeleteFiles() {
-        FileUtil.deleteFiles(new File("D:/code/vis/return-inv"), "iml");
-    }
-
-    @Test
     public void testDeleteDir() {
         String dir1 = "D:\\temp\\codegen\\xxx";
         FileUtil.createDir(new File(dir1));
@@ -160,8 +155,11 @@ public class FileUtilTest {
     }
 
     @Test
-    public void testDeleteDirs() {
-        FileUtil.deleteDirs(new File("D:\\temp\\codegen\\cn"), "aa");
+    public void testDeleteDirsAndFiles() {
+        // 删除IDEA生成的文件
+        File root = new File("D:\\code\\vis\\return");
+        FileUtil.deleteDirs(root, ".idea");
+        FileUtil.deleteFiles(root, "iml");
     }
 
     @Test

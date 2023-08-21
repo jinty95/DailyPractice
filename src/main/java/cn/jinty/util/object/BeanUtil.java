@@ -76,10 +76,6 @@ public final class BeanUtil {
         PropertyDescriptor[] propertyDescriptors = IntrospectUtil.getPropertyDescriptors(bean.getClass());
         for (PropertyDescriptor descriptor : propertyDescriptors) {
             String propertyName = descriptor.getName();
-            // 排除类本身
-            if ("class".equals(propertyName)) {
-                continue;
-            }
             Method getter = descriptor.getReadMethod();
             if (getter == null) {
                 continue;
