@@ -149,7 +149,7 @@ public class CodeGenerator {
         }
 
         // 构造基本数据
-        data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.FORMAT_DATE_1));
+        data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.DateFormat.DATE_1.getFormat()));
         data.put(IMPORT_CLASS.name(), importClass.toString().trim());
         data.put(CLASS_NAME.name(), NameStringUtil.snakeToCamel(table.getName(), true));
         data.put(TABLE_NAME.name(), table.getName());

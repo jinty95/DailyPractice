@@ -3,6 +3,8 @@ package cn.jinty.util;
 import cn.jinty.entity.date.DateRange;
 import cn.jinty.entity.date.Week;
 import cn.jinty.enums.CycleTypeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,32 +26,39 @@ public final class DateUtil {
     }
 
     /**
-     * 常用的时间格式
+     * 时间格式枚举
      */
-    public static final String FORMAT_YEAR = "yyyy";
-    public static final String FORMAT_MONTH = "yyyy-MM";
-    public static final String FORMAT_DATE = "yyyy-MM-dd";
-    public static final String FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public static final String FORMAT_DATETIME_MILLI = "yyyy-MM-dd HH:mm:ss.SSS";
-    public static final String FORMAT_MONTH_1 = "yyyy/MM";
-    public static final String FORMAT_DATE_1 = "yyyy/MM/dd";
-    public static final String FORMAT_DATETIME_1 = "yyyy/MM/dd HH:mm:ss";
-    public static final String FORMAT_DATETIME_MILLI_1 = "yyyy/MM/dd HH:mm:ss.SSS";
-    public static final String FORMAT_MONTH_2 = "yyyyMM";
-    public static final String FORMAT_DATE_2 = "yyyyMMdd";
-    public static final String FORMAT_DATETIME_2 = "yyyyMMddHHmmss";
-    public static final String FORMAT_DATETIME_MILLI_2 = "yyyyMMddHHmmssSSS";
-    public static final String FORMAT_MONTH_3 = "yyyy年MM月";
-    public static final String FORMAT_DATE_3 = "yyyy年MM月dd日";
-    public static final String FORMAT_DATETIME_3 = "yyyy年MM月dd日 HH时mm分ss秒";
-    public static final String FORMAT_DATETIME_MILLI_3 = "yyyy年MM月dd日 HH时mm分ss秒SSS毫秒";
+    @Getter
+    @AllArgsConstructor
+    public enum DateFormat {
 
-    public static final List<String> SUPPORTED_FORMAT = Arrays.asList(DateUtil.FORMAT_YEAR,
-            DateUtil.FORMAT_MONTH, DateUtil.FORMAT_DATE, DateUtil.FORMAT_DATETIME, DateUtil.FORMAT_DATETIME_MILLI,
-            DateUtil.FORMAT_MONTH_1, DateUtil.FORMAT_DATE_1, DateUtil.FORMAT_DATETIME_1, DateUtil.FORMAT_DATETIME_MILLI_1,
-            DateUtil.FORMAT_MONTH_2, DateUtil.FORMAT_DATE_2, DateUtil.FORMAT_DATETIME_2, DateUtil.FORMAT_DATETIME_MILLI_2,
-            DateUtil.FORMAT_MONTH_3, DateUtil.FORMAT_DATE_3, DateUtil.FORMAT_DATETIME_3, DateUtil.FORMAT_DATETIME_MILLI_3
-    );
+        YEAR("yyyy"),
+        TIME("HH:mm:ss"),
+
+        MONTH("yyyy-MM"),
+        DATE("yyyy-MM-dd"),
+        DATETIME("yyyy-MM-dd HH:mm:ss"),
+        DATETIME_MILLI("yyyy-MM-dd HH:mm:ss.SSS"),
+
+        MONTH_1("yyyy/MM"),
+        DATE_1("yyyy/MM/dd"),
+        DATETIME_1("yyyy/MM/dd HH:mm:ss"),
+        DATETIME_MILLI_1("yyyy/MM/dd HH:mm:ss.SSS"),
+
+        MONTH_2("yyyyMM"),
+        DATE_2("yyyyMMdd"),
+        DATETIME_2("yyyyMMddHHmmss"),
+        DATETIME_MILLI_2("yyyyMMddHHmmssSSS"),
+
+        MONTH_3("yyyy年MM月"),
+        DATE_3("yyyy年MM月dd日"),
+        DATETIME_3("yyyy年MM月dd日 HH时mm分ss秒"),
+        DATETIME_MILLI_3("yyyy年MM月dd日 HH时mm分ss秒SSS毫秒"),
+        ;
+
+        private final String format;
+
+    }
 
     /**
      * 时区
@@ -63,7 +72,7 @@ public final class DateUtil {
      * 时间纪元 (时间戳的起点) (零时区)
      */
     public static final String EPOCH_STR = "1970-01-01 00:00:00";
-    public static final Date EPOCH = parse(EPOCH_STR, FORMAT_DATETIME, GMT_0);
+    public static final Date EPOCH = parse(EPOCH_STR, DateFormat.DATETIME.getFormat(), GMT_0);
 
     /**
      * 星期的每一天 (英文+中文)
@@ -90,7 +99,7 @@ public final class DateUtil {
      * @return 时间对象
      */
     public static Date parse(String dateStr) {
-        return parse(dateStr, FORMAT_DATETIME);
+        return parse(dateStr, DateFormat.DATETIME.getFormat());
     }
 
     /**
@@ -139,13 +148,13 @@ public final class DateUtil {
             return null;
         }
         if (dateStr.contains("-")) {
-            return parse(dateStr, FORMAT_DATE);
+            return parse(dateStr, DateFormat.DATE.getFormat());
         } else if (dateStr.contains("/")) {
-            return parse(dateStr, FORMAT_DATE_1);
+            return parse(dateStr, DateFormat.DATE_1.getFormat());
         } else if (dateStr.contains("年")) {
-            return parse(dateStr, FORMAT_DATE_3);
+            return parse(dateStr, DateFormat.DATE_3.getFormat());
         }
-        return parse(dateStr, FORMAT_DATE_2);
+        return parse(dateStr, DateFormat.DATE_2.getFormat());
     }
 
     /**
@@ -159,13 +168,13 @@ public final class DateUtil {
             return null;
         }
         if (dateStr.contains("-")) {
-            return parse(dateStr, FORMAT_DATETIME);
+            return parse(dateStr, DateFormat.DATETIME.getFormat());
         } else if (dateStr.contains("/")) {
-            return parse(dateStr, FORMAT_DATETIME_1);
+            return parse(dateStr, DateFormat.DATETIME_1.getFormat());
         } else if (dateStr.contains("年")) {
-            return parse(dateStr, FORMAT_DATETIME_3);
+            return parse(dateStr, DateFormat.DATETIME_3.getFormat());
         }
-        return parse(dateStr, FORMAT_DATETIME_2);
+        return parse(dateStr, DateFormat.DATETIME_2.getFormat());
     }
 
     /**
@@ -193,7 +202,7 @@ public final class DateUtil {
      * @return 时间字符串
      */
     public static String format(Date date) {
-        return format(date, FORMAT_DATETIME);
+        return format(date, DateFormat.DATETIME.getFormat());
     }
 
     /**
@@ -305,6 +314,7 @@ public final class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.YEAR, year);
+        // 月份需要特殊处理
         calendar.set(Calendar.MONTH, month - 1);
         calendar.set(Calendar.DATE, date);
         calendar.set(Calendar.HOUR_OF_DAY, hour);
@@ -312,6 +322,39 @@ public final class DateUtil {
         calendar.set(Calendar.SECOND, second);
         calendar.set(Calendar.MILLISECOND, millisecond);
         return calendar.getTime();
+    }
+
+    /**
+     * 构建今天指定时分秒的时间
+     *
+     * @param hour   时
+     * @param minute 分
+     * @param second 秒
+     * @return 时间
+     */
+    public static Date buildToday(int hour, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 构建今天指定时分秒的时间
+     *
+     * @param time 时分秒，格式为HH:mm:ss
+     * @return 时间
+     */
+    public static Date buildToday(String time) {
+        Date date = parse(time, DateFormat.TIME.getFormat());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        return buildToday(hour, minute, second);
     }
 
     /**
@@ -1019,13 +1062,13 @@ public final class DateUtil {
      */
     public static List<String> getAllMonth(String begin, String end) {
         List<String> list = new ArrayList<>();
-        Date beginTime = parse(begin, FORMAT_MONTH);
-        Date endTime = parse(end, FORMAT_MONTH);
+        Date beginTime = parse(begin, DateFormat.MONTH.getFormat());
+        Date endTime = parse(end, DateFormat.MONTH.getFormat());
         if (beginTime.after(endTime)) {
             return list;
         }
         for (; beginTime.compareTo(endTime) <= 0; beginTime = add(beginTime, 1, Calendar.MONTH)) {
-            list.add(format(beginTime, FORMAT_MONTH));
+            list.add(format(beginTime, DateFormat.MONTH.getFormat()));
         }
         return list;
     }

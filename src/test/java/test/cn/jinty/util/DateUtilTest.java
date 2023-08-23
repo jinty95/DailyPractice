@@ -20,26 +20,31 @@ public class DateUtilTest {
 
     @Test
     public void testSupportedFormat() {
-        for (String str : DateUtil.SUPPORTED_FORMAT) {
-            System.out.println(str + " 长度为 " + str.length());
+        for (DateUtil.DateFormat formatEnum : DateUtil.DateFormat.values()) {
+            System.out.println(formatEnum.getFormat() + " 长度为 " + formatEnum.getFormat().length());
         }
     }
 
     @Test
+    public void testParseTime() {
+        String time = "08:20:00";
+        System.out.println(DateUtil.format(DateUtil.parse(time, DateUtil.DateFormat.TIME.getFormat())));
+        // 结果为：1970-01-01 08:20:00
+        System.out.println(DateUtil.format(DateUtil.buildToday(time)));
+        // 结果为：今天 08:20:00
+    }
+
+    @Test
     public void testParseCompatibly() {
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("20220905")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/9/5")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/09/5")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-9-05")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-09-05")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022年9月5日")));
+        String[] arr1 = {"20220905", "2022/9/5", "2022/09/5", "2022-9-05", "2022-09-05", "2022年9月5日"};
+        for (String s : arr1) {
+            System.out.println(DateUtil.format(DateUtil.parseCompatibly(s)));
+        }
         System.out.println();
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("20220905193600")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/9/5 19:36:0")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022/09/5 20:0:1")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-9-05 0:0:0")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022-09-05 19:40:59")));
-        System.out.println(DateUtil.format(DateUtil.parseCompatibly("2022年9月5日 19时40分59秒")));
+        String[] arr2 = {"20220905193600", "2022/9/5 19:36:0", "2022/09/5 20:0:1", "2022-9-05 0:0:0", "2022-09-05 19:40:59", "2022年9月5日 19时40分59秒"};
+        for (String s : arr2) {
+            System.out.println(DateUtil.format(DateUtil.parseCompatibly(s)));
+        }
     }
 
     @Test
@@ -48,29 +53,29 @@ public class DateUtilTest {
         System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00")));
         System.out.println(DateUtil.format(DateUtil.parse("2021-07-15 18:00:00 this is also ok")));
 
-        System.out.println(DateUtil.format(DateUtil.parse("2022/9/5", DateUtil.FORMAT_DATE_1), DateUtil.FORMAT_DATETIME_1));
-        System.out.println(DateUtil.format(DateUtil.parse("2022/09/05 17:50:00.000", DateUtil.FORMAT_DATETIME_MILLI_1), DateUtil.FORMAT_DATETIME_1));
+        System.out.println(DateUtil.format(DateUtil.parse("2022/9/5", DateUtil.DateFormat.DATE_1.getFormat()), DateUtil.DateFormat.DATETIME_1.getFormat()));
+        System.out.println(DateUtil.format(DateUtil.parse("2022/09/05 17:50:00.000", DateUtil.DateFormat.DATETIME_MILLI_1.getFormat()), DateUtil.DateFormat.DATETIME_1.getFormat()));
 
-        System.out.println(DateUtil.format(DateUtil.parse("20220905", DateUtil.FORMAT_DATE_2), DateUtil.FORMAT_DATETIME_2));
-        System.out.println(DateUtil.format(DateUtil.parse("20220905175000000", DateUtil.FORMAT_DATETIME_MILLI_2), DateUtil.FORMAT_DATETIME_2));
+        System.out.println(DateUtil.format(DateUtil.parse("20220905", DateUtil.DateFormat.DATE_2.getFormat()), DateUtil.DateFormat.DATETIME_2.getFormat()));
+        System.out.println(DateUtil.format(DateUtil.parse("20220905175000000", DateUtil.DateFormat.DATETIME_MILLI_2.getFormat()), DateUtil.DateFormat.DATETIME_2.getFormat()));
     }
 
     @Test
     public void testCheckFormat() {
-        System.out.println(DateUtil.checkFormat("2023", DateUtil.FORMAT_MONTH));
-        System.out.println(DateUtil.checkFormat("2023-01", DateUtil.FORMAT_MONTH));
-        System.out.println(DateUtil.checkFormat("2023-01-16", DateUtil.FORMAT_MONTH));
-        System.out.println(DateUtil.checkFormat("AA2023-01-16", DateUtil.FORMAT_MONTH));
-        System.out.println(DateUtil.checkFormat("2023-01-16AA", DateUtil.FORMAT_MONTH));
+        System.out.println(DateUtil.checkFormat("2023", DateUtil.DateFormat.MONTH.getFormat()));
+        System.out.println(DateUtil.checkFormat("2023-01", DateUtil.DateFormat.MONTH.getFormat()));
+        System.out.println(DateUtil.checkFormat("2023-01-16", DateUtil.DateFormat.MONTH.getFormat()));
+        System.out.println(DateUtil.checkFormat("AA2023-01-16", DateUtil.DateFormat.MONTH.getFormat()));
+        System.out.println(DateUtil.checkFormat("2023-01-16AA", DateUtil.DateFormat.MONTH.getFormat()));
     }
 
     @Test
     public void testTimeZone() {
         System.out.println(DateUtil.EPOCH.getTime());
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.EUROPE_LONDON));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI));
-        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_TOKYO));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DateFormat.DATETIME.getFormat()));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DateFormat.DATETIME.getFormat(), DateUtil.EUROPE_LONDON));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DateFormat.DATETIME.getFormat(), DateUtil.ASIA_SHANGHAI));
+        System.out.println(DateUtil.format(DateUtil.EPOCH, DateUtil.DateFormat.DATETIME.getFormat(), DateUtil.ASIA_TOKYO));
     }
 
     @Test
@@ -78,8 +83,8 @@ public class DateUtilTest {
         // 北京时间与伦敦时间有时候差7小时，有时候差8小时
         String srcDateStr = "2022-01-01 08:00:00";
         System.out.println("北京时间：" + srcDateStr);
-        System.out.println("伦敦时间：" + DateUtil.transfer(srcDateStr, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.EUROPE_LONDON));
-        System.out.println("东京时间：" + DateUtil.transfer(srcDateStr, DateUtil.FORMAT_DATETIME, DateUtil.ASIA_SHANGHAI, DateUtil.ASIA_TOKYO));
+        System.out.println("伦敦时间：" + DateUtil.transfer(srcDateStr, DateUtil.DateFormat.DATETIME.getFormat(), DateUtil.ASIA_SHANGHAI, DateUtil.EUROPE_LONDON));
+        System.out.println("东京时间：" + DateUtil.transfer(srcDateStr, DateUtil.DateFormat.DATETIME.getFormat(), DateUtil.ASIA_SHANGHAI, DateUtil.ASIA_TOKYO));
     }
 
     @Test
@@ -89,6 +94,12 @@ public class DateUtilTest {
         ));
         System.out.println(DateUtil.format(
                 DateUtil.buildDate(2021, 7, 15, 18, 0, 0)
+        ));
+        System.out.println(DateUtil.format(
+                DateUtil.buildToday(8, 20, 0)
+        ));
+        System.out.println(DateUtil.format(
+                DateUtil.buildToday("8:20:0")
         ));
     }
 
@@ -175,40 +186,40 @@ public class DateUtilTest {
 
     @Test
     public void testGetDiff() {
-        Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.FORMAT_DATETIME_MILLI);
-        Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiff(d1, d2) + " 毫秒");
+        Date d1 = DateUtil.parse("2022-08-22 17:00:00.865", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        Date d2 = DateUtil.parse("2022-08-22 17:00:00.998", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiff(d1, d2) + " 毫秒");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 17:00:01.500", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffSecond(d1, d2) + " 秒");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 17:00:01.500", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffSecond(d1, d2) + " 秒");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 17:01:45.000", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffMinute(d1, d2) + " 分钟");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 17:01:45.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffMinute(d1, d2) + " 分钟");
 
-        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 18:10:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffHour(d1, d2) + " 小时");
+        d1 = DateUtil.parse("2022-08-22 17:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 18:10:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffHour(d1, d2) + " 小时");
 
-        d1 = DateUtil.parse("2019-07-03 09:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 20:11:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffDay(d1, d2) + " 天");
+        d1 = DateUtil.parse("2019-07-03 09:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 20:11:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffDay(d1, d2) + " 天");
 
-        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffMonth(d1, d2) + " 月");
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffMonth(d1, d2) + " 月");
 
-        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.FORMAT_DATETIME_MILLI);
-        System.out.println(DateUtil.format(d1, DateUtil.FORMAT_DATETIME_MILLI) + " 到 " +
-                DateUtil.format(d2, DateUtil.FORMAT_DATETIME_MILLI) + " 有 " + DateUtil.getDiffYear(d1, d2) + " 年");
+        d1 = DateUtil.parse("2019-07-03 00:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        d2 = DateUtil.parse("2022-08-22 00:00:00.000", DateUtil.DateFormat.DATETIME_MILLI.getFormat());
+        System.out.println(DateUtil.format(d1, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 到 " +
+                DateUtil.format(d2, DateUtil.DateFormat.DATETIME_MILLI.getFormat()) + " 有 " + DateUtil.getDiffYear(d1, d2) + " 年");
     }
 
     @Test
@@ -220,8 +231,8 @@ public class DateUtilTest {
         };
         for (Date[] date : dates) {
             String diff = DateUtil.formatDiff(DateUtil.getDiff(date[0], date[1]));
-            System.out.printf("%s 到 %s 相差%n%s%n", DateUtil.format(date[0], DateUtil.FORMAT_DATETIME_MILLI),
-                    DateUtil.format(date[1], DateUtil.FORMAT_DATETIME_MILLI), diff);
+            System.out.printf("%s 到 %s 相差%n%s%n", DateUtil.format(date[0], DateUtil.DateFormat.DATETIME_MILLI.getFormat()),
+                    DateUtil.format(date[1], DateUtil.DateFormat.DATETIME_MILLI.getFormat()), diff);
         }
     }
 
@@ -247,11 +258,11 @@ public class DateUtilTest {
     @Test
     public void testIsBetween() {
         Date rightNow = new Date();
-        Date begin = DateUtil.parse("2022-11-21", DateUtil.FORMAT_DATE);
-        Date end = DateUtil.parse("2022-11-23", DateUtil.FORMAT_DATE);
+        Date begin = DateUtil.parse("2022-11-21", DateUtil.DateFormat.DATE.getFormat());
+        Date end = DateUtil.parse("2022-11-23", DateUtil.DateFormat.DATE.getFormat());
         System.out.println(DateUtil.isBetween(rightNow, DateUtil.getDayBegin(rightNow), DateUtil.getDayEnd(rightNow)));
-        Date d1 = DateUtil.parse("2022-11-21", DateUtil.FORMAT_DATE);
-        Date d2 = DateUtil.parse("2022-11-21", DateUtil.FORMAT_DATE);
+        Date d1 = DateUtil.parse("2022-11-21", DateUtil.DateFormat.DATE.getFormat());
+        Date d2 = DateUtil.parse("2022-11-21", DateUtil.DateFormat.DATE.getFormat());
         System.out.println(DateUtil.isBetween(d1, d2, begin, end));
     }
 
@@ -490,8 +501,8 @@ public class DateUtilTest {
     public void testGetAge() {
         Date now = new Date();
         Date birthday = DateUtil.buildDate(1996, 1, 1);
-        System.out.println("今天：" + DateUtil.format(now, DateUtil.FORMAT_DATE));
-        System.out.println("生日：" + DateUtil.format(birthday, DateUtil.FORMAT_DATE));
+        System.out.println("今天：" + DateUtil.format(now, DateUtil.DateFormat.DATE.getFormat()));
+        System.out.println("生日：" + DateUtil.format(birthday, DateUtil.DateFormat.DATE.getFormat()));
         System.out.println("年龄：" + DateUtil.getAge(now, birthday));
         System.out.println("生肖：" + DateUtil.getChineseZodiac(birthday));
         System.out.println("星座：" + DateUtil.getConstellation(birthday));

@@ -8,7 +8,8 @@ CREATE TABLE `constant` (
     `order_num` INT NOT NULL DEFAULT 0 COMMENT '序号(对同层级而言)',
     `is_deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除：0 否，1 是',
     PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE `uniq_parent_code_code` (`parent_code`, `code`) USING BTREE
+    UNIQUE `uniq_parent_code_code` (`parent_code`, `code`) USING BTREE,
+    INDEX `idx_code` (`code`) USING BTREE
 ) ENGINE=InnoDB COMMENT='常量表';
 
 INSERT INTO `constant`(`code`, `meaning`, `parent_code`) VALUES('sex', '性别', '');
