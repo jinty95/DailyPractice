@@ -5,6 +5,7 @@ import cn.jinty.util.string.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.function.Predicate;
 
 /**
@@ -16,31 +17,6 @@ import java.util.function.Predicate;
 public final class ListUtil {
 
     private ListUtil() {
-    }
-
-    /**
-     * 列表按数量分组
-     *
-     * @param list 原始列表
-     * @param num  每组个数
-     * @param <T>  类型
-     * @return 分组结果
-     */
-    public static <T> List<List<T>> splitByNum(List<T> list, int num) {
-        List<List<T>> splitList = new ArrayList<>();
-        if (list.isEmpty()) {
-            return splitList;
-        }
-        int size = list.size();
-        int p = 0;
-        while (p < size) {
-            List<T> oneList = new ArrayList<>();
-            for (int i = 0; i < num && p < size; i++) {
-                oneList.add(list.get(p++));
-            }
-            splitList.add(oneList);
-        }
-        return splitList;
     }
 
     /**
@@ -299,6 +275,125 @@ public final class ListUtil {
             }
         }
         return newList;
+    }
+
+    /**
+     * 将列表的所有元素打乱
+     *
+     * @param list 原始列表
+     * @param <T>  元素类型
+     * @return 打乱列表
+     */
+    public static <T> List<T> shuffle(List<T> list) {
+        if (CollectionUtil.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        final Random RANDOM = new Random();
+        List<T> shuffleList = new ArrayList<>(list);
+        for (int i = 0; i < list.size(); i++) {
+            int idx1 = RANDOM.nextInt(list.size());
+            int idx2 = RANDOM.nextInt(list.size());
+            swap(shuffleList, idx1, idx2);
+        }
+        return shuffleList;
+    }
+
+    /**
+     * 交换列表的两个元素
+     *
+     * @param list 原始列表
+     * @param a    位置1
+     * @param b    位置2
+     * @param <T>  元素类型
+     */
+    public static <T> void swap(List<T> list, int a, int b) {
+        if (a == b) {
+            return;
+        }
+        T tmp = list.get(a);
+        list.set(a, list.get(b));
+        list.set(b, tmp);
+    }
+
+    /**
+     * 列表按数量分组
+     *
+     * @param list 原始列表
+     * @param num  每组个数
+     * @param <T>  类型
+     * @return 分组结果
+     */
+    public static <T> List<List<T>> splitByNum(List<T> list, int num) {
+        List<List<T>> lists = new ArrayList<>();
+        if (CollectionUtil.isEmpty(list)) {
+            return lists;
+        }
+        int size = list.size();
+        int p = 0;
+        while (p < size) {
+            List<T> oneList = new ArrayList<>();
+            for (int i = 0; i < num && p < size; i++) {
+                oneList.add(list.get(p++));
+            }
+            lists.add(oneList);
+        }
+        return lists;
+    }
+
+    /**
+     * 列表按数量随机分组
+     *
+     * @param list 原始列表
+     * @param num  每组个数
+     * @param <T>  类型
+     * @return 随机分组结果
+     */
+    public static <T> List<List<T>> randomSplitByNum(List<T> list, int num) {
+        return splitByNum(shuffle(list), num);
+    }
+
+    /**
+     * 列表拆分为N个组
+     *
+     * @param list 原始列表
+     * @param n    组数
+     * @param <T>  类型
+     * @return 分组结果
+     */
+    public static <T> List<List<T>> splitToNGroup(List<T> list, int n) {
+        if (CollectionUtil.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+        List<List<T>> lists = new ArrayList<>(n);
+        int k = 0;
+        // 每组最少元素个数
+        int minNum = list.size() / n;
+        // 平均分组后剩余的元素个数
+        int remain = list.size() % n;
+        // 按顺序填充每个组，前remain个组可以多分一个
+        for (int i = 0; i < n; i++) {
+            List<T> oneList = new ArrayList<>();
+            for (int j = 0; j < minNum; j++) {
+                oneList.add(list.get(k++));
+            }
+            if (i < remain) {
+                oneList.add(list.get(k++));
+            }
+            lists.add(oneList);
+        }
+        return lists;
+    }
+
+    /**
+     * 列表随机拆分为N个组
+     *
+     * @param list 原始列表
+     * @param n    组数
+     * @param <T>  类型
+     * @return 随机分组结果
+     */
+    public static <T> List<List<T>> randomSplitToNGroup(List<T> list, int n) {
+        return splitToNGroup(shuffle(list), n);
     }
 
 }

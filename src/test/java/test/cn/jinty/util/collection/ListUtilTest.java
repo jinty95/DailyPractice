@@ -15,14 +15,6 @@ import java.util.List;
 public class ListUtilTest {
 
     @Test
-    public void testSplitByNum() {
-        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        System.out.println(ListUtil.splitByNum(list, 3));
-        System.out.println(ListUtil.splitByNum(list, 4));
-        System.out.println(ListUtil.splitByNum(list, 5));
-    }
-
-    @Test
     public void testAsList() {
         List<Integer> list1 = ListUtil.asList(1, 2, 3);
         System.out.println(list1);
@@ -113,6 +105,42 @@ public class ListUtilTest {
         System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1), null));
         System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1, 2), ListUtil.asList(1, 2, 1)));
         System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1), ListUtil.asList(1, 2, 1, 2)));
+    }
+
+    @Test
+    public void testSplitByNum() {
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        for (int num : arr) {
+            System.out.println(ListUtil.splitByNum(list, num));
+        }
+    }
+
+    @Test
+    public void testRandomSplitByNum() {
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        for (int num : arr) {
+            System.out.println(ListUtil.randomSplitByNum(list, num));
+        }
+    }
+
+    @Test
+    public void testSplitToNGroup() {
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        for (int n : arr) {
+            System.out.println(ListUtil.splitToNGroup(list, n));
+        }
+    }
+
+    @Test
+    public void testRandomSplitToNGroup() {
+        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        for (int n : arr) {
+            System.out.println(ListUtil.randomSplitToNGroup(list, n));
+        }
     }
 
 }
