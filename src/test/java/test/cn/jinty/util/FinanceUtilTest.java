@@ -28,14 +28,13 @@ public class FinanceUtilTest {
 
     @Test
     public void testFormatAmount() {
-        Number amount = 0;
-        System.out.println(FinanceUtil.formatAmount(amount));
-        amount = 8.8F;
-        System.out.println(FinanceUtil.formatAmount(amount));
-        amount = 8888.888D;
-        System.out.println(FinanceUtil.formatAmount(amount));
-        amount = BigDecimal.valueOf(800800800800.88888);
-        System.out.println(FinanceUtil.formatAmount(amount));
+        Number[] arr = {
+                0, 8.8F, 8888.888D, BigDecimal.valueOf(800800800800.88888)
+        };
+        for (Number a : arr) {
+            System.out.println(FinanceUtil.formatAmount(a));
+            System.out.println(FinanceUtil.formatAmountWithThousandSeparator(a));
+        }
     }
 
     @Test

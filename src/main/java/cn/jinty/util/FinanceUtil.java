@@ -59,14 +59,28 @@ public final class FinanceUtil {
      * 格式化金额
      *
      * @param amount 金额
-     * @return 格式化金额(千分位显示)
+     * @return 格式化金额(保留两位小数)(千分位显示)
      */
-    public static String formatAmount(Number amount) {
+    public static String formatAmountWithThousandSeparator(Number amount) {
         if (amount == null) {
             return StringUtil.EMPTY;
         }
         // ','右侧表示多少位整数用一个','分割，'.'右侧表示小数最多精确到多少位
         NumberFormat nf = new DecimalFormat("#,##0.00");
+        return nf.format(amount);
+    }
+
+    /**
+     * 格式化金额
+     *
+     * @param amount 金额
+     * @return 格式化金额(保留两位小数)
+     */
+    public static String formatAmount(Number amount) {
+        if (amount == null) {
+            return StringUtil.EMPTY;
+        }
+        NumberFormat nf = new DecimalFormat("#0.00");
         return nf.format(amount);
     }
 
