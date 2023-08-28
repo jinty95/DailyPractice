@@ -3,6 +3,8 @@ package test.cn.jinty.util.string;
 import cn.jinty.util.string.CheckStringUtil;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 /**
  * 检查字符串 - 工具类 - 测试
  *
@@ -12,7 +14,7 @@ import org.junit.Test;
 public class CheckStringUtilTest {
 
     @Test
-    public void testIsLetter() {
+    public void testIs() {
         String[] arr = {
                 "Hello", "12345", "HELLO", "hello"
         };
@@ -26,7 +28,22 @@ public class CheckStringUtilTest {
     }
 
     @Test
-    public void testContainsLetter() {
+    public void testIsNumeric() {
+        String[] arr = {
+                "0", "-1", "+0.01", "88", "99.9", "9E", "2E64", "ABC", "+-100", "0.0.0", "0."
+        };
+        for (String s : arr) {
+            boolean flag = CheckStringUtil.isNumeric(s);
+            System.out.print(s + " 是数值：" + flag);
+            if (flag) {
+                System.out.print("，解析结果：" + new BigDecimal(s).stripTrailingZeros().toPlainString());
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void testContains() {
         String[] arr = {
                 "Hello", "123@qq.com"
         };

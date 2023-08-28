@@ -558,12 +558,12 @@ public final class StringUtil {
     }
 
     /**
-     * 字符串是否为纯数字
+     * 字符串是否为纯数字 (不包括正负号和小数点)
      *
      * @param s 字符串
      * @return 是否
      */
-    public static boolean isNumeric(String s) {
+    public static boolean isDigit(String s) {
         if (isBlank(s)) {
             return false;
         }
@@ -582,7 +582,7 @@ public final class StringUtil {
      * @return int数字
      */
     public static Integer strToInt(String s) {
-        return isNumeric(s) ? Integer.valueOf(s) : null;
+        return isDigit(s) ? Integer.valueOf(s) : null;
     }
 
     /**
@@ -592,7 +592,7 @@ public final class StringUtil {
      * @return long数字
      */
     public static Long strToLong(String s) {
-        return isNumeric(s) ? Long.valueOf(s) : null;
+        return isDigit(s) ? Long.valueOf(s) : null;
     }
 
 }

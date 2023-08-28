@@ -4,6 +4,8 @@ import cn.jinty.enums.SpecialCharEnum;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 检查字符串 - 工具类
@@ -59,6 +61,22 @@ public final class CheckStringUtil {
             }
         }
         return true;
+    }
+
+    // 数值正则式
+    private static final Pattern NUMERIC_PATTERN = Pattern.compile("[+-]?[0-9]+(.[0-9]+)?");
+
+    /**
+     * 字符串是否是一个数值 (可带正负号及小数点)
+     *
+     * @param s 字符串
+     * @return 是否
+     */
+    public static boolean isNumeric(String s) {
+        if (StringUtil.isEmpty(s)) {
+            return false;
+        }
+        return NUMERIC_PATTERN.matcher(s).matches();
     }
 
     /**

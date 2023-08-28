@@ -285,12 +285,12 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testIsNumeric() {
+    public void testIsDigit() {
         String[] strs = {
                 null, "", "  ", "A", "A01", "0.1", "1", "200", "10086", "000000", "001"
         };
         for (String s : strs) {
-            System.out.printf("%s 是纯数字？ %s => 解析数字结果 %s%n", s, StringUtil.isNumeric(s), StringUtil.strToLong(s));
+            System.out.printf("%s 是纯数字？ %s => 解析数字结果 %s%n", s, StringUtil.isDigit(s), StringUtil.strToLong(s));
         }
     }
 
