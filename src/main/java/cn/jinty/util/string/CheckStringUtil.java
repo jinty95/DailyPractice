@@ -64,7 +64,7 @@ public final class CheckStringUtil {
     }
 
     // 数值正则式
-    private static final Pattern NUMERIC_PATTERN = Pattern.compile("[+-]?[0-9]+(.[0-9]+)?");
+    private static final Pattern NUMERIC_PATTERN = Pattern.compile("^[+-]?[0-9]+(.[0-9]+)?$");
 
     /**
      * 字符串是否是一个数值 (可带正负号及小数点)

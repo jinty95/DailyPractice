@@ -2,10 +2,7 @@ package test.cn.jinty.java.util;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * List - 测试
@@ -34,6 +31,34 @@ public class ListTest {
             list.add(i, new HashSet<>());
         }
         list.forEach(System.out::println);
+    }
+
+    // Arrays.asList方法返回的List对象是一个内部类，没有实现add和remove方法，不能对元素进行增减
+    @Test
+    public void testArraysAsList() {
+        // 不可增减元素的List
+        List<Integer> list = Arrays.asList(1, 2, 3, 4);
+        this.testArraysAsList(list);
+        System.out.println();
+        // 可增减元素的List
+        list = new ArrayList<>(list);
+        this.testArraysAsList(list);
+    }
+
+    private void testArraysAsList(List<Integer> list) {
+        System.out.println(list);
+        try {
+            list.add(5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(list);
+        try {
+            list.remove(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(list);
     }
 
 }

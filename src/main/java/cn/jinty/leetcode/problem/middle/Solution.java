@@ -930,7 +930,7 @@ public class Solution {
                 if (nums[i] == target) return i;
                 if (i < nums.length - 1 && nums[i + 1] < nums[i]) break;
             }
-        } else if (target <= nums[nums.length - 1]) {
+        } else {
             //在后半部分从右向左搜索
             for (int i = nums.length - 1; i >= 0; i--) {
                 if (nums[i] == target) return i;

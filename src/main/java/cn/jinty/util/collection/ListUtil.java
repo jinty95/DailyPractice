@@ -176,6 +176,7 @@ public final class ListUtil {
 
     /**
      * 求笛卡尔积
+     * 从后往前，将相邻的两个组求笛卡尔积，合成一个新组，重复这个过程
      *
      * @param lists   多个数据组
      * @param index   当前应处理的数据组
@@ -187,10 +188,12 @@ public final class ListUtil {
             return results;
         }
         List<List<T>> nextResults = new ArrayList<>();
+        // 遍历当前组的各个元素
         for (T one : lists.get(index)) {
             if (CollectionUtil.isEmpty(results)) {
                 nextResults.add(asList(one));
             } else {
+                // 将当前组的这个元素，加入已有的组合结果中
                 for (List<T> result : results) {
                     List<T> nextResult = new ArrayList<>(result);
                     nextResult.add(0, one);
@@ -198,6 +201,7 @@ public final class ListUtil {
                 }
             }
         }
+        // 递归处理前一个组
         return cartesianProduct(lists, index - 1, nextResults);
     }
 

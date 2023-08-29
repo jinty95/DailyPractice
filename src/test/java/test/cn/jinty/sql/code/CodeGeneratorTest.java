@@ -5,6 +5,7 @@ import cn.jinty.sql.ddl.DDLParser;
 import cn.jinty.sql.entity.Table;
 import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
+import cn.jinty.sql.validate.TableValidation;
 import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
@@ -137,6 +138,8 @@ public class CodeGeneratorTest {
             Map<String, String> data = new HashMap<>();
             data.put(BASE_PACKAGE.name(), props.getProperty("basePackage"));
             data.put(AUTHOR.name(), props.getProperty("author"));
+            // 指定校验数据
+            TableValidation validation = TableValidation.parseFromProps(props);
             // 指定生成哪些文件
             for (String type : props.getProperty("genType").split(",")) {
                 // 指定模板路径
@@ -150,7 +153,7 @@ public class CodeGeneratorTest {
                 // 指定文件后缀
                 String targetFileSuffix = props.getProperty("targetFileSuffix." + type);
                 // 生成文件
-                CodeGenerator.generate(ddl, typeMapper, data, templateFilePath, targetDir, targetFileSuffix);
+                CodeGenerator.generate(ddl, typeMapper, validation, data, templateFilePath, targetDir, targetFileSuffix);
             }
         } catch (Exception e) {
             e.printStackTrace();

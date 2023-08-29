@@ -1,10 +1,13 @@
 package cn.jinty.sql.code;
 
+import cn.jinty.exception.ValidateException;
 import cn.jinty.sql.ddl.DDLParser;
 import cn.jinty.sql.entity.Column;
 import cn.jinty.sql.entity.Table;
 import cn.jinty.sql.mapper.TypeMapper;
+import cn.jinty.sql.validate.TableValidation;
 import cn.jinty.util.DateUtil;
+import cn.jinty.util.collection.MapUtil;
 import cn.jinty.util.string.NameStringUtil;
 import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.io.FilePathUtil;
@@ -29,17 +32,23 @@ public class CodeGenerator {
      *
      * @param ddl              DDL
      * @param typeMapper       类型映射
+     * @param validation       校验数据
      * @param data             用于填充模板占位符的数据
      * @param templateFilePath 模板文件路径
      * @param targetDir        目标文件目录
      * @param targetFileSuffix 目标文件后缀
      * @throws IOException IO异常
      */
-    public static void generate(String ddl, TypeMapper typeMapper, Map<String, String> data,
-                                String templateFilePath, String targetDir, String targetFileSuffix) throws IOException {
+    public static void generate(String ddl, TypeMapper typeMapper, TableValidation validation,
+                                Map<String, String> data, String templateFilePath, String targetDir, String targetFileSuffix)
+            throws IOException {
+        // 解析DDL
+        Table table = DDLParser.parse(ddl);
+        // 校验DDL
+        validateTable(table, validation);
         // 准备数据
         List<Map<String, String>> columnData = new ArrayList<>();
-        prepareData(ddl, typeMapper, data, columnData);
+        prepareData(table, typeMapper, data, columnData);
         // 替换数据
         String template = FileUtil.read(new File(templateFilePath));
         template = fillWithData(template, data, columnData);
@@ -47,7 +56,7 @@ public class CodeGenerator {
         String className = data.getOrDefault(CLASS_NAME.name(), "");
         String targetFilePath = FilePathUtil.concatBySeparator(targetDir, className + targetFileSuffix);
         FileUtil.write(template, new File(targetFilePath));
-        System.out.printf("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n%n",
+        System.out.printf("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n\n",
                 templateFilePath, targetFilePath);
     }
 
@@ -110,21 +119,16 @@ public class CodeGenerator {
     /**
      * 解析DDL，构造用于填充模板占位符的数据
      *
-     * @param ddl        DDL
+     * @param table      表结构
      * @param typeMapper 类型映射
      * @param data       基本数据(直接替换)
      * @param columnData 字段数据(循环替换)
      */
-    private static void prepareData(String ddl, TypeMapper typeMapper,
+    private static void prepareData(Table table, TypeMapper typeMapper,
                                     Map<String, String> data, List<Map<String, String>> columnData) {
-
-        // 解析DDL
-        Table table = DDLParser.parse(ddl);
         List<Column> columnList = table.getColumns();
-
         StringBuilder importClass = new StringBuilder();
         Set<Class<?>> alreadyImport = new HashSet<>();
-
         // 构造字段数据(不包括主键)
         for (Column column : columnList) {
             Class<?> fieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
@@ -147,7 +151,6 @@ public class CodeGenerator {
                 importClass.append(String.format("import %s;\n", fieldClass.getName()));
             }
         }
-
         // 构造基本数据
         data.put(DATE.name(), DateUtil.format(new Date(), DateUtil.DateFormat.DATE_1.getFormat()));
         data.put(IMPORT_CLASS.name(), importClass.toString().trim());
@@ -168,7 +171,36 @@ public class CodeGenerator {
                 break;
             }
         }
+    }
 
+    /**
+     * 校验表结构 (当前只校验特定字段的默认值是否符合要求)
+     *
+     * @param table      表结构
+     * @param validation 校验数据
+     */
+    private static void validateTable(Table table, TableValidation validation) {
+        if (validation == null) {
+            return;
+        }
+        Map<String, Set<String>> defaultValueMap = validation.getDefaultValue();
+        if (MapUtil.isEmpty(defaultValueMap)) {
+            return;
+        }
+        for (Column column : table.getColumns()) {
+            if (!defaultValueMap.containsKey(column.getName())) {
+                continue;
+            }
+            Set<String> options = defaultValueMap.get(column.getName());
+            if (!options.contains(String.valueOf(column.getDefaultValue()))) {
+                String error = String.format("表[%s]字段[%s]默认值[%s]不符合要求，可选默认值[%s]",
+                        table.getName(), column.getName(), column.getDefaultValue(), options);
+                if (validation.getTerminateForFail()) {
+                    throw new ValidateException(error);
+                }
+                System.err.println(error);
+            }
+        }
     }
 
 }
