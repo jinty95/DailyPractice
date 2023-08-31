@@ -1,0 +1,113 @@
+<template>
+  <section>
+    <el-form class="form-common" :model="query" v-loading="loading" :inline="true" label-width="auto">
+      <el-form-item label="字段：" prop="col">
+        <el-input class="input-common" v-model="query.col" placeholder="请输入" clearable/>
+      </el-form-item>
+
+      <el-row>
+        <el-form-item>
+          <el-button type="primary" @click="queryByPage">查询</el-button>
+          <el-button type="warning" @click="reset">重置</el-button>
+        </el-form-item>
+      </el-row>
+    </el-form>
+
+    <el-table ref="dataList" :data="list" border fit>
+      <el-table-column type="selection"></el-table-column>
+      <el-table-column label="ID" prop="id" min-width="80"></el-table-column>
+    </el-table>
+
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="queryByPage"
+      :current-page.sync="pageNum"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
+  </section>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      loading: false,
+      queryTemplate: {
+        col: ''
+      },
+      query: Object.assign({}, this.queryTemplate),
+      pageNum: 1,
+      pageSize: 10,
+      total: 0,
+      list: []
+    }
+  },
+
+  created () {
+  },
+
+  methods: {
+    // 页面大小发生变化
+    handleSizeChange (val) {
+      this.pageNum = 1
+      this.pageSize = val
+      this.queryByPage()
+    },
+
+    // 去除空条件
+    removeEmptyCnd (param) {
+      // console.log('去除空条件前', JSON.stringify(param))
+      Object.keys(param).forEach(a => {
+        if (param[a] == null || param[a] === '') {
+          delete param[a]
+        }
+      })
+      // console.log('去除空条件后', JSON.stringify(param))
+      return param
+    },
+
+    // 构造查询条件
+    buildQueryParam () {
+      let param = {
+        pageNum: this.pageNum,
+        pageSize: this.pageSize,
+        param: this.removeEmptyCnd(Object.assign({}, this.query))
+      }
+      return param
+    },
+
+    // 分页查询
+    queryByPage () {
+      let param = this.buildQueryParam()
+      // TODO
+      return param
+    },
+
+    // 重置查询条件
+    reset () {
+      this.query = Object.assign({}, this.queryTemplate)
+    }
+  }
+}
+</script>
+
+<style scoped>
+.form-common {
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  margin: 20px 0 12px 0;
+  padding: 20px 0 0 35px;
+  .el-button {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-right: 15px;
+  }
+}
+
+.input-common {
+  width: 200px;
+}
+</style>
