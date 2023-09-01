@@ -40,8 +40,8 @@ public final class EnumFactory {
                 Class<?> enumClass = Class.forName(className);
                 if (EnumInterface.class != enumClass && EnumInterface.class.isAssignableFrom(enumClass)) {
                     buildMap(enumClass.getSimpleName(), (EnumInterface<?>[]) enumClass.getEnumConstants());
-                    System.out.printf("扫描枚举类，反射并加载成功：classFilePath=%s, className=%s\n",
-                            classFilePath, className);
+                    /*System.out.printf("扫描枚举类，反射并加载成功：classFilePath=%s, className=%s\n",
+                            classFilePath, className);*/
                 }
             } catch (ClassNotFoundException e) {
                 System.out.printf("扫描枚举类，反射类对象异常：classFilePath=%s, className=%s, exception=%s, message=%s\n",

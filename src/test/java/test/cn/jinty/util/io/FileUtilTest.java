@@ -12,10 +12,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * 文件 - 工具类 - 测试
@@ -112,6 +109,10 @@ public class FileUtilTest {
         List<File> files = FileUtil.scanFilesOfRoot(root);
         System.out.println("根路径：" + path);
         System.out.println("根路径下所有文件：");
+        System.out.println(ListUtil.toString(files, "\n"));
+        files = FileUtil.scanFilesOfRoot(root, new HashSet<>(Collections.singletonList("enums")));
+        System.out.println("根路径：" + path);
+        System.out.println("根路径下除enums目录外的所有文件：");
         System.out.println(ListUtil.toString(files, "\n"));
     }
 
@@ -312,6 +313,43 @@ public class FileUtilTest {
             FileUtil.removeDuplicateLine(new File(filePath));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testSearchInDir() {
+        String dirPath = "D:\\项目文档";
+        String search = "TODO";
+        Set<String> excludeDirs = new HashSet<>(Arrays.asList("target", "node_modules"));
+        try {
+            Map<String, Map<Integer, String>> result = FileUtil.searchInDir(new File(dirPath), search, excludeDirs);
+            System.out.printf("在[%s]中检索文本[%s]，匹配到[%s]处，详细结果如下：%n", dirPath, search, result.size());
+            for (String file : result.keySet()) {
+                System.out.println(file);
+                for (Map.Entry<Integer, String> entry : result.get(file).entrySet()) {
+                    System.out.printf("[%s]  %s%n", entry.getKey(), entry.getValue());
+                }
+                System.out.println();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testIsBinaryFile() {
+        String dir = "D:\\Users\\jintai.wang\\Pictures";
+        String[] files = {
+                getFile().getAbsolutePath(),
+                dir + "\\aaa.html",
+                dir + "\\aaa.css",
+                dir + "\\aaa.js",
+                dir + "\\aaa.md",
+                dir + "\\aaa.java",
+                dir + "\\bbb.txt"
+        };
+        for (String file : files) {
+            System.out.printf("%s 是文本文件？%s%n", file, FileUtil.isTextFile(new File(file)));
         }
     }
 

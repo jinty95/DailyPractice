@@ -36,10 +36,12 @@ public class FilePathUtilTest {
 
     @Test
     public void testGetFileType() {
-        File file = getFile();
-        System.out.println(file.getAbsolutePath());
-        System.out.println(FilePathUtil.getFileType(file.getAbsolutePath()));
-        System.out.println(FilePathUtil.getFileType("/aaa/bbb/ccc"));
+        String[] files = {
+                getFile().getAbsolutePath(), "abc.txt", "/aaa/bbb/ccc"
+        };
+        for (String file : files) {
+            System.out.printf("%s 文件类型为 %s %n", file, FilePathUtil.getFileType(file));
+        }
     }
 
     @Test

@@ -2,9 +2,10 @@ package cn.jinty.util.io;
 
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
+import cn.jinty.util.collection.CollectionUtil;
+import cn.jinty.util.collection.MapUtil;
 import cn.jinty.util.object.ObjectUtil;
 import cn.jinty.util.string.StringUtil;
-import cn.jinty.util.collection.CollectionUtil;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -180,6 +181,17 @@ public final class FileUtil {
      * @return 所有文件
      */
     public static List<File> scanFilesOfRoot(File root) {
+        return scanFilesOfRoot(root, new HashSet<>());
+    }
+
+    /**
+     * 扫描根路径下面的所有文件 (不包括目录)
+     *
+     * @param root        根路径
+     * @param excludeDirs 排除目录名称 (即不扫描这些目录下面的文件)
+     * @return 排除指定目录后剩余的所有文件
+     */
+    public static List<File> scanFilesOfRoot(File root, Set<String> excludeDirs) {
         if (!exists(root)) {
             return new ArrayList<>();
         }
@@ -190,11 +202,11 @@ public final class FileUtil {
             return results;
         }
         // 如果是目录，扫描目录下的文件
-        if (root.isDirectory()) {
+        if (root.isDirectory() && !excludeDirs.contains(root.getName())) {
             File[] files = root.listFiles();
             if (files != null && files.length > 0) {
                 for (File file : files) {
-                    results.addAll(scanFilesOfRoot(file));
+                    results.addAll(scanFilesOfRoot(file, excludeDirs));
                 }
             }
         }
@@ -726,6 +738,82 @@ public final class FileUtil {
         System.out.printf("文件[%s]，原数据行数[%s]，去重后数据行数[%s]%n",
                 file.getAbsolutePath(), lines.size(), newLines.size());
         writeLine(newLines, file);
+    }
+
+    /**
+     * 在文件中检索指定内容
+     *
+     * @param file   文件
+     * @param search 检索内容
+     * @return 所有包含检索内容的行
+     * @throws IOException IO异常
+     */
+    public static Map<Integer, String> searchInFile(File file, String search) throws IOException {
+        Map<Integer, String> result = new HashMap<>();
+        // 非文本类型，不进行检索，针对二进制文件的文本内容检索无意义
+        if (!isTextFile(file)) {
+            return result;
+        }
+        // 按行读取
+        List<String> lines = readLine(file);
+        // 逐行匹配
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if (line.contains(search)) {
+                result.put(i + 1, line);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 在目录下的所有文件中检索指定内容
+     *
+     * @param dir    目录
+     * @param search 检索内容
+     * @return 所有包含检索内容的文件及其行
+     * @throws IOException IO异常
+     */
+    public static Map<String, Map<Integer, String>> searchInDir(File dir, String search) throws IOException {
+        return searchInDir(dir, search, new HashSet<>());
+    }
+
+    /**
+     * 在目录下的所有文件中检索指定内容
+     *
+     * @param dir         目录
+     * @param search      检索内容
+     * @param excludeDirs 排除目录名称 (即不扫描这些目录下面的文件)
+     * @return 所有包含检索内容的文件及其行
+     * @throws IOException IO异常
+     */
+    public static Map<String, Map<Integer, String>> searchInDir(File dir, String search, Set<String> excludeDirs)
+            throws IOException {
+        List<File> files = scanFilesOfRoot(dir, excludeDirs);
+        Map<String, Map<Integer, String>> result = new HashMap<>();
+        for (File file : files) {
+            Map<Integer, String> map = searchInFile(file, search);
+            if (MapUtil.isNotEmpty(map)) {
+                result.put(file.getAbsolutePath(), map);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 检测是否为文本文件 (区别于二进制文件)
+     * 注意：仅通过文件后缀判断，并且只识别有限的文件类型，不一定准确 (比如一个没有后缀的文本，或者后缀比较少见的文本，识别不出来)
+     *
+     * @param file 文件
+     * @return 是否
+     */
+    public static boolean isTextFile(File file) {
+        if (!existFile(file)) {
+            return false;
+        }
+        // 基于文件后缀名判断
+        String fileType = FilePathUtil.getFileType(file.getAbsolutePath());
+        return FileTypeEnum.isText(fileType);
     }
 
 }

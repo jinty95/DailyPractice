@@ -1,8 +1,11 @@
 package cn.jinty.enums;
 
+import cn.jinty.enums.common.EnumFactory;
 import cn.jinty.enums.common.EnumInterface;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * 枚举 - 文件类型
@@ -86,6 +89,8 @@ public enum FileTypeEnum implements EnumInterface<String> {
     CSS("css", "CSS", "text/css"),
     JS("js", "JS", "text/javascript"),
     CSV("csv", "CSV", "text/csv"),
+
+    JAVA("java", "JAVA", "text/plain"),
     ;
 
     // 编码 (文件后缀)
@@ -94,5 +99,28 @@ public enum FileTypeEnum implements EnumInterface<String> {
     private final String desc;
     // MIME类型
     private final String mimeType;
+
+    /**
+     * 是否为文本类型
+     *
+     * @param fileType 文件类型
+     * @return 是否
+     */
+    public static boolean isText(FileTypeEnum fileType) {
+        if (fileType == null) {
+            return false;
+        }
+        return fileType.getMimeType().startsWith("text") || fileType == SQL || fileType == JSON;
+    }
+
+    /**
+     * 是否为文本类型
+     *
+     * @param fileType 文件类型
+     * @return 是否
+     */
+    public static boolean isText(String fileType) {
+        return isText((FileTypeEnum) EnumFactory.getByTypeAndCode(FileTypeEnum.class.getSimpleName(), fileType));
+    }
 
 }
