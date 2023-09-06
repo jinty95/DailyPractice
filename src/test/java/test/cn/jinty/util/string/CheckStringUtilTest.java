@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 /**
  * 检查字符串 - 工具类 - 测试
  *
- * @author jintai.wang
+ * @author Jinty
  * @date 2023/6/20
  **/
 public class CheckStringUtilTest {

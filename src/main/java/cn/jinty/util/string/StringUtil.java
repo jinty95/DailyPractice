@@ -32,7 +32,7 @@ public final class StringUtil {
      * @return 是否为空
      */
     public static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
+        return s == null || s.isEmpty();
     }
 
     /**
@@ -52,7 +52,7 @@ public final class StringUtil {
      * @return 是否空白
      */
     public static boolean isBlank(String s) {
-        return isEmpty(s) || s.trim().length() == 0;
+        return isEmpty(s) || s.trim().isEmpty();
     }
 
     /**
