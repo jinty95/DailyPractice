@@ -94,15 +94,15 @@ public final class FileUtil {
      *
      * @param file 文件
      * @return 文件大小(单位为Byte)
-     * @throws IOException IO异常
      */
-    public static long getSize(File file) throws IOException {
+    public static long getSize(File file) {
         if (!existFile(file)) {
             return 0L;
         }
-        try (InputStream is = new FileInputStream(file)) {
+        /*try (InputStream is = new FileInputStream(file)) {
             return IOUtil.getSize(is);
-        }
+        }*/
+        return file.length();
     }
 
     /**
@@ -111,9 +111,8 @@ public final class FileUtil {
      * @param file 文件
      * @param unit 单位
      * @return 文件大小(带单位且保留两位小数)
-     * @throws IOException IO异常
      */
-    public static String getSizeWithUnit(File file, BinaryUnitEnum unit) throws IOException {
+    public static String getSizeWithUnit(File file, BinaryUnitEnum unit) {
         if (unit == null) {
             throw new IllegalArgumentException("文件单位不能为空");
         }
@@ -121,7 +120,7 @@ public final class FileUtil {
             throw new IllegalArgumentException("文件单位最大支持GB");
         }
         long size = getSize(file);
-        BigDecimal targetNum = BinaryUnitEnum.transferUnit(BigDecimal.valueOf(size), BinaryUnitEnum.B, unit);
+        BigDecimal targetNum = BinaryUnitEnum.transferUnitFromByte(BigDecimal.valueOf(size), unit);
         return targetNum + unit.getCode();
     }
 
@@ -130,18 +129,10 @@ public final class FileUtil {
      *
      * @param file 文件
      * @return 文件大小(带单位且保留两位小数)
-     * @throws IOException IO异常
      */
-    public static String getSizeWithUnit(File file) throws IOException {
+    public static String getSizeWithUnit(File file) {
         long size = getSize(file);
-        for (BinaryUnitEnum unit : Arrays.asList(B, KB, MB, GB, TB)) {
-            if (size < unit.getBytes().intValue()) {
-                BinaryUnitEnum targetUnit = unit.getLast() != null ? unit.getLast() : unit;
-                BigDecimal targetNum = BinaryUnitEnum.transferUnit(BigDecimal.valueOf(size), BinaryUnitEnum.B, targetUnit);
-                return targetNum + targetUnit.getCode();
-            }
-        }
-        return "";
+        return BinaryUnitEnum.transferUnitFromByte(size);
     }
 
     /**
@@ -814,6 +805,50 @@ public final class FileUtil {
         // 基于文件后缀名判断
         String fileType = FilePathUtil.getFileType(file.getAbsolutePath());
         return FileTypeEnum.isText(fileType);
+    }
+
+    /**
+     * 扫描大文件
+     *
+     * @param root        根目录
+     * @param threshold   阈值(字节，超过多少字节为大文件)
+     * @param excludeDirs 排除目录名称 (即不扫描这些目录下面的文件)
+     * @return 按大小倒序的大文件
+     */
+    public static PriorityQueue<File> scanBigFiles(File root, long threshold, Set<String> excludeDirs) {
+        PriorityQueue<File> pq = new PriorityQueue<>(((o1, o2) -> Long.compare(o2.length(), o1.length())));
+        scanBigFiles(root, threshold, excludeDirs, pq);
+        return pq;
+    }
+
+    /**
+     * 扫描大文件
+     *
+     * @param root        根目录
+     * @param threshold   阈值(字节，超过多少字节为大文件)
+     * @param excludeDirs 排除目录名称 (即不扫描这些目录下面的文件)
+     * @param pq          按大小倒序的大文件
+     */
+    private static void scanBigFiles(File root, long threshold, Set<String> excludeDirs, PriorityQueue<File> pq) {
+        if (!exists(root)) {
+            return;
+        }
+        // 如果是文件
+        if (root.isFile()) {
+            if (root.length() >= threshold) {
+                pq.offer(root);
+            }
+            return;
+        }
+        // 如果是目录，扫描目录下的文件
+        if (root.isDirectory() && !excludeDirs.contains(root.getName())) {
+            File[] files = root.listFiles();
+            if (files != null && files.length > 0) {
+                for (File file : files) {
+                    scanBigFiles(file, threshold, excludeDirs, pq);
+                }
+            }
+        }
     }
 
 }

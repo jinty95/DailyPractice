@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.*;
 
@@ -58,7 +59,7 @@ public class FileUtilTest {
 
     @Test
     public void testGetSize() {
-        File file = new File("C:/Software/Windows_20200801.exe");
+        File file = new File("C:/Software/Chrome_114.0.5735.110_x64.msi");
         try {
             System.out.println(file.getAbsolutePath());
             System.out.println("获取文件大小(字节数)");
@@ -70,7 +71,7 @@ public class FileUtilTest {
             System.out.println(FileUtil.getSizeWithUnit(file, BinaryUnitEnum.KB));
             System.out.println(FileUtil.getSizeWithUnit(file, BinaryUnitEnum.MB));
             System.out.println(FileUtil.getSizeWithUnit(file, BinaryUnitEnum.GB));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -350,6 +351,20 @@ public class FileUtilTest {
         };
         for (String file : files) {
             System.out.printf("%s 是文本文件？%s%n", file, FileUtil.isTextFile(new File(file)));
+        }
+    }
+
+    // 注意：扫描时一定要排除node_modules，这个目录下面的子目录可能存在相互依赖跳转，会导致递归目录死循环
+    @Test
+    public void testScanBigFiles() {
+        String dir = "D:\\";
+        long threshold = BinaryUnitEnum.transferUnitToByte(BigDecimal.valueOf(10), BinaryUnitEnum.MB).longValue();
+        Set<String> excludeDirs = new HashSet<>(Arrays.asList("node_modules", "target"));
+        PriorityQueue<File> pq = FileUtil.scanBigFiles(new File(dir), threshold, excludeDirs);
+        System.out.printf("在[%s]扫描>=[%s]的文件，共扫描到[%s]个%n", dir, "10M", pq.size());
+        while (!pq.isEmpty()) {
+            File file = pq.poll();
+            System.out.printf("[%s] [%s]%n", FileUtil.getSizeWithUnit(file), file.getAbsolutePath());
         }
     }
 
