@@ -718,6 +718,38 @@ public final class FileUtil {
     }
 
     /**
+     * 检查文件是否存在重复行
+     *
+     * @param file 文件
+     * @return 是否
+     * @throws IOException IO异常
+     */
+    public static boolean existDuplicateLine(File file) throws IOException {
+        boolean flag = false;
+        if (!existFile(file)) {
+            return false;
+        }
+        Set<String> lines = new HashSet<>();
+        int lineNum = 1;
+        int lineCount = 0;
+        System.out.printf("检查文件是否存在重复行：目标文件[%s]%n", file.getAbsolutePath());
+        try (FileReader fr = new FileReader(file);
+             BufferedReader br = new BufferedReader(fr)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!lines.add(line)) {
+                    System.out.printf("重复行行号[%s]，内容[%s]%n", lineNum, line);
+                    flag = true;
+                    lineCount++;
+                }
+                lineNum++;
+            }
+        }
+        System.out.printf("文件[%s]，重复行总数[%s]%n", file.getAbsolutePath(), lineCount);
+        return flag;
+    }
+
+    /**
      * 去重，移除文件中的重复行
      *
      * @param file 文件
