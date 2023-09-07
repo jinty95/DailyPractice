@@ -309,7 +309,7 @@ public class FileUtilTest {
 
     @Test
     public void testExistDuplicateLine() {
-        String filePath = "D:\\项目文档\\退供(RETURN)\\退供(VIS-RETURN)\\刷数记录\\20230901-3PL历史数据迁移\\rv_return_item_3pl_1.sql";
+        String filePath = "D:\\项目文档\\退供(RETURN)\\退供(VIS-RETURN)\\刷数记录\\20230901-3PL历史数据迁移\\rv_return_item_3pl.sql";
         try {
             FileUtil.existDuplicateLine(new File(filePath));
         } catch (IOException e) {

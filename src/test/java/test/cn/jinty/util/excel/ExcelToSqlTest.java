@@ -3,6 +3,7 @@ package test.cn.jinty.util.excel;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.io.IOUtil;
+import com.monitorjbl.xlsx.StreamingReader;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 import org.junit.Test;
@@ -61,14 +62,14 @@ public class ExcelToSqlTest {
     public void test3() {
         String dir = "D:\\项目文档\\退供(RETURN)\\退供(VIS-RETURN)\\刷数记录\\20230901-3PL历史数据迁移";
         String inputFilePath = FilePathUtil.concatBySeparator(dir, "rv_return_item_3pl.xlsx");
-        List<List<String>> data = readData(inputFilePath);
+        List<List<String>> data = readBigData(inputFilePath);
         String format = "insert into rv_return_item(rv_return_id, po, inv_type, sku, goods_name, inv_status, stock_quantity, retreat_quantity, plan_quantity, real_quantity, create_time, is_deleted, quality_type, is_clean_return, category_id, category2_id, category3_id, brand_code) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');";
         System.out.println("SQL模板：" + format);
         List<String> sqlList = new ArrayList<>();
         for (int i = 1; i < data.size(); i++) {
             List<String> list = data.get(i);
             String sql = String.format(format, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4), list.get(5), list.get(6), list.get(7), list.get(8), list.get(9),
-                    list.get(10), list.get(11), list.get(12), list.get(13), list.get(14), list.get(15), list.get(16), list.get(17));
+                    list.get(10), list.get(11), list.get(12), list.get(13), nullValue(list.get(14)), nullValue(list.get(15)), nullValue(list.get(16)), nullValue(list.get(17)));
             sqlList.add(sql);
         }
         this.writeSqlToFile(sqlList, FilePathUtil.concatBySeparator(dir, "rv_return_item_3pl.sql"));
@@ -87,6 +88,33 @@ public class ExcelToSqlTest {
         System.out.println("输出SQL文件：" + outputFilePath);
     }
 
+    // 读取单元格数据 (超大表格，使用流式读取避免内存溢出)
+    private List<List<String>> readBigData(String filePath) {
+        System.out.println("待处理文件：" + filePath);
+        InputStream is = null;
+        Workbook wb = null;
+        List<List<String>> data = null;
+        try {
+            // 读取文件
+            is = new FileInputStream(filePath);
+            // 流式解析Excel
+            wb = StreamingReader.builder().rowCacheSize(1000).bufferSize(4096).open(is);
+            // 读取第一个表单页
+            Sheet sheet = wb.getSheetAt(0);
+            // 读取所有的行列数据
+            data = readFromSheet(sheet);
+            System.out.println("行数：" + data.size());
+            System.out.println("第一行的列数：" + data.get(0).size());
+            System.out.println("最后行的列数：" + data.get(data.size() - 1).size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            IOUtil.closeQuietly(wb);
+            IOUtil.closeQuietly(is);
+        }
+        return data;
+    }
+
     // 读取单元格数据
     private List<List<String>> readData(String filePath) {
         System.out.println("待处理文件：" + filePath);
@@ -103,7 +131,7 @@ public class ExcelToSqlTest {
             // 读取第一个表单页
             Sheet sheet = wb.getSheetAt(0);
             // 读取所有的行列数据
-            data = readData(sheet);
+            data = readFromSheet(sheet);
             System.out.println("行数：" + data.size());
             System.out.println("第一行的列数：" + data.get(0).size());
             System.out.println("最后行的列数：" + data.get(data.size() - 1).size());
@@ -116,14 +144,10 @@ public class ExcelToSqlTest {
         return data;
     }
 
-    // 读取单元格数据
-    private List<List<String>> readData(Sheet sheet) {
+    // 从表单页读取单元格数据
+    private List<List<String>> readFromSheet(Sheet sheet) {
         List<List<String>> data = new ArrayList<>();
-        // 有效行数为[minRow,maxRow]
-        int minRow = sheet.getFirstRowNum();
-        int maxRow = sheet.getLastRowNum();
-        for (int i = minRow; i <= maxRow; i++) {
-            Row row = sheet.getRow(i);
+        for (Row row : sheet) {
             List<String> rowData = new ArrayList<>();
             // 有效列数为[minCol,maxCol-1]
             int minCol = row.getFirstCellNum();
@@ -141,6 +165,14 @@ public class ExcelToSqlTest {
     private String getCellValue(Row row, int idx) {
         Cell cell = row.getCell(idx);
         return cell == null ? "" : new DataFormatter().formatCellValue(cell);
+    }
+
+    // 处理空值
+    private String nullValue(String s) {
+        if ("\\N".equals(s)) {
+            return "";
+        }
+        return s;
     }
 
 }

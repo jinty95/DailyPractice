@@ -46,9 +46,9 @@ public class ExcelExportUtilTest {
         FileOutputStream out = null;
         int totalRowNumber = 500;
         System.out.printf("导出%d行Excel%n", totalRowNumber);
-        //String filePath = "D:\\temp\\BigDataExcelExportTest1_" + totalRowNumber + ".xlsx";
+        String filePath = "D:\\temp\\BigDataExcelExportTest1_" + totalRowNumber + ".xlsx";
         try {
-            String filePath = File.createTempFile("BigDataExcelExportTest1_", ".xlsx").getAbsolutePath();
+            //String filePath = File.createTempFile("BigDataExcelExportTest1_", ".xlsx").getAbsolutePath();
             long beginTime = System.currentTimeMillis();
             wb = new XSSFWorkbook();
             ExcelExportUtil.writeContentToWorkbook(wb, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));

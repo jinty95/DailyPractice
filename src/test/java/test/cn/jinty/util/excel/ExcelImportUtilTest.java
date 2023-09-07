@@ -18,14 +18,29 @@ import static test.cn.jinty.util.excel.Person.getTitles;
 public class ExcelImportUtilTest {
 
     @Test
-    public void testImport() {
+    public void testRead() {
         String filePath = "D:\\temp\\BigDataExcelExportTest1_500.xlsx";
-        //String filePath = "D:\\temp\\BigDataExcelExportTest3_2000000_1.xlsx";
         System.out.println("导入文件：" + filePath);
         try {
             // 解决"Zip bomb detected"报错
             ZipSecureFile.setMinInflateRatio(0);
-            List<Person> data = ExcelImportUtil.readContentFromFile(filePath, getTitles(), getFields(), Person.class);
+            List<Person> data = ExcelImportUtil.readFromFile(filePath, getTitles(), getFields(), Person.class);
+            System.out.println("数据总行数：" + data.size());
+            System.out.println("数据详情：");
+            data.forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testStreamRead() {
+        String filePath = "D:\\temp\\BigDataExcelExportTest1_500.xlsx";
+        System.out.println("导入文件：" + filePath);
+        try {
+            // 解决"Zip bomb detected"报错
+            ZipSecureFile.setMinInflateRatio(0);
+            List<Person> data = ExcelImportUtil.streamReadFromFile(filePath, getTitles(), getFields(), Person.class);
             System.out.println("数据总行数：" + data.size());
             System.out.println("数据详情：");
             data.forEach(System.out::println);
