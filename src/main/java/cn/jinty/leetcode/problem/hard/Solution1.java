@@ -1130,6 +1130,7 @@ public class Solution1 {
      * @return 最多可以修读的课程数目
      */
     public int scheduleCourse(int[][] courses) {
+        // 1、贪心算法
         // 以结束时间升序
         Arrays.sort(courses, (c1, c2) -> c1[1] - c2[1]);
         // 储存已选择的课程，按照持续时间降序
@@ -1141,7 +1142,8 @@ public class Solution1 {
                 day += c[0];
                 pq.offer(c);
             } else if (!pq.isEmpty() && pq.peek()[0] > c[0]) {
-                // 当前课程不能保证在期限前学完，且之前有选过其他课，这时我们找到最长时间的课程，用当前的短课替换
+                // 当前课程不能保证在期限前学完，且之前有选过其他课，这时我们找到最长时间的课程，
+                // 如果这个课程的持续时间比当前课程长，那么说明可以用当前持续时间更短的课程替换，
                 // 课程变短了，day会前移，这样我们相当于变相给后面的课程增加了选择的区间，以达到选更多课的目的
                 day -= pq.poll()[0] - c[0];
                 pq.offer(c);

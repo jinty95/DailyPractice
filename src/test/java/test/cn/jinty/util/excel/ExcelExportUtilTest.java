@@ -51,7 +51,7 @@ public class ExcelExportUtilTest {
             //String filePath = File.createTempFile("BigDataExcelExportTest1_", ".xlsx").getAbsolutePath();
             long beginTime = System.currentTimeMillis();
             wb = new XSSFWorkbook();
-            ExcelExportUtil.writeContentToWorkbook(wb, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));
+            ExcelExportUtil.writeToWorkbook(wb, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));
             out = new FileOutputStream(filePath);
             wb.write(out);
             long endTime = System.currentTimeMillis();
@@ -75,7 +75,7 @@ public class ExcelExportUtilTest {
         String filePath = "D:\\temp\\BigDataExcelExportTest2_" + totalRowNumber + ".xlsx";
         try {
             long beginTime = System.currentTimeMillis();
-            ExcelExportUtil.writeContentToFile(filePath, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));
+            ExcelExportUtil.writeToFile(filePath, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));
             long endTime = System.currentTimeMillis();
             System.out.printf("导出%d行Excel成功，文件路径%s，耗时%d毫秒%n", totalRowNumber, filePath, (endTime - beginTime));
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class ExcelExportUtilTest {
             String filePath = "D:\\temp\\BigDataExcelExportTest3_" + totalRowNumber + "_" + i + ".xlsx";
             try {
                 int fileRowNumber = i == fileCount ? lastFileRowNumber : FILE_MAX_ROW_NUMBER;
-                ExcelExportUtil.writeContentToFile(filePath, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(fileRowNumber));
+                ExcelExportUtil.writeToFile(filePath, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(fileRowNumber));
                 filePaths.add(filePath);
                 System.out.printf("第%d个文件导出完成，文件路径=%s%n%n", i, filePath);
             } catch (Exception e) {

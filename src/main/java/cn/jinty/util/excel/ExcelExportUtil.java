@@ -101,8 +101,8 @@ public final class ExcelExportUtil {
      * @param <T>               数据类型
      * @throws Exception 异常
      */
-    public static <T> void writeContentToWorkbook(Workbook workbook, int sheetMaxRowNumber, List<String> titles,
-                                                  List<String> fields, List<T> contents) throws Exception {
+    public static <T> void writeToWorkbook(Workbook workbook, int sheetMaxRowNumber, List<String> titles,
+                                           List<String> fields, List<T> contents) throws Exception {
         // 计算表单页总数
         int lastSheetRowNumber = contents.size() % sheetMaxRowNumber;
         int sheetCount = contents.size() / sheetMaxRowNumber;
@@ -135,8 +135,8 @@ public final class ExcelExportUtil {
      * @param <T>               数据类型
      * @throws Exception 异常
      */
-    public static <T> void writeContentToOutputStream(OutputStream os, int sheetMaxRowNumber, List<String> titles,
-                                                      List<String> fields, List<T> contents) throws Exception {
+    public static <T> void writeToOutputStream(OutputStream os, int sheetMaxRowNumber, List<String> titles,
+                                               List<String> fields, List<T> contents) throws Exception {
         SXSSFWorkbook workbook = null;
         try {
             // 使用SXSSFWorkbook，默认超过100行就写到临时文件，不会一直占用内存，避免内存溢出
@@ -145,7 +145,7 @@ public final class ExcelExportUtil {
             // 设置临时文件不压缩，这样速度快一点
             workbook.setCompressTempFiles(false);
             // 将数据写入工作簿
-            writeContentToWorkbook(workbook, sheetMaxRowNumber, titles, fields, contents);
+            writeToWorkbook(workbook, sheetMaxRowNumber, titles, fields, contents);
             // 输出到输出流
             workbook.write(os);
         } finally {
@@ -169,14 +169,14 @@ public final class ExcelExportUtil {
      * @param <T>               数据类型
      * @throws Exception 异常
      */
-    public static <T> void writeContentToFile(String filePath, int sheetMaxRowNumber, List<String> titles,
-                                              List<String> fields, List<T> contents) throws Exception {
+    public static <T> void writeToFile(String filePath, int sheetMaxRowNumber, List<String> titles,
+                                       List<String> fields, List<T> contents) throws Exception {
         FileOutputStream fos = null;
         try {
             // 构造输出流
             fos = new FileOutputStream(filePath);
             // 将数据写入工作簿，输出到输出流
-            writeContentToOutputStream(fos, sheetMaxRowNumber, titles, fields, contents);
+            writeToOutputStream(fos, sheetMaxRowNumber, titles, fields, contents);
         } finally {
             // 关闭流
             IOUtil.closeQuietly(fos);
