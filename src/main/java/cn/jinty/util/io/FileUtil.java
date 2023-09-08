@@ -564,11 +564,23 @@ public final class FileUtil {
     /**
      * 将字符串写入文件中 (UTF-8)
      *
-     * @param content 字符串
+     * @param content 内容
      * @param file    文件
      * @throws IOException IO异常
      */
     public static void write(String content, File file) throws IOException {
+        write(content, file, false);
+    }
+
+    /**
+     * 将字符串写入文件中 (UTF-8)
+     *
+     * @param content 内容
+     * @param file    文件
+     * @param append  是否追加写入 (true-以当前内容覆盖文件，false-将当前内容追加到文件末)
+     * @throws IOException IO异常
+     */
+    public static void write(String content, File file, boolean append) throws IOException {
         if (StringUtil.isBlank(content)) {
             return;
         }
@@ -576,7 +588,7 @@ public final class FileUtil {
         if (file == null) {
             return;
         }
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (FileOutputStream fos = new FileOutputStream(file, append)) {
             fos.write(content.getBytes());
         }
     }
@@ -611,6 +623,18 @@ public final class FileUtil {
      * @throws IOException IO异常
      */
     public static void writeLine(List<String> lines, File file) throws IOException {
+        writeLine(lines, file, false);
+    }
+
+    /**
+     * 按行写入文件内容 (每行的内容添加一个换行符)
+     *
+     * @param lines  内容行
+     * @param file   文件
+     * @param append 是否追加写入 (true-以当前内容覆盖文件，false-将当前内容追加到文件末)
+     * @throws IOException IO异常
+     */
+    public static void writeLine(List<String> lines, File file, boolean append) throws IOException {
         if (CollectionUtil.isEmpty(lines)) {
             return;
         }
@@ -620,7 +644,7 @@ public final class FileUtil {
         }
         String newLine = ObjectUtil.ifNull(System.getProperty("line.separator"), "\n");
         byte[] newLineBytes = newLine.getBytes();
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (FileOutputStream fos = new FileOutputStream(file, append)) {
             for (String line : lines) {
                 fos.write(line.getBytes());
                 fos.write(newLineBytes);
@@ -750,17 +774,24 @@ public final class FileUtil {
     }
 
     /**
-     * 去重，移除文件中的重复行
+     * 移除文件中的重复行，不改变原文件行的顺序
      *
-     * @param file 文件
+     * @param file       文件
+     * @param targetFile 目标文件
      * @throws IOException IO异常
      */
-    public static void removeDuplicateLine(File file) throws IOException {
+    public static void removeDuplicateLine(File file, File targetFile) throws IOException {
         List<String> lines = readLine(file);
-        List<String> newLines = new ArrayList<>(new HashSet<>(lines));
-        System.out.printf("文件[%s]，原数据行数[%s]，去重后数据行数[%s]%n",
-                file.getAbsolutePath(), lines.size(), newLines.size());
-        writeLine(newLines, file);
+        List<String> newLines = new ArrayList<>();
+        Set<String> lineSet = new HashSet<>();
+        for (String line : lines) {
+            if (lineSet.add(line)) {
+                newLines.add(line);
+            }
+        }
+        System.out.printf("文件[%s]，原数据行数[%s]，去重后数据行数[%s]，输出文件[%s]%n",
+                file.getAbsolutePath(), lines.size(), newLines.size(), targetFile.getAbsolutePath());
+        writeLine(newLines, targetFile);
     }
 
     /**

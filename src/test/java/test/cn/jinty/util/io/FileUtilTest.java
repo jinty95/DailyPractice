@@ -238,9 +238,12 @@ public class FileUtilTest {
     @Test
     public void testWrite() {
         String filePath = FilePathUtil.getAbsolutePath("/txt", true) + File.separator + RandomStringUtil.random(10);
+        File file = new File(filePath);
+        System.out.println(file.getAbsolutePath());
         try {
-            System.out.println(filePath);
-            FileUtil.write("哈哈哈哈", new File(filePath));
+            FileUtil.write("哈哈哈哈\n", file);
+            FileUtil.write("嘻嘻嘻嘻\n", file, true);
+            FileUtil.write("咕噜咕噜", file, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -309,7 +312,7 @@ public class FileUtilTest {
 
     @Test
     public void testExistDuplicateLine() {
-        String filePath = "D:\\项目文档\\退供(RETURN)\\退供(VIS-RETURN)\\刷数记录\\20230901-3PL历史数据迁移\\rv_return_item_3pl.sql";
+        String filePath = "D:\\temp\\number.log";
         try {
             FileUtil.existDuplicateLine(new File(filePath));
         } catch (IOException e) {
@@ -320,8 +323,9 @@ public class FileUtilTest {
     @Test
     public void testRemoveDuplicateLine() {
         String filePath = "D:\\temp\\number.log";
+        String targetFilePath = "D:\\temp\\number_unique_line.log";
         try {
-            FileUtil.removeDuplicateLine(new File(filePath));
+            FileUtil.removeDuplicateLine(new File(filePath), new File(targetFilePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
