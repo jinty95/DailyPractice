@@ -48,13 +48,13 @@ public class MybatisTest {
         Job param = new Job();
         param.setIsDeleted(0);
         param.setJobType("UPDATE_GOODS");
-        jobList = jobMapper.select(param);
+        jobList = jobMapper.selectByParam(param);
         System.out.println("根据条件查询：param=" + param);
         jobList.forEach(System.out::println);
         System.out.println();
 
         param = new Job();
-        int count = jobMapper.count(param);
+        int count = jobMapper.countByParam(param);
         System.out.println("查询数量：count=" + count);
 
         int start = 0;
@@ -76,6 +76,12 @@ public class MybatisTest {
         job.setUpdatedBy("me");
         int effect = jobMapper.updateById(job);
         System.out.println("更新数据：effect=" + effect);
+
+        Job job1 = new Job();
+        job1.setJobDesc("任务描述呀");
+        Job param1 = new Job();
+        int effect1 = jobMapper.updateByParam(job1, param1);
+        System.out.println("更新数据：effect=" + effect1);
 
         sqlSession.commit();
     }

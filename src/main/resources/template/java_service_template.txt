@@ -28,6 +28,11 @@ public interface ${CLASS_NAME}Service {
     boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item);
 
     /**
+     * 根据条件更新(忽略空字段)
+     */
+    boolean updateByParam(${CLASS_NAME} item, ${CLASS_NAME} param);
+
+    /**
      * 根据主键批量逻辑删除
      */
     int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, String updatedBy);
@@ -45,12 +50,12 @@ public interface ${CLASS_NAME}Service {
     /**
      * 查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> select(${CLASS_NAME} param);
+    List<${CLASS_NAME}> selectByParam(${CLASS_NAME} param);
 
     /**
      * 数量查询(条件忽略空字段)
      */
-    int count(${CLASS_NAME} param);
+    int countByParam(${CLASS_NAME} param);
 
     /**
      * 分页查询(条件忽略空字段)

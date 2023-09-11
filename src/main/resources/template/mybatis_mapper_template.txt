@@ -35,6 +35,11 @@ public interface ${CLASS_NAME}Mapper {
     int updateBy${PK_FIELD_NAME_UPPER_FIRST}(@Param("item") ${CLASS_NAME} item);
 
     /**
+     * 根据条件更新(忽略空字段)
+     */
+    int updateByParam(@Param("item") ${CLASS_NAME} item, @Param("param") ${CLASS_NAME} param);
+
+    /**
      * 根据主键批量逻辑删除
      */
     int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(@Param("${PK_FIELD_NAME}s") List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, @Param("updatedBy") String updatedBy);
@@ -62,12 +67,12 @@ public interface ${CLASS_NAME}Mapper {
     /**
      * 查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> select(@Param("param") ${CLASS_NAME} param);
+    List<${CLASS_NAME}> selectByParam(@Param("param") ${CLASS_NAME} param);
 
     /**
      * 数量查询(条件忽略空字段)
      */
-    int count(@Param("param") ${CLASS_NAME} param);
+    int countByParam(@Param("param") ${CLASS_NAME} param);
 
     /**
      * 分页查询(条件忽略空字段)

@@ -8,7 +8,7 @@ import java.util.List;
  * 作业表 - Mapper
  *
  * @author Jinty
- * @date 2023/08/01
+ * @date 2023/09/11
  */
 public interface JobMapper {
 
@@ -34,6 +34,16 @@ public interface JobMapper {
     int updateById(@Param("item") Job item);
 
     /**
+     * 根据条件更新(忽略空字段)
+     */
+    int updateByParam(@Param("item") Job item, @Param("param") Job param);
+
+    /**
+     * 根据主键批量逻辑删除
+     */
+    int logicDeleteByIds(@Param("ids") List<Long> ids, @Param("updatedBy") String updatedBy);
+
+    /**
      * 根据主键删除
      */
     int deleteById(@Param("id") Long id);
@@ -56,16 +66,16 @@ public interface JobMapper {
     /**
      * 查询(条件忽略空字段)
      */
-    List<Job> select(@Param("param") Job param);
+    List<Job> selectByParam(@Param("param") Job param);
 
     /**
      * 数量查询(条件忽略空字段)
      */
-    int count(@Param("param") Job param);
+    int countByParam(@Param("param") Job param);
 
     /**
      * 分页查询(条件忽略空字段)
      */
-    List<Job> selectByPage(@Param("param") Job param, @Param("start") int start, @Param("length") int length);
+    List<Job> selectByPage(@Param("param") Job param, @Param("start") Integer start, @Param("length") Integer length);
 
 }

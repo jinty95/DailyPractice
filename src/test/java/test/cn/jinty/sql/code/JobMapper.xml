@@ -52,7 +52,7 @@
             `job_type`, `job_desc`, `process_status`, `result_status`, `start_time`, `end_time`, `duration`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            '', '', 'INIT', 'PENDING', '0001-01-01 00:00:00', '0001-01-01 00:00:00', 0, 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP,
+            '', '', 'INIT', 'PENDING', '0001-01-01 00:00:00', '0001-01-01 00:00:00', 0, 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP, 
         </trim>
     </insert>
 
@@ -135,7 +135,39 @@
             <if test="item.updateTime != null"> `update_time` = #{item.updateTime}, </if>
             
         </set>
-        where `id` = #{item.id}
+        where `is_deleted` = 0 and `id` = #{item.id}
+    </update>
+
+    <!-- 根据条件更新(忽略空字段) -->
+    <update id="updateByParam">
+        update `job`
+        <set>
+            <if test="item.jobType != null"> `job_type` = #{item.jobType}, </if>
+            <if test="item.jobDesc != null"> `job_desc` = #{item.jobDesc}, </if>
+            <if test="item.processStatus != null"> `process_status` = #{item.processStatus}, </if>
+            <if test="item.resultStatus != null"> `result_status` = #{item.resultStatus}, </if>
+            <if test="item.startTime != null"> `start_time` = #{item.startTime}, </if>
+            <if test="item.endTime != null"> `end_time` = #{item.endTime}, </if>
+            <if test="item.duration != null"> `duration` = #{item.duration}, </if>
+            <if test="item.isDeleted != null"> `is_deleted` = #{item.isDeleted}, </if>
+            <if test="item.createdBy != null"> `created_by` = #{item.createdBy}, </if>
+            <if test="item.createTime != null"> `create_time` = #{item.createTime}, </if>
+            <if test="item.updatedBy != null"> `updated_by` = #{item.updatedBy}, </if>
+            <if test="item.updateTime != null"> `update_time` = #{item.updateTime}, </if>
+            
+        </set>
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </update>
+
+    <!-- 根据主键批量逻辑删除 -->
+    <update id="logicDeleteByIds">
+        update `job`
+        set `is_deleted` = 1, `updated_by` = #{updatedBy}
+        where `is_deleted` = 0 and `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </update>
 
     <!-- 根据主键删除 -->
@@ -157,21 +189,21 @@
     <select id="selectById" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
-        where `id` = #{id}
+        where `is_deleted` = 0 and `id` = #{id}
     </select>
 
     <!-- 根据主键批量查询 -->
     <select id="selectByIds" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
-        where `id` in
+        where `is_deleted` = 0 and `id` in
         <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
             #{id}
         </foreach>
     </select>
 
     <!-- 查询(条件忽略空字段) -->
-    <select id="select" resultMap="baseResultMap">
+    <select id="selectByParam" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `job`
         where 1 = 1
@@ -179,7 +211,7 @@
     </select>
 
     <!-- 数量查询(条件忽略空字段) -->
-    <select id="count" resultType="java.lang.Integer">
+    <select id="countByParam" resultType="java.lang.Integer">
         select count(1)
         from `job`
         where 1 = 1
@@ -193,7 +225,9 @@
         where 1 = 1
         <include refid="baseSelectCondition"/>
         order by id desc
-        limit #{start}, #{length}
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
     </select>
 
 </mapper>

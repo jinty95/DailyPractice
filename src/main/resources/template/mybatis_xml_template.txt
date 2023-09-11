@@ -72,6 +72,17 @@
         where `is_deleted` = 0 and `${PK_COLUMN_NAME}` = #{item.${PK_FIELD_NAME}}
     </update>
 
+    <!-- 根据条件更新(忽略空字段) -->
+    <update id="updateByParam">
+        update `${TABLE_NAME}`
+        <set>
+            ${FOR_EACH}<if test="item.${FIELD_NAME} != null"> `${COLUMN_NAME}` = #{item.${FIELD_NAME}}, </if>
+            ${END_FOR_EACH}
+        </set>
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </update>
+
     <!-- 根据主键批量逻辑删除 -->
     <update id="logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s">
         update `${TABLE_NAME}`
@@ -115,7 +126,7 @@
     </select>
 
     <!-- 查询(条件忽略空字段) -->
-    <select id="select" resultMap="baseResultMap">
+    <select id="selectByParam" resultMap="baseResultMap">
         select <include refid="baseColumns"/>
         from `${TABLE_NAME}`
         where 1 = 1
@@ -123,7 +134,7 @@
     </select>
 
     <!-- 数量查询(条件忽略空字段) -->
-    <select id="count" resultType="java.lang.Integer">
+    <select id="countByParam" resultType="java.lang.Integer">
         select count(1)
         from `${TABLE_NAME}`
         where 1 = 1

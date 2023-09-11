@@ -57,12 +57,24 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
+    public boolean updateByParam(${CLASS_NAME} item, ${CLASS_NAME} param) {
+        try {
+            item.setUpdateTime(new Date());
+            param.setIsDeleted(0);
+            return mapper.updateByParam(item, param) > 0;
+        } catch (Exception e) {
+            log.error(String.format("%s-更新失败：item=%s, param=%s", EVENT, item, param), e);
+            throw new RuntimeException(String.format("%s-更新失败", EVENT));
+        }
+    }
+
+    @Override
     public int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, String updatedBy) {
         try {
             int total = ${PK_FIELD_NAME}s.size();
             int success = mapper.logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s, updatedBy);
             log.info("{}-批量逻辑删除：${PK_FIELD_NAME}s={}, updatedBy={}, total={}, success={}, fail={}",
-                EVENT, ${PK_FIELD_NAME}s, updatedBy, total, success, total - success);
+                    EVENT, ${PK_FIELD_NAME}s, updatedBy, total, success, total - success);
             return success;
         } catch (Exception e) {
             log.error(String.format("%s-批量逻辑删除失败：${PK_FIELD_NAME}s=%s, updatedBy=%s", EVENT, ${PK_FIELD_NAME}s, updatedBy), e);
@@ -91,10 +103,10 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public List<${CLASS_NAME}> select(${CLASS_NAME} param) {
+    public List<${CLASS_NAME}> selectByParam(${CLASS_NAME} param) {
         try {
             param.setIsDeleted(0);
-            return mapper.select(param);
+            return mapper.selectByParam(param);
         } catch (Exception e) {
             log.error(String.format("%s-查询失败：param=%s", EVENT, param), e);
             throw new RuntimeException(String.format("%s-查询失败", EVENT));
@@ -102,10 +114,10 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public int count(${CLASS_NAME} param) {
+    public int countByParam(${CLASS_NAME} param) {
         try {
             param.setIsDeleted(0);
-            return mapper.count(param);
+            return mapper.countByParam(param);
         } catch (Exception e) {
             log.error(String.format("%s-数量查询失败：param=%s", EVENT, param), e);
             throw new RuntimeException(String.format("%s-数量查询失败", EVENT));
