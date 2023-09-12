@@ -66,4 +66,12 @@ public class SolutionTest3 {
         System.out.println(Arrays.toString(solution.findingUsersActiveMinutes(logs, 5)));
     }
 
+    @Test
+    public void testCheckIfPrerequisite() {
+        int numCourses = 3;
+        int[][] prerequisites = {{1, 2}, {1, 0}, {2, 0}};
+        int[][] queries = {{1, 0}, {1, 2}};
+        System.out.println(solution.checkIfPrerequisite(numCourses, prerequisites, queries));
+    }
+
 }

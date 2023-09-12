@@ -380,4 +380,63 @@ public class Solution3 {
         return answer;
     }
 
+    /**
+     * 1462. 课程表 IV
+     * 你总共需要上 numCourses 门课，课程编号依次为 0 到 numCourses-1 。你会得到一个数组 prerequisite ，其中 prerequisites[i] = [ai, bi] 表示如果你想选 bi 课程，你 必须 先选 ai 课程。
+     * 有的课会有直接的先修课程，比如如果想上课程 1 ，你必须先上课程 0 ，那么会以 [0,1] 数对的形式给出先修课程数对。
+     * 先决条件也可以是 间接 的。如果课程 a 是课程 b 的先决条件，课程 b 是课程 c 的先决条件，那么课程 a 就是课程 c 的先决条件。
+     * 你也得到一个数组 queries ，其中 queries[j] = [uj, vj]。对于第 j 个查询，您应该回答课程 uj 是否是课程 vj 的先决条件。
+     * 返回一个布尔数组 answer ，其中 answer[j] 是第 j 个查询的答案。
+     *
+     * @param numCourses    课程总数
+     * @param prerequisites 课程的先修课程 (先修课程图中没有环)
+     * @param queries       查询是否为先修课程
+     * @return 查询结果
+     */
+    public List<Boolean> checkIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+        // 有向图
+        // 邻接表：节点 -> 前驱集合
+        Map<Integer, List<Integer>> precursorMap = new HashMap<>();
+        // 出度：节点 -> 后继数量
+        int[] outDegrees = new int[numCourses];
+        for (int[] prerequisite : prerequisites) {
+            precursorMap.computeIfAbsent(prerequisite[1], a -> new ArrayList<>()).add(prerequisite[0]);
+            outDegrees[prerequisite[0]]++;
+        }
+        // 寻找出度为0的节点，将其排除，其所有前驱的出度减1，重复这个过程，直到排除所有节点，过程中可以构建一个"节点->所有后继集合"的映射
+        Map<Integer, Set<Integer>> allSuccessorMap = new HashMap<>();
+        LinkedList<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            allSuccessorMap.put(i, new HashSet<>(Collections.singleton(i)));
+            if (outDegrees[i] == 0) {
+                queue.add(i);
+            }
+        }
+        while (!queue.isEmpty()) {
+            int course = queue.poll();
+            List<Integer> precursorList = precursorMap.get(course);
+            if (precursorList != null) {
+                for (Integer precursor : precursorList) {
+                    outDegrees[precursor]--;
+                    allSuccessorMap.get(precursor).addAll(allSuccessorMap.get(course));
+                    if (outDegrees[precursor] == 0) {
+                        queue.offer(precursor);
+                    }
+                }
+            }
+        }
+        // 查询是否为先修课程
+        List<Boolean> result = new ArrayList<>();
+        for (int[] query : queries) {
+            if (query[0] == query[1]) {
+                result.add(false);
+            } else if (allSuccessorMap.get(query[0]).contains(query[1])) {
+                result.add(true);
+            } else {
+                result.add(false);
+            }
+        }
+        return result;
+    }
+
 }

@@ -1778,15 +1778,15 @@ public class Solution2 {
      */
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         // 判断有向图无环：时间复杂度O(N + M)，空间复杂度O(N + M)，其中N为prerequisites的长度，M为numCourses的大小
-        // 邻接表：存储先修课程 -> 后修课程列表
+        // 邻接表：节点 -> 后继集合
         Map<Integer, List<Integer>> adjacentList = new HashMap<>();
-        // 入度：存储课程的先修课程数量
+        // 入度：节点 -> 前驱数量
         int[] inDegrees = new int[numCourses];
         for (int[] prerequisite : prerequisites) {
             adjacentList.computeIfAbsent(prerequisite[1], ArrayList::new).add(prerequisite[0]);
             inDegrees[prerequisite[0]]++;
         }
-        // 寻找入度为0的点，将其排除，其所有后修课程入度减1，重复这个过程，直到排除所有点，如果存在点不能排除，说明出现环
+        // 寻找入度为0的节点，将其排除，其所有后继的入度减1，重复这个过程，直到排除所有节点，如果存在节点不能排除，说明出现环
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < inDegrees.length; i++) {
             if (inDegrees[i] == 0) {
