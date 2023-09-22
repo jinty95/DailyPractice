@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * MVEL - 工具类
+ * MVFLEX Expression Language，一种表达式语言
  *
  * @author Jinty
  * @date 2023/9/6
@@ -23,35 +24,34 @@ public final class MvelUtil {
     private static final String RIGHT_BRACKET = ")";
 
     /**
-     * 根据结构化的条件对象生成MVEL表达式
+     * 根据结构化的条件对象生成表达式
      *
      * @param condition 结构化的条件对象
-     * @return MVEL表达式
+     * @return 表达式
      */
-    public static String genMvel(Condition condition) {
+    public static String genExp(Condition condition) {
         if (condition == null) {
             return EMPTY;
         }
-        StringBuilder mvel = new StringBuilder();
+        StringBuilder exp = new StringBuilder();
         String operatorType = condition.getOperatorType();
         if (OperatorTypeEnum.OPERATION.getCode().equals(operatorType)) {
-            mvel.append(genOperation(condition.getOperator(), condition.getMetricName(), condition.getMetricValue()));
+            exp.append(genOperation(condition.getOperator(), condition.getMetricName(), condition.getMetricValue()));
         } else if (OperatorTypeEnum.LOGIC.getCode().equals(operatorType)) {
             List<Condition> children = condition.getChildren();
             if (children == null || children.isEmpty()) {
                 return EMPTY;
             }
-            String childrenMvel = EMPTY;
+            String subExp = EMPTY;
             for (Condition cnd : children) {
-                String childMvel = LEFT_BRACKET + genMvel(cnd) + RIGHT_BRACKET;
-                childrenMvel = genLogic(condition.getOperator(), childrenMvel, childMvel);
+                subExp = genLogic(condition.getOperator(), subExp, LEFT_BRACKET + genExp(cnd) + RIGHT_BRACKET);
             }
-            if (!EMPTY.equals(childrenMvel)) {
-                childrenMvel = LEFT_BRACKET + childrenMvel + RIGHT_BRACKET;
+            if (!EMPTY.equals(subExp)) {
+                subExp = LEFT_BRACKET + subExp + RIGHT_BRACKET;
             }
-            mvel.append(childrenMvel);
+            exp.append(subExp);
         }
-        return mvel.toString();
+        return exp.toString();
     }
 
     /* 以下为内部函数 */
@@ -68,6 +68,10 @@ public final class MvelUtil {
         OperationOperatorEnum operationOperatorEnum = OperationOperatorEnum.parseByCode(operator);
         if (operationOperatorEnum == null) {
             return EMPTY;
+        }
+        if (operationOperatorEnum == OperationOperatorEnum.CONTAINS ||
+                operationOperatorEnum == OperationOperatorEnum.NOT_CONTAINS) {
+            return String.format(operationOperatorEnum.getExpression(), metricValue, metricName);
         }
         return String.format(operationOperatorEnum.getExpression(), metricName, metricValue);
     }

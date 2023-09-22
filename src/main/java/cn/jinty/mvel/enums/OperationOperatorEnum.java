@@ -16,13 +16,14 @@ import java.util.Map;
 @AllArgsConstructor
 public enum OperationOperatorEnum {
 
-    EQUALS("EQUALS", "%s == %s", "等于"),
-    NOT_EQUALS("NOT_EQUALS", "%s != %s", "不等于"),
-    GREATER_THAN("GREATER_THAN", "%s > %s", "大于"),
-    GREATER_THAN_OR_EQUALS("GREATER_THAN_OR_EQUALS", "%s >= %s", "大于等于"),
-    LESS_THAN("LESS_THAN", "%s < %s", "小于"),
-    LESS_THAN_OR_EQUALS("LESS_THAN_OR_EQUALS", "%s <= %s", "小于等于"),
-    CONTAINS("CONTAINS", "%s.contains(\"%s\")", "包含"),
+    EQUALS("EQUALS", "%s == \"%s\"", "等于"),
+    NOT_EQUALS("NOT_EQUALS", "%s != \"%s\"", "不等于"),
+    GREATER_THAN("GREATER_THAN", "%s > \"%s\"", "大于"),
+    GREATER_THAN_OR_EQUALS("GREATER_THAN_OR_EQUALS", "%s >= \"%s\"", "大于等于"),
+    LESS_THAN("LESS_THAN", "%s < \"%s\"", "小于"),
+    LESS_THAN_OR_EQUALS("LESS_THAN_OR_EQUALS", "%s <= \"%s\"", "小于等于"),
+    CONTAINS("CONTAINS", "%s.contains(%s)", "包含"),
+    NOT_CONTAINS("NOT_CONTAINS", "!(%s.contains(%s))", "不包含"),
     STARTS_WITH("STARTS_WITH", "%s.startsWith(\"%s\")", "匹配前缀(右模糊)"),
     ENDS_WITH("ENDS_WITH", "%s.endsWith(\"%s\")", "匹配后缀(左模糊)"),
     ;
