@@ -189,9 +189,9 @@ public final class DateUtil {
         }
         dateStr = dateStr.trim();
         if (dateStr.length() <= 11) {
-            return DateUtil.parseDateCompatibly(dateStr);
+            return parseDateCompatibly(dateStr);
         } else {
-            return DateUtil.parseDatetimeCompatibly(dateStr);
+            return parseDatetimeCompatibly(dateStr);
         }
     }
 

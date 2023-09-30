@@ -16,6 +16,8 @@ import java.util.Map;
 @AllArgsConstructor
 public enum OperationOperatorEnum {
 
+    IS_NULL("IS_NULL", "%s == null", "为空"),
+    IS_NOT_NULL("IS_NOT_NULL", "%s != null", "不为空"),
     EQUALS("EQUALS", "%s == \"%s\"", "等于"),
     NOT_EQUALS("NOT_EQUALS", "%s != \"%s\"", "不等于"),
     GREATER_THAN("GREATER_THAN", "%s > \"%s\"", "大于"),

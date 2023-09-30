@@ -89,4 +89,40 @@ public final class IntrospectUtil {
         return map;
     }
 
+    /**
+     * 根据属性名获取对应的Setter
+     *
+     * @param clazz 类型
+     * @param propertyName 属性名
+     * @return Setter
+     * @throws IntrospectionException 内省异常
+     */
+    public static Method getSetter(Class<?> clazz, String propertyName) throws IntrospectionException {
+        PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(clazz);
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            if (propertyDescriptor.getName().equals(propertyName)) {
+                return propertyDescriptor.getWriteMethod();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据属性名获取对应的Getter
+     *
+     * @param clazz 类型
+     * @param propertyName 属性名
+     * @return Getter
+     * @throws IntrospectionException 内省异常
+     */
+    public static Method getGetter(Class<?> clazz, String propertyName) throws IntrospectionException {
+        PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(clazz);
+        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+            if (propertyDescriptor.getName().equals(propertyName)) {
+                return propertyDescriptor.getReadMethod();
+            }
+        }
+        return null;
+    }
+
 }

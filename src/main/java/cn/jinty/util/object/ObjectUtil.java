@@ -280,4 +280,24 @@ public final class ObjectUtil {
         return true;
     }
 
+    /**
+     * 获取对象的指定属性值
+     *
+     * @param obj          对象
+     * @param propertyName 属性名
+     * @return 属性值
+     * @throws Exception 异常
+     */
+    public static Object getPropertyValue(Object obj, String propertyName) throws Exception {
+        if (obj == null) {
+            return null;
+        }
+        Method getter = IntrospectUtil.getGetter(obj.getClass(), propertyName);
+        if (getter == null) {
+            throw new NoSuchMethodException(String.format("there is no getter for [%s] in class [%s]",
+                    propertyName, obj.getClass().getName()));
+        }
+        return getter.invoke(obj);
+    }
+
 }

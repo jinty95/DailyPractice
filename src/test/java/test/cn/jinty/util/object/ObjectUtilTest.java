@@ -86,6 +86,19 @@ public class ObjectUtilTest {
         }
     }
 
+    @Test
+    public void testGetPropertyValue() {
+        Obj obj = new Obj();
+        obj.setCol1((byte) 28);
+        obj.setCol2((short) 18);
+        try {
+            System.out.println(ObjectUtil.getPropertyValue(obj, "col1"));
+            System.out.println(ObjectUtil.getPropertyValue(obj, "col2"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /* 以下为内部类 */
 
     @Data
