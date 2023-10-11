@@ -9,12 +9,18 @@
 
 '泳道中的活动
 |f|
-start
 :go fish;
 |c|
 :fry fish;
 |e|
 :eat fish;
-stop
+
+-[hidden]->
+|f|
+:go fish;
+|c|
+:fry fish;
+|e|
+:eat fish;
 
 @enduml

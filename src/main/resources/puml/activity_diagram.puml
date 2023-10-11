@@ -2,13 +2,13 @@
 
 '活动图：就是平常说的流程图，用于描述系统的活动
 
-'起点
-start
 '设置条件语句的结束样式
 skinparam ConditionEndStyle hline
 
-'活动标签(activity label)以冒号开始，以分号结束
-'默认按定义顺序自动连接
+'起点
+start
+
+'活动标签以冒号开始，以分号结束，默认按顺序自动连接
 :say hi;
 '给活动标签添加注释
 note left: 这是左侧单行注释
@@ -25,39 +25,26 @@ else (no)
     :do nothing;
 endif
 
-'多条件判断(if-elseif)
-if (status is A) then (yes)
-    :running A;
-elseif (status is B) then (yes)
-    :running B;
-    end
-else (no)
-    :running other;
-endif
-
-'组合框
-group 一个组合框
-:so tired, sleep a moment;
-'给箭头加文字
--> while awaken;
-endgroup
-
-'多条件判断(switch)
-switch (status)
+'选择器
+/'switch (status)
 case (A)
     :say A;
 case (B)
     :say B;
 case (C)
     :say C;
-    kill
-endswitch
+endswitch'/
+
+'分区
+partition #pink 一个分区 {
+    :so tired;
+    :sleep a moment;
+}
 
 '循环
 repeat :happy;
-    :i am happy;
-    :you are happy;
     if (she is unhappy ?) then (yes)
+        '跳出循环
         break
     else (no)
     endif
@@ -66,9 +53,8 @@ repeat while (he is happy) is (yes) not (no)
 while (i am sleepy) is (yes)
     :sleep;
 endwhile (no)
-    :go to do something;
 
-'并行处理
+'并行
 fork
     :doing;
 fork again
@@ -76,20 +62,39 @@ fork again
 fork again
     #yellow\green:doing;
 end fork {聚合}
-note right: 并行处理
 
 '分割
 split
-    '隐藏输入连接线
+    '隐藏输入线(可用于制造多个入口)
     -[hidden]->
     :A;
 split again
-    -[hidden]->
     :B;
+    '隐藏输出线(可用于制造多个出口)
+    kill
 split again
     :C;
     :D;
 end split
+
+'独立活动块
+-[hidden]->
+:NEW START;
+:NEW STOP;
+kill
+
+'随机跳转
+if (A?) then (yes)
+    '标记一个位置
+    label a
+    :A;
+else (no)
+    if (B?) then (yes)
+        '跳到标记位置
+        goto a
+    else (no)
+        :B;
+endif
 
 '终点
 stop
