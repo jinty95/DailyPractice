@@ -330,11 +330,11 @@ public final class StringUtil {
         if (isEmpty(origin)) {
             return append == null ? EMPTY : append;
         }
+        if (isEmpty(append)) {
+            return origin;
+        }
         if (separator == null) {
             separator = EMPTY;
-        }
-        if (append == null) {
-            return origin;
         }
         return origin + separator + append;
     }

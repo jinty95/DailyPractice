@@ -184,6 +184,7 @@ public class StringUtilTest {
         System.out.println(StringUtil.append("1", null, null));
         System.out.println(StringUtil.append("1", "1", null));
         System.out.println(StringUtil.append("", "1", ","));
+        System.out.println(StringUtil.append("1", "", ","));
         System.out.println(StringUtil.append("1", "2", ","));
         System.out.println(StringUtil.append("1,2", "3", ","));
     }
