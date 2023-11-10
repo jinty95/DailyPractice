@@ -1,14 +1,26 @@
 <template>
   <section>
     <el-form class="form-common" :model="query" v-loading="loading" :inline="true" label-width="auto">
-      <el-form-item label="字段：" prop="col">
-        <el-input class="input-common" v-model="query.col" placeholder="请输入" clearable/>
+      <el-form-item label="多文本输入框：" prop="multiTextInput">
+        <el-input class="input-common" v-model="query.multiTextInput" placeholder="多个单据查询，请分行隔开" size="small" type="textarea" :autosize="false"/>
+      </el-form-item>
+      <el-form-item label="文本输入框：" prop="textInput">
+        <el-input class="input-common" v-model="query.textInput" placeholder="请输入" clearable/>
+      </el-form-item>
+      <el-form-item label="数字输入框：" prop="numberInput">
+        <el-input-number class="input-common" v-model="query.numberInput" placeholder="请输入" clearable :precision="0" :min="1" :max="100"/>
+      </el-form-item>
+      <el-form-item label="下拉选择框：" prop="selectInput">
+        <el-select class="input-common" v-model="query.selectInput" placeholder="请选择" clearable filterable>
+          <el-option v-for="item in enumList" :key="item.key" :label="item.value" :value="item.key"/>
+        </el-select>
       </el-form-item>
 
       <el-row>
         <el-form-item>
-          <el-button type="primary" @click="queryByPage">查询</el-button>
-          <el-button type="warning" @click="reset">重置</el-button>
+          <el-button type="primary" @click="queryByPage">查 询</el-button>
+          <el-button type="warning" @click="reset">重 置</el-button>
+          <el-button type="success" @click="dialogVisible = true">弹 框</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -27,6 +39,13 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+
+    <el-dialog title="标题" :visible.sync="dialogVisible" size="tiny" :close-on-press-escape="false" :close-on-click-modal="false">
+      <div slot="footer" class="dialog-footer-common">
+        <el-button type="primary" @click="dialogCommit">确 定</el-button>
+        <el-button @click="dialogCancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </section>
 </template>
 
@@ -36,13 +55,18 @@ export default {
     return {
       loading: false,
       queryTemplate: {
-        col: ''
+        multiTextInput: null,
+        textInput: null,
+        numberInput: null,
+        selectInput: null
       },
       query: Object.assign({}, this.queryTemplate),
       pageNum: 1,
       pageSize: 10,
       total: 0,
-      list: []
+      list: [],
+      enumList: [{key: '0', value: '否'}, {key: '1', value: '是'}],
+      dialogVisible: false
     }
   },
 
@@ -82,13 +106,36 @@ export default {
     // 分页查询
     queryByPage () {
       let param = this.buildQueryParam()
+      console.log('分页查询', param)
       // TODO
-      return param
     },
 
     // 重置查询条件
     reset () {
       this.query = Object.assign({}, this.queryTemplate)
+    },
+
+    // 获取选中数据
+    getSelection () {
+      let selection = this.$refs.dataList.selection
+      if (selection == null || selection.length === 0) {
+        this.$message({type: 'warning', message: '请先选择对应的数据'})
+        return null
+      }
+      return selection
+    },
+
+    // 弹框确定
+    dialogCommit () {
+      if (!this.getSelection()) {
+        return
+      }
+      this.dialogVisible = false
+    },
+
+    // 弹框取消
+    dialogCancel () {
+      this.dialogVisible = false
     }
   }
 }
@@ -109,5 +156,9 @@ export default {
 
 .input-common {
   width: 200px;
+}
+
+.dialog-footer-common {
+  text-align: right;
 }
 </style>
