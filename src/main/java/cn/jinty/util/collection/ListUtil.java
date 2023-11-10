@@ -329,7 +329,7 @@ public final class ListUtil {
      */
     public static <T> List<List<T>> splitByNum(List<T> list, int num) {
         List<List<T>> lists = new ArrayList<>();
-        if (CollectionUtil.isEmpty(list)) {
+        if (CollectionUtil.isEmpty(list) || num <= 0) {
             return lists;
         }
         int size = list.size();
@@ -365,16 +365,16 @@ public final class ListUtil {
      * @return 分组结果
      */
     public static <T> List<List<T>> splitToNGroup(List<T> list, int n) {
-        if (CollectionUtil.isEmpty(list)) {
-            return new ArrayList<>();
+        List<List<T>> lists = new ArrayList<>();
+        if (CollectionUtil.isEmpty(list) || n <= 0) {
+            return lists;
         }
-        List<List<T>> lists = new ArrayList<>(n);
-        int k = 0;
         // 每组最少元素个数
         int minNum = list.size() / n;
         // 平均分组后剩余的元素个数
         int remain = list.size() % n;
         // 按顺序填充每个组，前remain个组可以多分一个
+        int k = 0;
         for (int i = 0; i < n; i++) {
             List<T> oneList = new ArrayList<>();
             for (int j = 0; j < minNum; j++) {

@@ -1,6 +1,13 @@
 package cn.jinty.util.math;
 
 import cn.jinty.util.string.StringUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 数字 - 工具类
@@ -11,6 +18,75 @@ import cn.jinty.util.string.StringUtil;
 public final class NumberUtil {
 
     private NumberUtil() {
+    }
+
+    /**
+     * 数值范围
+     */
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NumberRange {
+        // 最小值
+        private long min;
+        // 最大值
+        private long max;
+
+        @Override
+        public String toString() {
+            return String.format("[%d,%d]", min, max);
+        }
+    }
+
+    /**
+     * 数值范围按照数量分组
+     *
+     * @param range 数值范围
+     * @param num   每组的数字个数
+     * @return 多个数值范围
+     */
+    public static List<NumberRange> splitByNum(NumberRange range, long num) {
+        List<NumberRange> list = new ArrayList<>();
+        if (range == null || num <= 0) {
+            return list;
+        }
+        long i = range.getMin();
+        while (i <= range.getMax()) {
+            list.add(new NumberRange(i, Math.min(i + num - 1, range.getMax())));
+            i += num;
+        }
+        return list;
+    }
+
+    /**
+     * 数值范围拆分为N个组
+     *
+     * @param range 数值范围
+     * @param n     组数
+     * @return N个数值范围
+     */
+    public static List<NumberRange> splitToNGroup(NumberRange range, long n) {
+        List<NumberRange> list = new ArrayList<>();
+        if (range == null || n <= 0) {
+            return list;
+        }
+        long total = range.getMax() - range.getMin() + 1;
+        // 每组最少数字个数
+        long minNum = total / n;
+        // 平均分组后剩余的数字个数
+        long remainNum = total % n;
+        // 按顺序填充每个组，前remain个组可以多分一个
+        long cur = range.getMin();
+        for (int i = 0; i < n; i++) {
+            long max = cur + minNum;
+            if (i >= remainNum) {
+                max--;
+            }
+            list.add(new NumberRange(cur, max));
+            cur = max + 1;
+        }
+        return list;
     }
 
     /**

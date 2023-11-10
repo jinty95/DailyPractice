@@ -107,10 +107,18 @@ public class ListUtilTest {
         System.out.println(ListUtil.intersect(ListUtil.asList(1, 2, 1), ListUtil.asList(1, 2, 1, 2)));
     }
 
+    private List<Integer> getList() {
+        return ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    }
+
+    private int[] getArr() {
+        return new int[]{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    }
+
     @Test
     public void testSplitByNum() {
-        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        List<Integer> list = this.getList();
+        int[] arr = this.getArr();
         for (int num : arr) {
             System.out.println(ListUtil.splitByNum(list, num));
         }
@@ -118,8 +126,8 @@ public class ListUtilTest {
 
     @Test
     public void testRandomSplitByNum() {
-        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        List<Integer> list = this.getList();
+        int[] arr = this.getArr();
         for (int num : arr) {
             System.out.println(ListUtil.randomSplitByNum(list, num));
         }
@@ -127,8 +135,8 @@ public class ListUtilTest {
 
     @Test
     public void testSplitToNGroup() {
-        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        List<Integer> list = this.getList();
+        int[] arr = this.getArr();
         for (int n : arr) {
             System.out.println(ListUtil.splitToNGroup(list, n));
         }
@@ -136,8 +144,8 @@ public class ListUtilTest {
 
     @Test
     public void testRandomSplitToNGroup() {
-        List<Integer> list = ListUtil.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        List<Integer> list = this.getList();
+        int[] arr = this.getArr();
         for (int n : arr) {
             System.out.println(ListUtil.randomSplitToNGroup(list, n));
         }

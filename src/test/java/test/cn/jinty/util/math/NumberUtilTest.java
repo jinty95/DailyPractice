@@ -16,6 +16,28 @@ import java.util.List;
  **/
 public class NumberUtilTest {
 
+    private int[] getArr() {
+        return new int[]{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    }
+
+    @Test
+    public void testSplitByNum() {
+        NumberUtil.NumberRange range = new NumberUtil.NumberRange(1, 100);
+        int[] arr = this.getArr();
+        for (int n : arr) {
+            System.out.println(NumberUtil.splitByNum(range, n));
+        }
+    }
+
+    @Test
+    public void testSplitToNGroup() {
+        NumberUtil.NumberRange range = new NumberUtil.NumberRange(100, 10000);
+        int[] arr = this.getArr();
+        for (int n : arr) {
+            System.out.println(NumberUtil.splitToNGroup(range, n));
+        }
+    }
+
     private List<Class<? extends Number>> getNumberClasses() {
         return Arrays.asList(Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class);
     }
