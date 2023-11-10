@@ -1,5 +1,6 @@
 package test.cn.jinty.sql.code;
 
+import cn.jinty.entity.IdRange;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * 作业表 - Mapper
  *
  * @author Jinty
- * @date 2023/09/11
+ * @date 2023/11/10
  */
 public interface JobMapper {
 
@@ -69,13 +70,28 @@ public interface JobMapper {
     List<Job> selectByParam(@Param("param") Job param);
 
     /**
-     * 数量查询(条件忽略空字段)
+     * 查询数量(条件忽略空字段)
      */
-    int countByParam(@Param("param") Job param);
+    int selectCount(@Param("param") Job param);
 
     /**
      * 分页查询(条件忽略空字段)
      */
     List<Job> selectByPage(@Param("param") Job param, @Param("start") Integer start, @Param("length") Integer length);
+
+    /**
+     * ID分片查询(条件忽略空字段)
+     */
+    List<Job> selectByIdShard(@Param("param") Job param, @Param("shardTotal") Integer shardTotal, @Param("shardNum") Integer shardNum);
+
+    /**
+     * 查询ID范围(条件忽略空字段)
+     */
+    IdRange selectIdRange(@Param("param") Job param);
+
+    /**
+     * 根据ID范围进行查询(条件忽略空字段)
+     */
+    List<Job> selectByIdRange(@Param("param") Job param, @Param("minId") Long minId, @Param("maxId") Long maxId);
 
 }

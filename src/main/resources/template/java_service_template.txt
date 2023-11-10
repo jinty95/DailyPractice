@@ -53,9 +53,9 @@ public interface ${CLASS_NAME}Service {
     List<${CLASS_NAME}> selectByParam(${CLASS_NAME} param);
 
     /**
-     * 数量查询(条件忽略空字段)
+     * 查询数量(条件忽略空字段)
      */
-    int countByParam(${CLASS_NAME} param);
+    int selectCount(${CLASS_NAME} param);
 
     /**
      * 分页查询(条件忽略空字段)

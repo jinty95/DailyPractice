@@ -114,13 +114,13 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public int countByParam(${CLASS_NAME} param) {
+    public int selectCount(${CLASS_NAME} param) {
         try {
             param.setIsDeleted(0);
-            return mapper.countByParam(param);
+            return mapper.selectCount(param);
         } catch (Exception e) {
-            log.error(String.format("%s-数量查询失败：param=%s", EVENT, param), e);
-            throw new RuntimeException(String.format("%s-数量查询失败", EVENT));
+            log.error(String.format("%s-查询数量失败：param=%s", EVENT, param), e);
+            throw new RuntimeException(String.format("%s-查询数量失败", EVENT));
         }
     }
 

@@ -9,8 +9,8 @@
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/db"/>
                 <property name="username" value="root"/>
-                <!--<property name="password" value="root"/>-->
-                <property name="password" value="Abc0123456789?!"/>
+                <property name="password" value="root"/>
+                <!--<property name="password" value="Abc0123456789?!"/>-->
             </dataSource>
         </environment>
     </environments>

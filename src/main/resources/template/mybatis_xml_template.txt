@@ -133,8 +133,8 @@
         <include refid="baseSelectCondition"/>
     </select>
 
-    <!-- 数量查询(条件忽略空字段) -->
-    <select id="countByParam" resultType="java.lang.Integer">
+    <!-- 查询数量(条件忽略空字段) -->
+    <select id="selectCount" resultType="java.lang.Integer">
         select count(1)
         from `${TABLE_NAME}`
         where 1 = 1
@@ -151,6 +151,33 @@
         <if test="start != null and length != null">
             limit #{start}, #{length}
         </if>
+    </select>
+
+    <!-- ID分片查询(条件忽略空字段) -->
+    <select id="selectByIdShard" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        <if test="shardTotal != null and shardNum != null">and `id` % #{shardTotal} = #{shardNum}</if>
+    </select>
+
+    <!-- 查询ID范围(条件忽略空字段) -->
+    <select id="selectIdRange" resultType="${BASE_PACKAGE}.bo.IdRange">
+        select min(`id`) as minId, max(`id`) as maxId
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 根据ID范围进行查询(条件忽略空字段) -->
+    <select id="selectByIdRange" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `${TABLE_NAME}`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        <if test="minId != null"> and `id` &gt;= #{minId} </if>
+        <if test="maxId != null"> and `id` &lt;= #{maxId} </if>
     </select>
 
 </mapper>

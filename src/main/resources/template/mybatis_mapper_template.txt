@@ -2,6 +2,7 @@ package ${BASE_PACKAGE}.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+import ${BASE_PACKAGE}.bo.IdRange;
 
 import java.util.List;
 
@@ -70,13 +71,28 @@ public interface ${CLASS_NAME}Mapper {
     List<${CLASS_NAME}> selectByParam(@Param("param") ${CLASS_NAME} param);
 
     /**
-     * 数量查询(条件忽略空字段)
+     * 查询数量(条件忽略空字段)
      */
-    int countByParam(@Param("param") ${CLASS_NAME} param);
+    int selectCount(@Param("param") ${CLASS_NAME} param);
 
     /**
      * 分页查询(条件忽略空字段)
      */
     List<${CLASS_NAME}> selectByPage(@Param("param") ${CLASS_NAME} param, @Param("start") Integer start, @Param("length") Integer length);
+
+    /**
+     * ID分片查询(条件忽略空字段)
+     */
+    List<${CLASS_NAME}> selectByIdShard(@Param("param") ${CLASS_NAME} param, @Param("shardTotal") Integer shardTotal, @Param("shardNum") Integer shardNum);
+
+    /**
+     * 查询ID范围(条件忽略空字段)
+     */
+    IdRange selectIdRange(@Param("param") ${CLASS_NAME} param);
+
+    /**
+     * 根据ID范围进行查询(条件忽略空字段)
+     */
+    List<${CLASS_NAME}> selectByIdRange(@Param("param") ${CLASS_NAME} param, @Param("minId") Long minId, @Param("maxId") Long maxId);
 
 }
