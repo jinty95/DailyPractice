@@ -382,4 +382,14 @@ public class FileUtilTest {
         }
     }
 
+    @Test
+    public void testSplitByLineCount() {
+        String sourcePath = "D:\\temp\\number";
+        try {
+            FileUtil.splitByLineCount(new File(sourcePath), 3);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

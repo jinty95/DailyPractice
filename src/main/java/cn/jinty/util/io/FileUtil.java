@@ -3,6 +3,7 @@ package cn.jinty.util.io;
 import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.collection.CollectionUtil;
+import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.collection.MapUtil;
 import cn.jinty.util.object.ObjectUtil;
 import cn.jinty.util.string.StringUtil;
@@ -631,7 +632,7 @@ public final class FileUtil {
      *
      * @param lines  内容行
      * @param file   文件
-     * @param append 是否追加写入 (true-以当前内容覆盖文件，false-将当前内容追加到文件末)
+     * @param append 是否追加写入 (true-在文件末尾写入，false-在文件开头写入)
      * @throws IOException IO异常
      */
     public static void writeLine(List<String> lines, File file, boolean append) throws IOException {
@@ -911,6 +912,37 @@ public final class FileUtil {
                     scanBigFiles(file, threshold, excludeDirs, pq);
                 }
             }
+        }
+    }
+
+    /**
+     * 按行的数量切分文件
+     * 例如文件共1000行，指定单文件行数量为200，那么会分成5个文件，输出在源文件所在目录下，每个文件带一个序号后缀区分
+     *
+     * @param source    来源文件
+     * @param lineCount 单文件的行数量
+     * @throws IOException IO异常
+     */
+    public static void splitByLineCount(File source, int lineCount) throws IOException {
+        // 读取文件所有行
+        List<String> lines = readLine(source);
+        if (CollectionUtil.isEmpty(lines)) {
+            return;
+        }
+        // 拆分源文件路径
+        String[] sourcePaths = FilePathUtil.splitFilePath(source.getAbsolutePath());
+        // 文件行分组
+        List<List<String>> linesList = ListUtil.splitByNum(lines, lineCount);
+        for (int i = 0; i < linesList.size(); i++) {
+            // 输出文件名(可能没有后缀)
+            String outputFileName = sourcePaths[1] + "_" + i;
+            if (sourcePaths[2] != null) {
+                outputFileName = outputFileName + '.' + sourcePaths[2];
+            }
+            // 输出文件路径
+            String outputPath = FilePathUtil.concatBySeparator(sourcePaths[0], outputFileName);
+            // 输出
+            writeLine(linesList.get(i), new File(outputPath));
         }
     }
 
