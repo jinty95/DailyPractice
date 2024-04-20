@@ -39,7 +39,7 @@ public class ExcelExportUtilTest {
 
     // 使用XSSFWorkbook，所有数据都存储在内存，数据量过大时会导致内存溢出
     @Test
-    public void testExport1() {
+    public void testBigDataExcelExport1() {
         this.printVmOptions();
         this.modifyTmpDir();
         Workbook wb = null;
@@ -67,7 +67,7 @@ public class ExcelExportUtilTest {
     // 使用SXSSFWorkbook，默认超过100行就写到临时文件，不会一直占用内存，避免内存溢出
     // 临时文件名称为poi-sxssf-sheet-xxx.xml，Windows系统默认存放在\AppData\Local\Temp\poifiles，Linux系统默认存放在/tmp/poifiles
     @Test
-    public void testExport2() {
+    public void testBigDataExcelExport2() {
         this.printVmOptions();
         this.modifyTmpDir();
         int totalRowNumber = 500000;
@@ -85,7 +85,7 @@ public class ExcelExportUtilTest {
 
     // 单个Excel太大时很难打开，所以对于大数据量，可以切分成多个Excel导出，最后压成一个压缩包
     @Test
-    public void testExport3() {
+    public void testBigDataExcelExport3() {
 
         long beginTime = System.currentTimeMillis();
         this.printVmOptions();
@@ -131,6 +131,24 @@ public class ExcelExportUtilTest {
         long endTime = System.currentTimeMillis();
         System.out.printf("导出%d行Excel成功，文件路径%s，耗时%d毫秒%n", totalRowNumber, zipFilePath, (endTime - beginTime));
 
+    }
+
+    // 数据为空时，导出一个只有标题的Excel，而不是一个无法打开的Excel
+    @Test
+    public void testNullDataExcelExport() {
+        this.printVmOptions();
+        this.modifyTmpDir();
+        int totalRowNumber = 0;
+        System.out.printf("导出%d行Excel%n", totalRowNumber);
+        String filePath = "D:\\temp\\NullDataExcelExportTest_" + totalRowNumber + ".xlsx";
+        try {
+            long beginTime = System.currentTimeMillis();
+            ExcelExportUtil.writeToFile(filePath, SHEET_MAX_ROW_NUMBER, getTitles(), getFields(), getContents(totalRowNumber));
+            long endTime = System.currentTimeMillis();
+            System.out.printf("导出%d行Excel成功，文件路径%s，耗时%d毫秒%n", totalRowNumber, filePath, (endTime - beginTime));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /* 以下为内部函数 */

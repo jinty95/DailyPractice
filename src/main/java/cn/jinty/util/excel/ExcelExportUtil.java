@@ -1,6 +1,7 @@
 package cn.jinty.util.excel;
 
 import cn.jinty.util.PageUtil;
+import cn.jinty.util.collection.CollectionUtil;
 import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.object.IntrospectUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -65,6 +66,10 @@ public final class ExcelExportUtil {
     @SuppressWarnings("unchecked")
     public static <T> int writeContentToSheet(Sheet sheet, int rowNum, CellStyle cellStyle,
                                               List<String> fields, List<T> contents) throws Exception {
+        // 数据为空时，不需要生成数据行
+        if (CollectionUtil.isEmpty(contents)) {
+            return rowNum;
+        }
         // 获取数据类型
         Class<T> clazz = (Class<T>) contents.get(0).getClass();
         // 获取数据类型对应的字段及其Getter
@@ -103,12 +108,10 @@ public final class ExcelExportUtil {
      */
     public static <T> void writeToWorkbook(Workbook workbook, int sheetMaxRowNumber, List<String> titles,
                                            List<String> fields, List<T> contents) throws Exception {
-        // 计算表单页总数
-        int lastSheetRowNumber = contents.size() % sheetMaxRowNumber;
-        int sheetCount = contents.size() / sheetMaxRowNumber;
-        if (lastSheetRowNumber != 0) {
-            sheetCount++;
-        }
+        // 总数据行数
+        int dataSize = CollectionUtil.size(contents);
+        // 总表单数 (不能为0，至少为1，一个没有表单的Excel，是无法打开的)
+        int sheetCount = Math.max(dataSize / sheetMaxRowNumber + (dataSize % sheetMaxRowNumber != 0 ? 1 : 0), 1);
         // 创建单元格样式
         CellStyle titleStyle = ExcelFormatUtil.createTitleStyle(workbook);
         CellStyle contentStyle = ExcelFormatUtil.createContentStyle(workbook);

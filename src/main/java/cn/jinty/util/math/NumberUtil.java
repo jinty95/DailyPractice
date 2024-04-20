@@ -72,6 +72,9 @@ public final class NumberUtil {
             return list;
         }
         long total = range.getMax() - range.getMin() + 1;
+        if (total < n) {
+            return list;
+        }
         // 每组最少数字个数
         long minNum = total / n;
         // 平均分组后剩余的数字个数

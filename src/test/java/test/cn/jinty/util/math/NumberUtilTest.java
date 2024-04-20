@@ -17,15 +17,16 @@ import java.util.List;
 public class NumberUtilTest {
 
     private int[] getArr() {
-        return new int[]{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        return new int[]{-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 9901, 9902};
     }
 
     @Test
     public void testSplitByNum() {
         NumberUtil.NumberRange range = new NumberUtil.NumberRange(1, 100);
         int[] arr = this.getArr();
+        System.out.println(range);
         for (int n : arr) {
-            System.out.println(NumberUtil.splitByNum(range, n));
+            System.out.printf("按数量分组，每组%s个：%s%n", n, NumberUtil.splitByNum(range, n));
         }
     }
 
@@ -33,8 +34,9 @@ public class NumberUtilTest {
     public void testSplitToNGroup() {
         NumberUtil.NumberRange range = new NumberUtil.NumberRange(100, 10000);
         int[] arr = this.getArr();
+        System.out.println(range);
         for (int n : arr) {
-            System.out.println(NumberUtil.splitToNGroup(range, n));
+            System.out.printf("分为%s组：%s%n", n, NumberUtil.splitToNGroup(range, n));
         }
     }
 
