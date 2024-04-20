@@ -7,7 +7,6 @@ import org.junit.Test;
 import test.cn.jinty.sql.code.Job;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -168,7 +167,7 @@ public class JdbcUtilTest {
         Connection conn = null;
         try {
             properties = FileUtil.parseProperties(new File(
-                    FilePathUtil.getAbsolutePath("/properties/application.properties", true)));
+                    FilePathUtil.getAbsolutePath("/properties/application.properties")));
             String driver = properties.getProperty("db.driver");
             String url = properties.getProperty("db.url") + "?useCursorFetch=true";
             String user = properties.getProperty("db.user");

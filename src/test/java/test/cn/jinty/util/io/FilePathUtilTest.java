@@ -3,6 +3,7 @@ package test.cn.jinty.util.io;
 import cn.jinty.Main;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.io.FilePathUtil;
+import com.alibaba.fastjson.parser.Feature;
 import org.junit.Test;
 
 import java.io.File;
@@ -76,13 +77,15 @@ public class FilePathUtilTest {
 
     @Test
     public void testGetAbsolutePath() {
-        System.out.println(FilePathUtil.getAbsolutePath("D:/Users/jintai.wang/Pictures", false));
-        System.out.println(FilePathUtil.getAbsolutePath("/sql", true));
-        System.out.println(FilePathUtil.getAbsolutePath("/template", true));
-        System.out.println(FilePathUtil.getAbsolutePath("/cn", true));
-        System.out.println(FilePathUtil.getAbsolutePath("/cn/jinty/enums", true));
-        System.out.println(FilePathUtil.getAbsolutePath("io/IOUtil.class", true, DateUtil.class));
-        System.out.println(FilePathUtil.getAbsolutePath("util/DateUtil.class", true, Main.class));
+        System.out.println(FilePathUtil.getAbsolutePath("D:/Users/jintai.wang/Pictures"));
+        System.out.println(FilePathUtil.getAbsolutePath("/sql"));
+        System.out.println(FilePathUtil.getAbsolutePath("/template"));
+        System.out.println(FilePathUtil.getAbsolutePath("/cn"));
+        System.out.println(FilePathUtil.getAbsolutePath("/cn/jinty/enums"));
+        System.out.println(FilePathUtil.getAbsolutePath("io/IOUtil.class", DateUtil.class));
+        System.out.println(FilePathUtil.getAbsolutePath("util/DateUtil.class", Main.class));
+        System.out.println(FilePathUtil.getAbsolutePath("util/DateUtil.class", Main.class));
+        System.out.println(FilePathUtil.getAbsolutePath("deserializer", Feature.class));
     }
 
 }

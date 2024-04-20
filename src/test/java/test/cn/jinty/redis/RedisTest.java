@@ -20,7 +20,7 @@ public class RedisTest {
         Jedis jedis = null;
         try {
             Properties props = FileUtil.parseProperties(new File(
-                    FilePathUtil.getAbsolutePath("/properties/application.properties", true)));
+                    FilePathUtil.getAbsolutePath("/properties/application.properties")));
             String host = props.getProperty("redis.host");
             int port = Integer.parseInt(props.getProperty("redis.port"));
             jedis = new Jedis(host, port);

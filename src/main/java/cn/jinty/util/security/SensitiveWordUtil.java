@@ -25,7 +25,7 @@ public class SensitiveWordUtil {
     // 载入词库
     static {
         words = new ArrayList<>();
-        File file = new File(FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt", true));
+        File file = new File(FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt"));
         try {
             words.addAll(FileUtil.readLine(file));
         } catch (Exception e) {

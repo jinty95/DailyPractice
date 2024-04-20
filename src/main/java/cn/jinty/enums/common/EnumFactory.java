@@ -1,11 +1,8 @@
 package cn.jinty.enums.common;
 
 import cn.jinty.entity.KeyValue;
-import cn.jinty.util.string.StringUtil;
-import cn.jinty.util.io.FilePathUtil;
-import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.object.ClassScanUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,25 +25,17 @@ public final class EnumFactory {
 
     // 扫描enums包下面所有的枚举类
     static {
-        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums", true);
-        List<File> files = FileUtil.scanFilesOfRoot(new File(path));
-        for (File file : files) {
-            String classFilePath = file.getAbsolutePath();
-            String className = FilePathUtil.getClassName(classFilePath, "cn.jinty.enums");
-            if (StringUtil.isBlank(className)) {
-                continue;
-            }
-            try {
-                Class<?> enumClass = Class.forName(className);
+        String packageName = "cn.jinty.enums";
+        try {
+            Map<String, Class> classes = ClassScanUtil.scan(packageName);
+            for (Class enumClass : classes.values()) {
                 if (EnumInterface.class != enumClass && EnumInterface.class.isAssignableFrom(enumClass)) {
                     buildMap(enumClass.getSimpleName(), (EnumInterface<?>[]) enumClass.getEnumConstants());
-                    /*System.out.printf("扫描枚举类，反射并加载成功：classFilePath=%s, className=%s\n",
-                            classFilePath, className);*/
                 }
-            } catch (ClassNotFoundException e) {
-                System.out.printf("扫描枚举类，反射类对象异常：classFilePath=%s, className=%s, exception=%s, message=%s\n",
-                        classFilePath, className, e.getClass().getName(), e.getMessage());
             }
+        } catch (Exception e) {
+            System.out.printf("扫描enums包下面所有的枚举类异常：packageName=%s, exception=%s, message=%s%n",
+                    packageName, e.getClass().getName(), e.getMessage());
         }
     }
 

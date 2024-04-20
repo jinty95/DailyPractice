@@ -17,20 +17,23 @@ public final class FilePathUtil {
     private FilePathUtil() {
     }
 
+    // 类文件后缀
+    private static final String CLASS_FILE_SUFFIX = ".class";
+
     /**
-     * 根据"类文件路径+基础包名"获取类全限定名
+     * 根据"类文件路径+包路径"获取类全限定名
      *
      * @param classFilePath 类文件路径
-     * @param basePackage   基础包名
+     * @param packagePath   包路径
      * @return 类全限定名
      */
-    public static String getClassName(String classFilePath, String basePackage) {
-        if (StringUtil.isBlank(classFilePath) || StringUtil.isBlank(basePackage)) {
+    public static String getClassName(String classFilePath, String packagePath) {
+        if (StringUtil.isBlank(classFilePath) || StringUtil.isBlank(packagePath)) {
             return StringUtil.EMPTY;
         }
         classFilePath = convertSeparator(classFilePath).replace(File.separator, ".");
-        int index1 = classFilePath.indexOf(basePackage);
-        int index2 = classFilePath.lastIndexOf(".class");
+        int index1 = classFilePath.indexOf(packagePath);
+        int index2 = classFilePath.lastIndexOf(CLASS_FILE_SUFFIX);
         if (index1 == -1 || index2 == -1) {
             return StringUtil.EMPTY;
         }
@@ -130,12 +133,11 @@ public final class FilePathUtil {
      * 1、当path以"/"开头，那么在classpath(即/target/classes)下寻找资源
      * 2、当path不以"/"开头，那么在FilePathUtil.class所在的目录下寻找资源
      *
-     * @param path       路径
-     * @param isRelative 是否相对
+     * @param path 路径
      * @return 绝对路径
      */
-    public static String getAbsolutePath(String path, boolean isRelative) {
-        return getAbsolutePath(path, isRelative, FilePathUtil.class);
+    public static String getAbsolutePath(String path) {
+        return getAbsolutePath(path, null);
     }
 
     /**
@@ -144,16 +146,12 @@ public final class FilePathUtil {
      * 2、当path不以"/"开头，那么在relativeClass所在的目录下寻找资源
      *
      * @param path          路径
-     * @param isRelative    是否相对
      * @param relativeClass 相对的类
      * @return 绝对路径
      */
-    public static String getAbsolutePath(String path, boolean isRelative, Class<?> relativeClass) {
+    public static String getAbsolutePath(String path, Class<?> relativeClass) {
         if (StringUtil.isBlank(path)) {
             return StringUtil.EMPTY;
-        }
-        if (!isRelative) {
-            return path;
         }
         if (relativeClass == null) {
             relativeClass = FilePathUtil.class;

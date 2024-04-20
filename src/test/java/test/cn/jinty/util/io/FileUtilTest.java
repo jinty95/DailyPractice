@@ -91,7 +91,7 @@ public class FileUtilTest {
     @Test
     public void testParseProperties() {
         try {
-            String path = FilePathUtil.getAbsolutePath("/properties/application.properties", true);
+            String path = FilePathUtil.getAbsolutePath("/properties/application.properties");
             System.out.println("文件路径：" + path);
             System.out.println("文件内容：");
             Properties prop = FileUtil.parseProperties(new File(path));
@@ -105,7 +105,7 @@ public class FileUtilTest {
 
     @Test
     public void testScanFilesOfRoot() {
-        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums", true);
+        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums");
         File root = new File(path);
         List<File> files = FileUtil.scanFilesOfRoot(root);
         System.out.println("根路径：" + path);
@@ -119,7 +119,7 @@ public class FileUtilTest {
 
     @Test
     public void testScanDirsOfRoot() {
-        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums", true);
+        String path = FilePathUtil.getAbsolutePath("/cn/jinty/enums");
         File root = new File(path);
         List<File> files = FileUtil.scanDirsOfRoot(root);
         System.out.println("根路径：" + path);
@@ -226,7 +226,7 @@ public class FileUtilTest {
 
     @Test
     public void testRead() {
-        String filePath = FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt", true);
+        String filePath = FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt");
         try {
             System.out.println(filePath);
             System.out.println(FileUtil.read(new File(filePath)));
@@ -237,7 +237,7 @@ public class FileUtilTest {
 
     @Test
     public void testWrite() {
-        String filePath = FilePathUtil.getAbsolutePath("/txt", true) + File.separator + RandomStringUtil.random(10);
+        String filePath = FilePathUtil.getAbsolutePath("/txt") + File.separator + RandomStringUtil.random(10);
         File file = new File(filePath);
         System.out.println(file.getAbsolutePath());
         try {
@@ -251,7 +251,7 @@ public class FileUtilTest {
 
     @Test
     public void testReadLine() {
-        String filePath = FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt", true);
+        String filePath = FilePathUtil.getAbsolutePath("/txt/sensitive_word.txt");
         try {
             List<String> lines = FileUtil.readLine(new File(filePath));
             System.out.println(filePath);

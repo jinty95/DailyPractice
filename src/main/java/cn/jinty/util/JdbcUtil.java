@@ -2,7 +2,6 @@ package cn.jinty.util;
 
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
-import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.object.BeanUtil;
 import cn.jinty.util.string.NameStringUtil;
 
@@ -32,7 +31,7 @@ public final class JdbcUtil {
      */
     public static Connection getDefaultConnection() throws IOException, SQLException, ClassNotFoundException {
         Properties properties = FileUtil.parseProperties(new File(
-                FilePathUtil.getAbsolutePath("/properties/application.properties", true)));
+                FilePathUtil.getAbsolutePath("/properties/application.properties")));
         String driver = properties.getProperty("db.driver");
         String url = properties.getProperty("db.url");
         String user = properties.getProperty("db.user");

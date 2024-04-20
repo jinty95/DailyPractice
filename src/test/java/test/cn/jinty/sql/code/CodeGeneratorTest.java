@@ -34,7 +34,7 @@ public class CodeGeneratorTest {
     static {
         try {
             props = FileUtil.parseProperties(new File(
-                    FilePathUtil.getAbsolutePath("/properties/codegen.properties", true)));
+                    FilePathUtil.getAbsolutePath("/properties/codegen.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,15 +98,15 @@ public class CodeGeneratorTest {
     }
 
     // 从文件读取DDL
-    private String getDDLFromFile(String filePath, boolean isRelative) throws IOException {
-        String ddlFilePath = FilePathUtil.getAbsolutePath(filePath, isRelative);
+    private String getDDLFromFile(String filePath) throws IOException {
+        String ddlFilePath = FilePathUtil.getAbsolutePath(filePath);
         System.out.println("DDL文件路径：" + ddlFilePath);
         return FileUtil.read(new File(ddlFilePath));
     }
 
     // 从目录读取多个DDL
-    private List<String> getDDLFromDir(String dirPath, boolean isRelative) throws IOException {
-        String ddlDirPath = FilePathUtil.getAbsolutePath(dirPath, isRelative);
+    private List<String> getDDLFromDir(String dirPath) throws IOException {
+        String ddlDirPath = FilePathUtil.getAbsolutePath(dirPath);
         System.out.println("DDL目录路径：" + ddlDirPath);
         List<File> ddlFiles = FileUtil.scanFilesOfRoot(new File(ddlDirPath));
         List<String> ddlList = new ArrayList<>();
@@ -144,7 +144,7 @@ public class CodeGeneratorTest {
             for (String type : props.getProperty("genType").split(",")) {
                 // 指定模板路径
                 String templateFilePath = FilePathUtil.getAbsolutePath(
-                        props.getProperty("relativeTemplateFilePath." + type), true);
+                        props.getProperty("relativeTemplateFilePath." + type));
                 // 指定目标目录
                 String targetDir = FilePathUtil.concatBySeparator(props.getProperty("baseTargetDir"),
                         props.getProperty("basePackage").replace(".", "/"),
