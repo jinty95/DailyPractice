@@ -1,17 +1,21 @@
 package test.cn.jinty.util.excel;
 
+import cn.jinty.Main;
 import cn.jinty.util.ChineseUtil;
 import cn.jinty.util.excel.ExcelExportUtil;
 import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.string.RandomStringUtil;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.util.TempFile;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -148,6 +152,39 @@ public class ExcelExportUtilTest {
             System.out.printf("导出%d行Excel成功，文件路径%s，耗时%d毫秒%n", totalRowNumber, filePath, (endTime - beginTime));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    // 读取Excel模板，写入数据，然后导出
+    @Test
+    public void testReadFromTemplateAndExport() {
+        InputStream is = null;
+        Workbook wb = null;
+        FileOutputStream os = null;
+        String templatePath = "/excel/person_excel_template.xlsx";
+        String filePath = "D:\\temp\\ReadFromTemplateAndExportTest.xlsx";
+        try {
+            is = Main.class.getResourceAsStream(templatePath);
+            // 这种又读又写的，无法使用流式读写功能，所以要注意这里存在内存溢出的风险
+            wb = WorkbookFactory.create(is);
+            Sheet sheet1 = wb.getSheetAt(0);
+            ExcelExportUtil.writeContentToSheet(sheet1, 2, null, getFields(), getContents(5));
+            Sheet sheet2 = wb.getSheetAt(1);
+            ExcelExportUtil.writeContentToSheet(sheet2, 2, null, getFields(), getContents(5));
+            // 只有两个sheet，超出就抛异常了
+            /*Sheet sheet3 = wb.getSheetAt(2);
+            ExcelExportUtil.writeContentToSheet(sheet3, 2, null, getFields(), getContents(5));*/
+            os = new FileOutputStream(filePath);
+            wb.write(os);
+            System.out.println("读取Excel模板：" + templatePath);
+            System.out.println("往Excel模板中填充数据并导出：" + filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭流
+            IOUtil.closeQuietly(os);
+            IOUtil.closeQuietly(wb);
+            IOUtil.closeQuietly(is);
         }
     }
 

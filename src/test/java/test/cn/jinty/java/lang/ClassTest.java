@@ -1,9 +1,12 @@
 package test.cn.jinty.java.lang;
 
 import cn.jinty.Main;
+import cn.jinty.util.io.IOUtil;
 import com.alibaba.fastjson.parser.Feature;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 /**
@@ -28,6 +31,25 @@ public class ClassTest {
         url = Main.class.getResource("enums");
         System.out.println(url);
         System.out.println(url.getPath());
+    }
+
+    // 在classpath下按包名搜索类
+    // ClassLoader和Class的getResource()方法是等价的
+    @Test
+    public void testGetResourceFromClasspath() {
+        System.out.println(Main.class.getResource("/com/alibaba/fastjson/parser/deserializer"));
+        System.out.println(Thread.currentThread().getContextClassLoader().getResource("com/alibaba/fastjson/parser/deserializer"));
+    }
+
+    // 在classpath下按路径搜索资源文件，得到一个输入流
+    @Test
+    public void testGetResourceAsStream() {
+        InputStream is = Main.class.getResourceAsStream("/config/mybatis-config.xml");
+        try {
+            System.out.println(new String(IOUtil.getBytes(is)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
