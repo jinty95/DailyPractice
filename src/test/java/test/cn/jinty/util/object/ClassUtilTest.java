@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 类/反射 - 工具类 - 测试
@@ -113,6 +114,15 @@ public class ClassUtilTest {
             Class<?> source = pair.getRight();
             System.out.printf("%s 可以被 %s 赋值: %s%n",
                     target.getName(), source.getName(), ClassUtil.isAssignableFrom(target, source));
+        }
+    }
+
+    @Test
+    public void testScanClasses() {
+        try {
+            Set<Class<?>> result = ClassUtil.scanClasses("cn.jinty.util");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -1,8 +1,13 @@
 package cn.jinty.util.object;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * 类/反射 - 工具类
@@ -14,6 +19,13 @@ public final class ClassUtil {
 
     private ClassUtil() {
     }
+
+    // 类文件后缀
+    private static final String CLASS_FILE_SUFFIX = ".class";
+    // URL路径分隔符 (操作系统无关，恒为/)
+    private static final char URL_PATH_SEPARATOR = '/';
+    // 包路径分隔符
+    private static final char PACKAGE_PATH_SEPARATOR = '.';
 
     /**
      * 获取对象的类型
@@ -216,6 +228,96 @@ public final class ClassUtil {
         } else {
             return PRIMITIVE_TO_WRAP_MAP.get(source) == target;
         }
+    }
+
+    /**
+     * 扫描包路径下的所有类
+     *
+     * @param packagePath 包路径
+     * @return 类名 -> 类对象
+     * @throws Exception 异常
+     */
+    public static Set<Class<?>> scanClasses(String packagePath) throws Exception {
+        System.out.printf("扫描指定包路径下的所有类：packagePath=%s%n", packagePath);
+        String urlPath = packagePath.replace(PACKAGE_PATH_SEPARATOR, URL_PATH_SEPARATOR);
+        URL url = Thread.currentThread().getContextClassLoader().getResource(urlPath);
+        if (url == null) {
+            System.out.printf("扫描到的类总数为0：total=%s%n", 0);
+            return new HashSet<>();
+        }
+        String protocol = url.getProtocol();
+        Set<Class<?>> result = new HashSet<>();
+        if ("file".equals(protocol)) {
+            result = scanFile(new File(url.getPath()), packagePath);
+        } else if ("jar".equals(protocol)) {
+            result = scanJar(url, packagePath);
+        }
+        System.out.printf("扫描到的类总数：total=%s%n", result.size());
+        result.forEach((value) -> System.out.printf("扫描到的类：%s%n", value));
+        return result;
+    }
+
+    /**
+     * 在系统中扫描包路径下的所有类
+     *
+     * @param root        文件根路径
+     * @param packagePath 包路径
+     * @return 类名 -> 类对象
+     * @throws Exception 异常
+     */
+    private static Set<Class<?>> scanFile(File root, String packagePath) throws Exception {
+        Set<Class<?>> result = new HashSet<>();
+        if (root == null || !root.exists()) {
+            return result;
+        }
+        if (root.isDirectory()) {
+            File[] files = root.listFiles();
+            if (files != null && files.length > 0) {
+                for (File file : files) {
+                    result.addAll(scanFile(file, packagePath));
+                }
+            }
+        } else if (root.isFile()) {
+            String filePath = root.getPath();
+            if (filePath.endsWith(CLASS_FILE_SUFFIX)) {
+                String classFilePath = filePath.replace(File.separatorChar, PACKAGE_PATH_SEPARATOR);
+                int index1 = classFilePath.indexOf(packagePath);
+                int index2 = classFilePath.lastIndexOf(CLASS_FILE_SUFFIX);
+                String className = classFilePath.substring(index1, index2);
+                result.add(Class.forName(className));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 在Jar包中扫描包路径下的所有类
+     *
+     * @param url         包资源路径
+     * @param packagePath 包路径
+     * @return 类名 -> 类对象
+     * @throws Exception 异常
+     */
+    private static Set<Class<?>> scanJar(URL url, String packagePath) throws Exception {
+        Set<Class<?>> result = new HashSet<>();
+        // 获取资源路径所在的Jar包
+        JarURLConnection jarURLConnection = (JarURLConnection) url.openConnection();
+        JarFile jarFile = jarURLConnection.getJarFile();
+        // 获取Jar包中的所有实体 (包括所有目录和文件)
+        Enumeration<JarEntry> entries = jarFile.entries();
+        // 遍历Jar包中的所有实体
+        while (entries.hasMoreElements()) {
+            JarEntry jarEntry = entries.nextElement();
+            String filePath = jarEntry.getName();
+            // 过滤出指定包路径下的所有类
+            if (filePath.endsWith(CLASS_FILE_SUFFIX)) {
+                String className = filePath.substring(0, filePath.indexOf('.')).replace(URL_PATH_SEPARATOR, PACKAGE_PATH_SEPARATOR);
+                if (className.startsWith(packagePath)) {
+                    result.add(Class.forName(className));
+                }
+            }
+        }
+        return result;
     }
 
 }

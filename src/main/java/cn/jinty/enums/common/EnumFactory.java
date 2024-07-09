@@ -1,12 +1,9 @@
 package cn.jinty.enums.common;
 
 import cn.jinty.entity.KeyValue;
-import cn.jinty.util.object.ClassScanUtil;
+import cn.jinty.util.object.ClassUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 枚举 - 工厂
@@ -27,8 +24,8 @@ public final class EnumFactory {
     static {
         String packageName = "cn.jinty.enums";
         try {
-            Map<String, Class> classes = ClassScanUtil.scan(packageName);
-            for (Class enumClass : classes.values()) {
+            Set<Class<?>> classes = ClassUtil.scanClasses(packageName);
+            for (Class<?> enumClass : classes) {
                 if (EnumInterface.class != enumClass && EnumInterface.class.isAssignableFrom(enumClass)) {
                     buildMap(enumClass.getSimpleName(), (EnumInterface<?>[]) enumClass.getEnumConstants());
                 }
