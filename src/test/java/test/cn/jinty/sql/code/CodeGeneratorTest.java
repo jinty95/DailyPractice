@@ -144,11 +144,15 @@ public class CodeGeneratorTest {
             data.put(END_PACKAGE_MAPPER.name(), props.getProperty("endPackage.mapper"));
             data.put(END_PACKAGE_SERVICE.name(), props.getProperty("endPackage.service"));
             data.put(END_PACKAGE_SERVICE_IMPL.name(), props.getProperty("endPackage.serviceImpl"));
+            data.put(END_PACKAGE_XML_EXT.name(), props.getProperty("endPackage.xmlExt"));
+            data.put(END_PACKAGE_MAPPER_EXT.name(), props.getProperty("endPackage.mapperExt"));
             data.put(END_NAME_ENTITY.name(), props.getProperty("endName.entity"));
             data.put(END_NAME_XML.name(), props.getProperty("endName.xml"));
             data.put(END_NAME_MAPPER.name(), props.getProperty("endName.mapper"));
             data.put(END_NAME_SERVICE.name(), props.getProperty("endName.service"));
             data.put(END_NAME_SERVICE_IMPL.name(), props.getProperty("endName.serviceImpl"));
+            data.put(END_NAME_XML_EXT.name(), props.getProperty("endName.xmlExt"));
+            data.put(END_NAME_MAPPER_EXT.name(), props.getProperty("endName.mapperExt"));
             // 指定校验数据
             TableValidation validation = TableValidation.parseFromProps(props);
             // 指定生成哪些文件

@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 import test.cn.jinty.sql.code.bo.IdRange;
-import test.cn.jinty.sql.code.mapper.JobMapper;
+import test.cn.jinty.sql.code.mapper.ext.JobMapperExt;
 import test.cn.jinty.sql.code.entity.Job;
 
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public class MybatisTest {
     @Test
     public void testSelect() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+        JobMapperExt jobMapper = sqlSession.getMapper(JobMapperExt.class);
 
         long id = 1L;
         Job job = jobMapper.selectById(id);
@@ -98,7 +98,7 @@ public class MybatisTest {
     @Test
     public void testInsert() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+        JobMapperExt jobMapper = sqlSession.getMapper(JobMapperExt.class);
 
         int effect = jobMapper.insertDefault();
         System.out.println("插入数据：effect=" + effect);
@@ -121,7 +121,7 @@ public class MybatisTest {
     @Test
     public void testUpdate() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+        JobMapperExt jobMapper = sqlSession.getMapper(JobMapperExt.class);
 
         Job job = jobMapper.selectById(1L);
         job.setUpdatedBy("me");
@@ -140,7 +140,7 @@ public class MybatisTest {
     @Test
     public void testDelete() {
         SqlSession sqlSession = sqlSessionFactory.openSession();
-        JobMapper jobMapper = sqlSession.getMapper(JobMapper.class);
+        JobMapperExt jobMapper = sqlSession.getMapper(JobMapperExt.class);
 
         Long id = 10L;
         int effect = jobMapper.deleteById(id);

@@ -17,6 +17,7 @@
 
     <mappers>
         <mapper resource="test/cn/jinty/sql/code/mapper/JobMapper.xml"/>
+        <mapper resource="test/cn/jinty/sql/code/mapper/ext/JobMapperExt.xml"/>
     </mappers>
 
 </configuration>

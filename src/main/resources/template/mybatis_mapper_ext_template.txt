@@ -1,0 +1,14 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT};
+
+import ${BASE_PACKAGE}.${END_PACKAGE_MAPPER}.${CLASS_NAME}${END_NAME_MAPPER};
+
+/**
+ * ${TABLE_COMMENT} - ${END_NAME_MAPPER_EXT}
+ * 不要修改生成的${END_NAME_MAPPER}，继承生成的${END_NAME_MAPPER}，在${END_NAME_MAPPER_EXT}写个性化SQL
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+public interface ${CLASS_NAME}${END_NAME_MAPPER_EXT} extends ${CLASS_NAME}${END_NAME_MAPPER} {
+
+}

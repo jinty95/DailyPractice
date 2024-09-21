@@ -1,32 +1,28 @@
-package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE_IMPL};
+package test.cn.jinty.sql.code.service.impl;
 
-import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
-import ${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT}.${CLASS_NAME}${END_NAME_MAPPER_EXT};
-import ${BASE_PACKAGE}.${END_PACKAGE_SERVICE}.${CLASS_NAME}${END_NAME_SERVICE};
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import test.cn.jinty.sql.code.entity.Job;
+import test.cn.jinty.sql.code.mapper.ext.JobMapperExt;
+import test.cn.jinty.sql.code.service.JobService;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * ${TABLE_COMMENT} - ${END_NAME_SERVICE_IMPL}
+ * 作业表 - ServiceImpl
  *
- * @author ${AUTHOR}
- * @date ${DATE}
+ * @author Jinty
+ * @date 2024/09/21
  */
 @Slf4j
-@Service
-public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END_NAME_SERVICE} {
+public class JobServiceImpl implements JobService {
 
-    private static final String EVENT = "${TABLE_COMMENT}";
+    private static final String EVENT = "作业表";
 
-    @Autowired
-    private ${CLASS_NAME}${END_NAME_MAPPER_EXT} mapper;
+    private JobMapperExt mapper;
 
     @Override
-    public boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item) {
+    public boolean insert(Job item) {
         try {
             return mapper.insert(item) > 0;
         } catch (Exception e) {
@@ -36,7 +32,7 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public boolean batchInsert(List<${CLASS_NAME}${END_NAME_ENTITY}> list) {
+    public boolean batchInsert(List<Job> list) {
         try {
             return mapper.batchInsert(list) > 0;
         } catch (Exception e) {
@@ -46,10 +42,10 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item) {
+    public boolean updateById(Job item) {
         try {
             item.setUpdateTime(new Date());
-            return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
+            return mapper.updateById(item) > 0;
         } catch (Exception e) {
             log.error(String.format("%s-更新失败：item=%s", EVENT, item), e);
             throw new RuntimeException(String.format("%s-更新失败", EVENT));
@@ -57,7 +53,7 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public boolean updateByParam(${CLASS_NAME}${END_NAME_ENTITY} item, ${CLASS_NAME}${END_NAME_ENTITY} param) {
+    public boolean updateByParam(Job item, Job param) {
         try {
             item.setUpdateTime(new Date());
             param.setIsDeleted(0);
@@ -69,41 +65,41 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public int logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s, String updatedBy) {
+    public int logicDeleteByIds(List<Long> ids, String updatedBy) {
         try {
-            int total = ${PK_FIELD_NAME}s.size();
-            int success = mapper.logicDeleteBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s, updatedBy);
-            log.info("{}-批量逻辑删除：${PK_FIELD_NAME}s={}, updatedBy={}, total={}, success={}, fail={}",
-                    EVENT, ${PK_FIELD_NAME}s, updatedBy, total, success, total - success);
+            int total = ids.size();
+            int success = mapper.logicDeleteByIds(ids, updatedBy);
+            log.info("{}-批量逻辑删除：ids={}, updatedBy={}, total={}, success={}, fail={}",
+                    EVENT, ids, updatedBy, total, success, total - success);
             return success;
         } catch (Exception e) {
-            log.error(String.format("%s-批量逻辑删除失败：${PK_FIELD_NAME}s=%s, updatedBy=%s", EVENT, ${PK_FIELD_NAME}s, updatedBy), e);
+            log.error(String.format("%s-批量逻辑删除失败：ids=%s, updatedBy=%s", EVENT, ids, updatedBy), e);
             throw new RuntimeException(String.format("%s-批量逻辑删除失败", EVENT));
         }
     }
 
     @Override
-    public ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
+    public Job selectById(Long id) {
         try {
-            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
+            return mapper.selectById(id);
         } catch (Exception e) {
-            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}=%s", EVENT, ${PK_FIELD_NAME}), e);
+            log.error(String.format("%s-查询失败：id=%s", EVENT, id), e);
             throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 
     @Override
-    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s) {
+    public List<Job> selectByIds(List<Long> ids) {
         try {
-            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s);
+            return mapper.selectByIds(ids);
         } catch (Exception e) {
-            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}s=%s", EVENT, ${PK_FIELD_NAME}s), e);
+            log.error(String.format("%s-查询失败：ids=%s", EVENT, ids), e);
             throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 
     @Override
-    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectByParam(${CLASS_NAME}${END_NAME_ENTITY} param) {
+    public List<Job> selectByParam(Job param) {
         try {
             param.setIsDeleted(0);
             return mapper.selectByParam(param);
@@ -114,7 +110,7 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public int selectCount(${CLASS_NAME}${END_NAME_ENTITY} param) {
+    public int selectCount(Job param) {
         try {
             param.setIsDeleted(0);
             return mapper.selectCount(param);
@@ -125,7 +121,7 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END
     }
 
     @Override
-    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectByPage(${CLASS_NAME}${END_NAME_ENTITY} param, Integer start, Integer length) {
+    public List<Job> selectByPage(Job param, Integer start, Integer length) {
         try {
             param.setIsDeleted(0);
             return mapper.selectByPage(param, start, length);

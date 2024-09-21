@@ -27,6 +27,8 @@ public enum TemplatePlaceholderEnum {
     END_PACKAGE_MAPPER,
     END_PACKAGE_SERVICE,
     END_PACKAGE_SERVICE_IMPL,
+    END_PACKAGE_XML_EXT,
+    END_PACKAGE_MAPPER_EXT,
 
     // 类
     CLASS_NAME,
@@ -36,6 +38,8 @@ public enum TemplatePlaceholderEnum {
     END_NAME_MAPPER,
     END_NAME_SERVICE,
     END_NAME_SERVICE_IMPL,
+    END_NAME_XML_EXT,
+    END_NAME_MAPPER_EXT,
 
     // 类字段
     FIELD_CLASS,
