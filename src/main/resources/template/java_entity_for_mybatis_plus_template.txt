@@ -1,0 +1,31 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_ENTITY_FOR_MP};
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+${IMPORT_CLASS}
+
+/**
+ * ${TABLE_COMMENT}
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@Data
+@NoArgsConstructor
+@TableName("${TABLE_NAME}")
+public class ${CLASS_NAME}${END_NAME_ENTITY_FOR_MP} {
+
+    // ${PK_COLUMN_COMMENT}
+    @TableId(value = "`${PK_COLUMN_NAME}`", type = IdType.AUTO)
+    private ${PK_FIELD_TYPE} ${PK_FIELD_NAME};
+${FOR_EACH}
+    // ${COLUMN_COMMENT}
+    @TableField(value = "`${COLUMN_NAME}`")
+    private ${FIELD_TYPE} ${FIELD_NAME};
+${END_FOR_EACH}
+}

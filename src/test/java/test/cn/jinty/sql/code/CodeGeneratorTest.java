@@ -34,7 +34,7 @@ public class CodeGeneratorTest {
     static {
         try {
             props = FileUtil.parseProperties(new File(
-                    FilePathUtil.getAbsolutePath("/properties/codegen.properties")));
+                    FilePathUtil.getAbsolutePath("/properties/codegen/codegen-default.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,7 +138,7 @@ public class CodeGeneratorTest {
             Map<String, String> data = new HashMap<>();
             data.put(BASE_PACKAGE.name(), props.getProperty("basePackage"));
             data.put(AUTHOR.name(), props.getProperty("author"));
-            // 指定末端包名、末端名称
+            // 指定末端包名
             data.put(END_PACKAGE_ENTITY.name(), props.getProperty("endPackage.entity"));
             data.put(END_PACKAGE_XML.name(), props.getProperty("endPackage.xml"));
             data.put(END_PACKAGE_MAPPER.name(), props.getProperty("endPackage.mapper"));
@@ -146,6 +146,8 @@ public class CodeGeneratorTest {
             data.put(END_PACKAGE_SERVICE_IMPL.name(), props.getProperty("endPackage.serviceImpl"));
             data.put(END_PACKAGE_XML_EXT.name(), props.getProperty("endPackage.xmlExt"));
             data.put(END_PACKAGE_MAPPER_EXT.name(), props.getProperty("endPackage.mapperExt"));
+            data.put(END_PACKAGE_ENTITY_FOR_MP.name(), props.getProperty("endPackage.entityForMP"));
+            // 指定末端名称
             data.put(END_NAME_ENTITY.name(), props.getProperty("endName.entity"));
             data.put(END_NAME_XML.name(), props.getProperty("endName.xml"));
             data.put(END_NAME_MAPPER.name(), props.getProperty("endName.mapper"));
@@ -153,6 +155,7 @@ public class CodeGeneratorTest {
             data.put(END_NAME_SERVICE_IMPL.name(), props.getProperty("endName.serviceImpl"));
             data.put(END_NAME_XML_EXT.name(), props.getProperty("endName.xmlExt"));
             data.put(END_NAME_MAPPER_EXT.name(), props.getProperty("endName.mapperExt"));
+            data.put(END_NAME_ENTITY_FOR_MP.name(), props.getProperty("endName.entityForMP"));
             // 指定校验数据
             TableValidation validation = TableValidation.parseFromProps(props);
             // 指定生成哪些文件
