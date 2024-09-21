@@ -91,19 +91,30 @@ public final class FileUtil {
     }
 
     /**
-     * 获取文件大小
+     * 获取文件或目录大小
      *
      * @param file 文件
-     * @return 文件大小(单位为Byte)
+     * @return 文件或目录大小(单位为Byte)
      */
     public static long getSize(File file) {
-        if (!existFile(file)) {
+        // 不存在
+        if (!exists(file)) {
             return 0L;
         }
-        /*try (InputStream is = new FileInputStream(file)) {
-            return IOUtil.getSize(is);
-        }*/
-        return file.length();
+        // 文件
+        if (file.isFile()) {
+            return file.length();
+        }
+        // 目录
+        File[] subFiles = file.listFiles();
+        if (subFiles == null || subFiles.length == 0) {
+            return 0L;
+        }
+        long size = 0L;
+        for (File subFile : subFiles) {
+            size += getSize(subFile);
+        }
+        return size;
     }
 
     /**

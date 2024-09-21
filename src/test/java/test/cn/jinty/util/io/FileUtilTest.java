@@ -59,7 +59,8 @@ public class FileUtilTest {
 
     @Test
     public void testGetSize() {
-        File file = new File("C:/Software/Chrome_114.0.5735.110_x64.msi");
+        //File file = new File("C:/Software/Chrome_114.0.5735.110_x64.msi");
+        File file = new File("D:\\Other\\Video");
         try {
             System.out.println(file.getAbsolutePath());
             System.out.println("获取文件大小(字节数)");
