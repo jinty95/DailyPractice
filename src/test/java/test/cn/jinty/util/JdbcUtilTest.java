@@ -4,7 +4,7 @@ import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 import org.junit.Test;
-import test.cn.jinty.sql.code.Job;
+import test.cn.jinty.sql.code.entity.Job;
 
 import java.io.File;
 import java.sql.Connection;

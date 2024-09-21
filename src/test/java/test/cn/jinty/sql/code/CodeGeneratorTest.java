@@ -9,6 +9,7 @@ import cn.jinty.sql.validate.TableValidation;
 import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.object.ObjectUtil;
 import cn.jinty.util.string.StringUtil;
 import org.junit.Test;
 
@@ -17,8 +18,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.*;
 
-import static cn.jinty.sql.code.TemplatePlaceholderEnum.AUTHOR;
-import static cn.jinty.sql.code.TemplatePlaceholderEnum.BASE_PACKAGE;
+import static cn.jinty.sql.code.TemplatePlaceholderEnum.*;
 
 /**
  * 代码生成器 - 测试
@@ -42,7 +42,7 @@ public class CodeGeneratorTest {
 
     // 插入与删除不需要考虑逻辑删除。
     // 更新与查询默认针对非逻辑删除的数据，如果需要处理逻辑删除的数据，自行实现。
-    
+
     @Test
     public void testGen() {
         gen(getDDL());
@@ -138,6 +138,17 @@ public class CodeGeneratorTest {
             Map<String, String> data = new HashMap<>();
             data.put(BASE_PACKAGE.name(), props.getProperty("basePackage"));
             data.put(AUTHOR.name(), props.getProperty("author"));
+            // 指定末端包名、末端名称
+            data.put(END_PACKAGE_ENTITY.name(), props.getProperty("endPackage.entity"));
+            data.put(END_PACKAGE_XML.name(), props.getProperty("endPackage.xml"));
+            data.put(END_PACKAGE_MAPPER.name(), props.getProperty("endPackage.mapper"));
+            data.put(END_PACKAGE_SERVICE.name(), props.getProperty("endPackage.service"));
+            data.put(END_PACKAGE_SERVICE_IMPL.name(), props.getProperty("endPackage.serviceImpl"));
+            data.put(END_NAME_ENTITY.name(), props.getProperty("endName.entity"));
+            data.put(END_NAME_XML.name(), props.getProperty("endName.xml"));
+            data.put(END_NAME_MAPPER.name(), props.getProperty("endName.mapper"));
+            data.put(END_NAME_SERVICE.name(), props.getProperty("endName.service"));
+            data.put(END_NAME_SERVICE_IMPL.name(), props.getProperty("endName.serviceImpl"));
             // 指定校验数据
             TableValidation validation = TableValidation.parseFromProps(props);
             // 指定生成哪些文件
@@ -147,11 +158,12 @@ public class CodeGeneratorTest {
                         props.getProperty("relativeTemplateFilePath." + type));
                 // 指定目标目录
                 String targetDir = FilePathUtil.concatBySeparator(props.getProperty("baseTargetDir"),
-                        props.getProperty("basePackage").replace(".", "/"),
-                        props.getProperty("targetDir." + type)
+                        ObjectUtil.firstNotNull(props.getProperty("basePackage"), "").replace(".", "/"),
+                        ObjectUtil.firstNotNull(props.getProperty("endPackage." + type), "").replace(".", "/")
                 );
                 // 指定文件后缀
-                String targetFileSuffix = props.getProperty("targetFileSuffix." + type);
+                String targetFileSuffix = ObjectUtil.firstNotNull(props.getProperty("endName." + type), "")
+                        + props.getProperty("fileNameSuffix." + type);
                 // 生成文件
                 CodeGenerator.generate(ddl, typeMapper, validation, data, templateFilePath, targetDir, targetFileSuffix);
             }

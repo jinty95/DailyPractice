@@ -1,8 +1,8 @@
-package ${BASE_PACKAGE}.service.impl;
+package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE_IMPL};
 
-import ${BASE_PACKAGE}.entity.${CLASS_NAME};
-import ${BASE_PACKAGE}.mapper.${CLASS_NAME}Mapper;
-import ${BASE_PACKAGE}.service.${CLASS_NAME}Service;
+import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
+import ${BASE_PACKAGE}.${END_PACKAGE_MAPPER}.${CLASS_NAME}${END_NAME_MAPPER};
+import ${BASE_PACKAGE}.${END_PACKAGE_SERVICE}.${CLASS_NAME}${END_NAME_SERVICE};
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,22 +11,22 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * ${TABLE_COMMENT} - ServiceImpl
+ * ${TABLE_COMMENT} - ${END_NAME_SERVICE_IMPL}
  *
  * @author ${AUTHOR}
  * @date ${DATE}
  */
 @Slf4j
 @Service
-public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
+public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END_NAME_SERVICE} {
 
     private static final String EVENT = "${TABLE_COMMENT}";
 
     @Autowired
-    private ${CLASS_NAME}Mapper mapper;
+    private ${CLASS_NAME}${END_NAME_MAPPER} mapper;
 
     @Override
-    public boolean insert(${CLASS_NAME} item) {
+    public boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item) {
         try {
             return mapper.insert(item) > 0;
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public boolean batchInsert(List<${CLASS_NAME}> list) {
+    public boolean batchInsert(List<${CLASS_NAME}${END_NAME_ENTITY}> list) {
         try {
             return mapper.batchInsert(list) > 0;
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item) {
+    public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item) {
         try {
             item.setUpdateTime(new Date());
             return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
@@ -57,7 +57,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public boolean updateByParam(${CLASS_NAME} item, ${CLASS_NAME} param) {
+    public boolean updateByParam(${CLASS_NAME}${END_NAME_ENTITY} item, ${CLASS_NAME}${END_NAME_ENTITY} param) {
         try {
             item.setUpdateTime(new Date());
             param.setIsDeleted(0);
@@ -83,7 +83,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
+    public ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
         try {
             return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s) {
+    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s) {
         try {
             return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}s(${PK_FIELD_NAME}s);
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public List<${CLASS_NAME}> selectByParam(${CLASS_NAME} param) {
+    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectByParam(${CLASS_NAME}${END_NAME_ENTITY} param) {
         try {
             param.setIsDeleted(0);
             return mapper.selectByParam(param);
@@ -114,7 +114,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public int selectCount(${CLASS_NAME} param) {
+    public int selectCount(${CLASS_NAME}${END_NAME_ENTITY} param) {
         try {
             param.setIsDeleted(0);
             return mapper.selectCount(param);
@@ -125,7 +125,7 @@ public class ${CLASS_NAME}ServiceImpl implements ${CLASS_NAME}Service {
     }
 
     @Override
-    public List<${CLASS_NAME}> selectByPage(${CLASS_NAME} param, Integer start, Integer length) {
+    public List<${CLASS_NAME}${END_NAME_ENTITY}> selectByPage(${CLASS_NAME}${END_NAME_ENTITY} param, Integer start, Integer length) {
         try {
             param.setIsDeleted(0);
             return mapper.selectByPage(param, start, length);

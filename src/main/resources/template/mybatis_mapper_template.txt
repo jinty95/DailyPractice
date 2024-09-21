@@ -1,18 +1,18 @@
-package ${BASE_PACKAGE}.mapper;
+package ${BASE_PACKAGE}.${END_PACKAGE_MAPPER};
 
 import org.apache.ibatis.annotations.Param;
-import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
 import ${BASE_PACKAGE}.bo.IdRange;
 
 import java.util.List;
 
 /**
- * ${TABLE_COMMENT} - Mapper
+ * ${TABLE_COMMENT} - ${END_NAME_MAPPER}
  *
  * @author ${AUTHOR}
  * @date ${DATE}
  */
-public interface ${CLASS_NAME}Mapper {
+public interface ${CLASS_NAME}${END_NAME_MAPPER} {
 
     /**
      * 插入(字段都填充默认值)
@@ -22,23 +22,23 @@ public interface ${CLASS_NAME}Mapper {
     /**
      * 插入(忽略空字段)
      */
-    int insert(@Param("item") ${CLASS_NAME} item);
+    int insert(@Param("item") ${CLASS_NAME}${END_NAME_ENTITY} item);
 
     /**
      * 批量插入(空字段填充默认值)
      */
-    int batchInsert(@Param("list") List<${CLASS_NAME}> list);
+    int batchInsert(@Param("list") List<${CLASS_NAME}${END_NAME_ENTITY}> list);
 
     /**
      * 根据主键更新(忽略空字段)
      * 注意：更新语句中包含了update_time字段，会导致ON UPDATE CURRENT_TIMESTAMP失效，使用时需要手动赋予当前时间
      */
-    int updateBy${PK_FIELD_NAME_UPPER_FIRST}(@Param("item") ${CLASS_NAME} item);
+    int updateBy${PK_FIELD_NAME_UPPER_FIRST}(@Param("item") ${CLASS_NAME}${END_NAME_ENTITY} item);
 
     /**
      * 根据条件更新(忽略空字段)
      */
-    int updateByParam(@Param("item") ${CLASS_NAME} item, @Param("param") ${CLASS_NAME} param);
+    int updateByParam(@Param("item") ${CLASS_NAME}${END_NAME_ENTITY} item, @Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 根据主键批量逻辑删除
@@ -58,41 +58,41 @@ public interface ${CLASS_NAME}Mapper {
     /**
      * 根据主键查询
      */
-    ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(@Param("${PK_FIELD_NAME}") ${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+    ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(@Param("${PK_FIELD_NAME}") ${PK_FIELD_TYPE} ${PK_FIELD_NAME});
 
     /**
      * 根据主键批量查询
      */
-    List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(@Param("${PK_FIELD_NAME}s") List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(@Param("${PK_FIELD_NAME}s") List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
 
     /**
      * 查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByParam(@Param("param") ${CLASS_NAME} param);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByParam(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 查询数量(条件忽略空字段)
      */
-    int selectCount(@Param("param") ${CLASS_NAME} param);
+    int selectCount(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 分页查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByPage(@Param("param") ${CLASS_NAME} param, @Param("start") Integer start, @Param("length") Integer length);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByPage(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param, @Param("start") Integer start, @Param("length") Integer length);
 
     /**
      * ID分片查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByIdShard(@Param("param") ${CLASS_NAME} param, @Param("shardTotal") Integer shardTotal, @Param("shardNum") Integer shardNum);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByIdShard(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param, @Param("shardTotal") Integer shardTotal, @Param("shardId") Integer shardId);
 
     /**
      * 查询ID范围(条件忽略空字段)
      */
-    IdRange selectIdRange(@Param("param") ${CLASS_NAME} param);
+    IdRange selectIdRange(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 根据ID范围进行查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByIdRange(@Param("param") ${CLASS_NAME} param, @Param("minId") Long minId, @Param("maxId") Long maxId);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByIdRange(@Param("param") ${CLASS_NAME}${END_NAME_ENTITY} param, @Param("minId") Long minId, @Param("maxId") Long maxId);
 
 }

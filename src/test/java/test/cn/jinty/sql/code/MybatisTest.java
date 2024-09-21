@@ -1,12 +1,14 @@
 package test.cn.jinty.sql.code;
 
-import cn.jinty.entity.IdRange;
 import cn.jinty.util.math.NumberUtil;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+import test.cn.jinty.sql.code.bo.IdRange;
+import test.cn.jinty.sql.code.mapper.JobMapper;
+import test.cn.jinty.sql.code.entity.Job;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -69,9 +71,9 @@ public class MybatisTest {
         System.out.println();
 
         int shardTotal = 4;
-        int shardNum = 3;
-        jobList = jobMapper.selectByIdShard(new Job(), shardTotal, shardNum);
-        System.out.printf("ID分片查询：shardTotal=%s, shardNum=%s%n", shardTotal, shardNum);
+        int shardId = 3;
+        jobList = jobMapper.selectByIdShard(new Job(), shardTotal, shardId);
+        System.out.printf("ID分片查询：shardTotal=%s, shardId=%s%n", shardTotal, shardId);
         jobList.forEach(System.out::println);
         System.out.println();
 

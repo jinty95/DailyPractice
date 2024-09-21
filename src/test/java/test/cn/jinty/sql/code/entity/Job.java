@@ -1,6 +1,7 @@
-package test.cn.jinty.sql.code;
+package test.cn.jinty.sql.code.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -8,9 +9,10 @@ import java.util.Date;
  * 作业表
  *
  * @author Jinty
- * @date 2023/03/25
+ * @date 2024/09/21
  */
 @Data
+@NoArgsConstructor
 public class Job {
 
     // 自增ID

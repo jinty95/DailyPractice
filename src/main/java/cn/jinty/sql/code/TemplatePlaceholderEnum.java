@@ -21,9 +21,21 @@ public enum TemplatePlaceholderEnum {
 
     // 包
     BASE_PACKAGE,
+    // 末端包名
+    END_PACKAGE_ENTITY,
+    END_PACKAGE_XML,
+    END_PACKAGE_MAPPER,
+    END_PACKAGE_SERVICE,
+    END_PACKAGE_SERVICE_IMPL,
 
     // 类
     CLASS_NAME,
+    // 末端名称
+    END_NAME_ENTITY,
+    END_NAME_XML,
+    END_NAME_MAPPER,
+    END_NAME_SERVICE,
+    END_NAME_SERVICE_IMPL,
 
     // 类字段
     FIELD_CLASS,

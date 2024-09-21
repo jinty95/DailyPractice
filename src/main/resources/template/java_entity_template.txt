@@ -1,4 +1,4 @@
-package ${BASE_PACKAGE}.entity;
+package ${BASE_PACKAGE}.${END_PACKAGE_ENTITY};
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ ${IMPORT_CLASS}
  */
 @Data
 @NoArgsConstructor
-public class ${CLASS_NAME} {
+public class ${CLASS_NAME}${END_NAME_ENTITY} {
 
     // ${PK_COLUMN_COMMENT}
     private ${PK_FIELD_TYPE} ${PK_FIELD_NAME};

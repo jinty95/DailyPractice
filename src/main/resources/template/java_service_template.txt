@@ -1,36 +1,36 @@
-package ${BASE_PACKAGE}.service;
+package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE};
 
-import ${BASE_PACKAGE}.entity.${CLASS_NAME};
+import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
 
 import java.util.List;
 
 /**
- * ${TABLE_COMMENT} - Service
+ * ${TABLE_COMMENT} - ${END_NAME_SERVICE}
  *
  * @author ${AUTHOR}
  * @date ${DATE}
  */
-public interface ${CLASS_NAME}Service {
+public interface ${CLASS_NAME}${END_NAME_SERVICE} {
 
     /**
      * 插入(忽略空字段)
      */
-    boolean insert(${CLASS_NAME} item);
+    boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item);
 
     /**
      * 批量插入(空字段填充默认值)
      */
-    boolean batchInsert(List<${CLASS_NAME}> list);
+    boolean batchInsert(List<${CLASS_NAME}${END_NAME_ENTITY}> list);
 
     /**
      * 根据主键更新(忽略空字段)
      */
-    boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME} item);
+    boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item);
 
     /**
      * 根据条件更新(忽略空字段)
      */
-    boolean updateByParam(${CLASS_NAME} item, ${CLASS_NAME} param);
+    boolean updateByParam(${CLASS_NAME}${END_NAME_ENTITY} item, ${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 根据主键批量逻辑删除
@@ -40,26 +40,26 @@ public interface ${CLASS_NAME}Service {
     /**
      * 根据主键查询
      */
-    ${CLASS_NAME} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
+    ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
 
     /**
      * 根据主键批量查询
      */
-    List<${CLASS_NAME}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectBy${PK_FIELD_NAME_UPPER_FIRST}s(List<${PK_FIELD_TYPE}> ${PK_FIELD_NAME}s);
 
     /**
      * 查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByParam(${CLASS_NAME} param);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByParam(${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 查询数量(条件忽略空字段)
      */
-    int selectCount(${CLASS_NAME} param);
+    int selectCount(${CLASS_NAME}${END_NAME_ENTITY} param);
 
     /**
      * 分页查询(条件忽略空字段)
      */
-    List<${CLASS_NAME}> selectByPage(${CLASS_NAME} param, Integer start, Integer length);
+    List<${CLASS_NAME}${END_NAME_ENTITY}> selectByPage(${CLASS_NAME}${END_NAME_ENTITY} param, Integer start, Integer length);
 
 }

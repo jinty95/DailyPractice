@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="test.cn.jinty.sql.code.JobMapper">
+<mapper namespace="test.cn.jinty.sql.code.mapper.JobMapper">
 
     <!-- 查询结果映射 -->
-    <resultMap id="baseResultMap" type="test.cn.jinty.sql.code.Job">
+    <resultMap id="baseResultMap" type="test.cn.jinty.sql.code.entity.Job">
         <id column="id" property="id"/>
         <result column="job_type" property="jobType"/>
         <result column="job_desc" property="jobDesc"/>
@@ -52,7 +52,7 @@
             `job_type`, `job_desc`, `process_status`, `result_status`, `start_time`, `end_time`, `duration`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            '', '', 'INIT', 'PENDING', '0001-01-01 00:00:00', '0001-01-01 00:00:00', 0, 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP, 
+            '', '', 'INIT', 'PENDING', '0001-01-01 00:00:00', '0001-01-01 00:00:00', '0', '0', '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP, 
         </trim>
     </insert>
 
@@ -106,8 +106,8 @@
                 <choose><when test="item.resultStatus != null">#{item.resultStatus}, </when><otherwise>'PENDING', </otherwise></choose>
                 <choose><when test="item.startTime != null">#{item.startTime}, </when><otherwise>'0001-01-01 00:00:00', </otherwise></choose>
                 <choose><when test="item.endTime != null">#{item.endTime}, </when><otherwise>'0001-01-01 00:00:00', </otherwise></choose>
-                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>0, </otherwise></choose>
-                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.duration != null">#{item.duration}, </when><otherwise>'0', </otherwise></choose>
+                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>'0', </otherwise></choose>
                 <choose><when test="item.createdBy != null">#{item.createdBy}, </when><otherwise>'', </otherwise></choose>
                 <choose><when test="item.createTime != null">#{item.createTime}, </when><otherwise>CURRENT_TIMESTAMP, </otherwise></choose>
                 <choose><when test="item.updatedBy != null">#{item.updatedBy}, </when><otherwise>'', </otherwise></choose>
@@ -236,11 +236,11 @@
         from `job`
         where 1 = 1
         <include refid="baseSelectCondition"/>
-        <if test="shardTotal != null and shardNum != null">and `id` % #{shardTotal} = #{shardNum}</if>
+        <if test="shardTotal != null and shardId != null">and `id` % #{shardTotal} = #{shardId}</if>
     </select>
 
     <!-- 查询ID范围(条件忽略空字段) -->
-    <select id="selectIdRange" resultType="cn.jinty.entity.IdRange">
+    <select id="selectIdRange" resultType="test.cn.jinty.sql.code.bo.IdRange">
         select min(`id`) as minId, max(`id`) as maxId
         from `job`
         where 1 = 1

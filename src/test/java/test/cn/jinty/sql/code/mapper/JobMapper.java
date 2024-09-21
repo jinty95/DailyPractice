@@ -1,7 +1,8 @@
-package test.cn.jinty.sql.code;
+package test.cn.jinty.sql.code.mapper;
 
-import cn.jinty.entity.IdRange;
 import org.apache.ibatis.annotations.Param;
+import test.cn.jinty.sql.code.entity.Job;
+import test.cn.jinty.sql.code.bo.IdRange;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * 作业表 - Mapper
  *
  * @author Jinty
- * @date 2023/11/10
+ * @date 2024/09/21
  */
 public interface JobMapper {
 
@@ -82,7 +83,7 @@ public interface JobMapper {
     /**
      * ID分片查询(条件忽略空字段)
      */
-    List<Job> selectByIdShard(@Param("param") Job param, @Param("shardTotal") Integer shardTotal, @Param("shardNum") Integer shardNum);
+    List<Job> selectByIdShard(@Param("param") Job param, @Param("shardTotal") Integer shardTotal, @Param("shardId") Integer shardId);
 
     /**
      * 查询ID范围(条件忽略空字段)
