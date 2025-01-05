@@ -1,4 +1,4 @@
-package ${BASE_PACKAGE}.${END_PACKAGE_ENTITY_FOR_MP};
+package ${BASE_PACKAGE}.${END_PACKAGE_ENTITY};
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -18,7 +18,7 @@ ${IMPORT_CLASS}
 @Data
 @NoArgsConstructor
 @TableName("${TABLE_NAME}")
-public class ${CLASS_NAME}${END_NAME_ENTITY_FOR_MP} {
+public class ${CLASS_NAME}${END_NAME_ENTITY} {
 
     // ${PK_COLUMN_COMMENT}
     @TableId(value = "`${PK_COLUMN_NAME}`", type = IdType.AUTO)

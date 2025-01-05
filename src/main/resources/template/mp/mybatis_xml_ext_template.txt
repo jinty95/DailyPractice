@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT}.${CLASS_NAME}${END_NAME_MAPPER_EXT}">
+
+    <!-- 查询结果映射 -->
+    <resultMap id="baseResultMap" type="${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY}">
+        <id column="${PK_COLUMN_NAME}" property="${PK_FIELD_NAME}"/>
+        ${FOR_EACH}<result column="${COLUMN_NAME}" property="${FIELD_NAME}"/>
+        ${END_FOR_EACH}
+    </resultMap>
+
+</mapper>

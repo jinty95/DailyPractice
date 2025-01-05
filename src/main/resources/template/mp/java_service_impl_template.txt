@@ -1,0 +1,58 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE_IMPL};
+
+import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
+import ${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT}.${CLASS_NAME}${END_NAME_MAPPER_EXT};
+import ${BASE_PACKAGE}.${END_PACKAGE_SERVICE}.${CLASS_NAME}${END_NAME_SERVICE};
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+/**
+ * ${TABLE_COMMENT} - ${END_NAME_SERVICE_IMPL}
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@Slf4j
+@Service
+public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END_NAME_SERVICE} {
+
+    private static final String EVENT = "${TABLE_COMMENT}";
+
+    @Autowired
+    private ${CLASS_NAME}${END_NAME_MAPPER_EXT} mapper;
+
+    @Override
+    public boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item) {
+        try {
+            return mapper.insert(item) > 0;
+        } catch (Exception e) {
+            log.error(String.format("%s-保存失败：item=%s", EVENT, item), e);
+            throw new RuntimeException(String.format("%s-保存失败", EVENT));
+        }
+    }
+
+    @Override
+    public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item) {
+        try {
+            item.setUpdateTime(new Date());
+            return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
+        } catch (Exception e) {
+            log.error(String.format("%s-更新失败：item=%s", EVENT, item), e);
+            throw new RuntimeException(String.format("%s-更新失败", EVENT));
+        }
+    }
+
+    @Override
+    public ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
+        try {
+            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
+        } catch (Exception e) {
+            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}=%s", EVENT, ${PK_FIELD_NAME}), e);
+            throw new RuntimeException(String.format("%s-查询失败", EVENT));
+        }
+    }
+
+}

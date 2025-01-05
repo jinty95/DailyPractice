@@ -4,17 +4,22 @@ import cn.jinty.exception.ValidateException;
 import cn.jinty.sql.ddl.DDLParser;
 import cn.jinty.sql.entity.Column;
 import cn.jinty.sql.entity.Table;
+import cn.jinty.sql.mapper.MysqlTypeMapper;
 import cn.jinty.sql.mapper.TypeMapper;
 import cn.jinty.sql.validate.TableValidation;
 import cn.jinty.util.DateUtil;
+import cn.jinty.util.JdbcUtil;
+import cn.jinty.util.collection.CollectionUtil;
 import cn.jinty.util.collection.MapUtil;
-import cn.jinty.util.string.NameStringUtil;
-import cn.jinty.util.string.StringUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.object.ObjectUtil;
+import cn.jinty.util.string.NameStringUtil;
+import cn.jinty.util.string.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.*;
 
 import static cn.jinty.sql.code.TemplatePlaceholderEnum.*;
@@ -26,6 +31,110 @@ import static cn.jinty.sql.code.TemplatePlaceholderEnum.*;
  * @date 2023/3/6
  **/
 public class CodeGenerator {
+
+    // 解析配置文件
+    private static Properties props;
+
+    static {
+        try {
+            Properties choice = FileUtil.parseProperties(new File(
+                    FilePathUtil.getAbsolutePath("/properties/codegen/codegen-choice.properties")));
+            String choiceConfig = choice.getProperty("choice");
+            props = FileUtil.parseProperties(new File(
+                    FilePathUtil.getAbsolutePath("/properties/codegen/" + choiceConfig)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据配置指定的数据库连接和表，批量生成代码文件
+     *
+     * @throws Exception 异常
+     */
+    public static void batchGenerate() throws Exception {
+        long begin = System.currentTimeMillis();
+        String targetTableNames = props.getProperty("targetTableNames");
+        Set<String> targetTableNameSet = new HashSet<>();
+        if (StringUtil.isNotBlank(targetTableNames) && !"*".equals(targetTableNames)) {
+            targetTableNameSet = new HashSet<>(Arrays.asList(targetTableNames.split(",")));
+        }
+        int cnt = 0;
+        // 从数据库获取所有DDL
+        List<String> ddlList = null;
+        String driver = props.getProperty("db.driver");
+        String url = props.getProperty("db.url");
+        String user = props.getProperty("db.user");
+        String password = props.getProperty("db.password");
+        try (Connection conn = JdbcUtil.getConnection(driver, url, user, password)) {
+            ddlList = JdbcUtil.getAllCreateTable(conn);
+        }
+        if (CollectionUtil.isEmpty(ddlList)) {
+            System.out.printf("代码生成结束，找不到ddl，未生成任何代码文件%n");
+            return;
+        }
+        // 循环生成每个DDL对应的代码文件
+        for (String ddl : ddlList) {
+            Table table = DDLParser.parse(ddl);
+            if (targetTableNameSet.isEmpty() || targetTableNameSet.contains(table.getName())) {
+                generate(ddl);
+                cnt++;
+            }
+        }
+        long end = System.currentTimeMillis();
+        System.out.printf("代码生成结束，一共生成%s个表的对应代码，耗时%s毫秒%n", cnt, (end - begin));
+    }
+
+    /**
+     * 根据DDL及模板文件，生成代码文件
+     *
+     * @param ddl DDL
+     * @throws IOException IO异常
+     */
+    public static void generate(String ddl) throws IOException {
+        // 指定类型映射
+        TypeMapper typeMapper = new MysqlTypeMapper();
+        // 指定包名及作者
+        Map<String, String> data = new HashMap<>();
+        data.put(BASE_PACKAGE.name(), props.getProperty("basePackage"));
+        data.put(AUTHOR.name(), props.getProperty("author"));
+        // 指定末端包名
+        data.put(END_PACKAGE_ENTITY.name(), props.getProperty("endPackage.entity"));
+        data.put(END_PACKAGE_XML.name(), props.getProperty("endPackage.xml"));
+        data.put(END_PACKAGE_MAPPER.name(), props.getProperty("endPackage.mapper"));
+        data.put(END_PACKAGE_SERVICE.name(), props.getProperty("endPackage.service"));
+        data.put(END_PACKAGE_SERVICE_IMPL.name(), props.getProperty("endPackage.serviceImpl"));
+        data.put(END_PACKAGE_XML_EXT.name(), props.getProperty("endPackage.xmlExt"));
+        data.put(END_PACKAGE_MAPPER_EXT.name(), props.getProperty("endPackage.mapperExt"));
+        // 指定末端名称
+        data.put(END_NAME_ENTITY.name(), props.getProperty("endName.entity"));
+        data.put(END_NAME_XML.name(), props.getProperty("endName.xml"));
+        data.put(END_NAME_MAPPER.name(), props.getProperty("endName.mapper"));
+        data.put(END_NAME_SERVICE.name(), props.getProperty("endName.service"));
+        data.put(END_NAME_SERVICE_IMPL.name(), props.getProperty("endName.serviceImpl"));
+        data.put(END_NAME_XML_EXT.name(), props.getProperty("endName.xmlExt"));
+        data.put(END_NAME_MAPPER_EXT.name(), props.getProperty("endName.mapperExt"));
+        // 指定校验数据
+        TableValidation validation = TableValidation.parseFromProps(props);
+        // 指定生成哪些文件
+        for (String type : props.getProperty("genType").split(",")) {
+            // 指定模板路径
+            String templateFilePath = FilePathUtil.getAbsolutePath(
+                    props.getProperty("relativeTemplateFilePath." + type));
+            // 指定目标目录
+            String targetDir = FilePathUtil.concatBySeparator(props.getProperty("baseTargetDir"),
+                    ObjectUtil.firstNotNull(props.getProperty("basePackage"), "").replace(".", "/"),
+                    ObjectUtil.firstNotNull(props.getProperty("endPackage." + type), "").replace(".", "/")
+            );
+            // 指定文件后缀
+            String targetFileSuffix = ObjectUtil.firstNotNull(props.getProperty("endName." + type), "")
+                    + props.getProperty("fileNameSuffix." + type);
+            // 生成文件
+            generate(ddl, typeMapper, validation, data, templateFilePath, targetDir, targetFileSuffix);
+        }
+    }
+
+    /* 以下为内部函数 */
 
     /**
      * 根据DDL及模板文件，生成代码文件
@@ -39,9 +148,8 @@ public class CodeGenerator {
      * @param targetFileSuffix 目标文件后缀
      * @throws IOException IO异常
      */
-    public static void generate(String ddl, TypeMapper typeMapper, TableValidation validation,
-                                Map<String, String> data, String templateFilePath, String targetDir, String targetFileSuffix)
-            throws IOException {
+    private static void generate(String ddl, TypeMapper typeMapper, TableValidation validation, Map<String, String> data,
+                                 String templateFilePath, String targetDir, String targetFileSuffix) throws IOException {
         // 解析DDL
         Table table = DDLParser.parse(ddl);
         // 校验DDL
@@ -59,8 +167,6 @@ public class CodeGenerator {
         System.out.printf("根据DDL及模板文件，生成代码文件成功：\ntemplateFilePath=%s\ntargetFilePath=%s\n\n",
                 templateFilePath, targetFilePath);
     }
-
-    /* 以下为内部函数 */
 
     /**
      * 向模板占位符填充数据
