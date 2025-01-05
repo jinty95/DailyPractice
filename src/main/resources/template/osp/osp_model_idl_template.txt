@@ -1,0 +1,80 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_ENTITY};
+
+import com.vip.osp.core.idl.annotation.*;
+
+/**
+ * ${TABLE_COMMENT} - OSP参数定义
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@idl
+@namespace("${BASE_PACKAGE}.service.model")
+public class ${CLASS_NAME}${END_NAME_ENTITY} {
+
+    @label("分页列表查询 - 请求体")
+    @doc("分页列表查询 - 请求体")
+    @struct
+    public class ListByPageRequest {
+        @tag(1)
+        @doc("页码")
+        Integer pageNum;
+
+        @tag(2)
+        @doc("页面大小")
+        Integer pageSize;
+
+        @tag(3)
+        @doc("其它参数")
+        ${CLASS_NAME}Model param;
+
+        @tag(4)
+        @doc("筛选字段(自定义展示列)")
+        List<String> fields;
+    }
+
+    @label("分页列表查询 - 响应体")
+    @doc("分页列表查询 - 响应体")
+    @struct
+    public class ListByPageResponse {
+        @tag(1)
+        @doc("响应码：200为成功，其它为失败")
+        String code;
+
+        @tag(2)
+        @doc("响应提示")
+        String msg;
+
+        @tag(3)
+        @doc("响应数据")
+        ${CLASS_NAME}ModelList data;
+    }
+
+    @label("${TABLE_COMMENT} - 结构体列表")
+    @doc("${TABLE_COMMENT} - 结构体列表")
+    @struct
+    public class ${CLASS_NAME}ModelList {
+        @tag(1)
+        @doc("总数")
+        Long total;
+
+        @tag(2)
+        @doc("数据列表")
+        List<${CLASS_NAME}Model> list;
+    }
+
+    @label("${TABLE_COMMENT} - 结构体")
+    @doc("${TABLE_COMMENT} - 结构体")
+    @struct
+    public class ${CLASS_NAME}Model {
+        @tag(1)
+        @doc("${PK_COLUMN_COMMENT}")
+        ${PK_FIELD_TYPE} ${PK_FIELD_NAME};
+${FOR_EACH}
+        @tag(${FIELD_SORT_NO})
+        @doc("${COLUMN_COMMENT}")
+        ${FIELD_TYPE} ${FIELD_NAME};
+${END_FOR_EACH}
+    }
+
+}

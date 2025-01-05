@@ -1,0 +1,25 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE_IMPL};
+
+import com.vip.hermes.core.health.CheckResult;
+import com.vip.osp.core.annotation.OspService;
+import com.vip.osp.core.exception.OspException;
+import ${BASE_PACKAGE}.service.${CLASS_NAME}OspService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@OspService
+@Component
+public class ${CLASS_NAME}OspServiceImpl implements ${CLASS_NAME}OspService {
+
+    @Override
+    public CheckResult healthCheck() throws OspException {
+        return CheckResult.up().build();
+    }
+
+    @Override
+    public ListByPageResponse queryTaskList(WebOspHeader header, ListByPageRequest param) throws OspException {
+        return null;
+    }
+
+}

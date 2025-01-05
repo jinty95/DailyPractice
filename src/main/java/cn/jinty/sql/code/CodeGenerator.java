@@ -236,7 +236,8 @@ public class CodeGenerator {
         StringBuilder importClass = new StringBuilder();
         Set<Class<?>> alreadyImport = new HashSet<>();
         // 构造字段数据(不包括主键)
-        for (Column column : columnList) {
+        for (int i = 0; i < columnList.size(); i++) {
+            Column column = columnList.get(i);
             Class<?> fieldClass = typeMapper.sqlTypeToJavaClass(column.getType());
             String fieldName = NameStringUtil.snakeToCamel(column.getName(), false);
             if (!column.getIsPrimaryKey()) {
@@ -249,6 +250,7 @@ public class CodeGenerator {
                 columnMap.put(FIELD_TYPE.name(), fieldClass.getSimpleName());
                 columnMap.put(FIELD_NAME.name(), fieldName);
                 columnMap.put(FIELD_NAME_UPPER_FIRST.name(), StringUtil.upperFirst(fieldName));
+                columnMap.put(FIELD_SORT_NO.name(), String.valueOf(i + 1));
                 columnData.add(columnMap);
             }
             // 判断字段类型是否需要导入

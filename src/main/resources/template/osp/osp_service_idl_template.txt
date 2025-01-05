@@ -1,0 +1,29 @@
+package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE};
+
+import com.vip.osp.core.idl.annotation.*;
+import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
+
+/**
+ * ${TABLE_COMMENT} - OSP接口定义
+ *
+ * @author ${AUTHOR}
+ * @date ${DATE}
+ */
+@idl
+@namespace("${BASE_PACKAGE}.service")
+public class ${CLASS_NAME}${END_NAME_SERVICE} {
+
+    @label("${TABLE_COMMENT}-OSP服务")
+    @doc("${TABLE_COMMENT}-OSP服务")
+    @service(version = "1.0.0", timeout = 10000)
+    interface ${CLASS_NAME}OspService {
+
+        @label("分页列表查询")
+        @doc("分页列表查询")
+        ${CLASS_NAME}${END_NAME_ENTITY}.ListByPageResponse
+        listByPage(@tag(1) @doc("请求头") @required CommonModelIDL.WebOspHeader header,
+                   @tag(2) @doc("请求体") @required ${CLASS_NAME}${END_NAME_ENTITY}.ListByPageRequest param);
+
+    }
+
+}

@@ -46,6 +46,7 @@ public enum TemplatePlaceholderEnum {
     FIELD_TYPE,
     FIELD_NAME,
     FIELD_NAME_UPPER_FIRST,
+    FIELD_SORT_NO,
 
     // 表
     TABLE_NAME,
@@ -75,7 +76,7 @@ public enum TemplatePlaceholderEnum {
     // 类字段、表字段
     public static List<TemplatePlaceholderEnum> fieldAndColumn() {
         return Arrays.asList(
-                FIELD_CLASS, FIELD_TYPE, FIELD_NAME, FIELD_NAME_UPPER_FIRST,
+                FIELD_CLASS, FIELD_TYPE, FIELD_NAME, FIELD_NAME_UPPER_FIRST, FIELD_SORT_NO,
                 COLUMN_NAME, COLUMN_TYPE, COLUMN_DEFAULT, COLUMN_COMMENT
         );
     }
