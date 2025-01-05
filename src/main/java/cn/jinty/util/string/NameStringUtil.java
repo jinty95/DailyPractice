@@ -11,11 +11,23 @@ public final class NameStringUtil {
     private NameStringUtil() {
     }
 
+    // 驼峰命名只有一种大小搭配的形式，而下划线命名有全大写和全小写两种形式
+
+    /**
+     * 驼峰命名 -> 下划线命名，然后转为全大写形式
+     *
+     * @param camel 驼峰字符串
+     * @return 下划线字符串（全大写形式）
+     */
+    public static String camelToSnakeThenUpper(String camel) {
+        return camelToSnake(camel).toUpperCase();
+    }
+
     /**
      * 驼峰命名 -> 下划线命名
      *
      * @param camel 驼峰字符串
-     * @return 下划线字符串
+     * @return 下划线字符串（全小写形式）
      */
     public static String camelToSnake(String camel) {
         if (StringUtil.isEmpty(camel)) {
@@ -47,10 +59,12 @@ public final class NameStringUtil {
         if (StringUtil.isEmpty(snake)) {
             return StringUtil.EMPTY;
         }
+        // 先全部转小写
+        snake = snake.toLowerCase();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < snake.length(); i++) {
             char c = snake.charAt(i);
-            // 寻找下划线，将其移除，并将后一个字母变为大写
+            // 寻找下划线，将其移除，并将其后一个字母变为大写
             if (c == '_') {
                 upFirst = true;
             } else {

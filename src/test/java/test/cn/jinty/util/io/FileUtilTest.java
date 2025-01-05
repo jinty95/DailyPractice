@@ -6,6 +6,7 @@ import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.collection.ListUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
+import cn.jinty.util.string.NameStringUtil;
 import cn.jinty.util.string.RandomStringUtil;
 import org.junit.Test;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 文件 - 工具类 - 测试
@@ -389,6 +391,21 @@ public class FileUtilTest {
         try {
             FileUtil.splitByLineCount(new File(sourcePath), 3);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 通过文件对多行字符串，进行驼峰和下划线之间的批量转换
+    @Test
+    public void testTransCamelAndSnakeInFile() {
+        String input = "D:\\temp\\name_input.txt";
+        String output = "D:\\temp\\name_output.txt";
+        try {
+            List<String> inputList = FileUtil.readLine(new File(input));
+            FileUtil.writeLine(inputList.stream().map(a -> {
+                return NameStringUtil.snakeToCamel(a, false);
+            }).collect(Collectors.toList()), new File(output));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
