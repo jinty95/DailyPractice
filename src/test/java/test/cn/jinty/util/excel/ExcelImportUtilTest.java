@@ -31,7 +31,7 @@ public class ExcelImportUtilTest {
         try {
             // 解决"Zip bomb detected"报错
             ZipSecureFile.setMinInflateRatio(0);
-            List<Person> data = ExcelImportUtil.readFromFile(filePath, getTitles(), getFields(), Person.class);
+            List<Person> data = ExcelImportUtil.readFromFile(filePath, getTitles(), getFields(), Person.class, false);
             System.out.println("数据总行数：" + data.size());
             System.out.println("数据详情：");
             data.forEach(System.out::println);
@@ -47,7 +47,7 @@ public class ExcelImportUtilTest {
         try {
             // 解决"Zip bomb detected"报错
             ZipSecureFile.setMinInflateRatio(0);
-            List<Person> data = ExcelImportUtil.streamReadFromFile(filePath, getTitles(), getFields(), Person.class);
+            List<Person> data = ExcelImportUtil.readFromFile(filePath, getTitles(), getFields(), Person.class, true);
             System.out.println("数据总行数：" + data.size());
             System.out.println("数据详情：");
             data.forEach(System.out::println);

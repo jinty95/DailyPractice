@@ -4,6 +4,7 @@ import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.object.IntrospectUtil;
 import cn.jinty.util.object.ObjectUtil;
 import com.monitorjbl.xlsx.StreamingReader;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 
 import java.beans.PropertyDescriptor;
@@ -127,15 +128,17 @@ public final class ExcelImportUtil {
                                             List<String> fields, Class<T> clazz) throws Exception {
         List<T> list = new ArrayList<>();
         // 标题对应列号
-        Map<String, Integer> titleToCellNum = readTitleFromRow(sheet.getRow(titleRowNum), titles);
-        // 行号范围[minRowNum,maxRowNum]
-        int minRowNum = sheet.getFirstRowNum();
-        int maxRowNum = sheet.getLastRowNum();
-        // 遍历所有内容行
-        for (int rowNum = Math.max(minRowNum, contentRowNum); rowNum <= maxRowNum; rowNum++) {
-            // 读取一行数据
-            Row row = sheet.getRow(rowNum);
-            list.add(readFromRow(row, titleToCellNum, titles, fields, clazz));
+        Map<String, Integer> titleToCellNum = new HashMap<>();
+        int rowNum = 0;
+        for (Row row : sheet) {
+            if (rowNum == titleRowNum) {
+                // 标题行
+                titleToCellNum = readTitleFromRow(row, titles);
+            } else if (rowNum >= contentRowNum) {
+                // 内容行
+                list.add(readFromRow(row, titleToCellNum, titles, fields, clazz));
+            }
+            rowNum++;
         }
         return list;
     }
@@ -166,20 +169,25 @@ public final class ExcelImportUtil {
     /**
      * 从指定的Excel输入流读取数据
      *
-     * @param is     输入流
-     * @param titles 标题列表
-     * @param fields 字段列表
-     * @param clazz  数据类型
-     * @param <T>    数据类型
+     * @param is       输入流
+     * @param titles   标题列表
+     * @param fields   字段列表
+     * @param clazz    数据类型
+     * @param byStream 是否通过流式读取
+     * @param <T>      数据类型
      * @return 数据列表
      * @throws Exception 异常
      */
     public static <T> List<T> readFromInputStream(InputStream is, List<String> titles, List<String> fields,
-                                                  Class<T> clazz) throws Exception {
+                                                  Class<T> clazz, boolean byStream) throws Exception {
         Workbook workbook = null;
         try {
             // 创建工作簿
-            workbook = WorkbookFactory.create(is);
+            if (byStream) {
+                workbook = StreamingReader.builder().rowCacheSize(1000).bufferSize(4096).open(is);
+            } else {
+                workbook = WorkbookFactory.create(is);
+            }
             // 读取数据
             return readFromWorkbook(workbook, titles, fields, clazz);
         } finally {
@@ -195,18 +203,19 @@ public final class ExcelImportUtil {
      * @param titles   标题列表
      * @param fields   字段列表
      * @param clazz    数据类型
+     * @param byStream 是否通过流式读取
      * @param <T>      数据类型
      * @return 数据列表
      * @throws Exception 异常
      */
     public static <T> List<T> readFromFile(String filePath, List<String> titles, List<String> fields,
-                                           Class<T> clazz) throws Exception {
+                                           Class<T> clazz, boolean byStream) throws Exception {
         InputStream is = null;
         try {
             // 读取文件输入流
             is = new FileInputStream(filePath);
             // 读取数据
-            return readFromInputStream(is, titles, fields, clazz);
+            return readFromInputStream(is, titles, fields, clazz, byStream);
         } finally {
             // 关闭流
             IOUtil.closeQuietly(is);
@@ -217,111 +226,63 @@ public final class ExcelImportUtil {
      * 流式读取Excel
      * 原理：滑动窗口，限定读入内存中的数据大小，将正在解析的数据读到内存缓冲区中，一次操作只加载一定量的数据。
      * 优点：避免将整个表格直接加载到内存，占用大量内存，从而导致内存溢出。
-     * 局限：因为内存中仅加载部分数据，故牺牲了随机访问的能力，仅能通过顺序遍历访问Sheet的所有Row，不能通过索引精准访问某个Row
-     * 注意：for(Row row : sheet)只能遍历一次，第一次读取中断时，第二次会从上次中断位置继续读取，读取结束时，再次调用得到空
+     * 局限：因为内存中仅加载部分数据，故牺牲了随机访问的能力，仅能通过顺序遍历访问Sheet的所有Row，不能通过索引精准访问某个Row。
+     * 注意：for(Row row : sheet)只能遍历一次，第一次读取中断时，第二次会从上次中断位置继续读取，读取结束时，再次调用得到空。
+     *
+     * 普通读取与流式读取的使用区别：只在创建Workbook有区别，其它代码是一样的。
      */
 
     /**
-     * 从表单页读取数据 (流式读取)
+     * 从表单页读取数据，将表格数据作为二维数组输出
      *
-     * @param sheet         表单页
-     * @param titleRowNum   标题行号
-     * @param contentRowNum 数据起始行号
-     * @param titles        标题列表
-     * @param fields        字段列表
-     * @param clazz         数据类型
-     * @param <T>           数据类型
-     * @return 数据列表
-     * @throws Exception 异常
+     * @param sheet 表单页
+     * @return 二维数组
      */
-    public static <T> List<T> streamReadFromSheet(Sheet sheet, int titleRowNum, int contentRowNum, List<String> titles,
-                                                  List<String> fields, Class<T> clazz) throws Exception {
-        List<T> list = new ArrayList<>();
-        // 标题对应列号
-        Map<String, Integer> titleToCellNum = new HashMap<>();
-        int rowNum = 0;
+    public static List<List<String>> simpleReadFromSheet(Sheet sheet) {
+        List<List<String>> data = new ArrayList<>();
         for (Row row : sheet) {
-            if (rowNum == titleRowNum) {
-                // 标题行
-                titleToCellNum = readTitleFromRow(row, titles);
-            } else if (rowNum >= contentRowNum) {
-                // 内容行
-                list.add(readFromRow(row, titleToCellNum, titles, fields, clazz));
+            List<String> rowData = new ArrayList<>();
+            // 有效列数为[minCol,maxCol-1]
+            int minCol = row.getFirstCellNum();
+            int maxCol = row.getLastCellNum();
+            for (int j = minCol; j < maxCol; j++) {
+                String cellVal = readFromCell(row, j);
+                rowData.add(cellVal);
             }
-            rowNum++;
+            data.add(rowData);
         }
-        return list;
+        return data;
     }
 
     /**
-     * 从工作簿读取数据 (流式读取)
-     *
-     * @param workbook 工作簿
-     * @param titles   标题列表
-     * @param fields   字段列表
-     * @param clazz    数据类型
-     * @param <T>      数据类型
-     * @return 数据列表
-     * @throws Exception 异常
-     */
-    public static <T> List<T> streamReadFromWorkbook(Workbook workbook, List<String> titles, List<String> fields,
-                                                     Class<T> clazz) throws Exception {
-        List<T> list = new ArrayList<>();
-        // 表单页号范围[minSheetNum,maxSheetNum)
-        int minSheetNum = 0;
-        int maxSheetNum = workbook.getNumberOfSheets();
-        for (int sheetNum = minSheetNum; sheetNum < maxSheetNum; sheetNum++) {
-            list.addAll(streamReadFromSheet(workbook.getSheetAt(sheetNum), 0, 1, titles, fields, clazz));
-        }
-        return list;
-    }
-
-    /**
-     * 从指定的Excel输入流读取数据 (流式读取)
-     *
-     * @param is     输入流
-     * @param titles 标题列表
-     * @param fields 字段列表
-     * @param clazz  数据类型
-     * @param <T>    数据类型
-     * @return 数据列表
-     * @throws Exception 异常
-     */
-    public static <T> List<T> streamReadFromInputStream(InputStream is, List<String> titles, List<String> fields,
-                                                        Class<T> clazz) throws Exception {
-        Workbook workbook = null;
-        try {
-            // 创建工作簿
-            workbook = StreamingReader.builder().rowCacheSize(1000).bufferSize(4096).open(is);
-            // 读取数据
-            return streamReadFromWorkbook(workbook, titles, fields, clazz);
-        } finally {
-            // 关闭流
-            IOUtil.closeQuietly(workbook);
-        }
-    }
-
-    /**
-     * 从指定的Excel文件读取数据 (流式读取)
+     * 从指定的Excel文件读取数据，将表格作为二维数组输出
      *
      * @param filePath 文件路径
-     * @param titles   标题列表
-     * @param fields   字段列表
-     * @param clazz    数据类型
-     * @param <T>      数据类型
-     * @return 数据列表
+     * @param byStream 是否通过流式读取
+     * @return 二维数组
      * @throws Exception 异常
      */
-    public static <T> List<T> streamReadFromFile(String filePath, List<String> titles, List<String> fields,
-                                                 Class<T> clazz) throws Exception {
+    public static List<List<String>> simpleReadFromFile(String filePath, boolean byStream) throws Exception {
         InputStream is = null;
+        Workbook wb = null;
         try {
-            // 读取文件输入流
+            // 解决"Zip bomb detected"报错
+            ZipSecureFile.setMinInflateRatio(0);
+            // 读取文件
             is = new FileInputStream(filePath);
-            // 读取数据
-            return streamReadFromInputStream(is, titles, fields, clazz);
+            // 根据输入流创建工作簿对象
+            if (byStream) {
+                wb = StreamingReader.builder().rowCacheSize(1000).bufferSize(4096).open(is);
+            } else {
+                wb = WorkbookFactory.create(is);
+            }
+            // 读取第一个表单页
+            Sheet sheet = wb.getSheetAt(0);
+            // 读取所有的行列数据
+            return simpleReadFromSheet(sheet);
         } finally {
             // 关闭流
+            IOUtil.closeQuietly(wb);
             IOUtil.closeQuietly(is);
         }
     }

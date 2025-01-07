@@ -4,6 +4,7 @@ import cn.jinty.enums.BinaryUnitEnum;
 import cn.jinty.enums.FileTypeEnum;
 import cn.jinty.util.JdbcUtil;
 import cn.jinty.util.collection.ListUtil;
+import cn.jinty.util.excel.ExcelImportUtil;
 import cn.jinty.util.io.FilePathUtil;
 import cn.jinty.util.io.FileUtil;
 import cn.jinty.util.string.NameStringUtil;
@@ -405,6 +406,35 @@ public class FileUtilTest {
             FileUtil.writeLine(inputList.stream().map(a -> {
                 return NameStringUtil.snakeToCamel(a, false);
             }).collect(Collectors.toList()), new File(output));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 通过Excel读取数据，并填充到模板中，输入N行，每行填充一次模板，输出N行
+    // 模板中以${数字}作为占位符，${0}对应Excel中的第0列
+    @Test
+    public void readFromExcelAndFillTemplate() {
+        String dir = "D:\\temp\\readFromExcelAndFillTemplate\\";
+        String excelFilePath = dir + "data.xlsx";
+        String templateFilePath = dir + "template.txt";
+        String outputFilePath = dir + "output.txt";
+        String placeholder = "${%d}";
+        try {
+            String template = FileUtil.read(new File(templateFilePath));
+            System.out.println("模板内容：" + template);
+            List<List<String>> dataLists = ExcelImportUtil.simpleReadFromFile(excelFilePath, false);
+            System.out.printf("输入数据一共%d行%n", dataLists.size());
+            List<String> outputList = new ArrayList<>();
+            for (List<String> dataList : dataLists) {
+                String s = template;
+                for (int i = 0; i < dataList.size(); i++) {
+                    s = s.replace(String.format(placeholder, i), dataList.get(i));
+                }
+                outputList.add(s);
+            }
+            FileUtil.writeLine(outputList, new File(outputFilePath));
+            System.out.printf("输出数据一共%d行%n", outputList.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
