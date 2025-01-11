@@ -5,6 +5,7 @@ import cn.jinty.util.object.ClassUtil;
 import junit.framework.Assert;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,6 +87,26 @@ public class NumberUtilTest {
             }
             System.out.println();
         }
+    }
+
+    @Test
+    public void testNumberProrate() {
+        List<NumberUtil.NumberProrateEntity> numberList = Arrays.asList(
+                new NumberUtil.NumberProrateEntity(1L, new BigDecimal("100"), null),
+                new NumberUtil.NumberProrateEntity(2L, new BigDecimal("60"), null),
+                new NumberUtil.NumberProrateEntity(3L, new BigDecimal("50"), null),
+                new NumberUtil.NumberProrateEntity(4L, new BigDecimal("40"), null),
+                new NumberUtil.NumberProrateEntity(5L, new BigDecimal("50"), null)
+        );
+        BigDecimal number = new BigDecimal("280");
+        System.out.println(number);
+        System.out.println(numberList);
+        NumberUtil.numberProrate(number, numberList);
+        System.out.println(numberList);
+        NumberUtil.numberProrate(number, numberList, 1);
+        System.out.println(numberList);
+        NumberUtil.numberProrate(number, numberList, 0);
+        System.out.println(numberList);
     }
 
 }

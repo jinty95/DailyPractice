@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -198,6 +200,73 @@ public final class NumberUtil {
             return (T) Double.valueOf(s);
         }
         throw new IllegalArgumentException(String.format("cannot parse string to number for type [%s]", type.getName()));
+    }
+
+    /**
+     * 数值分摊实体
+     */
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NumberProrateEntity {
+        // ID
+        private Long id;
+        // 原数值
+        private BigDecimal number;
+        // 分摊到的数值
+        private BigDecimal prorateNumber;
+
+        @Override
+        public String toString() {
+            return String.format("{id=%s, number=%s, prorateNumber=%s}", id, number, prorateNumber);
+        }
+    }
+
+    /**
+     * 给定一个数值，和一组数值，将这个数值按这组数值的比例进行分摊
+     *
+     * @param number     一个待分摊的数值
+     * @param numberList 一组数值，数值之间的比例，用于分摊上述数值
+     */
+    public static void numberProrate(BigDecimal number, List<NumberProrateEntity> numberList) {
+        numberProrate(number, numberList, 2);
+    }
+
+    /**
+     * 给定一个数值，和一组数值，将这个数值按这组数值的比例进行分摊
+     *
+     * @param number     一个待分摊的数值
+     * @param numberList 一组数值，数值之间的比例，用于分摊上述数值
+     * @param scale      分摊结果的保留小数位
+     */
+    public static void numberProrate(BigDecimal number, List<NumberProrateEntity> numberList, int scale) {
+        if (number == null || numberList == null || numberList.size() == 0) {
+            return;
+        }
+        RoundingMode mode = RoundingMode.HALF_UP;
+        // 求一组数值的总和
+        BigDecimal total = BigDecimal.ZERO;
+        for (NumberProrateEntity a : numberList) {
+            total = total.add(a.getNumber());
+        }
+        // 进行分摊
+        BigDecimal tempTotal = total;
+        BigDecimal tempNumber = number;
+        for (NumberProrateEntity a : numberList) {
+            BigDecimal prorateNumber = a.getNumber().divide(tempTotal, 10, mode).multiply(tempNumber).setScale(scale, mode);
+            tempTotal = tempTotal.subtract(a.getNumber());
+            tempNumber = tempNumber.subtract(prorateNumber);
+            a.setProrateNumber(prorateNumber);
+        }
+        // 校验摊后总和是否等于原数值
+        for (NumberProrateEntity a : numberList) {
+            tempNumber = tempNumber.add(a.getProrateNumber());
+        }
+        if (tempNumber.compareTo(number) != 0) {
+            throw new RuntimeException(String.format("数值分摊后总和不等于原数值！prorateNumberSum=%s, number=%s, numberList=%s, scale=%s",
+                    tempNumber, number, numberList, scale));
+        }
     }
 
 }
