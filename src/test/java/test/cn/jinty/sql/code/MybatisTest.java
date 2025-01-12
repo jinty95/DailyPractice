@@ -71,9 +71,10 @@ public class MybatisTest {
         System.out.println();
 
         int shardTotal = 4;
-        int shardId = 3;
-        jobList = jobMapper.selectByIdShard(new Job(), shardTotal, shardId);
-        System.out.printf("ID分片查询：shardTotal=%s, shardId=%s%n", shardTotal, shardId);
+        int shardNum = 3;
+        int limit = 2;
+        jobList = jobMapper.selectByIdShard(new Job(), shardTotal, shardNum, limit);
+        System.out.printf("ID分片查询：shardTotal=%s, shardNum=%s, limit=%s%n", shardTotal, shardNum, limit);
         jobList.forEach(System.out::println);
         System.out.println();
 

@@ -10,7 +10,7 @@ import java.util.List;
  * 作业表 - Mapper
  *
  * @author Jinty
- * @date 2024/09/21
+ * @date 2025/01/12
  */
 public interface JobMapper {
 
@@ -83,7 +83,7 @@ public interface JobMapper {
     /**
      * ID分片查询(条件忽略空字段)
      */
-    List<Job> selectByIdShard(@Param("param") Job param, @Param("shardTotal") Integer shardTotal, @Param("shardId") Integer shardId);
+    List<Job> selectByIdShard(@Param("param") Job param, @Param("shardTotal") Integer shardTotal, @Param("shardNum") Integer shardNum, @Param("limit") Integer limit);
 
     /**
      * 查询ID范围(条件忽略空字段)
