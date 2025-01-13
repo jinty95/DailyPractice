@@ -244,16 +244,42 @@ public final class NumberUtil {
         if (number == null || numberList == null || numberList.size() == 0) {
             return;
         }
+        // 只有一个数时，不需要分摊
+        if (numberList.size() == 1) {
+            numberList.get(0).setProrateNumber(number);
+            return;
+        }
         RoundingMode mode = RoundingMode.HALF_UP;
         // 求一组数值的总和
         BigDecimal total = BigDecimal.ZERO;
         for (NumberProrateEntity a : numberList) {
+            // 为空时置为0
+            a.setNumber(a.getNumber() != null ? a.getNumber() : BigDecimal.ZERO);
             total = total.add(a.getNumber());
         }
-        // 进行分摊
+        // 总和为0时，进行均摊
+        if (BigDecimal.ZERO.compareTo(total) == 0) {
+            BigDecimal avg = number.divide(BigDecimal.valueOf(numberList.size()), scale, RoundingMode.HALF_UP);
+            BigDecimal sum = BigDecimal.ZERO;
+            for (int i = 0; i < numberList.size(); i++) {
+                if (i != numberList.size() - 1) {
+                    sum = sum.add(avg);
+                    numberList.get(i).setProrateNumber(avg);
+                } else {
+                    numberList.get(i).setProrateNumber(number.subtract(sum));
+                }
+            }
+            return;
+        }
+        // 按比例进行分摊
         BigDecimal tempTotal = total;
         BigDecimal tempNumber = number;
         for (NumberProrateEntity a : numberList) {
+            // 提前把数分摊完了，那么后面的都只能分到0
+            if (BigDecimal.ZERO.compareTo(tempNumber) == 0) {
+                a.setProrateNumber(BigDecimal.ZERO);
+                continue;
+            }
             BigDecimal prorateNumber = a.getNumber().divide(tempTotal, 10, mode).multiply(tempNumber).setScale(scale, mode);
             tempTotal = tempTotal.subtract(a.getNumber());
             tempNumber = tempNumber.subtract(prorateNumber);

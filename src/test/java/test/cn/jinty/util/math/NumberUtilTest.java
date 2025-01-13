@@ -91,22 +91,45 @@ public class NumberUtilTest {
 
     @Test
     public void testNumberProrate() {
-        List<NumberUtil.NumberProrateEntity> numberList = Arrays.asList(
-                new NumberUtil.NumberProrateEntity(1L, new BigDecimal("100"), null),
-                new NumberUtil.NumberProrateEntity(2L, new BigDecimal("60"), null),
-                new NumberUtil.NumberProrateEntity(3L, new BigDecimal("50"), null),
-                new NumberUtil.NumberProrateEntity(4L, new BigDecimal("40"), null),
-                new NumberUtil.NumberProrateEntity(5L, new BigDecimal("50"), null)
+        for (List<NumberUtil.NumberProrateEntity> numberList : getNumberLists()) {
+            BigDecimal number = new BigDecimal("100");
+            System.out.println("待分摊的数值：" + number);
+            System.out.println("分摊数列：" + numberList);
+            NumberUtil.numberProrate(number, numberList);
+            System.out.println("分摊结果（保留2位小数）：" + numberList);
+            NumberUtil.numberProrate(number, numberList, 1);
+            System.out.println("分摊结果（保留1位小数）：" + numberList);
+            NumberUtil.numberProrate(number, numberList, 0);
+            System.out.println("分摊结果（保留整数）：" + numberList);
+            System.out.println();
+        }
+    }
+
+    private List<List<NumberUtil.NumberProrateEntity>> getNumberLists() {
+        return Arrays.asList(
+                Arrays.asList(
+                        new NumberUtil.NumberProrateEntity(1L, new BigDecimal("0"), null)
+                ),
+                Arrays.asList(
+                        new NumberUtil.NumberProrateEntity(1L, new BigDecimal("0"), null),
+                        new NumberUtil.NumberProrateEntity(2L, null, null),
+                        new NumberUtil.NumberProrateEntity(3L, null, null)
+                ),
+                Arrays.asList(
+                        new NumberUtil.NumberProrateEntity(1L, new BigDecimal("0"), null),
+                        new NumberUtil.NumberProrateEntity(2L, new BigDecimal("5"), null),
+                        new NumberUtil.NumberProrateEntity(3L, null, null),
+                        new NumberUtil.NumberProrateEntity(4L, new BigDecimal("2"), null),
+                        new NumberUtil.NumberProrateEntity(5L, new BigDecimal("0"), null)
+                ),
+                Arrays.asList(
+                        new NumberUtil.NumberProrateEntity(1L, new BigDecimal("100"), null),
+                        new NumberUtil.NumberProrateEntity(2L, new BigDecimal("60"), null),
+                        new NumberUtil.NumberProrateEntity(3L, new BigDecimal("50"), null),
+                        new NumberUtil.NumberProrateEntity(4L, new BigDecimal("40"), null),
+                        new NumberUtil.NumberProrateEntity(5L, new BigDecimal("50"), null)
+                )
         );
-        BigDecimal number = new BigDecimal("280");
-        System.out.println(number);
-        System.out.println(numberList);
-        NumberUtil.numberProrate(number, numberList);
-        System.out.println(numberList);
-        NumberUtil.numberProrate(number, numberList, 1);
-        System.out.println(numberList);
-        NumberUtil.numberProrate(number, numberList, 0);
-        System.out.println(numberList);
     }
 
 }
