@@ -154,4 +154,48 @@ public class MybatisTest {
         sqlSession.commit();
     }
 
+    // @Param如果传null会发生什么
+    // 1、如果@Param是一个对象，名为obj，xml中用obj.xxx取值，那么obj为空时，会抛出异常
+    // 2、如果@Param是一个List，名为list，xml中用<foreach>遍历list取值，那么list为空时，会抛出异常
+    // 3、如果@Param是一个普通值，名为val，xml中用val取值，那么val为空时，则在sql该位置会填入null，如果没有语法错误，则正常运行，否则抛出异常
+    @Test
+    public void testNullParam() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        JobMapperExt jobMapper = sqlSession.getMapper(JobMapperExt.class);
+
+        // 正常查询，结果为空
+        Job job = jobMapper.selectById(null);
+        System.out.println(job);
+
+        // 正常查询，结果为全表
+        List<Job> jobs = jobMapper.selectByIdRange(new Job(), null, null);
+        System.out.println(jobs);
+
+        // 抛出异常
+        // limit null导致的sql语法异常
+        try {
+            jobs = jobMapper.selectByIdShard(new Job(), null, null, null);
+            System.out.println(jobs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 抛出异常
+        // Cause: org.apache.ibatis.builder.BuilderException: The expression 'ids' evaluated to a null value.
+        try {
+            jobMapper.selectByIds(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 抛出异常
+        // Caused by: org.apache.ibatis.ognl.OgnlException: source is null for getProperty(null, "id")
+        try {
+            jobMapper.selectByParam(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
