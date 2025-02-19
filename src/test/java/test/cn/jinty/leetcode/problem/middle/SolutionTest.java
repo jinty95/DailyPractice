@@ -175,6 +175,12 @@ public class SolutionTest {
         int[] arr = {-2, -1, -1, 1, 1, 2, 2};
         int target = 0;
         System.out.println(solution.fourSum(arr, target));
+        arr = new int[]{0, 0, 0, 0, 0, 0, 0};
+        target = 0;
+        System.out.println(solution.fourSum(arr, target));
+        arr = new int[]{1000000000,1000000000,1000000000,1000000000};
+        target = -294967296;
+        System.out.println(solution.fourSum(arr, target));
     }
 
     @Test

@@ -759,27 +759,31 @@ public class Solution {
      * @return 四元组
      */
     public List<List<Integer>> fourSum(int[] nums, int target) {
+        // 1、暴力破解：时间复杂度O(N^4)
+        // 2、双指针：时间复杂度O(N^3)
         List<List<Integer>> lists = new ArrayList<>();
         //升序排序
         Arrays.sort(nums);
         //一层遍历
         for (int i = 0; i < nums.length; i++) {
-            //去重
+            //第一层非首个元素，相同元素只取最后一个
             while (i > 0 && i < nums.length - 1 && nums[i - 1] == nums[i]) i++;
             //二层遍历
             for (int j = i + 1; j < nums.length; j++) {
-                //去重
+                //第二层非首个元素，相同元素只取最后一个
                 while (j > i + 1 && j < nums.length - 1 && nums[j - 1] == nums[j]) j++;
-                //三层遍历
+                //三层遍历（使用双指针）
                 int left = j + 1, right = nums.length - 1;
                 while (left < right) {
-                    int sum = nums[i] + nums[j] + nums[left] + nums[right];
+                    //使用long类型避免和溢出导致的错误
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
                     if (sum == target) {
                         lists.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
-                        //去重
+                        //左边：相同元素取最右一个
                         do {
                             left++;
                         } while (left < right && nums[left - 1] == nums[left]);
+                        //右边：相同元素取最左一个
                         do {
                             right--;
                         } while (left < right && nums[right + 1] == nums[right]);
