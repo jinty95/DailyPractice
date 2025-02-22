@@ -2,6 +2,7 @@ package ${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT};
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
+import org.springframework.stereotype.Repository;
 
 /**
  * ${TABLE_COMMENT} - ${END_NAME_MAPPER_EXT}
@@ -9,6 +10,7 @@ import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
  * @author ${AUTHOR}
  * @date ${DATE}
  */
+@Repository
 public interface ${CLASS_NAME}${END_NAME_MAPPER_EXT} extends BaseMapper<${CLASS_NAME}${END_NAME_ENTITY}> {
 
 }

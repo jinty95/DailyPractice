@@ -1,5 +1,6 @@
 package ${BASE_PACKAGE}.${END_PACKAGE_SERVICE_IMPL};
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
 import ${BASE_PACKAGE}.${END_PACKAGE_MAPPER_EXT}.${CLASS_NAME}${END_NAME_MAPPER_EXT};
 import ${BASE_PACKAGE}.${END_PACKAGE_SERVICE}.${CLASS_NAME}${END_NAME_SERVICE};
@@ -17,7 +18,8 @@ import java.util.Date;
  */
 @Slf4j
 @Service
-public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} implements ${CLASS_NAME}${END_NAME_SERVICE} {
+public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} extend ServiceImpl<${CLASS_NAME}${END_NAME_MAPPER_EXT}, ${CLASS_NAME}${END_NAME_ENTITY}>
+    implements ${CLASS_NAME}${END_NAME_SERVICE} {
 
     private static final String EVENT = "${TABLE_COMMENT}";
 
