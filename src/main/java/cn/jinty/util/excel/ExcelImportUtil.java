@@ -3,7 +3,7 @@ package cn.jinty.util.excel;
 import cn.jinty.util.io.IOUtil;
 import cn.jinty.util.object.IntrospectUtil;
 import cn.jinty.util.object.ObjectUtil;
-import com.monitorjbl.xlsx.StreamingReader;
+import com.github.pjfanning.xlsx.StreamingReader;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 
@@ -38,7 +38,9 @@ public final class ExcelImportUtil {
      */
     public static String readFromCell(Row row, int cellNum) {
         Cell cell = row.getCell(cellNum);
-        return cell == null ? null : new DataFormatter().formatCellValue(cell);
+        DataFormatter dataFormatter = new DataFormatter();
+        dataFormatter.setUseCachedValuesForFormulaCells(true);
+        return cell == null ? null : dataFormatter.formatCellValue(cell);
     }
 
     /**

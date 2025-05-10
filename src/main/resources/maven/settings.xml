@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <pluginGroups/>
+    <proxies/>
+    <servers/>
+
+    <!-- 从maven中央仓库拉取包很慢，卡住不动，切换为阿里云的maven源 -->
+    <mirrors>
+        <mirror>
+            <id>planetmirror.com</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <localRepository>C:\Users\wangjintai\.m2\repository</localRepository>
+
+</settings>

@@ -8,6 +8,10 @@
     <artifactId>daily-practice</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <properties>
+        <poi.version>5.2.2</poi.version>
+    </properties>
+
     <dependencies>
 
         <!-- Junit 单元测试 -->
@@ -50,18 +54,25 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>4.1.2</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>4.1.2</version>
+            <version>${poi.version}</version>
         </dependency>
         <!-- 支持超大Excel的读取 -->
-        <dependency>
+        <!-- 适配poi4.x版本 -->
+        <!--<dependency>
             <groupId>com.monitorjbl</groupId>
             <artifactId>xlsx-streamer</artifactId>
             <version>2.1.0</version>
+        </dependency>-->
+        <!-- 适配poi5.x版本 -->
+        <dependency>
+            <groupId>com.github.pjfanning</groupId>
+            <artifactId>excel-streaming-reader</artifactId>
+            <version>4.2.1</version>
         </dependency>
 
         <!-- Mysql 连接 -->
