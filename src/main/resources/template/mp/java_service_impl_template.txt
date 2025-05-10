@@ -27,16 +27,6 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} extend ServiceImpl<${CLASS_NA
     private ${CLASS_NAME}${END_NAME_MAPPER_EXT} mapper;
 
     @Override
-    public boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item) {
-        try {
-            return mapper.insert(item) > 0;
-        } catch (Exception e) {
-            log.error(String.format("%s-保存失败：item=%s", EVENT, item), e);
-            throw new RuntimeException(String.format("%s-保存失败", EVENT));
-        }
-    }
-
-    @Override
     public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item) {
         try {
             item.setUpdateTime(new Date());
@@ -44,16 +34,6 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} extend ServiceImpl<${CLASS_NA
         } catch (Exception e) {
             log.error(String.format("%s-更新失败：item=%s", EVENT, item), e);
             throw new RuntimeException(String.format("%s-更新失败", EVENT));
-        }
-    }
-
-    @Override
-    public ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME}) {
-        try {
-            return mapper.selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_NAME});
-        } catch (Exception e) {
-            log.error(String.format("%s-查询失败：${PK_FIELD_NAME}=%s", EVENT, ${PK_FIELD_NAME}), e);
-            throw new RuntimeException(String.format("%s-查询失败", EVENT));
         }
     }
 

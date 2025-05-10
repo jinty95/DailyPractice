@@ -12,18 +12,8 @@ import ${BASE_PACKAGE}.${END_PACKAGE_ENTITY}.${CLASS_NAME}${END_NAME_ENTITY};
 public interface ${CLASS_NAME}${END_NAME_SERVICE} extend IService<${CLASS_NAME}${END_NAME_ENTITY}> {
 
     /**
-     * 插入(忽略空字段)
-     */
-    boolean insert(${CLASS_NAME}${END_NAME_ENTITY} item);
-
-    /**
      * 根据主键更新(忽略空字段)
      */
     boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item);
-
-    /**
-     * 根据主键查询
-     */
-    ${CLASS_NAME}${END_NAME_ENTITY} selectBy${PK_FIELD_NAME_UPPER_FIRST}(${PK_FIELD_TYPE} ${PK_FIELD_NAME});
 
 }
