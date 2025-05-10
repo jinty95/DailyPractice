@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.cn.jinty.sql.code.mapper.LocalMsgMapper">
+
+    <!-- 查询结果映射 -->
+    <resultMap id="baseResultMap" type="test.cn.jinty.sql.code.entity.LocalMsg">
+        <id column="id" property="id"/>
+        <result column="msg_type" property="msgType"/>
+        <result column="msg_status" property="msgStatus"/>
+        <result column="msg_retry" property="msgRetry"/>
+        <result column="msg_err_info" property="msgErrInfo"/>
+        <result column="msg_content" property="msgContent"/>
+        <result column="first_consume_time" property="firstConsumeTime"/>
+        <result column="last_consume_time" property="lastConsumeTime"/>
+        <result column="remark" property="remark"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="created_by" property="createdBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="updated_by" property="updatedBy"/>
+        <result column="update_time" property="updateTime"/>
+        
+    </resultMap>
+
+    <!-- 表的所有字段 -->
+    <sql id="baseColumns">
+        <trim suffixOverrides=",">
+        `id`, `msg_type`, `msg_status`, `msg_retry`, `msg_err_info`, `msg_content`, `first_consume_time`, `last_consume_time`, `remark`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
+        </trim>
+    </sql>
+
+    <!-- 基础查询条件 -->
+    <sql id="baseSelectCondition">
+        <if test="param.id != null"> and `id` = #{param.id} </if>
+        <if test="param.msgType != null"> and `msg_type` = #{param.msgType} </if>
+        <if test="param.msgStatus != null"> and `msg_status` = #{param.msgStatus} </if>
+        <if test="param.msgRetry != null"> and `msg_retry` = #{param.msgRetry} </if>
+        <if test="param.msgErrInfo != null"> and `msg_err_info` = #{param.msgErrInfo} </if>
+        <if test="param.msgContent != null"> and `msg_content` = #{param.msgContent} </if>
+        <if test="param.firstConsumeTime != null"> and `first_consume_time` = #{param.firstConsumeTime} </if>
+        <if test="param.lastConsumeTime != null"> and `last_consume_time` = #{param.lastConsumeTime} </if>
+        <if test="param.remark != null"> and `remark` = #{param.remark} </if>
+        <if test="param.isDeleted != null"> and `is_deleted` = #{param.isDeleted} </if>
+        <if test="param.createdBy != null"> and `created_by` = #{param.createdBy} </if>
+        <if test="param.createTime != null"> and `create_time` = #{param.createTime} </if>
+        <if test="param.updatedBy != null"> and `updated_by` = #{param.updatedBy} </if>
+        <if test="param.updateTime != null"> and `update_time` = #{param.updateTime} </if>
+        
+    </sql>
+
+    <!-- 插入(字段都填充默认值) -->
+    <insert id="insertDefault">
+        insert into `local_msg`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `msg_type`, `msg_status`, `msg_retry`, `msg_err_info`, `msg_content`, `first_consume_time`, `last_consume_time`, `remark`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            0, 0, 0, '', null, null, null, '', 0, '', CURRENT_TIMESTAMP, '', CURRENT_TIMESTAMP, 
+        </trim>
+    </insert>
+
+    <!-- 插入(忽略空字段) -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="item.id">
+        insert into `local_msg`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item.msgType != null">`msg_type`,</if>
+            <if test="item.msgStatus != null">`msg_status`,</if>
+            <if test="item.msgRetry != null">`msg_retry`,</if>
+            <if test="item.msgErrInfo != null">`msg_err_info`,</if>
+            <if test="item.msgContent != null">`msg_content`,</if>
+            <if test="item.firstConsumeTime != null">`first_consume_time`,</if>
+            <if test="item.lastConsumeTime != null">`last_consume_time`,</if>
+            <if test="item.remark != null">`remark`,</if>
+            <if test="item.isDeleted != null">`is_deleted`,</if>
+            <if test="item.createdBy != null">`created_by`,</if>
+            <if test="item.createTime != null">`create_time`,</if>
+            <if test="item.updatedBy != null">`updated_by`,</if>
+            <if test="item.updateTime != null">`update_time`,</if>
+            
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="item.msgType != null">#{item.msgType},</if>
+            <if test="item.msgStatus != null">#{item.msgStatus},</if>
+            <if test="item.msgRetry != null">#{item.msgRetry},</if>
+            <if test="item.msgErrInfo != null">#{item.msgErrInfo},</if>
+            <if test="item.msgContent != null">#{item.msgContent},</if>
+            <if test="item.firstConsumeTime != null">#{item.firstConsumeTime},</if>
+            <if test="item.lastConsumeTime != null">#{item.lastConsumeTime},</if>
+            <if test="item.remark != null">#{item.remark},</if>
+            <if test="item.isDeleted != null">#{item.isDeleted},</if>
+            <if test="item.createdBy != null">#{item.createdBy},</if>
+            <if test="item.createTime != null">#{item.createTime},</if>
+            <if test="item.updatedBy != null">#{item.updatedBy},</if>
+            <if test="item.updateTime != null">#{item.updateTime},</if>
+            
+        </trim>
+    </insert>
+
+    <!-- 批量插入(空字段填充默认值) -->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        insert into `local_msg`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            `msg_type`, `msg_status`, `msg_retry`, `msg_err_info`, `msg_content`, `first_consume_time`, `last_consume_time`, `remark`, `is_deleted`, `created_by`, `create_time`, `updated_by`, `update_time`, 
+        </trim>
+        values
+        <foreach item="item" collection="list" index="index" separator=",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <choose><when test="item.msgType != null">#{item.msgType}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.msgStatus != null">#{item.msgStatus}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.msgRetry != null">#{item.msgRetry}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.msgErrInfo != null">#{item.msgErrInfo}, </when><otherwise>'', </otherwise></choose>
+                <choose><when test="item.msgContent != null">#{item.msgContent}, </when><otherwise>null, </otherwise></choose>
+                <choose><when test="item.firstConsumeTime != null">#{item.firstConsumeTime}, </when><otherwise>null, </otherwise></choose>
+                <choose><when test="item.lastConsumeTime != null">#{item.lastConsumeTime}, </when><otherwise>null, </otherwise></choose>
+                <choose><when test="item.remark != null">#{item.remark}, </when><otherwise>'', </otherwise></choose>
+                <choose><when test="item.isDeleted != null">#{item.isDeleted}, </when><otherwise>0, </otherwise></choose>
+                <choose><when test="item.createdBy != null">#{item.createdBy}, </when><otherwise>'', </otherwise></choose>
+                <choose><when test="item.createTime != null">#{item.createTime}, </when><otherwise>CURRENT_TIMESTAMP, </otherwise></choose>
+                <choose><when test="item.updatedBy != null">#{item.updatedBy}, </when><otherwise>'', </otherwise></choose>
+                <choose><when test="item.updateTime != null">#{item.updateTime}, </when><otherwise>CURRENT_TIMESTAMP, </otherwise></choose>
+                
+            </trim>
+        </foreach>
+    </insert>
+
+    <!-- 根据主键更新(忽略空字段) -->
+    <update id="updateById">
+        update `local_msg`
+        <set>
+            <if test="item.msgType != null"> `msg_type` = #{item.msgType}, </if>
+            <if test="item.msgStatus != null"> `msg_status` = #{item.msgStatus}, </if>
+            <if test="item.msgRetry != null"> `msg_retry` = #{item.msgRetry}, </if>
+            <if test="item.msgErrInfo != null"> `msg_err_info` = #{item.msgErrInfo}, </if>
+            <if test="item.msgContent != null"> `msg_content` = #{item.msgContent}, </if>
+            <if test="item.firstConsumeTime != null"> `first_consume_time` = #{item.firstConsumeTime}, </if>
+            <if test="item.lastConsumeTime != null"> `last_consume_time` = #{item.lastConsumeTime}, </if>
+            <if test="item.remark != null"> `remark` = #{item.remark}, </if>
+            <if test="item.isDeleted != null"> `is_deleted` = #{item.isDeleted}, </if>
+            <if test="item.createdBy != null"> `created_by` = #{item.createdBy}, </if>
+            <if test="item.createTime != null"> `create_time` = #{item.createTime}, </if>
+            <if test="item.updatedBy != null"> `updated_by` = #{item.updatedBy}, </if>
+            <if test="item.updateTime != null"> `update_time` = #{item.updateTime}, </if>
+            
+        </set>
+        where `is_deleted` = 0 and `id` = #{item.id}
+    </update>
+
+    <!-- 根据条件更新(忽略空字段) -->
+    <update id="updateByParam">
+        update `local_msg`
+        <set>
+            <if test="item.msgType != null"> `msg_type` = #{item.msgType}, </if>
+            <if test="item.msgStatus != null"> `msg_status` = #{item.msgStatus}, </if>
+            <if test="item.msgRetry != null"> `msg_retry` = #{item.msgRetry}, </if>
+            <if test="item.msgErrInfo != null"> `msg_err_info` = #{item.msgErrInfo}, </if>
+            <if test="item.msgContent != null"> `msg_content` = #{item.msgContent}, </if>
+            <if test="item.firstConsumeTime != null"> `first_consume_time` = #{item.firstConsumeTime}, </if>
+            <if test="item.lastConsumeTime != null"> `last_consume_time` = #{item.lastConsumeTime}, </if>
+            <if test="item.remark != null"> `remark` = #{item.remark}, </if>
+            <if test="item.isDeleted != null"> `is_deleted` = #{item.isDeleted}, </if>
+            <if test="item.createdBy != null"> `created_by` = #{item.createdBy}, </if>
+            <if test="item.createTime != null"> `create_time` = #{item.createTime}, </if>
+            <if test="item.updatedBy != null"> `updated_by` = #{item.updatedBy}, </if>
+            <if test="item.updateTime != null"> `update_time` = #{item.updateTime}, </if>
+            
+        </set>
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </update>
+
+    <!-- 根据主键批量逻辑删除 -->
+    <update id="logicDeleteByIds">
+        update `local_msg`
+        set `is_deleted` = 1, `updated_by` = #{updatedBy}
+        where `is_deleted` = 0 and `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteById">
+        delete from `local_msg`
+        where `id` = #{id}
+    </delete>
+
+    <!-- 根据主键批量删除 -->
+    <delete id="deleteByIds">
+        delete from `local_msg`
+        where `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据主键查询 -->
+    <select id="selectById" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where `is_deleted` = 0 and `id` = #{id}
+    </select>
+
+    <!-- 根据主键批量查询 -->
+    <select id="selectByIds" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where `is_deleted` = 0 and `id` in
+        <foreach item="id" collection="ids" index="index" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 查询(条件忽略空字段) -->
+    <select id="selectByParam" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 查询数量(条件忽略空字段) -->
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(1)
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 分页查询(条件忽略空字段) -->
+    <select id="selectByPage" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        order by id desc
+        <if test="start != null and length != null">
+            limit #{start}, #{length}
+        </if>
+    </select>
+
+    <!-- ID分片查询(条件忽略空字段) -->
+    <select id="selectByIdShard" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        <if test="shardTotal != null and shardNum != null">and `id` % #{shardTotal} = #{shardNum}</if>
+        order by `id` asc
+        limit #{limit}
+    </select>
+
+    <!-- 查询ID范围(条件忽略空字段) -->
+    <select id="selectIdRange" resultType="test.cn.jinty.sql.code.bo.IdRange">
+        select min(`id`) as minId, max(`id`) as maxId
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+    </select>
+
+    <!-- 根据ID范围进行查询(条件忽略空字段) -->
+    <select id="selectByIdRange" resultMap="baseResultMap">
+        select <include refid="baseColumns"/>
+        from `local_msg`
+        where 1 = 1
+        <include refid="baseSelectCondition"/>
+        <if test="minId != null"> and `id` &gt;= #{minId} </if>
+        <if test="maxId != null"> and `id` &lt;= #{maxId} </if>
+    </select>
+
+</mapper>

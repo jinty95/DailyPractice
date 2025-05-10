@@ -206,7 +206,11 @@ public class CodeGenerator {
                 for (TemplatePlaceholderEnum columnPlaceholderEnum : columnPlaceholderEnums) {
                     String value = columnMap.get(columnPlaceholderEnum.name());
                     String columnPlaceholder = String.format("${%s}", columnPlaceholderEnum.name());
-                    if (value != null && replaceContent.contains(columnPlaceholder)) {
+                    // value为null，模板中替换为字符串null
+                    if (value == null) {
+                        value = "null";
+                    }
+                    if (replaceContent.contains(columnPlaceholder)) {
                         replaceContent = replaceContent.replace(columnPlaceholder, value);
                     }
                 }
