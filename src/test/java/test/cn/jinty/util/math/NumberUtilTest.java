@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class NumberUtilTest {
     }
 
     private List<Class<? extends Number>> getNumberClasses() {
-        return Arrays.asList(Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class);
+        return Arrays.asList(Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, BigInteger.class, BigDecimal.class);
     }
 
     @Test
@@ -84,6 +85,19 @@ public class NumberUtilTest {
             System.out.println("输入字符串：" + s);
             for (Class<? extends Number> clazz : classes) {
                 System.out.printf("转为%s：%s%n", clazz.getSimpleName(), NumberUtil.valueOf(s, clazz));
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
+    public void testRobustValueOf() {
+        String[] arr = {null, "", "1", "64", "1,100", "99.99%"};
+        List<Class<? extends Number>> classes = getNumberClasses();
+        for (String s : arr) {
+            System.out.println("输入字符串：" + s);
+            for (Class<? extends Number> clazz : classes) {
+                System.out.printf("转为%s：%s%n", clazz.getSimpleName(), NumberUtil.robustValueOf(s, clazz));
             }
             System.out.println();
         }

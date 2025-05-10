@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +97,7 @@ public final class NumberUtil {
 
     /**
      * 数字类型转换
-     * 支持6种基本数字类型之间的任意相互转换，包括：Byte, Short, Integer, Long, Float, Double
+     * 支持类型：Byte, Short, Integer, Long, Float, Double，BigInteger，BigDecimal
      *
      * @param num    输入数字
      * @param toType 输出数字类型
@@ -128,14 +129,22 @@ public final class NumberUtil {
         if (toType == Double.class) {
             return (V) Double.valueOf(num.doubleValue());
         }
+        if (toType == BigInteger.class) {
+            return (V) new BigInteger(num.toString());
+        }
+        if (toType == BigDecimal.class) {
+            return (V) new BigDecimal(num.toString());
+        }
         throw new ClassCastException(String.format("cannot cast type from [%s] to [%s]", fromType.getName(), toType.getName()));
     }
 
     /**
-     * 数字包装类加法，支持空
+     * 数字加法
+     * 支持类型：Byte, Short, Integer, Long, Float, Double，BigInteger，BigDecimal
      *
-     * @param a 数1
-     * @param b 数2
+     * @param a   数字1
+     * @param b   数字2
+     * @param <T> 数字类型
      * @return 两数之和
      */
     @SuppressWarnings("unchecked")
@@ -165,11 +174,63 @@ public final class NumberUtil {
         if (type == Double.class) {
             return (T) Double.valueOf(a.doubleValue() + b.doubleValue());
         }
+        if (type == BigInteger.class) {
+            return (T) ((BigInteger) a).add((BigInteger) b);
+        }
+        if (type == BigDecimal.class) {
+            return (T) ((BigDecimal) a).add((BigDecimal) b);
+        }
         throw new IllegalArgumentException(String.format("do not support add for type [%s]", type.getName()));
     }
 
     /**
+     * 数字除法
+     * 支持类型：Byte, Short, Integer, Long, Float, Double，BigInteger，BigDecimal
+     *
+     * @param num    数字
+     * @param divide 除数
+     * @param <T>    数字类型
+     * @return 除法结果
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Number> T divide(T num, T divide) {
+        if (num == null || divide == null) {
+            return null;
+        }
+        if (divide.intValue() == 0) {
+            return null;
+        }
+        Class<?> type = num.getClass();
+        if (type == Byte.class) {
+            return (T) Byte.valueOf((byte) (num.byteValue() / divide.byteValue()));
+        }
+        if (type == Short.class) {
+            return (T) Short.valueOf((short) (num.shortValue() / divide.shortValue()));
+        }
+        if (type == Integer.class) {
+            return (T) Integer.valueOf(num.intValue() / divide.intValue());
+        }
+        if (type == Long.class) {
+            return (T) Long.valueOf(num.longValue() / divide.longValue());
+        }
+        if (type == Float.class) {
+            return (T) Float.valueOf(num.floatValue() / divide.floatValue());
+        }
+        if (type == Double.class) {
+            return (T) Double.valueOf(num.doubleValue() / divide.doubleValue());
+        }
+        if (type == BigInteger.class) {
+            return (T) ((BigInteger) num).divide((BigInteger) divide);
+        }
+        if (type == BigDecimal.class) {
+            return (T) ((BigDecimal) num).divide((BigDecimal) divide, 10, RoundingMode.HALF_UP);
+        }
+        throw new IllegalArgumentException(String.format("cannot handle number divide for type [%s]", type.getName()));
+    }
+
+    /**
      * 字符串转为数字
+     * 支持类型：Byte, Short, Integer, Long, Float, Double，BigInteger，BigDecimal
      *
      * @param s    字符串
      * @param type 数字类型
@@ -199,7 +260,46 @@ public final class NumberUtil {
         if (type == Double.class) {
             return (T) Double.valueOf(s);
         }
+        if (type == BigInteger.class) {
+            return (T) new BigInteger(s);
+        }
+        if (type == BigDecimal.class) {
+            return (T) new BigDecimal(s);
+        }
         throw new IllegalArgumentException(String.format("cannot parse string to number for type [%s]", type.getName()));
+    }
+
+    /**
+     * 字符串转为数字（兼容千分位、百分数）（异常时打印日志并返空）
+     *
+     * @param s    字符串
+     * @param type 数字类型
+     * @param <T>  数字类型
+     * @return 数字
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Number> T robustValueOf(String s, Class<T> type) {
+        try {
+            if (StringUtil.isBlank(s) || type == null) {
+                return null;
+            }
+            // 千分位
+            if (s.contains(",")) {
+                s = s.replace(",", "");
+            }
+            // 百分号
+            if (s.contains("%")) {
+                s = s.replace("%", "");
+                T num = valueOf(s, type);
+                T divide = castType(100, type);
+                return divide(num, divide);
+            }
+            return valueOf(s, type);
+        } catch (Exception e) {
+            System.out.printf("字符串转为数字，发生异常：s=%s, type=%s, error=%s%n", s, type, e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
