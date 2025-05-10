@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -27,6 +28,11 @@ public final class ClassUtil {
     // 包路径分隔符
     private static final char PACKAGE_PATH_SEPARATOR = '.';
 
+    // 类属性缓存
+    private static final Map<Class<?>, Map<String, Field>> CLASS_FILED_CACHE = new ConcurrentHashMap<>();
+    // 类方法缓存
+    private static final Map<Class<?>, Map<String, Method>> CLASS_METHOD_CACHE = new ConcurrentHashMap<>();
+
     /**
      * 获取对象的类型
      *
@@ -38,19 +44,34 @@ public final class ClassUtil {
     }
 
     /**
+     * 获取类属性映射（包括当前类及其所有父类属性）
+     *
+     * @param clazz 类
+     * @return 属性名 -> 属性
+     */
+    private static Map<String, Field> getClassFieldMap(Class<?> clazz) {
+        return CLASS_FILED_CACHE.computeIfAbsent(clazz, key -> {
+            Map<String, Field> classFieldMap = new LinkedHashMap<>();
+            Class<?> curClass = clazz;
+            while (curClass != null) {
+                // 按子类到父类的顺序获取属性，同名属性取子类的
+                for (Field field : curClass.getDeclaredFields()) {
+                    classFieldMap.putIfAbsent(field.getName(), field);
+                }
+                curClass = curClass.getSuperclass();
+            }
+            return Collections.unmodifiableMap(classFieldMap);
+        });
+    }
+
+    /**
      * 获取类的所有属性 (包括父类属性)
      *
      * @param clazz 类
      * @return 所有属性
      */
     public static List<Field> getAllField(Class<?> clazz) {
-        List<Field> result = new ArrayList<>();
-        while (clazz != null) {
-            Field[] fields = clazz.getDeclaredFields();
-            result.addAll(Arrays.asList(fields));
-            clazz = clazz.getSuperclass();
-        }
-        return result;
+        return new ArrayList<>(getClassFieldMap(clazz).values());
     }
 
     /**
@@ -61,13 +82,28 @@ public final class ClassUtil {
      * @return 属性对象
      */
     public static Field getField(Class<?> clazz, String fieldName) {
-        List<Field> fields = getAllField(clazz);
-        for (Field field : fields) {
-            if (field.getName().equals(fieldName)) {
-                return field;
+        return getClassFieldMap(clazz).get(fieldName);
+    }
+
+    /**
+     * 获取类方法映射（包括当前类及其所有父类方法）
+     *
+     * @param clazz 类
+     * @return 方法名 -> 方法
+     */
+    private static Map<String, Method> getClassMethodMap(Class<?> clazz) {
+        return CLASS_METHOD_CACHE.computeIfAbsent(clazz, key -> {
+            Map<String, Method> classMethodMap = new LinkedHashMap<>();
+            Class<?> curClass = clazz;
+            while (curClass != null) {
+                // 按子类到父类的顺序获取方法，同名方法取子类的
+                for (Method method : curClass.getDeclaredMethods()) {
+                    classMethodMap.putIfAbsent(method.getName(), method);
+                }
+                curClass = curClass.getSuperclass();
             }
-        }
-        return null;
+            return Collections.unmodifiableMap(classMethodMap);
+        });
     }
 
     /**
@@ -77,13 +113,7 @@ public final class ClassUtil {
      * @return 所有方法
      */
     public static List<Method> getAllMethod(Class<?> clazz) {
-        List<Method> result = new ArrayList<>();
-        while (clazz != null) {
-            Method[] methods = clazz.getDeclaredMethods();
-            result.addAll(Arrays.asList(methods));
-            clazz = clazz.getSuperclass();
-        }
-        return result;
+        return new ArrayList<>(getClassMethodMap(clazz).values());
     }
 
     /**
@@ -94,13 +124,7 @@ public final class ClassUtil {
      * @return 方法对象
      */
     public static Method getMethod(Class<?> clazz, String methodName) {
-        List<Method> methods = getAllMethod(clazz);
-        for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                return method;
-            }
-        }
-        return null;
+        return getClassMethodMap(clazz).get(methodName);
     }
 
     /**
