@@ -6,6 +6,7 @@ import cn.jinty.enums.CycleTypeEnum;
 import cn.jinty.enums.TimeUnitEnum;
 import cn.jinty.util.DateUtil;
 import cn.jinty.util.collection.ListUtil;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -62,11 +63,14 @@ public class DateUtilTest {
 
     @Test
     public void testCheckFormat() {
-        System.out.println(DateUtil.checkFormat("2023", DateUtil.DateFormat.MONTH.getFormat()));
-        System.out.println(DateUtil.checkFormat("2023-01", DateUtil.DateFormat.MONTH.getFormat()));
-        System.out.println(DateUtil.checkFormat("2023-01-16", DateUtil.DateFormat.MONTH.getFormat()));
-        System.out.println(DateUtil.checkFormat("AA2023-01-16", DateUtil.DateFormat.MONTH.getFormat()));
-        System.out.println(DateUtil.checkFormat("2023-01-16AA", DateUtil.DateFormat.MONTH.getFormat()));
+        String[] arr = {"2023", "2023-01", "2023-01-16", "AA2023-01-16", "2023-01-16AA"};
+        boolean[] results = {false, true, false, false, false, false};
+        String format = DateUtil.DateFormat.MONTH.getFormat();
+        for (int i = 0; i < arr.length; i++) {
+            boolean result = DateUtil.checkFormat(arr[i], format);
+            Assert.assertEquals(results[i], result);
+            System.out.printf("时间字符串[%s]是否满足给定格式[%s]：%s%n", arr[i], format, result);
+        }
     }
 
     @Test

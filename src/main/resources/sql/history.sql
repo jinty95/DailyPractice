@@ -36,11 +36,14 @@ UPDATE `article` SET `is_enabled` = 1 WHERE `id` = 1;
 # 变更后无效，审核通过后有效
 INSERT INTO `article_history` (`article_id`, `title`, `content`, `version_num`, `is_enabled`, `updated_by`, `update_time`)
 SELECT `id` AS `article_id`, `title`, `content`, `version_num`, `is_enabled`, `updated_by`, `update_time` FROM `article` WHERE `id` = 1;
+
 UPDATE `article` SET `title` = '标题2啊', `content` = '第2版的内容哈哈', `version_num` = `version_num` + 1, `is_enabled` = 0 WHERE `id` = 1;
 
 INSERT INTO `article_history` (`article_id`, `title`, `content`, `version_num`, `is_enabled`, `updated_by`, `update_time`)
 SELECT `id` AS `article_id`, `title`, `content`, `version_num`, `is_enabled`, `updated_by`, `update_time` FROM `article` WHERE `id` = 1;
+
 UPDATE `article` SET `title` = '标题3额', `content` = '第3版的内容嘻嘻', `version_num` = `version_num` + 1, `is_enabled` = 0 WHERE `id` = 1;
 
 # 删除
 UPDATE `article` SET `is_deleted` = 1 WHERE `id` = 1;
+

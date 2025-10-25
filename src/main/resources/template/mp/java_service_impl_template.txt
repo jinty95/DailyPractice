@@ -29,7 +29,7 @@ public class ${CLASS_NAME}${END_NAME_SERVICE_IMPL} extend ServiceImpl<${CLASS_NA
     @Override
     public boolean updateBy${PK_FIELD_NAME_UPPER_FIRST}(${CLASS_NAME}${END_NAME_ENTITY} item) {
         try {
-            item.setUpdateTime(new Date());
+            item.setUpdateTime(null);
             return mapper.updateBy${PK_FIELD_NAME_UPPER_FIRST}(item) > 0;
         } catch (Exception e) {
             log.error(String.format("%s-更新失败：item=%s", EVENT, item), e);

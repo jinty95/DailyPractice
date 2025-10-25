@@ -246,6 +246,10 @@ public final class DateUtil {
         if (dateStr == null || format == null) {
             return false;
         }
+        // 长度不一致，说明格式不一致
+        if (dateStr.length() != format.length()) {
+            return false;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             sdf.parse(dateStr);
