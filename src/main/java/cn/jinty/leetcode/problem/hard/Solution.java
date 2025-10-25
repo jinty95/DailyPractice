@@ -1368,41 +1368,6 @@ public class Solution {
     }
 
     /**
-     * 72. 编辑距离
-     * 给你两个单词 word1 和 word2，请你计算出将 word1 转换成 word2 所使用的最少操作数 。
-     * 你可以对一个单词进行如下三种操作：
-     * 1、插入一个字符 2、删除一个字符 3、替换一个字符
-     *
-     * @param word1 单词1
-     * @param word2 单词2
-     * @return 最短编辑距离
-     */
-    public int minDistance(String word1, String word2) {
-
-        //解的范围：最小0(什么都不做)、最大len1+len2(删除单词1，添加单词2)
-
-        //动态规划
-        char[] w1 = word1.toCharArray(), w2 = word2.toCharArray();
-        //dp[i][j]表示w1[0...i-1]与w2[0...j-1]的最短编辑距离
-        int[][] dp = new int[w1.length + 1][w2.length + 1];
-        //边界
-        dp[0][0] = 0;
-        for (int i = 1; i <= w1.length; i++) dp[i][0] = i;
-        for (int j = 1; j <= w2.length; j++) dp[0][j] = j;
-        //递推
-        for (int i = 1; i <= w1.length; i++) {
-            for (int j = 1; j <= w2.length; j++) {
-                //最后字符相同，不需要编辑
-                if (w1[i - 1] == w2[j - 1]) dp[i][j] = dp[i - 1][j - 1];
-                    //最后字符不同，枚举增、删、改，取最小值
-                else dp[i][j] = Math.min(dp[i - 1][j - 1] + 1, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
-            }
-        }
-        return dp[w1.length][w2.length];
-
-    }
-
-    /**
      * 483. 最小好进制
      * 对于给定的整数 n, 如果 n 的 k（k>=2）进制数的所有数位全为1，则称 k（k>=2）是 n 的一个好进制。
      * 以字符串的形式给出 n, 以字符串的形式返回 n 的最小好进制。

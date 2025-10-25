@@ -6,18 +6,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * LCS - 工具类
- * LCS是以下两个词语的缩写
- * 1、LongestCommonSubsequence (最长公共子序列)
- * 2、LongestCommonSubstring (最长公共子串)
+ * 算法 - 字符串 - 工具类
  *
  * @author Jinty
  * @date 2023/6/20
  **/
-public final class LCSUtil {
+public final class AlgorithmStringUtil {
 
-    private LCSUtil() {
+    private AlgorithmStringUtil() {
     }
+
+    /*
+     * LCS是以下两个词语的缩写
+     * 1、LongestCommonSubsequence (最长公共子序列)
+     * 2、LongestCommonSubstring (最长公共子串)
+     */
 
     /**
      * 求两个字符串的最长公共子串
@@ -194,8 +197,42 @@ public final class LCSUtil {
         if (StringUtil.isEmpty(s2)) {
             return new String[]{s1, StringUtil.EMPTY};
         }
-        String common = LCSUtil.longestCommonSubsequence(s1, s2);
+        String common = AlgorithmStringUtil.longestCommonSubsequence(s1, s2);
         return new String[]{removeSubsequence(s1, common), removeSubsequence(s2, common)};
+    }
+
+    /**
+     * 求两个字符串的最小编辑距离
+     * <p>
+     * 可以对字符串进行如下三种操作，每种操作开销都为1，使其变成另一个字符串：
+     * 1、插入一个字符 2、删除一个字符 3、替换一个字符
+     * <p>
+     * 可用于相似判断场景，存在一个字符串集合，给定一个字符串，求其与集合中各个字符串的最小编辑距离，距离最小即为最相似
+     * 比如git命令有一个固定的命令集合，当用户输入了错误命令时，可以检测与哪个正确命令最相似，提醒用户可能想要输入的是什么
+     *
+     * @param s1 字符串1
+     * @param s2 字符串2
+     * @return 最小编辑距离（最小0(什么都不做)、最大len1+len2(删除字符串1，添加字符串2)）
+     */
+    public static int minDistance(String s1, String s2) {
+        // 动态规划
+        char[] w1 = s1.toCharArray(), w2 = s2.toCharArray();
+        // dp[i][j]表示w1[0...i-1]与w2[0...j-1]的最短编辑距离
+        int[][] dp = new int[w1.length + 1][w2.length + 1];
+        // 边界
+        dp[0][0] = 0;
+        for (int i = 1; i <= w1.length; i++) dp[i][0] = i;
+        for (int j = 1; j <= w2.length; j++) dp[0][j] = j;
+        // 递推
+        for (int i = 1; i <= w1.length; i++) {
+            for (int j = 1; j <= w2.length; j++) {
+                // 最后字符相同，不需要编辑
+                if (w1[i - 1] == w2[j - 1]) dp[i][j] = dp[i - 1][j - 1];
+                    // 最后字符不同，枚举增、删、改，取最小值
+                else dp[i][j] = Math.min(dp[i - 1][j - 1] + 1, Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1));
+            }
+        }
+        return dp[w1.length][w2.length];
     }
 
 }

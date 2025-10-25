@@ -215,12 +215,6 @@ public class SolutionTest {
     }
 
     @Test
-    public void testMinDistance() {
-        System.out.println(solution.minDistance("horse", "ros"));
-        System.out.println(solution.minDistance("intention", "execution"));
-    }
-
-    @Test
     public void testSmallestGoodBase() {
         System.out.println(solution.smallestGoodBase("13"));
         System.out.println(solution.smallestGoodBase("1000000000000000000"));
